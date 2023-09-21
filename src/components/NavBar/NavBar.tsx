@@ -46,7 +46,7 @@ export default function NavBar() {
         />
       </button>
       <header
-        className={`absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 min-h-full bg-secondary-50 sm:relative sm:opacity-100 sm:translate-x-[0%] sm:w-[32vw] sm:pt-0 md:w-72 duration-300 ease-in-out ${
+        className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:w-[32vw] sm:pt-0 md:w-72 duration-300 ease-in-out ${
           isNavBarOpen ? 'opacity-100 translate-x-[0%]' : 'translate-x-[100%] opacity-0'
         }`}
       >
