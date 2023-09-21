@@ -11,6 +11,7 @@ import { toggleNavBar } from '../../store/reducers/navbar';
 import './animation.scss';
 
 // Assets
+import logo from '../../assets/logo.svg';
 import hamburger from '../../assets/icons/hamburger.svg';
 import cross from '../../assets/icons/cross.svg';
 import portait from '../../assets/images/portrait_01.png';
@@ -45,10 +46,15 @@ export default function NavBar() {
         />
       </button>
       <header
-        className={`absolute flex shadow-custom flex-col items-center p-4 pt-24 top-0 right-0 w-3/4 min-h-full bg-secondary-50 sm:relative sm:flex sm:w-[32vw] sm:pt-16 md:w-72 duration-300 ease-in-out ${
-          isNavBarOpen ? 'opacity-1' : 'opacity-0'
+        className={`absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 min-h-full bg-secondary-50 sm:relative sm:opacity-100 sm:translate-x-[0%] sm:w-[32vw] sm:pt-0 md:w-72 duration-300 ease-in-out ${
+          isNavBarOpen ? 'opacity-100 translate-x-[0%]' : 'translate-x-[100%] opacity-0'
         }`}
       >
+        <img
+          src={logo}
+          alt="ImmoPros Logo"
+          className="hidden sm:block sm:my-5"
+        />
         <Divider />
         <section className="flex flex-wrap items-center justify-center gap-5 py-6">
           <img

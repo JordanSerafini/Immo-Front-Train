@@ -4,7 +4,7 @@ export default function Prospection() {
   return (
     <div className='flex w-screen h-screen'>
       <NavBar />
-      <p>Prospection</p>
+      <main className='grow'>Prospection</main>
     </div>
   );
 }
