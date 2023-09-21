@@ -46,7 +46,7 @@ export default function NavBar() {
         />
       </button>
       <header
-        className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:w-[32vw] sm:pt-0 md:w-72 duration-300 ease-in-out ${
+        className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
           isNavBarOpen ? 'opacity-100 translate-x-[0%]' : 'translate-x-[100%] opacity-0'
         }`}
       >
@@ -78,7 +78,7 @@ export default function NavBar() {
         </h2>
 
         <nav className="flex w-full grow">
-          <ul className="w-full">
+          <ul className="flex flex-col w-full gap-1">
             <li>
               <NavLink
                 to="/app/prospection"

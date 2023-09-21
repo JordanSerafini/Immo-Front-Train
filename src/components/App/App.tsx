@@ -26,7 +26,7 @@ import NotFound from '../NotFound/NotFound';
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative h-screen overflow-y-scroll min-w-screen bg-main">
+      <div className="relative h-screen overflow-y-auto min-w-screen bg-main">
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Maybe we could keep the '/' route for the future landing page et use '/login' instead to display Login Component */}
