@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
+import NavBar from '../NavBar/NavBar';
 
 // Assets
 import logo from '../../assets/logo.svg';
@@ -10,6 +11,8 @@ import search from '../../assets/icons/search.svg';
 
 export default function Prospection() {
   return (
+    <>
+      <NavBar />
       <main className="m-5 grow">
         <Link to="/">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
@@ -38,5 +41,6 @@ export default function Prospection() {
           <ProspectionInformation />
         </div>
       </main>
+    </>
   );
 }
