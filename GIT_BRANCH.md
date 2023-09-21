@@ -10,4 +10,10 @@ git checkout -b <branchname>
 git push origin -u <branchname>
 ```
 
-test
+**!IF YOU WANT TO PUSH TO MAIN!**
+
+Go to the github repo : [Repository](https://alticreation.com/bem-pour-le-css/)
+
+Go to your branch and click "Compare & pull request".
+
+Follow the instructions.
