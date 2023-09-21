@@ -1,11 +1,15 @@
+// React
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// Redux
 import { Provider } from 'react-redux';
 import store from './store';
 
+// Components
 import App from './components/App/App';
 
+// Style
 import './styles/index.scss';
 import './styles/index.tailwind.css';
 

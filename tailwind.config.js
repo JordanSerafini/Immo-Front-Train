@@ -3,7 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
-      'primary': {
+      primary: {
         50: '#F0E5FF',
         100: '#D1B3FF',
         200: '#B380FF',
@@ -15,7 +15,7 @@ export default {
         800: '#1F004D',
         900: '#140033',
       },
-      'secondary': {
+      secondary: {
         50: '#FFFFFF',
         100: '#F4F4F4',
         200: '#E6E6E6',
@@ -27,7 +27,7 @@ export default {
         800: '#164e63',
         900: '#252525',
       },
-      'accent': {
+      accent: {
         50: '#E5EAFF',
         100: '#B3C1FF',
         200: '#8097FF',
@@ -42,12 +42,15 @@ export default {
     },
     fontFamily: {
       poppins: ['Poppins', 'sans-serif'],
-      lato: ['Lato', 'sans-serif']
+      lato: ['Lato', 'sans-serif'],
     },
     extend: {
       boxShadow: {
-        'custom': '0 4px 10px 0px rgba(0, 0, 0, 0.25)',
+        custom: '0 4px 10px 0px rgba(0, 0, 0, 0.25)',
       },
+      backgroundColor: {
+        main: "#EFF2FF"
+      }
     },
   },
   plugins: [],
