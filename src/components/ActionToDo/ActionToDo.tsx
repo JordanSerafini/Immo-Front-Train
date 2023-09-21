@@ -1,5 +1,10 @@
+import NavBar from '../NavBar/NavBar';
+
 export default function ActionToDo() {
   return (
-    <div>ActionToDo</div>
-  )
+    <>
+      <NavBar />
+      <div>ActionToDo</div>
+    </>
+  );
 }

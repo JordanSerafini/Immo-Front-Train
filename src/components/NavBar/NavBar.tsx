@@ -11,6 +11,7 @@ import { toggleNavBar } from '../../store/reducers/navbar';
 import './animation.scss';
 
 // Assets
+import logo from '../../assets/logo.svg';
 import hamburger from '../../assets/icons/hamburger.svg';
 import cross from '../../assets/icons/cross.svg';
 import portait from '../../assets/images/portrait_01.png';
@@ -45,10 +46,17 @@ export default function NavBar() {
         />
       </button>
       <header
-        className={`absolute flex shadow-custom flex-col items-center p-4 pt-24 top-0 right-0 w-3/4 min-h-full bg-secondary-50 sm:relative sm:flex sm:w-[32vw] sm:pt-16 md:w-72 duration-300 ease-in-out ${
-          isNavBarOpen ? 'opacity-1' : 'opacity-0'
+        className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
+          isNavBarOpen
+            ? 'opacity-100 translate-x-[0%]'
+            : 'translate-x-[100%] opacity-0'
         }`}
       >
+        <img
+          src={logo}
+          alt="ImmoPros Logo"
+          className="hidden sm:block sm:my-5"
+        />
         <Divider />
         <section className="flex flex-wrap items-center justify-center gap-5 py-6">
           <img
@@ -72,11 +80,15 @@ export default function NavBar() {
         </h2>
 
         <nav className="flex w-full grow">
-          <ul className="w-full">
+          <ul className="flex flex-col w-full gap-1">
             <li>
               <NavLink
                 to="/app/prospection"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg bg-secondary-200 hover:bg-secondary-200"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={home} alt="home icon" />
                 Accueil
@@ -84,8 +96,12 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink
-                to="/login"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200"
+                to="/app/actionToDo"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={actionToDo} alt="action-to-do icon" />
                 Actions à faire
@@ -93,8 +109,12 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink
-                to="/login"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200"
+                to="/app/upcomingAction"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={upcomingAction} alt="upcoming-action icon" />
                 Actions à venir

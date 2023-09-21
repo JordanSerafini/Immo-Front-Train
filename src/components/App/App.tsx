@@ -1,5 +1,5 @@
 // React Router
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -26,7 +26,7 @@ import NotFound from '../NotFound/NotFound';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen min-w-screen bg-main">
+      <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Maybe we could keep the '/' route for the future landing page et use '/login' instead to display Login Component */}
@@ -36,17 +36,19 @@ function App() {
             path="/support/confirmation"
             element={<SupportConfirmation />}
           />
-          
-          <Route path="/app/prospection" element={<Prospection />} />
-          <Route path="/app/detail/:info_id" element={<Detail />} />
-          <Route path="/app/actionToDo" element={<ActionToDo />} />
-          <Route path="/app/upcomingAction" element={<UpcomingAction />} />
-          <Route path="/app/actionManager" element={<ActionManager />} />
 
-          <Route path="/app/admin" element={<Administration />} />
-          <Route path="/app/dashboard" element={<DashBoard />} />
+          <Route path="/app/*">
+            <Route path="prospection" element={<Prospection />} />
+            <Route path="detail/:info_id" element={<Detail />} />
+            <Route path="actionToDo" element={<ActionToDo />} />
+            <Route path="upcomingAction" element={<UpcomingAction />} />
+            <Route path="actionManager" element={<ActionManager />} />
 
-          <Route path="/app/profile/:collaborator_id" element={<Profile />} />
+            <Route path="admin" element={<Administration />} />
+            <Route path="dashboard" element={<DashBoard />} />
+
+            <Route path="profile/:collaborator_id" element={<Profile />} />
+          </Route>
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
