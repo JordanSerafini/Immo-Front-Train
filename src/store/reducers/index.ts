@@ -1,7 +1,7 @@
-import temporaryReducer from "./temporary";
+import navbarReducer from "./navbar";
 
 const reducer = {
-    temporary: temporaryReducer
+    navbar: navbarReducer
 };
   
 export default reducer;
