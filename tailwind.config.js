@@ -2,6 +2,7 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    
     fontFamily: {
       poppins: ['Poppins', 'sans-serif'],
       lato: ['Lato', 'sans-serif'],
@@ -11,7 +12,7 @@ export default {
         custom: '0 4px 10px 0px rgba(0, 0, 0, 0.25)',
       },
       backgroundColor: {
-        main: '#EFF2FF',
+        main: "#EFF2FF"
       },
       colors: {
         primary: {
