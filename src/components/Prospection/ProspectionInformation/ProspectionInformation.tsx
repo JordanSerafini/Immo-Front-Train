@@ -13,8 +13,8 @@ export default function ProspectionInformation() {
       </div>
 
       <div className='flex justify-between mt-5'>
-        <button type='button' className='px-6 py-2 rounded-lg text-secondary-50 bg-primary-300 font-poppins'>Voir Plus</button>
-        <button type='button' className='px-6 py-2 font-semibold border-2 rounded-lg text-secondary-900 border-accent-400 font-poppins'>Supprimer</button>
+        <button type='button' className='px-6 py-2 duration-300 rounded-lg text-secondary-50 bg-primary-300 font-poppins hover:shadow-primary'>Voir Plus</button>
+        <button type='button' className='px-6 py-2 font-semibold duration-300 border-2 rounded-lg text-secondary-900 border-accent-400 font-poppins hover:shadow-accent'>Supprimer</button>
       </div>
     </article>
   );
