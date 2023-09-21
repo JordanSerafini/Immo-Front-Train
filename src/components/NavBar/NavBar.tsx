@@ -47,7 +47,9 @@ export default function NavBar() {
       </button>
       <header
         className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
-          isNavBarOpen ? 'opacity-100 translate-x-[0%]' : 'translate-x-[100%] opacity-0'
+          isNavBarOpen
+            ? 'opacity-100 translate-x-[0%]'
+            : 'translate-x-[100%] opacity-0'
         }`}
       >
         <img
@@ -82,7 +84,11 @@ export default function NavBar() {
             <li>
               <NavLink
                 to="/app/prospection"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg bg-secondary-200 hover:bg-secondary-200"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={home} alt="home icon" />
                 Accueil
@@ -90,8 +96,12 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink
-                to="/login"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200"
+                to="/app/actionToDo"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={actionToDo} alt="action-to-do icon" />
                 Actions à faire
@@ -99,8 +109,12 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink
-                to="/login"
-                className="flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200"
+                to="/app/upcomingAction"
+                className={({ isActive }) =>
+                  `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+                    isActive && 'bg-secondary-200'
+                  }`
+                }
               >
                 <img src={upcomingAction} alt="upcoming-action icon" />
                 Actions à venir

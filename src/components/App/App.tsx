@@ -22,11 +22,14 @@ import Administration from '../Admininistration/Administration';
 import DashBoard from '../DashBoard/DashBoard';
 
 import NotFound from '../NotFound/NotFound';
+import NavBar from '../NavBar/NavBar';
 
 function App() {
   return (
+
     <BrowserRouter>
-      <div className="relative h-screen overflow-y-auto min-w-screen bg-main">
+      <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">
+        <NavBar/>
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Maybe we could keep the '/' route for the future landing page et use '/login' instead to display Login Component */}
