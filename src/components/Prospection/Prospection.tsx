@@ -17,17 +17,17 @@ export default function Prospection() {
   return (
     <>
       <NavBar />
-      <main className="m-5 grow">
+      <main className="m-10 grow">
         <Link to="/">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
 
-        <div className='justify-between hidden gap-4 lg:flex'>
+        <div className='justify-between hidden lg:flex'>
           <ActionSection icon={actionToDo} title="Actions à faire" />
           <ActionSection icon={upcomingAction} title="Actions à venir" />
         </div>
 
-        <h1 className="mt-20 text-xl font-semibold text-center  font-poppins md:text-3xl lg:mt-10">
+        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl lg:mt-10">
           Informations de prospection
         </h1>
         <fieldset className="relative z-0 block mx-auto mt-3 mb-6 w-fit md:mx-0 md:mb-3 md:mt-6">
@@ -58,13 +58,13 @@ export default function Prospection() {
           </span>
         </button>
 
-        <div className="flex-wrap justify-between pb-2 lg:flex">
+        <section className="flex-wrap justify-between pb-2 lg:flex">
           <ProspectionInformation />
           <ProspectionInformation />
           <ProspectionInformation />
           <ProspectionInformation />
           <ProspectionInformation />
-        </div>
+        </section>
       </main>
     </>
   );

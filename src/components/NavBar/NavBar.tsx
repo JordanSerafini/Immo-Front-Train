@@ -21,7 +21,6 @@ import NavBarButton from './NavBarButton/NavBarButton';
 
 export default function NavBar() {
   // Hook Execution Order
-
   const location = useLocation();
 
   // Check if the user is on the Prospection page
