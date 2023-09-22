@@ -3,7 +3,7 @@ import appartment from '../../../assets/icons/apartment.svg';
 
 export default function ProspectionInformation() {
   return (
-    <article className="p-4 my-10 lg:my-2 rounded-lg shadow-custom bg-secondary-50 lg:w-[49%]">
+    <article className="p-4 mb-5 lg:my-2 rounded-lg shadow-custom bg-secondary-50 lg:w-[49%]">
       
       <div className='flex flex-col gap-2'>
       <img src={appartment} alt="Apartment logo" className='w-8' />

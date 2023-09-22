@@ -8,6 +8,7 @@ import NavBar from '../NavBar/NavBar';
 // Assets
 import logo from '../../assets/logo.svg';
 import search from '../../assets/icons/search.svg';
+import plus from '../../assets/icons/plus.svg';
 
 export default function Prospection() {
   return (
@@ -33,7 +34,16 @@ export default function Prospection() {
             <img src={search} alt="Search icon" />
           </button>
         </fieldset>
-        <div className="flex-wrap justify-between lg:flex">
+
+        <button
+          type="button"
+          className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
+        >
+          <img src={plus} alt="Add Info Button Icon" className="w-full sm:w-[30px]" />
+          <span className="hidden text-secondary-50 font-poppins sm:inline">Ajouter une information</span>
+        </button>
+
+        <div className="flex-wrap justify-between pb-2 lg:flex">
           <ProspectionInformation />
           <ProspectionInformation />
           <ProspectionInformation />
