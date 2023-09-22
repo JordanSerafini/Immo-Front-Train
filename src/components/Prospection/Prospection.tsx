@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
 import NavBar from '../NavBar/NavBar';
+import ActionSection from './ActionSection/ActionSection';
 
 // Assets
 import logo from '../../assets/logo.svg';
 import search from '../../assets/icons/search.svg';
 import plus from '../../assets/icons/plus.svg';
+import actionToDo from "../../assets/icons/action-to-do.svg";
+import upcomingAction from '../../assets/icons/upcoming-action.svg';
 
 export default function Prospection() {
   return (
@@ -18,7 +21,13 @@ export default function Prospection() {
         <Link to="/">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
-        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl">
+
+        <div className='justify-between hidden gap-4 lg:flex'>
+          <ActionSection icon={actionToDo} title="Actions à faire" />
+          <ActionSection icon={upcomingAction} title="Actions à venir" />
+        </div>
+
+        <h1 className="mt-20 text-xl font-semibold text-center  font-poppins md:text-3xl lg:mt-10">
           Informations de prospection
         </h1>
         <fieldset className="relative z-0 block mx-auto mt-3 mb-6 w-fit md:mx-0 md:mb-3 md:mt-6">
