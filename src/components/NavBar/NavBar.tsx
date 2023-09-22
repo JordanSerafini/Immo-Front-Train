@@ -2,18 +2,13 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 // Redux Hooks
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-
-// Store
-import { toggleNavBar } from '../../store/reducers/navbar';
+import { useAppSelector } from '../../hooks/redux';
 
 // Style
 import './animation.scss';
 
 // Assets
 import logo from '../../assets/logo.svg';
-import hamburger from '../../assets/icons/hamburger.svg';
-import cross from '../../assets/icons/cross.svg';
 import portait from '../../assets/images/portrait_01.png';
 import home from '../../assets/icons/home.svg';
 import actionToDo from '../../assets/icons/action-to-do.svg';
@@ -22,9 +17,10 @@ import logout from '../../assets/icons/log-out.svg';
 
 // Components
 import Divider from './Divider/Divider';
+import NavBarButton from './NavBarButton/NavBarButton';
 
 export default function NavBar() {
-  const dispatch = useAppDispatch();
+  // Hook Execution Order
   const location = useLocation();
 
   // Check if the user is on the Prospection page
@@ -32,23 +28,9 @@ export default function NavBar() {
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
-  const handleClick = () => {
-    dispatch(toggleNavBar());
-  };
-
   return (
     <>
-      <button
-        type="button"
-        className="absolute z-20 w-8 h-10 border-none top-8 right-5 navbar-btn sm:hidden"
-        onClick={handleClick}
-      >
-        <img
-          className="w-full h-full"
-          src={isNavBarOpen ? cross : hamburger}
-          alt="burger button icon"
-        />
-      </button>
+      <NavBarButton navBarStatus={isNavBarOpen} />
       <header
         className={`z-10 absolute flex shadow-custom flex-col items-center p-4 pt-16 top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
           isNavBarOpen
