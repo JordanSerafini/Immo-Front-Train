@@ -36,14 +36,14 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
 
   return (
     <dialog
-      className="fixed inset-0 z-30 flex items-center justify-center w-screen h-screen m-0 border-none bg-black/60"
+      className="fixed inset-0 z-30 flex justify-center w-screen h-screen p-6 m-0 border-none bg-black/60"
       onClick={closeModal}
       onKeyDown={handleKeyDown}
     >
       <div
         role="dialog"
         onClick={(event) => event.stopPropagation()}
-        className="relative w-full p-4 mx-4 slide rounded-xl bg-secondary-50"
+        className="relative w-full md:max-w-[800px] p-4 mx-4 overflow-auto slide rounded-xl bg-secondary-50"
       >
         {/* Temporary style */}
         <button
@@ -82,7 +82,12 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
               </div>
 
               <div>
-                <input type="radio" id="appartement" name="drone" value="appartement" />
+                <input
+                  type="radio"
+                  id="appartement"
+                  name="drone"
+                  value="appartement"
+                />
                 <label htmlFor="appartement">Appartement</label>
               </div>
 
@@ -93,15 +98,43 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
             </div>
           </Fieldset>
 
-          <Fieldset title='*Localisation'>
+          <Fieldset title="*Localisation">
             <div>
-              <input type="text" placeholder='N°' />
+              <label className="hidden" htmlFor="streetNumber">
+                Numéro de rue
+              </label>
+              <input
+                className="px-2 py-1 duration-150 border-2 rounded-md w-[3.5rem] focus:ring-2 ring-accent-300"
+                type="number"
+                placeholder="N°"
+                min={0}
+              />
             </div>
+          </Fieldset>
+
+          <Fieldset title="*Propriétaires">
+            <div>In progress</div>
+          </Fieldset>
+
+          <Fieldset title="*Source de l'information">
+            <div>In progress</div>
+          </Fieldset>
+
+          <Fieldset title="*Catégorie">
+            <div>In progress</div>
+          </Fieldset>
+
+          <Fieldset title="Commentaires">
+            <div>In progress</div>
+          </Fieldset>
+
+          <Fieldset title="Action">
+            <div>In progress</div>
           </Fieldset>
 
           <div className="flex justify-between w-3/4 mt-5">
             <ValidButton content="Enregistrer" />
-            <CancelButton content="Annuler" />
+            <CancelButton content="Annuler" onClickMethod={closeModal} />
           </div>
         </form>
       </div>

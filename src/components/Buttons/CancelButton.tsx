@@ -1,11 +1,18 @@
 // Typescript interface
 interface CancelButtonProps {
   content: string;
+  // eslint-disable-next-line react/require-default-props
+  onClickMethod?: () => void;
 }
 
-export default function CancelButton({ content }: CancelButtonProps) {
+
+export default function CancelButton({
+  content,
+  onClickMethod,
+}: CancelButtonProps) {
   return (
     <button
+      onClick={onClickMethod}
       type="button"
       className="p-[3px] duration-300 rounded-md bg-gradient-to-tr from-[#1A44FF] to-[#944DFF] hover:shadow-accent"
     >
