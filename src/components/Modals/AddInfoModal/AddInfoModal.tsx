@@ -7,6 +7,8 @@ import { FormEvent } from 'react';
 
 // Components
 import Fieldset from '../Form/Fieldset';
+import ValidButton from '../../Buttons/ValidButton';
+import CancelButton from '../../Buttons/CancelButton';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -98,20 +100,8 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
           </Fieldset>
 
           <div className="flex justify-between w-3/4 mt-5">
-            <button
-              type="button"
-              className="px-6 py-2 duration-300 rounded-lg text-secondary-50 bg-primary-300 font-poppins lg:text-lg hover:shadow-primary"
-            >
-              Enregistrer
-            </button>
-            <button
-              type="button"
-              className="p-[3px] duration-300 rounded-md bg-gradient-to-tr from-[#1A44FF] to-[#944DFF] hover:shadow-accent"
-            >
-              <div className="flex items-center justify-center w-full h-full px-4 font-semibold rounded lg:text-lg bg-secondary-50">
-                Annuler
-              </div>
-            </button>
+            <ValidButton content="Enregistrer" />
+            <CancelButton content="Annuler" />
           </div>
         </form>
       </div>
