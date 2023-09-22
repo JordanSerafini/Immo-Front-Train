@@ -1,5 +1,5 @@
 // React Router
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -25,6 +25,10 @@ import Divider from './Divider/Divider';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  // Check if the user is on the Prospection page
+  const isProspectionRoute = location.pathname.endsWith('/prospection');
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
@@ -52,11 +56,13 @@ export default function NavBar() {
             : 'translate-x-[100%] opacity-0'
         }`}
       >
-        <img
-          src={logo}
-          alt="ImmoPros Logo"
-          className="hidden sm:block sm:my-5"
-        />
+        <Link to="/app/prospection">
+          <img
+            src={logo}
+            alt="ImmoPros Logo"
+            className="hidden sm:block sm:my-5"
+          />
+        </Link>
         <Divider />
         <section className="flex flex-wrap items-center justify-center gap-5 py-6">
           <img
@@ -94,7 +100,7 @@ export default function NavBar() {
                 Accueil
               </NavLink>
             </li>
-            <li>
+            <li className={`${isProspectionRoute && 'lg:hidden'}`}>
               <NavLink
                 to="/app/actionToDo"
                 className={({ isActive }) =>
@@ -107,7 +113,7 @@ export default function NavBar() {
                 Actions à faire
               </NavLink>
             </li>
-            <li>
+            <li className={`${isProspectionRoute && 'lg:hidden'}`}>
               <NavLink
                 to="/app/upcomingAction"
                 className={({ isActive }) =>

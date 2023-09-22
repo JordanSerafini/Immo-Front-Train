@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom';
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
 import NavBar from '../NavBar/NavBar';
+import ActionSection from './ActionSection/ActionSection';
 
 // Assets
 import logo from '../../assets/logo.svg';
 import search from '../../assets/icons/search.svg';
+import plus from '../../assets/icons/plus.svg';
+import actionToDo from "../../assets/icons/action-to-do.svg";
+import upcomingAction from '../../assets/icons/upcoming-action.svg';
 
 export default function Prospection() {
   return (
@@ -17,12 +21,18 @@ export default function Prospection() {
         <Link to="/">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
-        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl">
+
+        <div className='justify-between hidden gap-4 lg:flex'>
+          <ActionSection icon={actionToDo} title="Actions à faire" />
+          <ActionSection icon={upcomingAction} title="Actions à venir" />
+        </div>
+
+        <h1 className="mt-20 text-xl font-semibold text-center  font-poppins md:text-3xl lg:mt-10">
           Informations de prospection
         </h1>
-        <fieldset className="relative z-0 block mx-auto mt-3 mb-6 w-fit">
+        <fieldset className="relative z-0 block mx-auto mt-3 mb-6 w-fit md:mx-0 md:mb-3 md:mt-6">
           <input
-            className="py-2 pl-10 rounded-lg w-72 shadow-custom font-poppins"
+            className="py-2 pl-10 duration-150 rounded-lg w-72 shadow-custom font-poppins focus:ring-4 ring-accent-300"
             type="text"
             placeholder="Effectuer votre recherche..."
           />
@@ -33,7 +43,22 @@ export default function Prospection() {
             <img src={search} alt="Search icon" />
           </button>
         </fieldset>
-        <div className="flex-wrap justify-between lg:flex">
+
+        <button
+          type="button"
+          className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
+        >
+          <img
+            src={plus}
+            alt="Add Info Button Icon"
+            className="w-full sm:w-[30px]"
+          />
+          <span className="hidden text-secondary-50 font-poppins sm:inline">
+            Ajouter une information
+          </span>
+        </button>
+
+        <div className="flex-wrap justify-between pb-2 lg:flex">
           <ProspectionInformation />
           <ProspectionInformation />
           <ProspectionInformation />

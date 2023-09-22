@@ -1,5 +1,10 @@
+import NavBar from '../NavBar/NavBar';
+
 export default function Profile() {
   return (
-    <div>Profile</div>
-  )
+    <>
+      <NavBar />
+      <div>Profile</div>
+    </>
+  );
 }
