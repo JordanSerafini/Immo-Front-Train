@@ -23,7 +23,7 @@ export default function Prospection() {
         </h1>
         <fieldset className="relative z-0 block mx-auto mt-3 mb-6 w-fit">
           <input
-            className="py-2 pl-10 rounded-lg w-72 shadow-custom font-poppins"
+            className="py-2 pl-10 duration-150 rounded-lg w-72 shadow-custom font-poppins focus:ring-4 ring-accent-300"
             type="text"
             placeholder="Effectuer votre recherche..."
           />
