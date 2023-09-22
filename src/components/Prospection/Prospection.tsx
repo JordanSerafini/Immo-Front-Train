@@ -1,9 +1,12 @@
-// React
-import { useState } from 'react';
-
 // React Router
 import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
+
+// Redux
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+
+// Store
+import { showAddInfoModal, hideAddInfoModal } from '../../store/reducers/modal';
 
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
@@ -19,16 +22,18 @@ import actionToDo from '../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../assets/icons/upcoming-action.svg';
 
 export default function Prospection() {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen)
 
-  const handleClick = () => {
-    setShowModal(true);
+  const handleAddInfoClick = () => {
+    dispatch(showAddInfoModal())
   }
 
   return (
     <>
       <NavBar />
       <main className="m-10 grow">
+        {infoModal && <p>Coucou</p>}
         <Link to="/app/prospection">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
@@ -45,7 +50,7 @@ export default function Prospection() {
         <SearchInput />
 
         <button
-          onClick={handleClick}
+          onClick={handleAddInfoClick}
           type="button"
           className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
         >
@@ -67,8 +72,8 @@ export default function Prospection() {
           <ProspectionInformation />
         </section>
       </main>
-      {showModal && createPortal(
-        <AddInfoModal closeModal={() => setShowModal(false)} />,
+      {infoModal && createPortal(
+        <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())}/>,
         document.body
       )}
     </>

@@ -2,7 +2,7 @@
 interface CancelButtonProps {
   content: string;
   // eslint-disable-next-line react/require-default-props
-  onClickMethod?: () => void;
+  onClickMethod?: (() => void);
 }
 
 
