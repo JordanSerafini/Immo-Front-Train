@@ -14,6 +14,9 @@ export const initialState: ModalState = {
 export const showAddInfoModal = createAction('modal/show');
 export const hideAddInfoModal = createAction('modal/hide');
 
+export const showCancelConfirmationModal = createAction('cancelModal/show');
+export const hideCancelConfirmationModal = createAction('cancelModal/hide');
+
 const modalReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(showAddInfoModal, (state) => {
@@ -21,6 +24,12 @@ const modalReducer = createReducer(initialState, (builder) => {
     })
     .addCase(hideAddInfoModal, (state) => {
       state.isAddInfoModalOpen = false;
+    })
+    .addCase(showCancelConfirmationModal, (state) => {
+      state.isCancelConfirmationModalOpen = true;
+    })
+    .addCase(hideCancelConfirmationModal, (state) => {
+      state.isCancelConfirmationModalOpen = false;
     });
 });
 

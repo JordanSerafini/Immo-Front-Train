@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { showAddInfoModal, hideAddInfoModal } from '../../store/reducers/modal';
+import { showAddInfoModal, hideAddInfoModal, showCancelConfirmationModal, hideCancelConfirmationModal } from '../../store/reducers/modal';
 
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
@@ -14,6 +14,7 @@ import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';
+import CancelModal from '../Modals/CancelModal/CancelModal';
 
 // Assets
 import logo from '../../assets/logo.svg';
@@ -24,6 +25,7 @@ import upcomingAction from '../../assets/icons/upcoming-action.svg';
 export default function Prospection() {
   const dispatch = useAppDispatch();
   const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen)
+  const cancelModal = useAppSelector((state) => state.modal.isCancelConfirmationModalOpen);
 
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal())
@@ -33,7 +35,6 @@ export default function Prospection() {
     <>
       <NavBar />
       <main className="m-10 grow">
-        {infoModal && <p>Coucou</p>}
         <Link to="/app/prospection">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
@@ -65,15 +66,15 @@ export default function Prospection() {
         </button>
 
         <section className="flex-wrap justify-between pb-2 lg:flex">
-          <ProspectionInformation />
-          <ProspectionInformation />
-          <ProspectionInformation />
-          <ProspectionInformation />
-          <ProspectionInformation />
+          <ProspectionInformation deleteHandler={() => dispatch(showCancelConfirmationModal())}/>
         </section>
       </main>
       {infoModal && createPortal(
         <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())}/>,
+        document.body
+      )}
+      {cancelModal && createPortal(
+        <CancelModal closeModal={() => dispatch(hideCancelConfirmationModal())}/>,
         document.body
       )}
     </>

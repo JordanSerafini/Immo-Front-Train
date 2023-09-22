@@ -5,7 +5,7 @@ import CancelButton from '../../Buttons/CancelButton';
 // Asset
 import appartment from '../../../assets/icons/apartment.svg';
 
-export default function ProspectionInformation() {
+export default function ProspectionInformation({deleteHandler}: {deleteHandler: () => void}) {
   return (
     <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50 lg:w-[48%]">
       <div className="flex flex-col gap-2">
@@ -19,7 +19,7 @@ export default function ProspectionInformation() {
 
       <div className="flex justify-between mt-5">
         <ValidButton content="Voir plus" />
-        <CancelButton content="Supprimer" />
+        <CancelButton content="Supprimer" onClickMethod={deleteHandler}/>
       </div>
     </article>
   );

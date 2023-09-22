@@ -1,7 +1,3 @@
-// ACCESSIBILITY IMPROVMENTS TO MAKE HERE !!!
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-
 // React
 import { FormEvent } from 'react';
 
@@ -9,6 +5,7 @@ import { FormEvent } from 'react';
 import Fieldset from '../Form/Fieldset';
 import ValidButton from '../../Buttons/ValidButton';
 import CancelButton from '../../Buttons/CancelButton';
+import Modal from '../Modal';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -16,35 +13,14 @@ import plus from '../../../assets/icons/plus.svg';
 // Style
 import './animation.scss';
 
-// Typescript Interface
-interface AddInfoModalProps {
-  // Not sure if the type is good here. It seems too simple...
-  closeModal: () => void;
-}
-
-export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
-  // If the escape key is pressed, close the modal
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
-    if (event.code === 'Escape') {
-      closeModal();
-    }
-  };
-
+export default function AddInfoModal({ closeModal }: { closeModal: () => void }) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   return (
-    <dialog
-      className="fixed inset-0 z-30 flex justify-center w-screen h-screen p-6 m-0 border-none bg-black/60"
-      onClick={closeModal}
-      onKeyDown={handleKeyDown}
-    >
-      <div
-        role="dialog"
-        onClick={(event) => event.stopPropagation()}
-        className="relative w-full md:max-w-[800px] p-4 mx-4 overflow-auto slide rounded-xl bg-secondary-50"
-      >
+    <Modal closeModal={(closeModal)}>
+      <>
         {/* Temporary style */}
         <button
           onClick={closeModal}
@@ -66,7 +42,7 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-center gap-6 mb-4"
+          className="flex flex-col items-center justify-center sm:w-[500px] lg:w-[750px] xl:w-[900px] gap-6 mb-4"
         >
           <Fieldset title="*Type de bien">
             <div>
@@ -137,7 +113,7 @@ export default function AddInfoModal({ closeModal }: AddInfoModalProps) {
             <CancelButton content="Annuler" onClickMethod={closeModal} />
           </div>
         </form>
-      </div>
-    </dialog>
+      </>
+    </Modal>
   );
 }
