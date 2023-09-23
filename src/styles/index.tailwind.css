@@ -3,7 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-      font-family: "Lato", sans-serif;
-    }
+  html {
+    font-family: 'Lato', sans-serif;
   }
+  /* Hide Arrows for input type number */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Input style */
+  input[type=text], input[type='number'], input[type='email'], textarea{
+    @apply px-2 py-1 duration-150 border-2 rounded-md focus:ring-2 ring-accent-300 sm:px-3 md:py-2;
+  }
+  textarea:focus {
+    @apply outline-none;
+  }
+}
