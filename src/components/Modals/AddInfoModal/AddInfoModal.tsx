@@ -6,7 +6,8 @@ import Fieldset from '../Form/Fieldset';
 import ValidButton from '../../Buttons/ValidButton';
 import CancelButton from '../../Buttons/CancelButton';
 import Modal from '../Modal';
-import Field from './Field/Field';
+import Input from './Field/Input';
+import Textarea from './Field/Textarea';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -28,16 +29,33 @@ export default function AddInfoModal({
   const [street, setStreet] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
+  // Owner Local States
+  const [ownerName, setOwnerName] = useState<string>('');
+  const [ownerPhoneNumber, setOwnerPhoneNumber] = useState<string>('');
+  const [ownerEmail, setOwnerEmail] = useState<string>('');
+
+  // Info Source Local State
+  const [sourceInfo, setSourceInfo] = useState<string>('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formValues = {
-      selectedTypeOption,
-      streetNumber,
-      streetName,
-      zipCode,
-      street,
-      appartmentInfo,
+      type: {
+        selectedTypeOption,
+      },
+      localisation: {
+        streetNumber,
+        streetName,
+        zipCode,
+        street,
+        appartmentInfo,
+      },
+      owner: {
+        ownerName,
+        ownerPhoneNumber,
+        ownerEmail,
+      },
     };
 
     console.log(formValues);
@@ -71,7 +89,7 @@ export default function AddInfoModal({
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col flex-wrap sm:items-center justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
+          className="flex flex-col lg:items-start flex-wrap justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
         >
           <Fieldset title="*Type de bien">
             <div className="flex flex-wrap items-center justify-center gap-6 my-5 text-lg font-poppins">
@@ -146,60 +164,75 @@ export default function AddInfoModal({
           <Fieldset title="*Localisation">
             <div className="flex flex-col gap-4 my-5">
               <div className="flex flex-col justify-between gap-4 sm:flex-row">
-                <Field
+                <Input
                   placeholder="N°"
                   onChange={setStreetNumber}
                   value={streetNumber}
                   className="w-[3.5rem]"
                   type="number"
                 />
-                <Field
+                <Input
                   placeholder="Rue"
                   onChange={setStreetName}
                   value={streetName}
-                  className="sm:w-[300px]"
+                  className="w-full sm:w-[300px]"
                 />
               </div>
 
               <div className="flex flex-col justify-between gap-4 sm:flex-row">
-                <Field
+                <Input
                   placeholder="Code Postal"
                   onChange={setZipCode}
                   value={zipCode}
                   type="number"
                 />
-                <Field
+                <Input
                   placeholder="Ville"
                   onChange={setStreet}
                   value={street}
+                  className="w-full"
                 />
               </div>
               {selectedTypeOption === 'appartement' && (
-                <div>
-                  <label
-                    className="font-semibold text-md"
-                    htmlFor="appartmentInfo"
-                  >
-                    *Si l&apos;information concerne un appartement :
-                  </label>
-                  <textarea
-                    value={appartmentInfo}
-                    onChange={(event) => setAppartmentInfo(event.target.value)}
-                    className="sm:w-full"
-                    name="appartmentInfo"
-                    placeholder="Informations complémentaires"
-                  />
-                </div>
+                <Textarea
+                  label="*Si l'information concerne un appartement :"
+                  value={appartmentInfo}
+                  onChange={setAppartmentInfo}
+                  placeholder="Informations complémentaires..."
+                />
               )}
             </div>
           </Fieldset>
 
           <Fieldset title="*Propriétaires">
-            <div>In progress</div>
+            <div className="flex flex-col gap-4 my-5">
+              <Input
+                placeholder="Nom des propriétaires"
+                value={ownerName}
+                onChange={setOwnerName}
+                className="w-full"
+              />
+              <Input
+                placeholder="N° Tel."
+                value={ownerPhoneNumber}
+                onChange={setOwnerPhoneNumber}
+                className="w-1/2"
+                type="number"
+              />
+              <Input
+                placeholder="Adresse email"
+                value={ownerEmail}
+                onChange={setOwnerEmail}
+                className="w-3/4"
+                type="email"
+              />
+            </div>
           </Fieldset>
 
           <Fieldset title="*Source de l'information">
-            <div>In progress</div>
+            <div className='mb-5'>
+              <Textarea value={sourceInfo} onChange={setSourceInfo} placeholder='Renseignez la source de l&apos;information...'/>
+            </div>
           </Fieldset>
 
           <Fieldset title="*Catégorie">

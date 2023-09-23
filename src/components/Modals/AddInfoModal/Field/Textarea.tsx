@@ -1,53 +1,51 @@
 import { ChangeEvent, useId } from 'react';
 
-interface FieldProps {
+interface TextareaProps {
+  label?: string;
   value: string;
-  type?: string;
   placeholder: string;
   className?: string;
   onChange: (value: string) => void;
 }
 
-function Field({
+function Textarea({
+  label,
   value,
-  type,
   placeholder,
   className,
   onChange,
-}: FieldProps) {
+}: TextareaProps) {
   const inputId = useId();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+  function handleChange(event: ChangeEvent<HTMLTextAreaElement>): void {
     onChange(event.target.value);
   }
 
   return (
     <div>
-      <input
-        className={className}
+      {label && (
+        <label htmlFor={inputId} className="font-semibold text-md">
+          {label}
+        </label>
+      )}
+
+      <textarea
+        className={`w-full mt-2 min-h-[100px] ${className}`}
         // React - state
         value={value}
         onChange={handleChange}
         id={inputId}
-        type={type}
         placeholder={placeholder}
       />
-
-      <label
-        htmlFor={inputId}
-        className="hidden"
-      >
-        {placeholder}
-      </label>
     </div>
   );
 }
 
 // Default values for props
-Field.defaultProps = {
-  type: 'text',
-  className: "",
+Textarea.defaultProps = {
+  label: '',
+  className: '',
 };
 
 // == Export
-export default Field;
+export default Textarea;
