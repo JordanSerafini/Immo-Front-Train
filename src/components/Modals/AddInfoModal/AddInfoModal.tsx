@@ -1,5 +1,5 @@
 // React
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 // Components
 import Fieldset from '../Form/Fieldset';
@@ -13,13 +13,23 @@ import plus from '../../../assets/icons/plus.svg';
 // Style
 import './animation.scss';
 
-export default function AddInfoModal({ closeModal }: { closeModal: () => void }) {
+export default function AddInfoModal({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) {
+  const [selectedTypeOption, setSelectedTypeOption] = useState<string>('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
+  const handleRadioChange = (event: FormEvent<HTMLInputElement>) => {
+    setSelectedTypeOption(event.currentTarget.value);
+  };
+
   return (
-    <Modal closeModal={(closeModal)}>
+    <Modal closeModal={closeModal}>
       <>
         {/* Temporary style */}
         <button
@@ -45,31 +55,71 @@ export default function AddInfoModal({ closeModal }: { closeModal: () => void })
           className="flex flex-col items-center justify-center sm:w-[500px] lg:w-[750px] xl:w-[900px] gap-6 mb-4"
         >
           <Fieldset title="*Type de bien">
-            <div>
-              <div>
+            <div className="flex flex-wrap items-center justify-center gap-6 mt-6 mb-4 text-lg font-poppins">
+              <div className="">
                 <input
                   type="radio"
                   id="maison"
-                  name="drone"
+                  name="type"
                   value="maison"
-                  defaultChecked
+                  onChange={handleRadioChange}
+                  checked={selectedTypeOption === 'maison'}
+                  className="hidden"
                 />
-                <label htmlFor="maison">Maison</label>
+                <label
+                  htmlFor="maison"
+                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
+                    selectedTypeOption === 'maison'
+                      ? 'bg-accent-400 text-secondary-50'
+                      : ''
+                  }`}
+                >
+                  Maison
+                </label>
               </div>
 
               <div>
                 <input
                   type="radio"
                   id="appartement"
-                  name="drone"
+                  name="type"
                   value="appartement"
+                  onChange={handleRadioChange}
+                  checked={selectedTypeOption === 'appartement'}
+                  className="hidden"
                 />
-                <label htmlFor="appartement">Appartement</label>
+                <label
+                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
+                    selectedTypeOption === 'appartement'
+                      ? 'bg-accent-400 text-secondary-50'
+                      : ''
+                  }`}
+                  htmlFor="appartement"
+                >
+                  Appartement
+                </label>
               </div>
 
               <div>
-                <input type="radio" id="Terrain" name="drone" value="Terrain" />
-                <label htmlFor="Terrain">Terrain</label>
+                <input
+                  type="radio"
+                  id="terrain"
+                  name="type"
+                  value="terrain"
+                  onChange={handleRadioChange}
+                  checked={selectedTypeOption === 'terrain'}
+                  className="hidden"
+                />
+                <label
+                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
+                    selectedTypeOption === 'terrain'
+                      ? 'bg-accent-400 text-secondary-50'
+                      : ''
+                  }`}
+                  htmlFor="terrain"
+                >
+                  Terrain
+                </label>
               </div>
             </div>
           </Fieldset>
