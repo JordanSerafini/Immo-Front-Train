@@ -2,12 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    
-    fontFamily: {
-      poppins: ['Poppins', 'sans-serif'],
-      lato: ['Lato', 'sans-serif'],
-    },
     extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        lato: ['Lato', 'sans-serif'],
+      },
       boxShadow: {
         custom: '0 4px 10px 0px rgba(0, 0, 0, 0.25)',
         primary: '0px 5px 30px 5px #B380FF;',

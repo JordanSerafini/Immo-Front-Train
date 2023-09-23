@@ -1,8 +1,5 @@
 // React Router
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-
-// Redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
 import Landing from '../Landing/Landing';
