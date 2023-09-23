@@ -6,11 +6,18 @@ import Fieldset from '../Form/Fieldset';
 import ValidButton from '../../Buttons/ValidButton';
 import CancelButton from '../../Buttons/CancelButton';
 import Modal from '../Modal';
+import RadioButton from './Field/RadioButton';
 import Input from './Field/Input';
 import Textarea from './Field/Textarea';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
+import house from '../../../assets/icons/house.svg';
+import whiteHouse from '../../../assets/icons/white_house.svg';
+import apartment from '../../../assets/icons/apartment.svg'
+import whiteApartment from '../../../assets/icons/white_apartment.svg'
+import land from '../../../assets/icons/land.svg'
+import whiteLand from '../../../assets/icons/white_land.svg'
 
 // Style
 import './animation.scss';
@@ -20,7 +27,10 @@ export default function AddInfoModal({
 }: {
   closeModal: () => void;
 }) {
-  const [selectedTypeOption, setSelectedTypeOption] = useState<string>('');
+  // Type Local State
+  // Decide the default checked button
+  const [selectedTypeOption, setSelectedTypeOption] =
+    useState<string>('maison');
 
   // Localisation Local States
   const [streetNumber, setStreetNumber] = useState<string>('');
@@ -93,71 +103,11 @@ export default function AddInfoModal({
         >
           <Fieldset title="*Type de bien">
             <div className="flex flex-wrap items-center justify-center gap-6 my-5 text-lg font-poppins">
-              <div className="">
-                <input
-                  type="radio"
-                  id="maison"
-                  name="type"
-                  value="maison"
-                  onChange={handleRadioChange}
-                  checked={selectedTypeOption === 'maison'}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="maison"
-                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
-                    selectedTypeOption === 'maison'
-                      ? 'bg-accent-400 text-secondary-50'
-                      : ''
-                  }`}
-                >
-                  Maison
-                </label>
-              </div>
+              <RadioButton value='maison' state={selectedTypeOption} whiteIcon={whiteHouse} blackIcon={house} onChange={setSelectedTypeOption} />
 
-              <div>
-                <input
-                  type="radio"
-                  id="appartement"
-                  name="type"
-                  value="appartement"
-                  onChange={handleRadioChange}
-                  checked={selectedTypeOption === 'appartement'}
-                  className="hidden"
-                />
-                <label
-                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
-                    selectedTypeOption === 'appartement'
-                      ? 'bg-accent-400 text-secondary-50'
-                      : ''
-                  }`}
-                  htmlFor="appartement"
-                >
-                  Appartement
-                </label>
-              </div>
+              <RadioButton value='appartement' state={selectedTypeOption} whiteIcon={whiteApartment} blackIcon={apartment} onChange={setSelectedTypeOption} />
 
-              <div>
-                <input
-                  type="radio"
-                  id="terrain"
-                  name="type"
-                  value="terrain"
-                  onChange={handleRadioChange}
-                  checked={selectedTypeOption === 'terrain'}
-                  className="hidden"
-                />
-                <label
-                  className={`rounded-md p-2 border-solid border-2 border-accent-400 duration-150 ${
-                    selectedTypeOption === 'terrain'
-                      ? 'bg-accent-400 text-secondary-50'
-                      : ''
-                  }`}
-                  htmlFor="terrain"
-                >
-                  Terrain
-                </label>
-              </div>
+              <RadioButton value='terrain' state={selectedTypeOption} whiteIcon={whiteLand} blackIcon={land} onChange={setSelectedTypeOption} />
             </div>
           </Fieldset>
 
@@ -230,8 +180,12 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="*Source de l'information">
-            <div className='mb-5'>
-              <Textarea value={sourceInfo} onChange={setSourceInfo} placeholder='Renseignez la source de l&apos;information...'/>
+            <div className="mb-5">
+              <Textarea
+                value={sourceInfo}
+                onChange={setSourceInfo}
+                placeholder="Renseignez la source de l'information..."
+              />
             </div>
           </Fieldset>
 
