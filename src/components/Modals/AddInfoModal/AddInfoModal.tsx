@@ -14,10 +14,10 @@ import Textarea from './Field/Textarea';
 import plus from '../../../assets/icons/plus.svg';
 import house from '../../../assets/icons/house.svg';
 import whiteHouse from '../../../assets/icons/white_house.svg';
-import apartment from '../../../assets/icons/apartment.svg'
-import whiteApartment from '../../../assets/icons/white_apartment.svg'
-import land from '../../../assets/icons/land.svg'
-import whiteLand from '../../../assets/icons/white_land.svg'
+import apartment from '../../../assets/icons/apartment.svg';
+import whiteApartment from '../../../assets/icons/white_apartment.svg';
+import land from '../../../assets/icons/land.svg';
+import whiteLand from '../../../assets/icons/white_land.svg';
 
 // Style
 import './animation.scss';
@@ -31,6 +31,9 @@ export default function AddInfoModal({
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('maison');
+
+  const [selectedCategoryOption, setSelectedCategoryOption] =
+    useState<string>('à vendre');
 
   // Localisation Local States
   const [streetNumber, setStreetNumber] = useState<string>('');
@@ -102,12 +105,30 @@ export default function AddInfoModal({
           className="flex flex-col lg:items-start flex-wrap justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
         >
           <Fieldset title="*Type de bien">
-            <div className="flex flex-wrap items-center justify-center gap-6 my-5 text-lg font-poppins">
-              <RadioButton value='maison' state={selectedTypeOption} whiteIcon={whiteHouse} blackIcon={house} onChange={setSelectedTypeOption} />
+            <div className="flex flex-wrap items-center justify-center gap-6 my-5">
+              <RadioButton
+                value="maison"
+                state={selectedTypeOption}
+                whiteIcon={whiteHouse}
+                blackIcon={house}
+                onChange={setSelectedTypeOption}
+              />
 
-              <RadioButton value='appartement' state={selectedTypeOption} whiteIcon={whiteApartment} blackIcon={apartment} onChange={setSelectedTypeOption} />
+              <RadioButton
+                value="appartement"
+                state={selectedTypeOption}
+                whiteIcon={whiteApartment}
+                blackIcon={apartment}
+                onChange={setSelectedTypeOption}
+              />
 
-              <RadioButton value='terrain' state={selectedTypeOption} whiteIcon={whiteLand} blackIcon={land} onChange={setSelectedTypeOption} />
+              <RadioButton
+                value="terrain"
+                state={selectedTypeOption}
+                whiteIcon={whiteLand}
+                blackIcon={land}
+                onChange={setSelectedTypeOption}
+              />
             </div>
           </Fieldset>
 
@@ -190,7 +211,23 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="*Catégorie">
-            <div>In progress</div>
+            <div className="flex flex-wrap items-center justify-center gap-6 my-5">
+              <RadioButton
+                value="à vendre"
+                state={selectedCategoryOption}
+                onChange={setSelectedCategoryOption}
+              />
+              <RadioButton
+                value="potentiellement à vendre"
+                state={selectedCategoryOption}
+                onChange={setSelectedCategoryOption}
+              />
+              <RadioButton
+                value="succession en cours"
+                state={selectedCategoryOption}
+                onChange={setSelectedCategoryOption}
+              />
+            </div>
           </Fieldset>
 
           <Fieldset title="Commentaires">
