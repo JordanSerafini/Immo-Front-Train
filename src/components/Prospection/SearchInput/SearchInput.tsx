@@ -25,7 +25,7 @@ export default function SearchInput() {
       />
       <button
         type="button"
-        className="absolute left-2 top-1/2 translate-y-[-50%] focus:ring-2"
+        className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2"
       >
         <img src={search} alt="Search icon" />
       </button>

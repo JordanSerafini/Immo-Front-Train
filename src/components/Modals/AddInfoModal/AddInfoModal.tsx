@@ -6,6 +6,7 @@ import Fieldset from '../Form/Fieldset';
 import ValidButton from '../../Buttons/ValidButton';
 import CancelButton from '../../Buttons/CancelButton';
 import Modal from '../Modal';
+import Field from './Field/Field';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -20,8 +21,26 @@ export default function AddInfoModal({
 }) {
   const [selectedTypeOption, setSelectedTypeOption] = useState<string>('');
 
+  // Localisation Local States
+  const [streetNumber, setStreetNumber] = useState<string>('');
+  const [streetName, setStreetName] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
+  const [street, setStreet] = useState<string>('');
+  const [appartmentInfo, setAppartmentInfo] = useState<string>('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formValues = {
+      selectedTypeOption,
+      streetNumber,
+      streetName,
+      zipCode,
+      street,
+      appartmentInfo,
+    };
+
+    console.log(formValues);
   };
 
   const handleRadioChange = (event: FormEvent<HTMLInputElement>) => {
@@ -52,10 +71,10 @@ export default function AddInfoModal({
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-center sm:w-[500px] lg:w-[750px] xl:w-[900px] gap-6 mb-4"
+          className="flex flex-col flex-wrap sm:items-center justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
         >
           <Fieldset title="*Type de bien">
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-6 mb-4 text-lg font-poppins">
+            <div className="flex flex-wrap items-center justify-center gap-6 my-5 text-lg font-poppins">
               <div className="">
                 <input
                   type="radio"
@@ -125,16 +144,53 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="*Localisation">
-            <div>
-              <label className="hidden" htmlFor="streetNumber">
-                Numéro de rue
-              </label>
-              <input
-                className="px-2 py-1 duration-150 border-2 rounded-md w-[3.5rem] focus:ring-2 ring-accent-300"
-                type="number"
-                placeholder="N°"
-                min={0}
-              />
+            <div className="flex flex-col gap-4 my-5">
+              <div className="flex flex-col justify-between gap-4 sm:flex-row">
+                <Field
+                  placeholder="N°"
+                  onChange={setStreetNumber}
+                  value={streetNumber}
+                  className="w-[3.5rem]"
+                  type="number"
+                />
+                <Field
+                  placeholder="Rue"
+                  onChange={setStreetName}
+                  value={streetName}
+                  className="sm:w-[300px]"
+                />
+              </div>
+
+              <div className="flex flex-col justify-between gap-4 sm:flex-row">
+                <Field
+                  placeholder="Code Postal"
+                  onChange={setZipCode}
+                  value={zipCode}
+                  type="number"
+                />
+                <Field
+                  placeholder="Ville"
+                  onChange={setStreet}
+                  value={street}
+                />
+              </div>
+              {selectedTypeOption === 'appartement' && (
+                <div>
+                  <label
+                    className="font-semibold text-md"
+                    htmlFor="appartmentInfo"
+                  >
+                    *Si l&apos;information concerne un appartement :
+                  </label>
+                  <textarea
+                    value={appartmentInfo}
+                    onChange={(event) => setAppartmentInfo(event.target.value)}
+                    className="sm:w-full"
+                    name="appartmentInfo"
+                    placeholder="Informations complémentaires"
+                  />
+                </div>
+              )}
             </div>
           </Fieldset>
 
@@ -158,8 +214,8 @@ export default function AddInfoModal({
             <div>In progress</div>
           </Fieldset>
 
-          <div className="flex justify-between w-3/4 mt-5">
-            <ValidButton content="Enregistrer" />
+          <div className="flex justify-between w-3/4 gap-4 mt-5">
+            <ValidButton content="Enregistrer" isSubmit />
             <CancelButton content="Annuler" onClickMethod={closeModal} />
           </div>
         </form>
