@@ -32,9 +32,6 @@ export default function AddInfoModal({
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('maison');
 
-  const [selectedCategoryOption, setSelectedCategoryOption] =
-    useState<string>('à vendre');
-
   // Localisation Local States
   const [streetNumber, setStreetNumber] = useState<string>('');
   const [streetName, setStreetName] = useState<string>('');
@@ -49,6 +46,13 @@ export default function AddInfoModal({
 
   // Info Source Local State
   const [sourceInfo, setSourceInfo] = useState<string>('');
+
+  // Category Local State
+  const [selectedCategoryOption, setSelectedCategoryOption] =
+    useState<string>('à vendre');
+
+  // Comments Local State
+  const [commment, setComment] = useState<string>('')
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -231,7 +235,13 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="Commentaires">
-            <div>In progress</div>
+            <div className='mb-5'>
+            <Textarea
+                value={commment}
+                onChange={setComment}
+                placeholder="Écrivez vos commentaires..."
+              />
+            </div>
           </Fieldset>
 
           <Fieldset title="Action">
