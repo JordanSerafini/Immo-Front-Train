@@ -6,17 +6,23 @@ import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
-import { showCancelConfirmationModal, hideAddInfoModal } from '../../../store/reducers/modal';
+import {
+  showCancelConfirmationModal,
+  hideAddInfoModal,
+  showNextActionModal,
+} from '../../../store/reducers/modal';
 
 // Components
 import Fieldset from '../Form/Fieldset';
 import ValidButton from '../../Buttons/ValidButton';
 import CancelButton from '../../Buttons/CancelButton';
-import Modal from '../Modal';
 import RadioButton from './Field/RadioButton';
+import AddButton from '../../Buttons/AddButton';
+import Modal from '../Modal';
 import Input from './Field/Input';
 import Textarea from './Field/Textarea';
 import CancelModal from '../CancelModal/CancelModal';
+import NextActionModal from '../NextActionModal/NextActionModal';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -38,6 +44,9 @@ export default function AddInfoModal({
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
+  );
+  const nextActionModal = useAppSelector(
+    (state) => state.modal.isNextActionModalOpen
   );
 
   const handleCancelClick = () => {
@@ -71,6 +80,14 @@ export default function AddInfoModal({
   // Comments Local State
   const [comment, setComment] = useState<string>('');
 
+  // Action Local State
+  const [actionTextarea, setActionTextarea] = useState<boolean>(false);
+  const [action, setAction] = useState<string>('');
+
+  // Next Action / Notification state
+  const [nextAction, setNextAction] = useState<string>('');
+
+  // HANDLERS
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -90,12 +107,28 @@ export default function AddInfoModal({
       },
       sourceInfo,
       selectedCategoryOption,
-      comment
+      comment,
+      action,
+      nextAction,
     };
 
-    console.log(formValues);
+    // If there's an action, show the next action modal ELSE hide add info modal and send form
+    // For the first case, the form will be send once the show next action modal is valid. So please, think to give a formData props to next action modal
+    if (actionTextarea && action.length) {
+      dispatch(showNextActionModal());
+      console.log(formValues);
+    } else {
+      dispatch(hideAddInfoModal());
+      console.log(formValues);
+    }
+  };
 
-    dispatch(hideAddInfoModal())
+  const handleAddPhoneClick = () => {
+    console.log('Ajouter un numéro de téléphone');
+  };
+
+  const handleAddActionClick = () => {
+    setActionTextarea(true);
   };
 
   return (
@@ -176,7 +209,7 @@ export default function AddInfoModal({
                   onChange={setZipCode}
                   value={zipCode}
                   type="number"
-                  className='w-[80px]'
+                  className="w-[80px]"
                 />
                 <Input
                   placeholder="Ville"
@@ -208,9 +241,16 @@ export default function AddInfoModal({
                 placeholder="N° Tel."
                 value={ownerPhoneNumber}
                 onChange={setOwnerPhoneNumber}
-                className="w-1/2"
+                className="w-1/2 mb-[-2rem]"
                 type="number"
               />
+
+              {/* ADD Phone Number BUTTON */}
+              <AddButton
+                onClickMethod={handleAddPhoneClick}
+                content="Ajouter un n° de tel."
+              />
+
               <Input
                 placeholder="Adresse email"
                 value={ownerEmail}
@@ -262,16 +302,27 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="Action">
-            <div>In progress</div>
+            <div>
+              {actionTextarea ? (
+                <Textarea
+                  value={action}
+                  onChange={setAction}
+                  placeholder="Renseignez votre action"
+                />
+              ) : (
+                // Add Action Button
+                <AddButton
+                  onClickMethod={handleAddActionClick}
+                  content="Ajouter une action"
+                />
+              )}
+            </div>
           </Fieldset>
-          
+
           {/* GROUP BTNS */}
           <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
             <ValidButton content="Enregistrer" isSubmit />
-            <CancelButton
-              content="Annuler"
-              onClickMethod={handleCancelClick}
-            />
+            <CancelButton content="Annuler" onClickMethod={handleCancelClick} />
           </div>
         </form>
         {/* CANCEL CONFIRMATION MODAL */}
@@ -281,6 +332,12 @@ export default function AddInfoModal({
               closeModal={closeModal}
               content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
             />,
+            document.body
+          )}
+        {/* NEXT ACTION MODAL */}
+        {nextActionModal &&
+          createPortal(
+            <NextActionModal state={nextAction} setState={setNextAction} />,
             document.body
           )}
       </>

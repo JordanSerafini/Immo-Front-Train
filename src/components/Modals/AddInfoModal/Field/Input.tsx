@@ -1,6 +1,7 @@
 import { ChangeEvent, useId } from 'react';
 
 interface InputProps {
+  label?: string;
   value: string;
   type?: string;
   placeholder: string;
@@ -9,6 +10,7 @@ interface InputProps {
 }
 
 function Input({
+  label,
   value,
   type,
   placeholder,
@@ -22,7 +24,14 @@ function Input({
   }
 
   return (
-    <div>
+    <div className='flex flex-col'>
+      <label
+        htmlFor={inputId}
+        className={label ? "font-semibold" : "hidden"}
+      >
+        {label}
+      </label>
+
       <input
         className={className}
         // React - state
@@ -32,13 +41,6 @@ function Input({
         type={type}
         placeholder={placeholder}
       />
-
-      <label
-        htmlFor={inputId}
-        className="hidden"
-      >
-        {placeholder}
-      </label>
     </div>
   );
 }
@@ -47,6 +49,7 @@ function Input({
 Input.defaultProps = {
   type: 'text',
   className: "",
+  label: "",
 };
 
 // == Export

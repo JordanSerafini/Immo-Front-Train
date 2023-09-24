@@ -2,7 +2,10 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 // Redux Hooks
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+
+// Store
+import { hideNavBar } from '../../store/reducers/navbar';
 
 // Style
 import './animation.scss';
@@ -20,6 +23,8 @@ import Divider from './Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
 
 export default function NavBar() {
+  const dispatch = useAppDispatch();
+
   // Hook Execution Order
   const location = useLocation();
 
@@ -27,6 +32,10 @@ export default function NavBar() {
   const isProspectionRoute = location.pathname.endsWith('/prospection');
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
+
+  const closeNavBar = () => {
+    dispatch(hideNavBar());
+  };
 
   return (
     <>
@@ -56,7 +65,11 @@ export default function NavBar() {
             <h3 className="text-xl text-center font-poppins">
               Jean <span className="font-semibold">DUPONT</span>
             </h3>
-            <Link to="/app/profile/1" className="underline underline-offset-4">
+            <Link
+              to="/app/profile/1"
+              className="underline underline-offset-4"
+              onClick={closeNavBar}
+            >
               Mon profil
             </Link>
           </div>
@@ -71,6 +84,7 @@ export default function NavBar() {
           <ul className="flex flex-col w-full gap-1">
             <li>
               <NavLink
+                onClick={closeNavBar}
                 to="/app/prospection"
                 className={({ isActive }) =>
                   `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
@@ -85,6 +99,7 @@ export default function NavBar() {
             {/* className={`${isProspectionRoute && 'lg:hidden'}`} => Add this code to hide the navlink when the user is on the prospection page and his view width is above lg */}
             <li>
               <NavLink
+                onClick={closeNavBar}
                 to="/app/actionToDo"
                 className={({ isActive }) =>
                   `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
@@ -99,6 +114,7 @@ export default function NavBar() {
             {/* className={`${isProspectionRoute && 'lg:hidden'}`} => Add this code to hide the navlink when the user is on the prospection page and his view width is above lg */}
             <li>
               <NavLink
+                onClick={closeNavBar}
                 to="/app/upcomingAction"
                 className={({ isActive }) =>
                   `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
