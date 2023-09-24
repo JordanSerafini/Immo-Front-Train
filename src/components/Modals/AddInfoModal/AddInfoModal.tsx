@@ -78,10 +78,6 @@ export default function AddInfoModal({
     console.log(formValues);
   };
 
-  const handleRadioChange = (event: FormEvent<HTMLInputElement>) => {
-    setSelectedTypeOption(event.currentTarget.value);
-  };
-
   return (
     <Modal closeModal={closeModal}>
       <>
@@ -248,7 +244,7 @@ export default function AddInfoModal({
             <div>In progress</div>
           </Fieldset>
 
-          <div className="flex justify-between w-3/4 gap-4 mt-5">
+          <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
             <ValidButton content="Enregistrer" isSubmit />
             <CancelButton content="Annuler" onClickMethod={closeModal} />
           </div>
