@@ -29,7 +29,7 @@ export default function ActionToDo() {
           </h1>
         </div>
 
-        <ul className="flex flex-col gap-5">
+        <ul className="grid gap-5 lg:grid-cols-2">
           <CardActionToDo
             address="5, rue de la Liberté 95190 GOUSSAINVILLE"
             owner="Mr et Mme AKHTAR"

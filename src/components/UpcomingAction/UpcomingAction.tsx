@@ -14,7 +14,7 @@ export default function UpcomingAction() {
     <>
       <NavBar />
       <main className="m-5 md:m-10 grow">
-      <Link to="/app/prospection">
+        <Link to="/app/prospection">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
 
@@ -29,42 +29,42 @@ export default function UpcomingAction() {
           </h1>
         </div>
 
-        <ul className="flex flex-col gap-5">
+        <ul className="grid gap-5 lg:grid-cols-2">
           <CardUpcomingAction
             address="5, rue de la Liberté 95190 GOUSSAINVILLE"
             owner="Mr et Mme AKHTAR"
             type="maison"
-            notificationDate='20/02/2023'
+            notificationDate="20/02/2023"
           />
           <CardUpcomingAction
             address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
             owner="Mr et Mme DUCHAUFFOUR"
             type="maison"
-            notificationDate='22/02/2023'
+            notificationDate="22/02/2023"
           />
           <CardUpcomingAction
             address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
             owner="Mr VIFFRY"
             type="appartement"
-            notificationDate='25/02/2023'
+            notificationDate="25/02/2023"
           />
           <CardUpcomingAction
             address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
             owner="Mr ALCARAZ"
             type="terrain"
-            notificationDate='02/03/2023'
+            notificationDate="02/03/2023"
           />
           <CardUpcomingAction
             address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
             owner="Mr ALCARAZ"
             type="terrain"
-            notificationDate='02/03/2023'
+            notificationDate="02/03/2023"
           />
           <CardUpcomingAction
             address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
             owner="Mr ALCARAZ"
             type="terrain"
-            notificationDate='02/03/2023'
+            notificationDate="02/03/2023"
           />
         </ul>
       </main>

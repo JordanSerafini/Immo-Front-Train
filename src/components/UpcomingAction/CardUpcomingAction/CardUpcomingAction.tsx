@@ -34,13 +34,13 @@ export default function CardUpcomingAction({
   }
 
   return (
-    <li className="flex items-start justify-between gap-5 p-5 rounded-lg bg-secondary-50 shadow-custom">
-      <div className="flex flex-col gap-2">
-        <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
-        <p className="md:text-lg">{address}</p>
-        <p className="md:text-lg">{owner}</p>
+    <li className="flex items-start justify-between gap-5 p-3 rounded-lg bg-secondary-50 shadow-custom">
+      <div className="flex flex-col gap-1">
+        <img src={icon} alt={`${icon} Icon`} className="w-[25px]" />
+        <p>{address}</p>
+        <p>{owner}</p>
       </div>
-      <p className='text-lg font-semibold text-center'><em className='italic'>A traiter le {notificationDate}</em></p>
+      <p className='font-semibold text-center max-w-1/4'><em className='italic'>A traiter le {notificationDate}</em></p>
     </li>
   );
 }
