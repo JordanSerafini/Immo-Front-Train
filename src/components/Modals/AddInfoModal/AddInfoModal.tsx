@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
-import { showCancelConfirmationModal } from '../../../store/reducers/modal';
+import { showCancelConfirmationModal, hideAddInfoModal } from '../../../store/reducers/modal';
 
 // Components
 import Fieldset from '../Form/Fieldset';
@@ -69,15 +69,13 @@ export default function AddInfoModal({
     useState<string>('à vendre');
 
   // Comments Local State
-  const [commment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formValues = {
-      type: {
-        selectedTypeOption,
-      },
+      selectedTypeOption,
       localisation: {
         streetNumber,
         streetName,
@@ -90,9 +88,14 @@ export default function AddInfoModal({
         ownerPhoneNumber,
         ownerEmail,
       },
+      sourceInfo,
+      selectedCategoryOption,
+      comment
     };
 
     console.log(formValues);
+
+    dispatch(hideAddInfoModal())
   };
 
   return (
@@ -100,7 +103,7 @@ export default function AddInfoModal({
       <>
         {/* Temporary style */}
         <button
-          onClick={closeModal}
+          onClick={handleCancelClick}
           type="button"
           className="absolute top-2 right-2"
         >
@@ -173,12 +176,13 @@ export default function AddInfoModal({
                   onChange={setZipCode}
                   value={zipCode}
                   type="number"
+                  className='w-[80px]'
                 />
                 <Input
                   placeholder="Ville"
                   onChange={setStreet}
                   value={street}
-                  className="w-full"
+                  className="w-full md:w-[260px]"
                 />
               </div>
               {selectedTypeOption === 'appartement' && (
@@ -250,7 +254,7 @@ export default function AddInfoModal({
           <Fieldset title="Commentaires">
             <div className="mb-5">
               <Textarea
-                value={commment}
+                value={comment}
                 onChange={setComment}
                 placeholder="Écrivez vos commentaires..."
               />
@@ -260,7 +264,8 @@ export default function AddInfoModal({
           <Fieldset title="Action">
             <div>In progress</div>
           </Fieldset>
-
+          
+          {/* GROUP BTNS */}
           <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
             <ValidButton content="Enregistrer" isSubmit />
             <CancelButton
@@ -269,6 +274,7 @@ export default function AddInfoModal({
             />
           </div>
         </form>
+        {/* CANCEL CONFIRMATION MODAL */}
         {cancelModal &&
           createPortal(
             <CancelModal

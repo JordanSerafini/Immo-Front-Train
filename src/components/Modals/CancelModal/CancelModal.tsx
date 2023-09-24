@@ -24,10 +24,10 @@ function CancelModal({ closeModal, content }: CancelModalProps) {
 
   return (
     <Modal closeModal={closeModal}>
-      <div className="p-2 flex flex-col gap-6 min-w-[200px] max-w-[300px]">
+      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
         <h1 className="text-lg font-semibold text-center ">{content}</h1>
-        <div className="flex flex-wrap justify-center gap-3">
-          <ValidButton content="Enregistrer" onClickMethod={closeAllModal} />
+        <div className="flex flex-wrap justify-center gap-10">
+          <ValidButton content="Confirmer" onClickMethod={closeAllModal} />
           <CancelButton content="Annuler" onClickMethod={closeModal} />
         </div>
       </div>
