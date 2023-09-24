@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
   showAddInfoModal,
   hideAddInfoModal,
-  showCancelConfirmationModal,
   hideCancelConfirmationModal,
 } from '../../store/reducers/modal';
 
@@ -45,11 +44,13 @@ export default function Prospection() {
     <>
       <NavBar />
       <main className="m-10 grow">
+        {/* LOGO */}
         <Link to="/app/prospection">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
         </Link>
 
-        <div className="justify-between hidden lg:flex">
+        {/* SECTIONS for ActionToDo & UpcomingAction */}
+        <div className="hidden grid-cols-2 lg:grid gap-x-10">
           <ActionSection icon={actionToDo} title="Actions à faire">
             <>
               <CardActionToDo
@@ -74,6 +75,7 @@ export default function Prospection() {
               />
             </>
           </ActionSection>
+
           <ActionSection icon={upcomingAction} title="Actions à venir">
             <>
               <CardUpcomingAction
@@ -116,12 +118,14 @@ export default function Prospection() {
           </ActionSection>
         </div>
 
+        {/* TITLE */}
         <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl lg:mt-10">
           Informations de prospection
         </h1>
 
         <SearchInput />
 
+        {/* ADD INFO BUTTON (component possible) */}
         <button
           onClick={handleAddInfoClick}
           type="button"
@@ -137,9 +141,42 @@ export default function Prospection() {
           </span>
         </button>
 
-        <section className="flex-wrap justify-between pb-2 lg:flex">
+        <section className="grid gap-x-10 lg:grid-cols-2">
           <ProspectionInformation
-            deleteHandler={() => dispatch(showCancelConfirmationModal())}
+            address="123, rue de Paris 95380 LOUVRES"
+            owner="Consorts RIOU"
+            type="appartement"
+            category="à vendre"
+          />
+          <ProspectionInformation
+            address="5, rue de la liberté 95190 GOUSSAINVILLE"
+            owner="Mr ELHOU"
+            type="maison"
+            category="potentiellement à vendre"
+          />
+          <ProspectionInformation
+            address="5, rue Aubin Olivier 95700 ROISSY-EN-FRANCE"
+            owner="Consorts COTTIN"
+            type="terrain"
+            category="succession en cours"
+          />
+          <ProspectionInformation
+            address="28, rue du Fromager 95500 LE THILLAY"
+            owner="Mr ALVES"
+            type="terrain"
+            category="à vendre"
+          />
+          <ProspectionInformation
+            address="198, avenue de la mer 95500 GONESSE"
+            owner="Mr MOUSTILLON"
+            type="maison"
+            category="à vendre"
+          />
+          <ProspectionInformation
+            address="19, rue du Pont 95380 LOUVRES"
+            owner="Mr & Mme FLUTIER"
+            type="appartement"
+            category="potentiellement à vendre"
           />
         </section>
       </main>
