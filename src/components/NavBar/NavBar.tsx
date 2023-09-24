@@ -82,7 +82,8 @@ export default function NavBar() {
                 Accueil
               </NavLink>
             </li>
-            <li className={`${isProspectionRoute && 'lg:hidden'}`}>
+            {/* className={`${isProspectionRoute && 'lg:hidden'}`} => Add this code to hide the navlink when the user is on the prospection page and his view width is above lg */}
+            <li>
               <NavLink
                 to="/app/actionToDo"
                 className={({ isActive }) =>
@@ -95,7 +96,8 @@ export default function NavBar() {
                 Actions à faire
               </NavLink>
             </li>
-            <li className={`${isProspectionRoute && 'lg:hidden'}`}>
+            {/* className={`${isProspectionRoute && 'lg:hidden'}`} => Add this code to hide the navlink when the user is on the prospection page and his view width is above lg */}
+            <li>
               <NavLink
                 to="/app/upcomingAction"
                 className={({ isActive }) =>
