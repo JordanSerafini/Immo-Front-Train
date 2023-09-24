@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   showCancelConfirmationModal,
   hideAddInfoModal,
+  showNextActionModal,
 } from '../../../store/reducers/modal';
 
 // Components
@@ -21,6 +22,7 @@ import Modal from '../Modal';
 import Input from './Field/Input';
 import Textarea from './Field/Textarea';
 import CancelModal from '../CancelModal/CancelModal';
+import NextActionModal from '../NextActionModal/NextActionModal';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -42,6 +44,9 @@ export default function AddInfoModal({
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
+  );
+  const nextActionModal = useAppSelector(
+    (state) => state.modal.isNextActionModalOpen
   );
 
   const handleCancelClick = () => {
@@ -79,6 +84,9 @@ export default function AddInfoModal({
   const [actionTextarea, setActionTextarea] = useState<boolean>(false);
   const [action, setAction] = useState<string>('');
 
+  // Next Action / Notification state
+  const [nextAction, setNextAction] = useState<string>('');
+
   // HANDLERS
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -101,11 +109,18 @@ export default function AddInfoModal({
       selectedCategoryOption,
       comment,
       action,
+      nextAction,
     };
 
-    console.log(formValues);
-
-    dispatch(hideAddInfoModal());
+    // If there's an action, show the next action modal ELSE hide add info modal and send form
+    // For the first case, the form will be send once the show next action modal is valid. So please, think to give a formData props to next action modal
+    if (actionTextarea && action.length) {
+      dispatch(showNextActionModal());
+      console.log(formValues);
+    } else {
+      dispatch(hideAddInfoModal());
+      console.log(formValues);
+    }
   };
 
   const handleAddPhoneClick = () => {
@@ -317,6 +332,12 @@ export default function AddInfoModal({
               closeModal={closeModal}
               content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
             />,
+            document.body
+          )}
+        {/* NEXT ACTION MODAL */}
+        {nextActionModal &&
+          createPortal(
+            <NextActionModal state={nextAction} setState={setNextAction} />,
             document.body
           )}
       </>

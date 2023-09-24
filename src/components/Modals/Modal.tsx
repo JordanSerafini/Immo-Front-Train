@@ -5,14 +5,14 @@
 // Typescript Interface
 interface ModalProps {
   // Not sure if the type is good here. It seems too simple...
-  closeModal: () => void;
+  closeModal?: () => void;
   children: JSX.Element;
 }
 
-export default function Modal({ closeModal, children }: ModalProps) {
+function Modal({ closeModal, children }: ModalProps) {
   // If the escape key is pressed, close the modal
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
-    if (event.code === 'Escape') {
+    if (event.code === 'Escape' && closeModal) {
       closeModal();
     }
   };
@@ -33,3 +33,9 @@ export default function Modal({ closeModal, children }: ModalProps) {
     </dialog>
   );
 }
+
+Modal.defaultProps = {
+  closeModal: () => {}
+}
+
+export default Modal;
