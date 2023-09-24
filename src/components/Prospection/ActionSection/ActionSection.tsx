@@ -1,22 +1,23 @@
+// Typescript interface
 interface ActionSectionProps {
   icon: string;
   title: string;
+  children: JSX.Element;
 }
 
 export default function ActionSection({
   icon,
   title,
+  children,
 }: ActionSectionProps) {
   return (
-    <section className="w-[48%] p-4 rounded-lg shadow-custom bg-secondary-50">
-      <div className="flex gap-2">
+    <section className="p-4 rounded-lg shadow-custom bg-secondary-50 max-h-[250px] overflow-y-scroll">
+      <div className="flex gap-2 mb-4">
         <img src={icon} alt={icon} />
         <h1 className="text-lg font-semibold font-poppins">{title}</h1>
       </div>
 
-      <div>
-        Card Component to insert
-      </div>
+      <ul className="flex flex-col gap-2">{children}</ul>
     </section>
   );
 }

@@ -26,7 +26,7 @@ export default function Modal({ closeModal, children }: ModalProps) {
       <div
         role="dialog"
         onClick={(event) => event.stopPropagation()}
-        className="block max-h-full max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden slide rounded-xl bg-secondary-50"
+        className="block max-h-full min-w-[350px] max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden slide rounded-xl bg-secondary-50"
       >
         {children}
       </div>
