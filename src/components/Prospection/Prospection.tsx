@@ -43,7 +43,7 @@ export default function Prospection() {
   return (
     <>
       <NavBar />
-      <main className="m-10 grow">
+      <main className="m-5 md:m-10 grow">
         {/* LOGO */}
         <Link to="/app/prospection">
           <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
