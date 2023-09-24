@@ -1,5 +1,12 @@
 // React
 import { FormEvent, useState } from 'react';
+import { createPortal } from 'react-dom';
+
+// Redux
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+// Store
+import { showCancelConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
 import Fieldset from '../Form/Fieldset';
@@ -9,6 +16,7 @@ import Modal from '../Modal';
 import RadioButton from './Field/RadioButton';
 import Input from './Field/Input';
 import Textarea from './Field/Textarea';
+import CancelModal from '../CancelModal/CancelModal';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -27,6 +35,15 @@ export default function AddInfoModal({
 }: {
   closeModal: () => void;
 }) {
+  const dispatch = useAppDispatch();
+  const cancelModal = useAppSelector(
+    (state) => state.modal.isCancelConfirmationModalOpen
+  );
+
+  const handleCancelClick = () => {
+    dispatch(showCancelConfirmationModal());
+  };
+
   // Type Local State
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
@@ -52,7 +69,7 @@ export default function AddInfoModal({
     useState<string>('à vendre');
 
   // Comments Local State
-  const [commment, setComment] = useState<string>('')
+  const [commment, setComment] = useState<string>('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +96,7 @@ export default function AddInfoModal({
   };
 
   return (
-    <Modal closeModal={closeModal}>
+    <Modal closeModal={handleCancelClick}>
       <>
         {/* Temporary style */}
         <button
@@ -231,8 +248,8 @@ export default function AddInfoModal({
           </Fieldset>
 
           <Fieldset title="Commentaires">
-            <div className='mb-5'>
-            <Textarea
+            <div className="mb-5">
+              <Textarea
                 value={commment}
                 onChange={setComment}
                 placeholder="Écrivez vos commentaires..."
@@ -246,9 +263,20 @@ export default function AddInfoModal({
 
           <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
             <ValidButton content="Enregistrer" isSubmit />
-            <CancelButton content="Annuler" onClickMethod={closeModal} />
+            <CancelButton
+              content="Annuler"
+              onClickMethod={handleCancelClick}
+            />
           </div>
         </form>
+        {cancelModal &&
+          createPortal(
+            <CancelModal
+              closeModal={closeModal}
+              content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
+            />,
+            document.body
+          )}
       </>
     </Modal>
   );
