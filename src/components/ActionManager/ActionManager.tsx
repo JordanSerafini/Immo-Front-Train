@@ -1,5 +1,11 @@
+// Components
+import NavBar from '../NavBar/NavBar';
+
 export default function ActionManager() {
   return (
-    <div>ActionManager</div>
-  )
+    <>
+      <NavBar />
+      <main>ActionManager</main>
+    </>
+  );
 }
