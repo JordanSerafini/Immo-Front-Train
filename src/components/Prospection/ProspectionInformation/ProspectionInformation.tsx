@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { showCancelConfirmationModal } from '../../../store/reducers/modal';
+import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
 import ValidButton from '../../Buttons/ValidButton';
@@ -49,6 +49,12 @@ export default function ProspectionInformation({
       icon = '';
   }
 
+  const idString: string = id.toString();
+
+  const handleDeleteClick = () => {
+    dispatch(showDeleteConfirmationModal());
+  };
+
   return (
     <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
@@ -64,10 +70,9 @@ export default function ProspectionInformation({
         <Link to={`/app/detail/${id}`}>
           <ValidButton content="Voir plus" />
         </Link>
-        <CancelButton
-          content="Supprimer"
-          onClickMethod={() => dispatch(showCancelConfirmationModal())}
-        />
+        <Link to={{ search: idString }}>
+          <CancelButton content="Supprimer" onClickMethod={handleDeleteClick} />
+        </Link>
       </div>
     </article>
   );

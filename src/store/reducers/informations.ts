@@ -43,10 +43,22 @@ export const filterInformation = createAction(
 
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({formData} : {formData: CreateInformation}) => {
-    const response = await axios.post(`http://localhost:5000/informations`, formData);
+  async ({ formData }: { formData: CreateInformation }) => {
+    const response = await axios.post(
+      `http://localhost:5000/informations`,
+      formData
+    );
 
     return response.data;
+  }
+);
+
+export const deleteInformation = createAsyncThunk(
+  'information/delete',
+  async ({ id }: { id: string }) => {
+    await axios.delete(`http://localhost:5000/informations/${id}`);
+
+    return id;
   }
 );
 
@@ -67,21 +79,32 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
 
-      const filteredInformation = state.informations.filter(
-        (info) => info.address_city.includes(slug)
+      const filteredInformation = state.informations.filter((info) =>
+        info.address_city.includes(slug)
       );
 
       state.informations = filteredInformation;
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      console.log(action.payload)
-      state.informations.push(action.payload.data)
+      console.log(action.payload);
+      state.informations.push(action.payload.data);
     })
     .addCase(createInformation.rejected, (state, action) => {
       state.error = true;
-      console.log('Erreur')
+      console.log('Erreur');
     })
+    // DeleteInformation
+    .addCase(deleteInformation.fulfilled, (state, action) => {
+      const deletedId = parseInt(action.payload, 10);
+
+      state.informations = state.informations.filter(
+        (info) => info.id !== deletedId
+      );
+    })
+    .addCase(deleteInformation.rejected, (state) => {
+      state.error = true;
+    });
 });
 
 export default informationsReducer;
