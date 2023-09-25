@@ -27,6 +27,9 @@
   h1 {
     @apply text-2xl font-semibold text-center font-poppins md:text-3xl;
   }
+  h2 {
+    @apply text-xl font-semibold font-poppins md:text-2xl;
+  }
 }
 
 /* Scroll Bar Style */
