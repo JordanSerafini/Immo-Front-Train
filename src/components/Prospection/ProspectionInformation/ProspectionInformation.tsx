@@ -18,28 +18,22 @@ import landIcon from '../../../assets/icons/land.svg';
 // Utils
 import capFirstLetter from '../../../utils/capFirstLetter';
 
-
 // Typescript interface
-interface ProspectionInformationProps {
-  address: string;
-  owner: string;
-  type: string;
-  category: string;
-}
+import { ProspectionInformationType } from '../../../@types';
 
-export default function ProspectionInformation({address, owner, type, category}: ProspectionInformationProps) {
+export default function ProspectionInformation({adress_number, adress_street, code_zip, adress_city , owner_name, type, category}: ProspectionInformationType) {
 
   const dispatch = useAppDispatch();
 
   let icon: string;
   switch (type) {
-    case 'maison':
+    case 'Maison':
       icon = houseIcon;
       break;
-    case 'appartement':
+    case 'Appartement':
       icon = apartmentIcon;
       break;
-    case 'terrain':
+    case 'Terrain':
       icon = landIcon;
       break;
     default:
@@ -50,8 +44,8 @@ export default function ProspectionInformation({address, owner, type, category}:
     <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
-        <p className="font-bold md:text-md xl:text-lg">{address}</p>
-        <p className="font-bold md:text-md xl:text-lg">{owner}</p>
+        <p className="font-bold md:text-md xl:text-lg">{`${adress_number} ${adress_street} ${code_zip} ${adress_city}`}</p>
+        <p className="font-bold md:text-md xl:text-lg">{owner_name}</p>
         <strong className="text-lg font-bold md:text-xl text-accent-400">
           {capFirstLetter(category)}
         </strong>

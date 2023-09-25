@@ -22,6 +22,7 @@ export default function SearchInput() {
         placeholder="Effectuer votre recherche..."
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
+        name='search'
       />
       <button
         type="button"

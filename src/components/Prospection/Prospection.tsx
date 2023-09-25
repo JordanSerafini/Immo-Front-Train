@@ -1,3 +1,6 @@
+// React
+import { useEffect } from 'react';
+
 // React Router
 import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
@@ -11,6 +14,7 @@ import {
   hideAddInfoModal,
   hideCancelConfirmationModal,
 } from '../../store/reducers/modal';
+import { fetchInformations } from '../../store/reducers/informations';
 
 // Components
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
@@ -28,9 +32,29 @@ import logo from '../../assets/logo.svg';
 import plus from '../../assets/icons/plus.svg';
 import actionToDo from '../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../assets/icons/upcoming-action.svg';
+import loader from '../../assets/loader/tail-spin.svg';
+
+// Typescript interface
+import { ProspectionInformationType } from '../../@types';
 
 export default function Prospection() {
+  console.log("render")
   const dispatch = useAppDispatch();
+
+  const informations = useAppSelector(
+    (state) => state.information.informations
+  );
+
+  const isLoading = useAppSelector((state) => state.information.loading);
+
+  useEffect(() => {
+    // Loading simulation for the first fetch
+    setTimeout(() => {
+      dispatch(fetchInformations());
+    }, 1000);
+  }, [dispatch]);
+
+
   const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
@@ -39,6 +63,15 @@ export default function Prospection() {
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <NavBar />
+        <img className='block w-[50px] m-auto' src={loader} alt="Loader" />
+      </>
+    );
+  }
 
   return (
     <>
@@ -142,42 +175,9 @@ export default function Prospection() {
         </button>
 
         <section className="grid gap-x-10 lg:grid-cols-2">
-          <ProspectionInformation
-            address="123, rue de Paris 95380 LOUVRES"
-            owner="Consorts RIOU"
-            type="appartement"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="5, rue de la liberté 95190 GOUSSAINVILLE"
-            owner="Mr ELHOU"
-            type="maison"
-            category="potentiellement à vendre"
-          />
-          <ProspectionInformation
-            address="5, rue Aubin Olivier 95700 ROISSY-EN-FRANCE"
-            owner="Consorts COTTIN"
-            type="terrain"
-            category="succession en cours"
-          />
-          <ProspectionInformation
-            address="28, rue du Fromager 95500 LE THILLAY"
-            owner="Mr ALVES"
-            type="terrain"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="198, avenue de la mer 95500 GONESSE"
-            owner="Mr MOUSTILLON"
-            type="maison"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="19, rue du Pont 95380 LOUVRES"
-            owner="Mr & Mme FLUTIER"
-            type="appartement"
-            category="potentiellement à vendre"
-          />
+          {informations.map((information: ProspectionInformationType) => (
+            <ProspectionInformation key={information.id} {...information} />
+          ))}
         </section>
       </main>
       {infoModal &&
@@ -189,7 +189,7 @@ export default function Prospection() {
         createPortal(
           <CancelModal
             closeModal={() => dispatch(hideCancelConfirmationModal())}
-            content='Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?'
+            content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
           />,
           document.body
         )}
