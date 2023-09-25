@@ -36,6 +36,7 @@ export default function NavBar() {
   useEffect(() => {
     if (!user.logged) {
       dispatch(fetchLogin());
+      
     }
   }, [user, dispatch]);
 
@@ -83,7 +84,7 @@ export default function NavBar() {
               </span>
             </h3>
             <Link
-              to="/app/profile/1"
+              to={`/app/profile/${user.id}`}
               className="underline underline-offset-4"
               onClick={closeNavBar}
             >

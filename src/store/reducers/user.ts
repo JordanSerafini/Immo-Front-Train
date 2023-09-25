@@ -29,7 +29,7 @@ export const initialState: UserState = {
 };
 
 export const fetchLogin = createAsyncThunk('user/temporary', async () => {
-  const response = await axios.get('http://localhost:5000/collaborator/3');
+  const response = await axios.get('http://localhost:5000/collaborator/4');
   return response.data;
 });
 
@@ -38,6 +38,7 @@ export const logout = createAction('user/logout');
 const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(logout, (state) => {
+      state.data.id = null;
       state.data.firstname = null;
       state.data.lastname = null;
       state.data.email = null;
@@ -52,6 +53,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(fetchLogin.fulfilled, (state, action) => {
+      state.data.id = action.payload.id;
       state.data.firstname = action.payload.firstname;
       state.data.lastname = action.payload.lastname;
       state.data.email = action.payload.email;
