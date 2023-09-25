@@ -2,7 +2,7 @@
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { hideAddInfoModal, hideCancelConfirmationModal } from '../../../store/reducers/modal';
+import { hideAddInfoModal, hideCancelConfirmationAddInfoModalOpen, hideCancelConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
 import Modal from '../Modal';
@@ -12,14 +12,15 @@ import CancelButton from '../../Buttons/CancelButton';
 // Typescript interface
 interface CancelModalProps {
   closeModal: () => void;
-  content?: string;
+  content: string;
 }
 
-function CancelModal({ closeModal, content }: CancelModalProps) {
+export default function CancelModal({ closeModal, content }: CancelModalProps) {
   const dispatch = useAppDispatch();
   const closeAllModal = () => {
     dispatch(hideAddInfoModal())
     dispatch(hideCancelConfirmationModal())
+    dispatch(hideCancelConfirmationAddInfoModalOpen())
   }
 
   return (
@@ -34,10 +35,3 @@ function CancelModal({ closeModal, content }: CancelModalProps) {
     </Modal>
   );
 }
-
-CancelModal.defaultProps = {
-  content:
-    'Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?',
-};
-
-export default CancelModal;

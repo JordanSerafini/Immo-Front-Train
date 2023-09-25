@@ -1,3 +1,6 @@
+// React
+import { useEffect } from 'react';
+
 // React Router
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
@@ -6,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { hideNavBar } from '../../store/reducers/navbar';
+import { fetchLogin } from '../../store/reducers/user';
 
 // Style
 import './animation.scss';
@@ -24,6 +28,17 @@ import NavBarButton from './NavBarButton/NavBarButton';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state) => state.user.data);
+
+  const isLoading = useAppSelector((state) => state.user.loading);
+
+  useEffect(() => {
+    if (!user.logged) {
+      dispatch(fetchLogin());
+      
+    }
+  }, [user, dispatch]);
 
   // Hook Execution Order
   const location = useLocation();
@@ -63,10 +78,13 @@ export default function NavBar() {
           />
           <div className="flex flex-col items-center gap-5">
             <h3 className="text-xl text-center font-poppins">
-              Jean <span className="font-semibold">DUPONT</span>
+              {user.firstname}{' '}
+              <span className="font-semibold">
+                {user.lastname?.toLocaleUpperCase()}
+              </span>
             </h3>
             <Link
-              to="/app/profile/1"
+              to={`/app/profile/${user.id}`}
               className="underline underline-offset-4"
               onClick={closeNavBar}
             >
@@ -77,7 +95,7 @@ export default function NavBar() {
 
         <Divider />
         <h2 className="my-5 text-2xl italic font-medium font-poppins">
-          NEGOCIATEUR
+          {user.role_id === 2 ? 'NÉGOCIATEUR' : 'ADMINISTRATEUR'}
         </h2>
 
         <nav className="flex w-full grow">

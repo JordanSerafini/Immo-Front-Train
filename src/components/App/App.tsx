@@ -36,7 +36,7 @@ function App() {
 
           <Route path="/app/*">
             <Route path="prospection" element={<Prospection />} />
-            <Route path="detail/:info_id" element={<Detail />} />
+            <Route path="detail/:infoId" element={<Detail />} />
             <Route path="actionToDo" element={<ActionToDo />} />
             <Route path="upcomingAction" element={<UpcomingAction />} />
             <Route path="actionManager" element={<ActionManager />} />

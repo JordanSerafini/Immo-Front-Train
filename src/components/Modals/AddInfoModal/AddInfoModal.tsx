@@ -7,9 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
 import {
-  showCancelConfirmationModal,
   hideAddInfoModal,
   showNextActionModal,
+  showCancelConfirmationAddInfoModalOpen,
+  hideCancelConfirmationAddInfoModalOpen,
 } from '../../../store/reducers/modal';
 
 // Components
@@ -43,14 +44,14 @@ export default function AddInfoModal({
 }) {
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationModalOpen
+    (state) => state.modal.isCancelConfirmationAddInfoModalOpen
   );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
 
   const handleCancelClick = () => {
-    dispatch(showCancelConfirmationModal());
+    dispatch(showCancelConfirmationAddInfoModalOpen());
   };
 
   // Type Local State
@@ -241,7 +242,7 @@ export default function AddInfoModal({
                 placeholder="N° Tel."
                 value={ownerPhoneNumber}
                 onChange={setOwnerPhoneNumber}
-                className="w-1/2 mb-[-2rem]"
+                className="w-1/2"
                 type="number"
               />
 
@@ -329,7 +330,7 @@ export default function AddInfoModal({
         {cancelModal &&
           createPortal(
             <CancelModal
-              closeModal={closeModal}
+              closeModal={() => dispatch(hideCancelConfirmationAddInfoModalOpen())}
               content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
             />,
             document.body

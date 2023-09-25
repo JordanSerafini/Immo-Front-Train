@@ -1,65 +1,94 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff, Mail } from "lucide-react";
-import LoginImg from "../../assets/images/illustration.png";
+// React Hooks
+import { useState } from 'react';
 
-//La fonction Login est un composant React qui gère l'état de l'affichage du mot de passe
-function Login() {
-//useState est un hook React qui permet de définir une variable d'état et une fonction pour la mettre à jour
-//Dans ce cas, il y a deux variables d'état : showPassword et password. showPassword est un booléen qui indique si le mot de passe doit être affiché ou non, et password est une chaîne de caractères qui stocke le mot de passe.
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState<string>("");
+// React Router
+import { Link } from 'react-router-dom';
+
+// Components
+import Input from '../Modals/AddInfoModal/Field/Input';
+import ValidButton from '../Buttons/ValidButton';
+
+// Assets
+import illustration from '../../assets/images/illustration.png';
+import logo from '../../assets/logo.svg';
+import copyright from '../../assets/icons/copyright.svg';
+import eyeIcon from '../../assets/icons/eye-empty.svg';
+import eyeOffIcon from '../../assets/icons/eye-off.svg';
+import emailIcon from '../../assets/icons/email.svg';
+
+export default function Login() {
+  // The useState React Hook is used to set a state variable and its setter
+  // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+  const date = new Date();
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
-      <div className="hidden sm:block">
-        <img className="w-full h-full object-cover" src={LoginImg} alt="" />
-      </div>
+    <main className="grid w-full h-full sm:grid-cols-2 bg-main">
+      <Link to="/login" className="absolute top-5 left-5 sm:hidden">
+        <img src={logo} alt="Logo Immo Pros" />
+      </Link>
+      <img
+        className="hidden object-cover w-full h-full sm:block"
+        src={illustration}
+        alt="Illustration d'un quartier de maison individuelle"
+      />
 
-      <div className="bg-secondary-100 flex flex-col justify-center">
-        <h2 className="text-4xl font-bold uppercase text-center pb-20 bg-gradient-to-tr from-blue-800 via-violet-500 to-violet-300 text-transparent bg-clip-text">Connexion</h2>
+      <section className="flex flex-col justify-center p-4">
+        <h2 className="mt-auto text-4xl font-bold text-center text-transparent uppercase bg-gradient-to-r from-accent-400 to-primary-300 bg-clip-text">
+          Connexion
+        </h2>
         <form className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email"> </label>
-            <div className="relative">
-              <input className="w-full rounded-lg p-2 pl-10 valid:border-primary-300 invalid:border-red-300 shadow-md" type="text" id="email" placeholder="Email de connexion" />
-              <Mail className="absolute top-1/2 -translate-y-1/2 left-2 text-slate-400 w-5 h-5" />
-            </div>
-          </div>
+          <Input
+            placeholder="Email de connexion"
+            value={email}
+            onChange={setEmail}
+            className="w-full pl-8 shadow-custom"
+          >
+            <img
+              className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+              src={emailIcon}
+              alt="Email Icon"
+            />
+          </Input>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password"> </label>
-            <div className="relative">
-              <input
-                className="w-full rounded-lg p-2 pl-10 valid:border-primary-300 invalid:border-red-300 shadow-md"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+          <Input
+            placeholder="Mot de passe"
+            value={password}
+            onChange={setPassword}
+            className="w-full shadow-custom"
+            type={showPassword ? undefined : 'password'}
+          >
+            <button type="button" onClick={togglePasswordVisibility}>
+              <img
+                className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+                src={showPassword ? eyeIcon : eyeOffIcon}
+                alt="Password Icon"
               />
-              {showPassword ? (
-                <Eye
-                  className="absolute top-1/2 -translate-y-1/2 left-2 text-slate-400 w-5 h-5 cursor-pointer"
-                  onClick={togglePasswordVisibility}
-                />
-              ) : (
-                <EyeOff
-                  className="absolute top-1/2 -translate-y-1/2 left-2 text-slate-400 w-5 h-5 cursor-pointer"
-                  onClick={togglePasswordVisibility}
-                />
-              )}
-            </div>
-          </div>
-          <button className="bg-primary-300 w-full rounded-lg text-white px-20 py-1 mt-5 shadow-md shadow-primary-300" type="submit">Se connecter</button>
-          <p className="mt-5 underline">Mot de passe oublié ?</p>
+            </button>
+          </Input>
+
+          <ValidButton content="Se connecter" isSubmit className="mt-10" />
         </form>
-      </div>
-    </div>
+
+        <footer className="flex flex-col items-center justify-center mt-auto">
+          <Link to="/support" className="mb-20 text-center underline">
+            Mot de passe oublié ?
+          </Link>
+          <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
+          <p className="flex gap-2 text-xs">
+            <img src={copyright} alt="Copyright" className="w-[18px]" />
+            {date.getFullYear()} Immo&apos;Pros
+          </p>
+          <p className="text-xs">Tous droits réservés</p>
+        </footer>
+      </section>
+    </main>
   );
 }
-
-export default Login;
