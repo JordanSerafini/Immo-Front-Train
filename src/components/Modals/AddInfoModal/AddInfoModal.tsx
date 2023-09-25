@@ -12,6 +12,7 @@ import {
   showCancelConfirmationAddInfoModalOpen,
   hideCancelConfirmationAddInfoModalOpen,
 } from '../../../store/reducers/modal';
+import { createInformation } from '../../../store/reducers/informations';
 
 // Components
 import Fieldset from '../Form/Fieldset';
@@ -34,14 +35,16 @@ import whiteApartment from '../../../assets/icons/white_apartment.svg';
 import land from '../../../assets/icons/land.svg';
 import whiteLand from '../../../assets/icons/white_land.svg';
 
+// Utils
+import getFullDate from '../../../utils/getFullDate';
+
 // Style
 import './animation.scss';
 
-export default function AddInfoModal({
-  closeModal,
-}: {
-  closeModal: () => void;
-}) {
+// Typescript Interface
+import { CreateInformation } from '../../../@types/information';
+
+export default function AddInfoModal() {
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationAddInfoModalOpen
@@ -57,13 +60,13 @@ export default function AddInfoModal({
   // Type Local State
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
-    useState<string>('maison');
+    useState<string>('Maison');
 
   // Localisation Local States
   const [streetNumber, setStreetNumber] = useState<string>('');
   const [streetName, setStreetName] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
-  const [street, setStreet] = useState<string>('');
+  const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
   // Owner Local States
@@ -88,39 +91,37 @@ export default function AddInfoModal({
   // Next Action / Notification state
   const [nextAction, setNextAction] = useState<string>('');
 
+
+  const collaboratorId = useAppSelector((state) => state.user.data.id);
+
   // HANDLERS
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formValues = {
-      selectedTypeOption,
-      localisation: {
-        streetNumber,
-        streetName,
-        zipCode,
-        street,
-        appartmentInfo,
-      },
-      owner: {
-        ownerName,
-        ownerPhoneNumber,
-        ownerEmail,
-      },
-      sourceInfo,
-      selectedCategoryOption,
-      comment,
-      action,
-      nextAction,
-    };
+    const formData: CreateInformation = {
+      type: selectedTypeOption, 
+      owner_name: ownerName, 
+      owner_email: ownerEmail, 
+      address_number: streetNumber, 
+      address_street: streetName, 
+      code_zip: zipCode, 
+      address_city: city,
+      address_info: appartmentInfo, 
+      source: sourceInfo, 
+      category: selectedCategoryOption, 
+      comment, 
+      date: getFullDate(), 
+      collaborator_id: collaboratorId, 
+      sector_id: 1
+    }
 
     // If there's an action, show the next action modal ELSE hide add info modal and send form
     // For the first case, the form will be send once the show next action modal is valid. So please, think to give a formData props to next action modal
     if (actionTextarea && action.length) {
       dispatch(showNextActionModal());
-      console.log(formValues);
     } else {
       dispatch(hideAddInfoModal());
-      console.log(formValues);
+      dispatch(createInformation({formData}))
     }
   };
 
@@ -161,7 +162,7 @@ export default function AddInfoModal({
           <Fieldset title="*Type de bien">
             <div className="flex flex-wrap items-center justify-center gap-6 my-5">
               <RadioButton
-                value="maison"
+                value="Maison"
                 state={selectedTypeOption}
                 whiteIcon={whiteHouse}
                 blackIcon={house}
@@ -169,7 +170,7 @@ export default function AddInfoModal({
               />
 
               <RadioButton
-                value="appartement"
+                value="Appartement"
                 state={selectedTypeOption}
                 whiteIcon={whiteApartment}
                 blackIcon={apartment}
@@ -177,7 +178,7 @@ export default function AddInfoModal({
               />
 
               <RadioButton
-                value="terrain"
+                value="Terrain"
                 state={selectedTypeOption}
                 whiteIcon={whiteLand}
                 blackIcon={land}
@@ -214,12 +215,12 @@ export default function AddInfoModal({
                 />
                 <Input
                   placeholder="Ville"
-                  onChange={setStreet}
-                  value={street}
+                  onChange={setCity}
+                  value={city}
                   className="w-full md:w-[260px]"
                 />
               </div>
-              {selectedTypeOption === 'appartement' && (
+              {selectedTypeOption === 'Appartement' && (
                 <Textarea
                   label="*Si l'information concerne un appartement :"
                   value={appartmentInfo}

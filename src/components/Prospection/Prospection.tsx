@@ -179,7 +179,7 @@ export default function Prospection() {
       {/* Display addInfoModal */}
       {addInfoModal &&
         createPortal(
-          <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())} />,
+          <AddInfoModal />,
           document.body
         )}
       {cancelModal &&

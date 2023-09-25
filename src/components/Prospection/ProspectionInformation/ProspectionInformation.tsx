@@ -24,10 +24,10 @@ import { Information } from '../../../@types/information';
 
 export default function ProspectionInformation({
   id,
-  adress_number,
-  adress_street,
+  address_number,
+  address_street,
   code_zip,
-  adress_city,
+  address_city,
   owner_name,
   type,
   category,
@@ -53,7 +53,7 @@ export default function ProspectionInformation({
     <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
-        <p className="font-bold md:text-md xl:text-lg">{`${adress_number} ${adress_street} ${code_zip} ${adress_city}`}</p>
+        <p className="font-bold md:text-md xl:text-lg">{`${address_number} ${address_street} ${code_zip} ${address_city}`}</p>
         <p className="font-bold md:text-md xl:text-lg">{owner_name}</p>
         <strong className="text-lg font-bold md:text-xl text-accent-400">
           {capFirstLetter(category)}

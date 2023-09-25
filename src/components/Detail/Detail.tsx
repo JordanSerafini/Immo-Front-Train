@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // React router
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -56,15 +56,15 @@ export default function Detail() {
 
           <h2 className="mt-4">Localisation</h2>
           <p className="md:text-lg">
-            {information?.adress_number} {information?.adress_street}{' '}
+            {information?.address_number} {information?.address_street}{' '}
             {information?.code_zip}{' '}
-            {information?.adress_city.toLocaleUpperCase()}
+            {information?.address_city.toLocaleUpperCase()}
           </p>
 
           <h2 className="mt-4">Informations complémentaires:</h2>
           <p className="md:text-lg">
-            {information?.adress_info
-              ? `${information.adress_info}`
+            {information?.address_info
+              ? `${information.address_info}`
               : "Pas d'information complémentaires..."}
           </p>
 

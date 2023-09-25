@@ -66,32 +66,3 @@ RadioButton.defaultProps = {
 
 // == Export
 export default RadioButton;
-
-/**
- * <div className="relative">
-        <img
-            className="absolute top-0 left-2"
-            src={selectedTypeOption === 'maison' ? whiteHouse : house}
-            alt="House icon"
-        />
-        <input
-            type="radio"
-            id="maison"
-            name="type"
-            value="maison"
-            onChange={handleRadioChange}
-            checked={selectedTypeOption === 'maison'}
-            className="hidden"
-        />
-        <label
-            htmlFor="maison"
-            className={`rounded-md p-2 pl-8 border-solid border-2 border-accent-400 duration-150 ${
-            selectedTypeOption === 'maison'
-                ? 'bg-accent-400 text-secondary-50'
-                : ''
-            }`}
-        >
-            Maison
-        </label>
-    </div>
- */
