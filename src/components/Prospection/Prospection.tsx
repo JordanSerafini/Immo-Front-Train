@@ -50,7 +50,7 @@ export default function Prospection() {
     dispatch(fetchInformations());
   }, [dispatch]);
 
-  const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
+  const addInfoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
   );
@@ -147,7 +147,7 @@ export default function Prospection() {
         </div>
 
         {/* TITLE */}
-        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl lg:mt-10">
+        <h1 className="mt-20 lg:mt-10">
           Informations de prospection
         </h1>
 
@@ -169,13 +169,15 @@ export default function Prospection() {
           </span>
         </button>
 
+        {/* PROSPECTION INFORMATIONS */}
         <section className="grid gap-x-10 lg:grid-cols-2">
           {informations.map((information: Information) => (
             <ProspectionInformation key={information.id} {...information} />
           ))}
         </section>
       </main>
-      {infoModal &&
+      {/* Display addInfoModal */}
+      {addInfoModal &&
         createPortal(
           <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())} />,
           document.body
