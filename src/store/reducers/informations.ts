@@ -1,12 +1,18 @@
 import axios from 'axios';
-import { createAsyncThunk, createReducer, createAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createReducer,
+  createAction,
+} from '@reduxjs/toolkit';
+
+// Typescript interface
+import { Information } from '../../@types/information';
 
 // Create an information interface
-
 interface InformationsState {
   loading: boolean;
   error: boolean;
-  informations: [];
+  informations: Information[];
 }
 
 export const initialState: InformationsState = {
@@ -18,15 +24,22 @@ export const initialState: InformationsState = {
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
-    const response = await axios.get(
-      'http://localhost:5000/informations'
-    );
+    const response = await axios.get('http://localhost:5000/informations');
 
     return response.data;
   }
 );
 
-export const filterInformation = createAction("informations/filter")
+export const filterInformation = createAction(
+  'informations/filter',
+  function filter(slug: string) {
+    return {
+      payload: {
+        slug,
+      },
+    };
+  }
+);
 
 const informationsReducer = createReducer(initialState, (builder) => {
   builder
@@ -43,8 +56,14 @@ const informationsReducer = createReducer(initialState, (builder) => {
       console.log('Une erreur est survenue');
     })
     .addCase(filterInformation, (state, action) => {
-      console.log(action)
-    })
+      const { slug } = action.payload;
+
+      const filteredInformation = state.informations.filter(
+        (info) => info.adress_city.includes(slug)
+      );
+
+      state.informations = filteredInformation;
+    });
 });
 
 export default informationsReducer;
