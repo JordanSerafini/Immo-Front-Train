@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import LoginImg from "../../assets/images/illustration.png";
 import { Eye, EyeOff, Mail } from "lucide-react";
+import LoginImg from "../../assets/images/illustration.png";
 
+//La fonction Login est un composant React qui gère l'état de l'affichage du mot de passe
 function Login() {
+//useState est un hook React qui permet de définir une variable d'état et une fonction pour la mettre à jour
+//Dans ce cas, il y a deux variables d'état : showPassword et password. showPassword est un booléen qui indique si le mot de passe doit être affiché ou non, et password est une chaîne de caractères qui stocke le mot de passe.
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  
+  const [password, setPassword] = useState<string>("");
+
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -39,13 +42,13 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               {showPassword ? (
-                <EyeOff
-                  className="absolute top-1/2 -translate-y-1/2 right-2 text-slate-400 w-5 h-5 cursor-pointer"
+                <Eye
+                  className="absolute top-1/2 -translate-y-1/2 left-2 text-slate-400 w-5 h-5 cursor-pointer"
                   onClick={togglePasswordVisibility}
                 />
               ) : (
-                <Eye
-                  className="absolute top-1/2 -translate-y-1/2 right-2 text-slate-400 w-5 h-5 cursor-pointer"
+                <EyeOff
+                  className="absolute top-1/2 -translate-y-1/2 left-2 text-slate-400 w-5 h-5 cursor-pointer"
                   onClick={togglePasswordVisibility}
                 />
               )}
