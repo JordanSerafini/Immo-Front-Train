@@ -1,10 +1,11 @@
+// React Router
+import { Link } from 'react-router-dom';
+
 // Redux
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import {
-  showCancelConfirmationModal
-} from '../../../store/reducers/modal';
+import { showCancelConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
 import ValidButton from '../../Buttons/ValidButton';
@@ -21,8 +22,16 @@ import capFirstLetter from '../../../utils/capFirstLetter';
 // Typescript interface
 import { Information } from '../../../@types/information';
 
-export default function ProspectionInformation({adress_number, adress_street, code_zip, adress_city , owner_name, type, category}: Information) {
-
+export default function ProspectionInformation({
+  id,
+  adress_number,
+  adress_street,
+  code_zip,
+  adress_city,
+  owner_name,
+  type,
+  category,
+}: Information) {
   const dispatch = useAppDispatch();
 
   let icon: string;
@@ -52,8 +61,13 @@ export default function ProspectionInformation({adress_number, adress_street, co
       </div>
 
       <div className="flex justify-between mt-5">
-        <ValidButton content="Voir plus" />
-        <CancelButton content="Supprimer" onClickMethod={() => dispatch(showCancelConfirmationModal())}/>
+        <Link to={`/app/detail/${id}`}>
+          <ValidButton content="Voir plus" />
+        </Link>
+        <CancelButton
+          content="Supprimer"
+          onClickMethod={() => dispatch(showCancelConfirmationModal())}
+        />
       </div>
     </article>
   );
