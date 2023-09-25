@@ -29,7 +29,7 @@ export const initialState: UserState = {
 };
 
 export const fetchLogin = createAsyncThunk('user/temporary', async () => {
-  const response = await axios.get('http://localhost:5000/collaborator/4');
+  const response = await axios.get('http://localhost:5000/collaborator/2');
   return response.data;
 });
 
@@ -53,6 +53,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(fetchLogin.fulfilled, (state, action) => {
+      console.log(action.payload)
       state.data.id = action.payload.id;
       state.data.firstname = action.payload.firstname;
       state.data.lastname = action.payload.lastname;

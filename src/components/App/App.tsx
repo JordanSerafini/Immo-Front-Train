@@ -44,7 +44,7 @@ function App() {
             <Route path="admin" element={<Administration />} />
             <Route path="dashboard" element={<DashBoard />} />
 
-            <Route path="profile/:collaborator_id" element={<Profile />} />
+            <Route path="profile/:collaboratorId" element={<Profile />} />
           </Route>
 
           <Route path="/*" element={<NotFound />} />

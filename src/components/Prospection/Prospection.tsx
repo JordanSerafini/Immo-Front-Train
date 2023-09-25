@@ -11,8 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Store
 import {
   showAddInfoModal,
-  hideAddInfoModal,
-  hideCancelConfirmationModal,
+  hideDeleteConfirmationModal,
 } from '../../store/reducers/modal';
 import { fetchInformations } from '../../store/reducers/informations';
 
@@ -22,7 +21,7 @@ import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';
-import CancelModal from '../Modals/CancelModal/CancelModal';
+import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 
 import CardActionToDo from '../ActionToDo/CardActionToDo/CardActionToDo';
 import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomingAction';
@@ -50,9 +49,14 @@ export default function Prospection() {
     dispatch(fetchInformations());
   }, [dispatch]);
 
-  const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
+  const addInfoModal = useAppSelector(
+    (state) => state.modal.isAddInfoModalOpen
+  );
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
+  );
+  const deleteModal = useAppSelector(
+    (state) => state.modal.isDeleteConfirmationOpen
   );
 
   const handleAddInfoClick = () => {
@@ -147,9 +151,7 @@ export default function Prospection() {
         </div>
 
         {/* TITLE */}
-        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl lg:mt-10">
-          Informations de prospection
-        </h1>
+        <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
 
         <SearchInput />
 
@@ -169,21 +171,19 @@ export default function Prospection() {
           </span>
         </button>
 
+        {/* PROSPECTION INFORMATIONS */}
         <section className="grid gap-x-10 lg:grid-cols-2">
           {informations.map((information: Information) => (
             <ProspectionInformation key={information.id} {...information} />
           ))}
         </section>
       </main>
-      {infoModal &&
+      {/* Display addInfoModal */}
+      {addInfoModal && createPortal(<AddInfoModal />, document.body)}
+      {deleteModal &&
         createPortal(
-          <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())} />,
-          document.body
-        )}
-      {cancelModal &&
-        createPortal(
-          <CancelModal
-            closeModal={() => dispatch(hideCancelConfirmationModal())}
+          <DeleteModal
+            closeModal={() => dispatch(hideDeleteConfirmationModal())}
             content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
           />,
           document.body

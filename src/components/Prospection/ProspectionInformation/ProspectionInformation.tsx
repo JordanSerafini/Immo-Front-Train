@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { showCancelConfirmationModal } from '../../../store/reducers/modal';
+import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
 import ValidButton from '../../Buttons/ValidButton';
@@ -24,10 +24,10 @@ import { Information } from '../../../@types/information';
 
 export default function ProspectionInformation({
   id,
-  adress_number,
-  adress_street,
+  address_number,
+  address_street,
   code_zip,
-  adress_city,
+  address_city,
   owner_name,
   type,
   category,
@@ -49,11 +49,17 @@ export default function ProspectionInformation({
       icon = '';
   }
 
+  const idString: string = id.toString();
+
+  const handleDeleteClick = () => {
+    dispatch(showDeleteConfirmationModal());
+  };
+
   return (
     <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
-        <p className="font-bold md:text-md xl:text-lg">{`${adress_number} ${adress_street} ${code_zip} ${adress_city}`}</p>
+        <p className="font-bold md:text-md xl:text-lg">{`${address_number} ${address_street} ${code_zip} ${address_city}`}</p>
         <p className="font-bold md:text-md xl:text-lg">{owner_name}</p>
         <strong className="text-lg font-bold md:text-xl text-accent-400">
           {capFirstLetter(category)}
@@ -64,10 +70,9 @@ export default function ProspectionInformation({
         <Link to={`/app/detail/${id}`}>
           <ValidButton content="Voir plus" />
         </Link>
-        <CancelButton
-          content="Supprimer"
-          onClickMethod={() => dispatch(showCancelConfirmationModal())}
-        />
+        <Link to={{ search: idString }}>
+          <CancelButton content="Supprimer" onClickMethod={handleDeleteClick} />
+        </Link>
       </div>
     </article>
   );

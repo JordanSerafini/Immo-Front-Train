@@ -8,13 +8,13 @@ import {
 import { Information } from '../../@types/information';
 
 // Create an information interface
-interface InformationsState {
+interface InformationState {
   loading: boolean;
   error: boolean;
   data: Information | null;
 }
 
-export const initialState: InformationsState = {
+export const initialState: InformationState = {
   loading: true,
   error: false,
   data: null,
@@ -32,6 +32,7 @@ export const fetchInformation = createAsyncThunk(
 
 const informationReducer = createReducer(initialState, (builder) => {
   builder
+    // FetchInformations
     .addCase(fetchInformation.pending, (state) => {
       state.loading = true;
     })
