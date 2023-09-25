@@ -1,18 +1,20 @@
 import { ChangeEvent, useId } from 'react';
 
 interface InputProps {
+  children?: JSX.Element;
   label?: string;
-  value: string;
   type?: string;
+  value: string;
   placeholder: string;
   className?: string;
   onChange: (value: string) => void;
 }
 
 function Input({
+  children,
   label,
-  value,
   type,
+  value,
   placeholder,
   className,
   onChange,
@@ -24,13 +26,12 @@ function Input({
   }
 
   return (
-    <div className='flex flex-col'>
-      <label
-        htmlFor={inputId}
-        className={label ? "font-semibold" : "hidden"}
-      >
+    <div className="relative flex flex-col">
+      <label htmlFor={inputId} className={label ? 'font-semibold' : 'hidden'}>
         {label}
       </label>
+
+      {children}
 
       <input
         className={className}
@@ -47,9 +48,10 @@ function Input({
 
 // Default values for props
 Input.defaultProps = {
+  children: null,
   type: 'text',
-  className: "",
-  label: "",
+  className: '',
+  label: '',
 };
 
 // == Export
