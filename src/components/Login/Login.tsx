@@ -27,7 +27,7 @@ export default function Login() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const date = new Date()
+  const date = new Date();
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2 bg-main">
@@ -74,21 +74,19 @@ export default function Login() {
             </button>
           </Input>
 
-          <ValidButton content="Se connecter" isSubmit className='mt-10' />
+          <ValidButton content="Se connecter" isSubmit className="mt-10" />
         </form>
 
-        
-
         <footer className="flex flex-col items-center justify-center mt-auto">
-        <Link to="/support" className="mb-20 text-center underline">
-          Mot de passe oublié ?
-        </Link>
+          <Link to="/support" className="mb-20 text-center underline">
+            Mot de passe oublié ?
+          </Link>
           <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
-          <p className='flex gap-2 text-xs'>
+          <p className="flex gap-2 text-xs">
             <img src={copyright} alt="Copyright" className="w-[18px]" />
             {date.getFullYear()} Immo&apos;Pros
           </p>
-          <p className='text-xs'>Tous droits réservés</p>
+          <p className="text-xs">Tous droits réservés</p>
         </footer>
       </section>
     </main>
