@@ -19,9 +19,9 @@ import landIcon from '../../../assets/icons/land.svg';
 import capFirstLetter from '../../../utils/capFirstLetter';
 
 // Typescript interface
-import { ProspectionInformationType } from '../../../@types';
+import { Information } from '../../../@types/information';
 
-export default function ProspectionInformation({adress_number, adress_street, code_zip, adress_city , owner_name, type, category}: ProspectionInformationType) {
+export default function ProspectionInformation({adress_number, adress_street, code_zip, adress_city , owner_name, type, category}: Information) {
 
   const dispatch = useAppDispatch();
 

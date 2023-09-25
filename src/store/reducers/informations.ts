@@ -19,7 +19,7 @@ export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
     const response = await axios.get(
-      'http://localhost:5000/collaborator/2/informations'
+      'http://localhost:5000/informations'
     );
 
     return response.data;
@@ -30,7 +30,6 @@ const informationsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchInformations.pending, (state) => {
       state.loading = true;
-      console.log('Loading');
     })
     .addCase(fetchInformations.fulfilled, (state, action) => {
       state.informations = action.payload;

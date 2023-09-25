@@ -35,10 +35,9 @@ import upcomingAction from '../../assets/icons/upcoming-action.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
 // Typescript interface
-import { ProspectionInformationType } from '../../@types';
+import { Information } from '../../@types/information';
 
 export default function Prospection() {
-  console.log("render")
   const dispatch = useAppDispatch();
 
   const informations = useAppSelector(
@@ -48,12 +47,8 @@ export default function Prospection() {
   const isLoading = useAppSelector((state) => state.information.loading);
 
   useEffect(() => {
-    // Loading simulation for the first fetch
-    setTimeout(() => {
-      dispatch(fetchInformations());
-    }, 1000);
+    dispatch(fetchInformations());
   }, [dispatch]);
-
 
   const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
   const cancelModal = useAppSelector(
@@ -68,7 +63,7 @@ export default function Prospection() {
     return (
       <>
         <NavBar />
-        <img className='block w-[50px] m-auto' src={loader} alt="Loader" />
+        <img className="block w-[50px] m-auto" src={loader} alt="Loader" />
       </>
     );
   }
@@ -175,7 +170,7 @@ export default function Prospection() {
         </button>
 
         <section className="grid gap-x-10 lg:grid-cols-2">
-          {informations.map((information: ProspectionInformationType) => (
+          {informations.map((information: Information) => (
             <ProspectionInformation key={information.id} {...information} />
           ))}
         </section>

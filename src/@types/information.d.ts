@@ -1,4 +1,4 @@
-export interface ProspectionInformationType {
+export interface Information {
   id: number;
   type: string;
   owner_name: string;
