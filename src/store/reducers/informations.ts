@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { createAsyncThunk, createReducer, createAction } from '@reduxjs/toolkit';
 
 // Create an information interface
 
@@ -26,6 +26,8 @@ export const fetchInformations = createAsyncThunk(
   }
 );
 
+export const filterInformation = createAction("informations/filter")
+
 const informationsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchInformations.pending, (state) => {
@@ -39,7 +41,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(fetchInformations.rejected, (state) => {
       state.error = true;
       console.log('Une erreur est survenue');
-    });
+    })
+    .addCase(filterInformation, (state, action) => {
+      console.log(action)
+    })
 });
 
 export default informationsReducer;
