@@ -189,6 +189,7 @@ export default function Prospection() {
         createPortal(
           <CancelModal
             closeModal={() => dispatch(hideCancelConfirmationModal())}
+            content='Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?'
           />,
           document.body
         )}
