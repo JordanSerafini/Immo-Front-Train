@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // React Router
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -19,9 +19,6 @@ import ProfileSection from './ProfileSection/ProfileSection';
 import Navigation from './Navigation/Navigation';
 
 // Assets
-import home from '../../assets/icons/home.svg';
-import actionToDo from '../../assets/icons/action-to-do.svg';
-import upcomingAction from '../../assets/icons/upcoming-action.svg';
 import logoutIcon from '../../assets/icons/log-out.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
@@ -46,6 +43,8 @@ export default function NavBar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    // We want to hide the navbar for the logout so when the user RE connect, the navbar is closed
+    dispatch(hideNavBar());
   }
 
   // Use Effect

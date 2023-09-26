@@ -2,7 +2,7 @@
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
-import NavBar from '../NavBar/NavBar';
+import MainSection from '../SharedComponents/MainSection/MainSection';
 import PersonnalInfo from './PersonnalInfo/PersonnalInfo';
 import ValidButton from '../SharedComponents/Buttons/ValidButton';
 
@@ -13,9 +13,7 @@ export default function Profile() {
   const user = useAppSelector((state) => state.user.data);
 
   return (
-    <>
-      <NavBar />
-      <main className="z-0 m-5 md:m-10 grow">
+    <MainSection className="z-0">
         <h1 className="mt-20 text-3xl font-semibold text-center font-poppins md:mt-10">
           Mon profil
         </h1>
@@ -64,7 +62,6 @@ export default function Profile() {
             <PersonnalInfo label="Email" content={user.email} />
           </div>
         </section>
-      </main>
-    </>
+    </MainSection>
   );
 }

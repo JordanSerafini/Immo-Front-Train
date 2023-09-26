@@ -1,6 +1,6 @@
 // Typescript interface
 interface FieldsetProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   title: string;
 }
 

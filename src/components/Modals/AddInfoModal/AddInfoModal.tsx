@@ -135,7 +135,6 @@ export default function AddInfoModal() {
 
   return (
     <Modal closeModal={handleCancelClick}>
-      <>
         {/* Temporary style */}
         <button
           onClick={handleCancelClick}
@@ -342,7 +341,6 @@ export default function AddInfoModal() {
             <NextActionModal state={nextAction} setState={setNextAction} />,
             document.body
           )}
-      </>
     </Modal>
   );
 }

@@ -1,7 +1,7 @@
 import { ChangeEvent, useId } from 'react';
 
 interface InputProps {
-  children?: JSX.Element;
+  children?: React.ReactNode;
   label?: string;
   type?: string;
   className?: string;

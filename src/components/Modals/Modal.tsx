@@ -6,7 +6,7 @@
 interface ModalProps {
   // Not sure if the type is good here. It seems too simple...
   closeModal?: () => void;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 function Modal({ closeModal, children }: ModalProps) {
