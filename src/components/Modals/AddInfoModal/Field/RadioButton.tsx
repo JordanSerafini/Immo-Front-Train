@@ -4,19 +4,21 @@ import { ChangeEvent, useId } from 'react';
 import capFirstLetter from '../../../../utils/capFirstLetter';
 
 interface RadioButtonProps {
-  value: string;
   className?: string;
-  state: string;
   whiteIcon?: string;
   blackIcon?: string;
+  buttonName: string;
+  value: string;
+  state: string;
   onChange: (value: string) => void;
 }
 
 function RadioButton({
-  value,
   className,
   whiteIcon,
   blackIcon,
+  buttonName,
+  value,
   state,
   onChange,
 }: RadioButtonProps) {
@@ -43,6 +45,7 @@ function RadioButton({
         id={inputId}
         checked={state === value}
         type="radio"
+        name={buttonName}
       />
 
       <label

@@ -5,7 +5,7 @@ interface InputProps {
   label?: string;
   type?: string;
   className?: string;
-  inputName?: string;
+  inputName: string;
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
@@ -55,7 +55,6 @@ Input.defaultProps = {
   type: 'text',
   className: '',
   label: '',
-  inputName: '',
 };
 
 // == Export

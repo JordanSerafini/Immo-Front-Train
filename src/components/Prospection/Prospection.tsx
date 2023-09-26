@@ -36,20 +36,14 @@ import loader from '../../assets/loader/tail-spin.svg';
 import { Information } from '../../@types/information';
 
 export default function Prospection() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux States
   const informations = useAppSelector(
     (state) => state.information.informations
   );
-
   const isLoading = useAppSelector((state) => state.information.loading);
-
-  // This condition redirect the user to the login page if he is not connected
-
-  useEffect(() => {
-    dispatch(fetchInformations());
-  }, [dispatch]);
-
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
   );
@@ -57,123 +51,126 @@ export default function Prospection() {
     (state) => state.modal.isDeleteConfirmationOpen
   );
 
+  // UseEffects
+  useEffect(() => {
+    dispatch(fetchInformations());
+  }, [dispatch]);
+
+  // Methods
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
   };
 
+  // Temporary, I think we could make it cleaner
   if (isLoading) {
     return (
-      <>
-        <NavBar />
-        <img className="block w-[50px] m-auto" src={loader} alt="Loader" />
-      </>
+      <MainSection>
+        <img className="relative w-[50px] -left-1/2 -top-1/2" src={loader} alt="Loader" />
+      </MainSection>
     );
   }
 
   return (
     <>
       <MainSection>
-          {/* SECTIONS for ActionToDo & UpcomingAction */}
-          <div className="hidden grid-cols-2 lg:grid gap-x-10">
-            {/* Refacto incoming when the back is ope */}
-            <ActionSection icon={actionToDo} title="Actions à faire">
-              <>
-                <CardActionToDo
-                  address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-                  owner="Mr et Mme AKHTAR"
-                  type="maison"
-                />
-                <CardActionToDo
-                  address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-                  owner="Mr et Mme DUCHAUFFOUR"
-                  type="maison"
-                />
-                <CardActionToDo
-                  address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-                  owner="Mr VIFFRY"
-                  type="appartement"
-                />
-                <CardActionToDo
-                  address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                  owner="Mr ALCARAZ"
-                  type="terrain"
-                />
-              </>
-            </ActionSection>
+        {/* SECTIONS for ActionToDo & UpcomingAction */}
+        <div className="hidden grid-cols-2 lg:grid gap-x-10">
+          {/* Refacto incoming when the back is ope */}
+          <ActionSection icon={actionToDo} title="Actions à faire">
+              <CardActionToDo
+                address="5, rue de la Liberté 95190 GOUSSAINVILLE"
+                owner="Mr et Mme AKHTAR"
+                type="maison"
+              />
+              <CardActionToDo
+                address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
+                owner="Mr et Mme DUCHAUFFOUR"
+                type="maison"
+              />
+              <CardActionToDo
+                address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
+                owner="Mr VIFFRY"
+                type="appartement"
+              />
+              <CardActionToDo
+                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
+                owner="Mr ALCARAZ"
+                type="terrain"
+              />
+          </ActionSection>
 
-            {/* Refacto incoming when the back is ope */}
-            <ActionSection icon={upcomingAction} title="Actions à venir">
-              <>
-                <CardUpcomingAction
-                  address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-                  owner="Mr et Mme AKHTAR"
-                  type="maison"
-                  notificationDate="20/02/2023"
-                />
-                <CardUpcomingAction
-                  address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-                  owner="Mr et Mme DUCHAUFFOUR"
-                  type="maison"
-                  notificationDate="22/02/2023"
-                />
-                <CardUpcomingAction
-                  address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-                  owner="Mr VIFFRY"
-                  type="appartement"
-                  notificationDate="25/02/2023"
-                />
-                <CardUpcomingAction
-                  address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                  owner="Mr ALCARAZ"
-                  type="terrain"
-                  notificationDate="02/03/2023"
-                />
-                <CardUpcomingAction
-                  address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                  owner="Mr ALCARAZ"
-                  type="terrain"
-                  notificationDate="02/03/2023"
-                />
-                <CardUpcomingAction
-                  address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                  owner="Mr ALCARAZ"
-                  type="terrain"
-                  notificationDate="02/03/2023"
-                />
-              </>
-            </ActionSection>
-          </div>
+          {/* Refacto incoming when the back is ope */}
+          <ActionSection icon={upcomingAction} title="Actions à venir">
+              <CardUpcomingAction
+                address="5, rue de la Liberté 95190 GOUSSAINVILLE"
+                owner="Mr et Mme AKHTAR"
+                type="maison"
+                notificationDate="20/02/2023"
+              />
+              <CardUpcomingAction
+                address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
+                owner="Mr et Mme DUCHAUFFOUR"
+                type="maison"
+                notificationDate="22/02/2023"
+              />
+              <CardUpcomingAction
+                address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
+                owner="Mr VIFFRY"
+                type="appartement"
+                notificationDate="25/02/2023"
+              />
+              <CardUpcomingAction
+                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
+                owner="Mr ALCARAZ"
+                type="terrain"
+                notificationDate="02/03/2023"
+              />
+              <CardUpcomingAction
+                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
+                owner="Mr ALCARAZ"
+                type="terrain"
+                notificationDate="02/03/2023"
+              />
+              <CardUpcomingAction
+                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
+                owner="Mr ALCARAZ"
+                type="terrain"
+                notificationDate="02/03/2023"
+              />
+          </ActionSection>
+        </div>
 
-          {/* TITLE */}
-          <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
+        {/* TITLE */}
+        <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
 
-          <SearchInput />
+        <SearchInput />
 
-          {/* ADD INFO BUTTON (component possible) */}
-          <button
-            onClick={handleAddInfoClick}
-            type="button"
-            className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
-          >
-            <img
-              src={plus}
-              alt="Add Info Button Icon"
-              className="w-full sm:w-[30px]"
-            />
-            <span className="hidden text-secondary-50 font-poppins sm:inline">
-              Ajouter une information
-            </span>
-          </button>
+        {/* ADD INFO BUTTON (component possible) */}
+        <button
+          onClick={handleAddInfoClick}
+          type="button"
+          className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
+        >
+          <img
+            src={plus}
+            alt="Add Info Button Icon"
+            className="w-full sm:w-[30px]"
+          />
+          <span className="hidden text-secondary-50 font-poppins sm:inline">
+            Ajouter une information
+          </span>
+        </button>
 
-          {/* PROSPECTION INFORMATIONS */}
-          <section className="grid gap-x-10 lg:grid-cols-2">
-            {informations.map((information: Information) => (
-              <ProspectionInformation key={information.id} {...information} />
-            ))}
-          </section>
+        {/* PROSPECTION INFORMATIONS */}
+        <section className="grid gap-x-10 lg:grid-cols-2">
+          {informations.map((information: Information) => (
+            <ProspectionInformation key={information.id} {...information} />
+          ))}
+        </section>
       </MainSection>
-      {/* Display addInfoModal */}
+      {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}
+      {/* DISPLAY DELETE MODAL */}
       {deleteModal &&
         createPortal(
           <DeleteModal
