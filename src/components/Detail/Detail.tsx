@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchInformation } from '../../store/reducers/information';
 
 // Components
-import NavBar from '../NavBar/NavBar';
+import MainSection from '../SharedComponents/MainSection/MainSection';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
@@ -28,10 +28,8 @@ export default function Detail() {
   }, [dispatch, infoId]);
 
   return (
-    <>
-      <NavBar />
-      <main className="m-5 md:m-10 grow">
-        <div className="flex items-center gap-6">
+    <MainSection>
+        <div className="flex items-center gap-6 mt-5">
           <Link to="/app/prospection">
             <img
               className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
@@ -39,7 +37,7 @@ export default function Detail() {
               alt="Go back to Home Page"
             />
           </Link>
-          <h1 className="text-xl font-semibold font-poppins md:text-3xl">
+          <h1 className="text-3xl font-semibold font-poppins">
             Détail
           </h1>
         </div>
@@ -84,11 +82,10 @@ export default function Detail() {
 
           <p className="mt-10 ml-auto">
             <em className="italic">
-              Information créée le : {information?.date.slice(0,10)}
+              Information créée le : {information?.date.slice(0, 10)}
             </em>
           </p>
         </section>
-      </main>
-    </>
+    </MainSection>
   );
 }

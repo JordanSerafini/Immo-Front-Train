@@ -6,8 +6,8 @@ import { hideAddInfoModal, hideCancelConfirmationAddInfoModalOpen, hideCancelCon
 
 // Components
 import Modal from '../Modal';
-import ValidButton from '../../Buttons/ValidButton';
-import CancelButton from '../../Buttons/CancelButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 
 // Typescript interface
 interface CancelModalProps {

@@ -8,8 +8,8 @@ import { useAppDispatch } from '../../../hooks/redux';
 import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
 // Components
-import ValidButton from '../../Buttons/ValidButton';
-import CancelButton from '../../Buttons/CancelButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 
 // Asset
 import houseIcon from '../../../assets/icons/house.svg';

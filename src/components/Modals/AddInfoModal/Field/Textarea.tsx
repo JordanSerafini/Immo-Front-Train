@@ -5,6 +5,7 @@ interface TextareaProps {
   value: string;
   placeholder: string;
   className?: string;
+  textareaName: string;
   onChange: (value: string) => void;
 }
 
@@ -13,6 +14,7 @@ function Textarea({
   value,
   placeholder,
   className,
+  textareaName,
   onChange,
 }: TextareaProps) {
   const inputId = useId();
@@ -36,6 +38,7 @@ function Textarea({
         onChange={handleChange}
         id={inputId}
         placeholder={placeholder}
+        name={textareaName}
       />
     </div>
   );

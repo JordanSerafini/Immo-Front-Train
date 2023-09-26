@@ -10,7 +10,7 @@ import {
 
 // Components
 import Modal from '../Modal';
-import ValidButton from '../../Buttons/ValidButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import Input from '../AddInfoModal/Field/Input';
 
 // Typescript interface

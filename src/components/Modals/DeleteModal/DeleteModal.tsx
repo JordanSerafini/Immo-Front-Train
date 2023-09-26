@@ -6,8 +6,8 @@ import { useAppDispatch } from '../../../hooks/redux';
 
 // Components
 import Modal from '../Modal';
-import ValidButton from '../../Buttons/ValidButton';
-import CancelButton from '../../Buttons/CancelButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 import { deleteInformation } from '../../../store/reducers/informations';
 
 // Typescript interface

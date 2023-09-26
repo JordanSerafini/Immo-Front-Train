@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 
 // React Router
-import { Link, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -16,6 +15,7 @@ import {
 import { fetchInformations } from '../../store/reducers/informations';
 
 // Components
+import MainSection from '../SharedComponents/MainSection/MainSection';
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
 import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
@@ -27,7 +27,6 @@ import CardActionToDo from '../ActionToDo/CardActionToDo/CardActionToDo';
 import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomingAction';
 
 // Assets
-import logo from '../../assets/logo.svg';
 import plus from '../../assets/icons/plus.svg';
 import actionToDo from '../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../assets/icons/upcoming-action.svg';
@@ -37,29 +36,14 @@ import loader from '../../assets/loader/tail-spin.svg';
 import { Information } from '../../@types/information';
 
 export default function Prospection() {
-  const navigate = useNavigate()
-  
+  // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux States
   const informations = useAppSelector(
     (state) => state.information.informations
   );
-
   const isLoading = useAppSelector((state) => state.information.loading);
-  const isLogged = useAppSelector((state) => state.user.data.logged);
-
-  // This condition redirect the user to the login page if he is not connected
-  
-  useEffect(() => {
-    dispatch(fetchInformations());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!isLogged) {
-      navigate('/login');
-    }
-  }, [isLogged, navigate]);
-
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
   );
@@ -67,32 +51,32 @@ export default function Prospection() {
     (state) => state.modal.isDeleteConfirmationOpen
   );
 
+  // UseEffects
+  useEffect(() => {
+    dispatch(fetchInformations());
+  }, [dispatch]);
+
+  // Methods
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
   };
 
+  // Temporary, I think we could make it cleaner
   if (isLoading) {
     return (
-      <>
-        <NavBar />
-        <img className="block w-[50px] m-auto" src={loader} alt="Loader" />
-      </>
+      <MainSection>
+        <img className="relative w-[50px] -left-1/2 -top-1/2" src={loader} alt="Loader" />
+      </MainSection>
     );
   }
 
   return (
     <>
-      <NavBar />
-      <main className="m-5 md:m-10 grow">
-        {/* LOGO */}
-        <Link to="/app/prospection">
-          <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
-        </Link>
-
+      <MainSection>
         {/* SECTIONS for ActionToDo & UpcomingAction */}
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
+          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={actionToDo} title="Actions à faire">
-            <>
               <CardActionToDo
                 address="5, rue de la Liberté 95190 GOUSSAINVILLE"
                 owner="Mr et Mme AKHTAR"
@@ -113,11 +97,10 @@ export default function Prospection() {
                 owner="Mr ALCARAZ"
                 type="terrain"
               />
-            </>
           </ActionSection>
 
+          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={upcomingAction} title="Actions à venir">
-            <>
               <CardUpcomingAction
                 address="5, rue de la Liberté 95190 GOUSSAINVILLE"
                 owner="Mr et Mme AKHTAR"
@@ -154,7 +137,6 @@ export default function Prospection() {
                 type="terrain"
                 notificationDate="02/03/2023"
               />
-            </>
           </ActionSection>
         </div>
 
@@ -185,9 +167,10 @@ export default function Prospection() {
             <ProspectionInformation key={information.id} {...information} />
           ))}
         </section>
-      </main>
-      {/* Display addInfoModal */}
+      </MainSection>
+      {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}
+      {/* DISPLAY DELETE MODAL */}
       {deleteModal &&
         createPortal(
           <DeleteModal

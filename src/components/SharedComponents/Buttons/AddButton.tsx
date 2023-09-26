@@ -1,5 +1,5 @@
 // Assets
-import plus from '../../assets/icons/plus.svg';
+import plus from '../../../assets/icons/plus.svg';
 
 // Typescript interface
 interface AddButtonProps {

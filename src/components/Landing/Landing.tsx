@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 // This file is temporary, it's useful to navigate while the server is running for the first time
 

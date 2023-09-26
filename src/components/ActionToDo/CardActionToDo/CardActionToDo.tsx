@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 
 // Components
-import ValidButton from '../../Buttons/ValidButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 
 // Assets
 import houseIcon from '../../../assets/icons/house.svg';
