@@ -16,10 +16,10 @@ import { createInformation } from '../../../store/reducers/informations';
 
 // Components
 import Fieldset from '../Form/Fieldset';
-import ValidButton from '../../Buttons/ValidButton';
-import CancelButton from '../../Buttons/CancelButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 import RadioButton from './Field/RadioButton';
-import AddButton from '../../Buttons/AddButton';
+import AddButton from '../../SharedComponents/Buttons/AddButton';
 import Modal from '../Modal';
 import Input from './Field/Input';
 import Textarea from './Field/Textarea';

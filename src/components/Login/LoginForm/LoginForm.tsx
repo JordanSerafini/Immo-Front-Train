@@ -3,7 +3,7 @@ import { FormEvent, useState } from 'react';
 
 // Components
 import Input from '../../Modals/AddInfoModal/Field/Input';
-import ValidButton from '../../Buttons/ValidButton';
+import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 
 // Assets
 import eyeIcon from '../../../assets/icons/eye-empty.svg';

@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux';
 // Components
 import NavBar from '../NavBar/NavBar';
 import PersonnalInfo from './PersonnalInfo/PersonnalInfo';
-import ValidButton from '../Buttons/ValidButton';
+import ValidButton from '../SharedComponents/Buttons/ValidButton';
 
 // Assets
 import portrait from '../../assets/images/portrait_01.png';

@@ -1,5 +1,8 @@
+// React
+import { useEffect } from 'react';
+
 // React Router
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -25,11 +28,14 @@ import Divider from './Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
 
 export default function NavBar() {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.user.data);
 
   const isLoading = useAppSelector((state) => state.user.loading);
+
+  const isLogged = useAppSelector((state) => state.user.data.logged);
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
@@ -40,6 +46,12 @@ export default function NavBar() {
   const handleLogout = () => {
     dispatch(logout());
   }
+
+  useEffect(() => {
+    if (!isLogged) {
+      navigate('/login');
+    }
+  }, [isLogged, navigate]);
 
   return (
     <>

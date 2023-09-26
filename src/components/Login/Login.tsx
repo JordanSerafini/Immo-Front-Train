@@ -61,6 +61,7 @@ export default function Login() {
         <LoginForm submitMethod={handleSubmit} />
 
         {/* FOOTER */}
+        {/* HTML SEMANTIC TO IMPROVE... */}
         <LoginFooter />
       </section>
     </main>
