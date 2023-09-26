@@ -3,13 +3,17 @@ import {
   createReducer,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
+
+// Axios
+import axiosInstance from '../../utils/axios';
+
 import { User } from '../../@types/user';
 
 interface UserState {
   loading: boolean;
   error: boolean;
   data: User;
+  JSWToken: null | string;
 }
 export const initialState: UserState = {
   loading: false,
@@ -26,6 +30,7 @@ export const initialState: UserState = {
     avatar_id: null,
     logged: false,
   },
+  JSWToken: null
 };
 
 export const login = createAsyncThunk(
@@ -33,11 +38,13 @@ export const login = createAsyncThunk(
   async (formData: FormData) => {
     const objData = Object.fromEntries(formData);
 
-    const response = await axios.post('http://localhost:5000/login', objData);
+    const { data } = await axiosInstance.post('/login', objData);
 
-    console.log(response.data)
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
-    return response.data;
+    console.log(data.token)
+
+    return data;
   }
 );
 
@@ -64,14 +71,14 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       console.log(action.payload);
-      state.data.id = action.payload.id;
-      state.data.firstname = action.payload.firstname;
-      state.data.lastname = action.payload.lastname;
-      state.data.email = action.payload.email;
-      state.data.phone = action.payload.phone;
-      state.data.acces = action.payload.acces;
-      state.data.role_id = action.payload.role_id;
-      state.data.avatar_id = action.payload.avatar_id;
+      state.data.id = action.payload.user.id;
+      state.data.firstname = action.payload.user.firstname;
+      state.data.lastname = action.payload.user.lastname;
+      state.data.email = action.payload.user.email;
+      state.data.phone = action.payload.user.phone;
+      state.data.acces = action.payload.user.acces;
+      state.data.role_id = action.payload.user.role_id;
+      state.data.avatar_id = action.payload.user.avatar_id;
       state.data.logged = true;
 
       state.loading = false;

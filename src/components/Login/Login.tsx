@@ -1,11 +1,11 @@
 // React Hooks
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 
 // React Router
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Redux
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { login } from '../../store/reducers/user';
@@ -25,12 +25,14 @@ import emailIcon from '../../assets/icons/email.svg';
 export default function Login() {
   // Hook Order Execution
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isLogged = useAppSelector((state) => state.user.data.logged);
 
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('mathieu.bernard@example.com');
+  const [password, setPassword] = useState<string>('pass123');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,13 +40,18 @@ export default function Login() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     const form = event.currentTarget;
     const formData = new FormData(form);
-    
-    dispatch(login(formData))
 
+    dispatch(login(formData));
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/app/prospection');
+    }
+  }, [isLogged, navigate]);
 
   const date = new Date();
 
@@ -72,8 +79,8 @@ export default function Login() {
             value={email}
             onChange={setEmail}
             className="w-full pl-8 shadow-custom"
-            inputName='email'
-            type='email'
+            inputName="email"
+            type="email"
           >
             <img
               className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
@@ -88,7 +95,7 @@ export default function Login() {
             onChange={setPassword}
             className="w-full shadow-custom"
             type={showPassword ? undefined : 'password'}
-            inputName='password'
+            inputName="password"
           >
             <button type="button" onClick={togglePasswordVisibility}>
               <img

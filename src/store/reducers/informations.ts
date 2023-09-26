@@ -1,9 +1,11 @@
-import axios from 'axios';
 import {
   createAsyncThunk,
   createReducer,
   createAction,
 } from '@reduxjs/toolkit';
+
+// Axios
+import axiosInstance from '../../utils/axios';
 
 // Typescript interface
 import { Information, CreateInformation } from '../../@types/information';
@@ -24,7 +26,9 @@ export const initialState: InformationsState = {
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
-    const response = await axios.get('http://localhost:5000/informations');
+    const response = await axiosInstance.get(`/informations`);
+
+    console.log(response);
 
     return response.data;
   }
@@ -44,10 +48,7 @@ export const filterInformation = createAction(
 export const createInformation = createAsyncThunk(
   'information/create',
   async ({ formData }: { formData: CreateInformation }) => {
-    const response = await axios.post(
-      `http://localhost:5000/informations`,
-      formData
-    );
+    const response = await axiosInstance.post(`/informations`, formData);
 
     return response.data;
   }
@@ -56,7 +57,7 @@ export const createInformation = createAsyncThunk(
 export const deleteInformation = createAsyncThunk(
   'information/delete',
   async ({ id }: { id: string }) => {
-    await axios.delete(`http://localhost:5000/informations/${id}`);
+    await axiosInstance.delete(`/informations/${id}`);
 
     return id;
   }

@@ -45,9 +45,13 @@ export default function Prospection() {
 
   const isLoading = useAppSelector((state) => state.information.loading);
 
+  const userId = useAppSelector((state) => state.user.data.id);
+  // Correction to make, trick not really good
+  const userIdStr = userId?.toString();
+
   useEffect(() => {
     dispatch(fetchInformations());
-  }, [dispatch]);
+  }, [dispatch, userIdStr]);
 
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
