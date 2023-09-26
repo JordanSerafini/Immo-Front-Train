@@ -1,8 +1,14 @@
 // React Hooks
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 
 // React Router
 import { Link } from 'react-router-dom';
+
+// Redux
+import { useAppDispatch } from '../../hooks/redux';
+
+// Store
+import { login } from '../../store/reducers/user';
 
 // Components
 import Input from '../Modals/AddInfoModal/Field/Input';
@@ -17,6 +23,9 @@ import eyeOffIcon from '../../assets/icons/eye-off.svg';
 import emailIcon from '../../assets/icons/email.svg';
 
 export default function Login() {
+  // Hook Order Execution
+  const dispatch = useAppDispatch();
+
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -24,7 +33,17 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    
+    dispatch(login(formData))
+
   };
 
   const date = new Date();
@@ -44,12 +63,17 @@ export default function Login() {
         <h2 className="mt-auto text-4xl font-bold text-center text-transparent uppercase bg-gradient-to-r from-accent-400 to-primary-300 bg-clip-text">
           Connexion
         </h2>
-        <form className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-5">
+        <form
+          className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-5"
+          onSubmit={handleSubmit}
+        >
           <Input
             placeholder="Email de connexion"
             value={email}
             onChange={setEmail}
             className="w-full pl-8 shadow-custom"
+            inputName='email'
+            type='email'
           >
             <img
               className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
@@ -64,6 +88,7 @@ export default function Login() {
             onChange={setPassword}
             className="w-full shadow-custom"
             type={showPassword ? undefined : 'password'}
+            inputName='password'
           >
             <button type="button" onClick={togglePasswordVisibility}>
               <img
@@ -82,7 +107,7 @@ export default function Login() {
             Mot de passe oublié ?
           </Link>
           <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
-          <p className="flex gap-2 text-xs">
+          <p className="flex gap-1 text-xs">
             <img src={copyright} alt="Copyright" className="w-[18px]" />
             {date.getFullYear()} Immo&apos;Pros
           </p>

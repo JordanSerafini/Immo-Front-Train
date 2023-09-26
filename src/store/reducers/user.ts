@@ -28,15 +28,24 @@ export const initialState: UserState = {
   },
 };
 
-export const fetchLogin = createAsyncThunk('user/temporary', async () => {
-  const response = await axios.get('http://localhost:5000/collaborator/2');
-  return response.data;
-});
+export const login = createAsyncThunk(
+  'user/temporary',
+  async (formData: FormData) => {
+    const objData = Object.fromEntries(formData);
+
+    const response = await axios.post('http://localhost:5000/login', objData);
+
+    console.log(response.data)
+
+    return response.data;
+  }
+);
 
 export const logout = createAction('user/logout');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    // Logout
     .addCase(logout, (state) => {
       state.data.id = null;
       state.data.firstname = null;
@@ -48,12 +57,13 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.avatar_id = null;
       state.data.logged = false;
     })
-    .addCase(fetchLogin.pending, (state) => {
+    // Login
+    .addCase(login.pending, (state) => {
       state.error = false;
       state.loading = true;
     })
-    .addCase(fetchLogin.fulfilled, (state, action) => {
-      console.log(action.payload)
+    .addCase(login.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.data.id = action.payload.id;
       state.data.firstname = action.payload.firstname;
       state.data.lastname = action.payload.lastname;
@@ -66,7 +76,7 @@ const userReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(fetchLogin.rejected, (state) => {
+    .addCase(login.rejected, (state) => {
       state.error = true;
       state.loading = false;
     });

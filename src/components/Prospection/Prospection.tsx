@@ -52,9 +52,6 @@ export default function Prospection() {
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
   );
-  const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationModalOpen
-  );
   const deleteModal = useAppSelector(
     (state) => state.modal.isDeleteConfirmationOpen
   );

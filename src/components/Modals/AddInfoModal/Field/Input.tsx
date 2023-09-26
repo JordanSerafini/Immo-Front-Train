@@ -4,9 +4,10 @@ interface InputProps {
   children?: JSX.Element;
   label?: string;
   type?: string;
+  className?: string;
+  inputName?: string;
   value: string;
   placeholder: string;
-  className?: string;
   onChange: (value: string) => void;
 }
 
@@ -17,6 +18,7 @@ function Input({
   value,
   placeholder,
   className,
+  inputName,
   onChange,
 }: InputProps) {
   const inputId = useId();
@@ -41,6 +43,7 @@ function Input({
         id={inputId}
         type={type}
         placeholder={placeholder}
+        name={inputName}
       />
     </div>
   );
@@ -52,6 +55,7 @@ Input.defaultProps = {
   type: 'text',
   className: '',
   label: '',
+  inputName: '',
 };
 
 // == Export

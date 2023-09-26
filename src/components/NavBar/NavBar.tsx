@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { hideNavBar } from '../../store/reducers/navbar';
-import { fetchLogin } from '../../store/reducers/user';
+// import { login } from '../../store/reducers/user';
 
 // Style
 import './animation.scss';
@@ -34,11 +34,11 @@ export default function NavBar() {
 
   const isLoading = useAppSelector((state) => state.user.loading);
 
-  useEffect(() => {
-    if (!user.logged) {
-      dispatch(fetchLogin());
-    }
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   if (!user.logged) {
+  //     dispatch(fetchLogin());
+  //   }
+  // }, [user, dispatch]);
 
   // Hook Execution Order
   const location = useLocation();
