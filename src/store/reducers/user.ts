@@ -58,7 +58,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      console.log(action.payload)
+      console.log(`${action.payload.user.firstname} ${action.payload.user.lastname.toUpperCase()} est connecté !`)
 
       state.data.id = action.payload.user.id;
       state.data.firstname = action.payload.user.firstname;

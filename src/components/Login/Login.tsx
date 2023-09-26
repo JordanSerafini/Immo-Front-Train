@@ -19,7 +19,7 @@ import LoginFooter from './LoginFooter/LoginFooter';
 import illustration from '../../assets/images/illustration.png';
 
 export default function Login() {
-  // Hook Order Execution
+  // Hook Execution Order 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -36,6 +36,8 @@ export default function Login() {
   };
 
   useEffect(() => {
+    // Once the use is connected, we can redirect him to the "/app/prospection"
+    // Later the redirection will also depend on the role of the user (Admin or collaborator)
     if (isLogged) {
       navigate('/app/prospection');
     }
@@ -44,7 +46,7 @@ export default function Login() {
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
       
-      <Logo path='/login' className='absolute top-5 left-5' />
+      <Logo path='/login' className='absolute top-5 left-5 sm:hidden' />
 
       {/* ILLUSTRATION */}
       <img

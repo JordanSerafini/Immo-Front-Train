@@ -12,7 +12,7 @@ interface LogoProps {
 
 function Logo({ path = "/app/prospection", className }: LogoProps) {
   return (
-    <Link to={path} className={`${className} sm:hidden`}>
+    <Link to={path} className={className}>
       <img src={logo} alt="Logo Immo Pros" />
     </Link>
   );
