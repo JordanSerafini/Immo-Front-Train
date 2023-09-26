@@ -1,8 +1,10 @@
-import axios from 'axios';
 import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
+
+// Axios
+import axiosInstance from '../../utils/axios';
 
 // Typescript interface
 import { Information } from '../../@types/information';
@@ -23,7 +25,7 @@ export const initialState: InformationState = {
 export const fetchInformation = createAsyncThunk(
   'information/APICall',
   async ({id} : {id: string | undefined}) => {
-    const response = await axios.get(`http://localhost:5000/informations/${id}`);
+    const response = await axiosInstance.get(`/informations/${id}`);
 
     return response.data;
   }

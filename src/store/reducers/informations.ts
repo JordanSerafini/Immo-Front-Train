@@ -28,8 +28,6 @@ export const fetchInformations = createAsyncThunk(
   async () => {
     const response = await axiosInstance.get(`/informations`);
 
-    console.log(response);
-
     return response.data;
   }
 );
@@ -65,6 +63,7 @@ export const deleteInformation = createAsyncThunk(
 
 const informationsReducer = createReducer(initialState, (builder) => {
   builder
+    // Get All Informations
     .addCase(fetchInformations.pending, (state) => {
       state.loading = true;
     })

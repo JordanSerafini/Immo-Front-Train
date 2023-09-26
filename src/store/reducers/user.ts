@@ -1,5 +1,4 @@
 import {
-  createAction,
   createReducer,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
@@ -30,11 +29,11 @@ export const initialState: UserState = {
     avatar_id: null,
     logged: false,
   },
-  JSWToken: null
+  JSWToken: null,
 };
 
 export const login = createAsyncThunk(
-  'user/temporary',
+  'user/login',
   async (formData: FormData) => {
     const objData = Object.fromEntries(formData);
 
@@ -42,35 +41,25 @@ export const login = createAsyncThunk(
 
     axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
-    console.log(data.token)
-
     return data;
   }
 );
 
-export const logout = createAction('user/logout');
+export const logout = createAsyncThunk('user/logout', async () => {
+  const response = await axiosInstance.get('/logout');
+  return response;
+});
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
-    // Logout
-    .addCase(logout, (state) => {
-      state.data.id = null;
-      state.data.firstname = null;
-      state.data.lastname = null;
-      state.data.email = null;
-      state.data.phone = null;
-      state.data.acces = false;
-      state.data.role_id = null;
-      state.data.avatar_id = null;
-      state.data.logged = false;
-    })
     // Login
     .addCase(login.pending, (state) => {
       state.error = false;
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      console.log(action.payload);
+      console.log(action.payload)
+
       state.data.id = action.payload.user.id;
       state.data.firstname = action.payload.user.firstname;
       state.data.lastname = action.payload.user.lastname;
@@ -86,6 +75,18 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state) => {
       state.error = true;
       state.loading = false;
+    })
+    // Logout
+    .addCase(logout.fulfilled, (state) => {
+      state.data.id = null;
+      state.data.firstname = null
+      state.data.lastname = null
+      state.data.email = null
+      state.data.phone = null
+      state.data.acces = false;
+      state.data.role_id = null
+      state.data.avatar_id = null
+      state.data.logged = false;
     });
 });
 

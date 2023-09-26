@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // React Router
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -37,6 +37,8 @@ import loader from '../../assets/loader/tail-spin.svg';
 import { Information } from '../../@types/information';
 
 export default function Prospection() {
+  const navigate = useNavigate()
+  
   const dispatch = useAppDispatch();
 
   const informations = useAppSelector(
@@ -44,14 +46,19 @@ export default function Prospection() {
   );
 
   const isLoading = useAppSelector((state) => state.information.loading);
+  const isLogged = useAppSelector((state) => state.user.data.logged);
 
-  const userId = useAppSelector((state) => state.user.data.id);
-  // Correction to make, trick not really good
-  const userIdStr = userId?.toString();
-
+  // This condition redirect the user to the login page if he is not connected
+  
   useEffect(() => {
     dispatch(fetchInformations());
-  }, [dispatch, userIdStr]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isLogged) {
+      navigate('/login');
+    }
+  }, [isLogged, navigate]);
 
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
