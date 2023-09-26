@@ -2,12 +2,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
-import Landing from '../Landing/Landing';
-
+// Login & Support
 import Login from '../Login/Login';
 import Support from '../Support/Support';
 import SupportConfirmation from '../SupportConfirmation/SupportConfirmation';
 
+// Collaborator
 import Profile from '../Profile/Profile';
 import Prospection from '../Prospection/Prospection';
 import Detail from '../Detail/Detail';
@@ -15,9 +15,11 @@ import ActionToDo from '../ActionToDo/ActionToDo';
 import ActionManager from '../ActionManager/ActionManager';
 import UpcomingAction from '../UpcomingAction/UpcomingAction';
 
+// Admin
 import Administration from '../Admininistration/Administration';
 import DashBoard from '../DashBoard/DashBoard';
 
+// 404 - Error
 import NotFound from '../NotFound/NotFound';
 
 function App() {
@@ -25,7 +27,7 @@ function App() {
     <BrowserRouter>
       <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Login />} />
           {/* Maybe we could keep the '/' route for the future landing page et use '/login' instead to display Login Component */}
           <Route path="/login" element={<Login />} />
           <Route path="/support" element={<Support />} />
@@ -34,6 +36,7 @@ function App() {
             element={<SupportConfirmation />}
           />
 
+          {/* This Route allows us to not write /app for every following routes  */}
           <Route path="/app/*">
             <Route path="prospection" element={<Prospection />} />
             <Route path="detail/:infoId" element={<Detail />} />
