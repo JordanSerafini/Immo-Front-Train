@@ -7,10 +7,10 @@ import logo from '../../../assets/logo.svg';
 // Typescript interface
 interface LogoProps {
   className?: string;
-  path: string;
+  path?: string;
 }
 
-function Logo({ path, className }: LogoProps) {
+function Logo({ path = "/app/prospection", className }: LogoProps) {
   return (
     <Link to={path} className={`${className} sm:hidden`}>
       <img src={logo} alt="Logo Immo Pros" />
@@ -20,6 +20,7 @@ function Logo({ path, className }: LogoProps) {
 
 Logo.defaultProps = {
   className: '',
+  path: "/login"
 };
 
 export default Logo;
