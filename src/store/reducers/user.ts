@@ -1,15 +1,18 @@
 import {
-  createAction,
   createReducer,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
+
+// Axios
+import axiosInstance from '../../utils/axios';
+
 import { User } from '../../@types/user';
 
 interface UserState {
   loading: boolean;
   error: boolean;
   data: User;
+  JSWToken: null | string;
 }
 export const initialState: UserState = {
   loading: false,
@@ -26,49 +29,64 @@ export const initialState: UserState = {
     avatar_id: null,
     logged: false,
   },
+  JSWToken: null,
 };
 
-export const fetchLogin = createAsyncThunk('user/temporary', async () => {
-  const response = await axios.get('http://localhost:5000/collaborator/2');
-  return response.data;
-});
+export const login = createAsyncThunk(
+  'user/login',
+  async (formData: FormData) => {
+    const objData = Object.fromEntries(formData);
 
-export const logout = createAction('user/logout');
+    const { data } = await axiosInstance.post('/login', objData);
+
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.token}`;
+
+    return data;
+  }
+);
+
+export const logout = createAsyncThunk('user/logout', async () => {
+  const response = await axiosInstance.get('/logout');
+  return response;
+});
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(logout, (state) => {
-      state.data.id = null;
-      state.data.firstname = null;
-      state.data.lastname = null;
-      state.data.email = null;
-      state.data.phone = null;
-      state.data.acces = false;
-      state.data.role_id = null;
-      state.data.avatar_id = null;
-      state.data.logged = false;
-    })
-    .addCase(fetchLogin.pending, (state) => {
+    // Login
+    .addCase(login.pending, (state) => {
       state.error = false;
       state.loading = true;
     })
-    .addCase(fetchLogin.fulfilled, (state, action) => {
+    .addCase(login.fulfilled, (state, action) => {
       console.log(action.payload)
-      state.data.id = action.payload.id;
-      state.data.firstname = action.payload.firstname;
-      state.data.lastname = action.payload.lastname;
-      state.data.email = action.payload.email;
-      state.data.phone = action.payload.phone;
-      state.data.acces = action.payload.acces;
-      state.data.role_id = action.payload.role_id;
-      state.data.avatar_id = action.payload.avatar_id;
+
+      state.data.id = action.payload.user.id;
+      state.data.firstname = action.payload.user.firstname;
+      state.data.lastname = action.payload.user.lastname;
+      state.data.email = action.payload.user.email;
+      state.data.phone = action.payload.user.phone;
+      state.data.acces = action.payload.user.acces;
+      state.data.role_id = action.payload.user.role_id;
+      state.data.avatar_id = action.payload.user.avatar_id;
       state.data.logged = true;
 
       state.loading = false;
     })
-    .addCase(fetchLogin.rejected, (state) => {
+    .addCase(login.rejected, (state) => {
       state.error = true;
       state.loading = false;
+    })
+    // Logout
+    .addCase(logout.fulfilled, (state) => {
+      state.data.id = null;
+      state.data.firstname = null
+      state.data.lastname = null
+      state.data.email = null
+      state.data.phone = null
+      state.data.acces = false;
+      state.data.role_id = null
+      state.data.avatar_id = null
+      state.data.logged = false;
     });
 });
 

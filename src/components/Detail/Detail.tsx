@@ -27,11 +27,6 @@ export default function Detail() {
     dispatch(fetchInformation({ id: infoId }));
   }, [dispatch, infoId]);
 
-  if (!information) {
-    // Prévoir une gestion d'erreur
-    console.log("Pas d'information")
-  }
-
   return (
     <>
       <NavBar />

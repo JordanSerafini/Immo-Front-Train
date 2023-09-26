@@ -1,15 +1,12 @@
-// React
-import { useEffect } from 'react';
-
 // React Router
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { hideNavBar } from '../../store/reducers/navbar';
-import { fetchLogin } from '../../store/reducers/user';
+import { logout } from '../../store/reducers/user';
 
 // Style
 import './animation.scss';
@@ -20,7 +17,7 @@ import portait from '../../assets/images/portrait_01.png';
 import home from '../../assets/icons/home.svg';
 import actionToDo from '../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../assets/icons/upcoming-action.svg';
-import logout from '../../assets/icons/log-out.svg';
+import logoutIcon from '../../assets/icons/log-out.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
 // Components
@@ -34,22 +31,15 @@ export default function NavBar() {
 
   const isLoading = useAppSelector((state) => state.user.loading);
 
-  useEffect(() => {
-    if (!user.logged) {
-      dispatch(fetchLogin());
-    }
-  }, [user, dispatch]);
-
-  // Hook Execution Order
-  const location = useLocation();
-  // Check if the user is on the Prospection page
-  const isProspectionRoute = location.pathname.endsWith('/prospection');
-
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
   const closeNavBar = () => {
     dispatch(hideNavBar());
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  }
 
   return (
     <>
@@ -171,8 +161,9 @@ export default function NavBar() {
             <button
               type="button"
               className="flex gap-2 p-3 my-4 duration-300 rounded-xl hover:bg-secondary-200"
+              onClick={handleLogout}
             >
-              <img src={logout} alt="logout icon" />
+              <img src={logoutIcon} alt="logout icon" />
               Se déconnecter
             </button>
           </>
