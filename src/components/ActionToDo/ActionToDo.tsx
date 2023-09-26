@@ -24,7 +24,7 @@ export default function ActionToDo() {
             alt="Action to do Icon"
             className="w-[50px]"
           />
-          <h1 className="text-xl font-semibold text-center font-poppins md:text-3xl">
+          <h1>
             Actions à faire
           </h1>
         </div>

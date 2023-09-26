@@ -1,5 +1,7 @@
+// React
+import { useEffect } from 'react';
+
 // React Router
-import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -8,51 +10,73 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Store
 import {
   showAddInfoModal,
-  hideAddInfoModal,
-  hideCancelConfirmationModal,
+  hideDeleteConfirmationModal,
 } from '../../store/reducers/modal';
+import { fetchInformations } from '../../store/reducers/informations';
 
 // Components
+import MainSection from '../SharedComponents/MainSection/MainSection';
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
 import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';
-import CancelModal from '../Modals/CancelModal/CancelModal';
+import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 
 import CardActionToDo from '../ActionToDo/CardActionToDo/CardActionToDo';
 import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomingAction';
 
 // Assets
-import logo from '../../assets/logo.svg';
 import plus from '../../assets/icons/plus.svg';
 import actionToDo from '../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../assets/icons/upcoming-action.svg';
+import loader from '../../assets/loader/tail-spin.svg';
+
+// Typescript interface
+import { Information } from '../../@types/information';
 
 export default function Prospection() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
-  const infoModal = useAppSelector((state) => state.modal.isAddInfoModalOpen);
-  const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationModalOpen
+
+  // Redux States
+  const informations = useAppSelector(
+    (state) => state.information.informations
+  );
+  const isLoading = useAppSelector((state) => state.information.loading);
+  const addInfoModal = useAppSelector(
+    (state) => state.modal.isAddInfoModalOpen
+  );
+  const deleteModal = useAppSelector(
+    (state) => state.modal.isDeleteConfirmationOpen
   );
 
+  // UseEffects
+  useEffect(() => {
+    dispatch(fetchInformations());
+  }, [dispatch]);
+
+  // Methods
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
   };
 
+  // Temporary, I think we could make it cleaner
+  if (isLoading) {
+    return (
+      <MainSection>
+        <img className="relative w-[50px] -left-1/2 -top-1/2" src={loader} alt="Loader" />
+      </MainSection>
+    );
+  }
+
   return (
     <>
-      <NavBar />
-      <main className="m-10 grow">
-        {/* LOGO */}
-        <Link to="/app/prospection">
-          <img src={logo} alt="Logo Immo'Pros" className="sm:hidden" />
-        </Link>
-
+      <MainSection>
         {/* SECTIONS for ActionToDo & UpcomingAction */}
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
+          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={actionToDo} title="Actions à faire">
-            <>
               <CardActionToDo
                 address="5, rue de la Liberté 95190 GOUSSAINVILLE"
                 owner="Mr et Mme AKHTAR"
@@ -73,11 +97,10 @@ export default function Prospection() {
                 owner="Mr ALCARAZ"
                 type="terrain"
               />
-            </>
           </ActionSection>
 
+          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={upcomingAction} title="Actions à venir">
-            <>
               <CardUpcomingAction
                 address="5, rue de la Liberté 95190 GOUSSAINVILLE"
                 owner="Mr et Mme AKHTAR"
@@ -114,14 +137,11 @@ export default function Prospection() {
                 type="terrain"
                 notificationDate="02/03/2023"
               />
-            </>
           </ActionSection>
         </div>
 
         {/* TITLE */}
-        <h1 className="mt-20 text-xl font-semibold text-center font-poppins md:text-3xl lg:mt-10">
-          Informations de prospection
-        </h1>
+        <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
 
         <SearchInput />
 
@@ -141,54 +161,21 @@ export default function Prospection() {
           </span>
         </button>
 
+        {/* PROSPECTION INFORMATIONS */}
         <section className="grid gap-x-10 lg:grid-cols-2">
-          <ProspectionInformation
-            address="123, rue de Paris 95380 LOUVRES"
-            owner="Consorts RIOU"
-            type="appartement"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="5, rue de la liberté 95190 GOUSSAINVILLE"
-            owner="Mr ELHOU"
-            type="maison"
-            category="potentiellement à vendre"
-          />
-          <ProspectionInformation
-            address="5, rue Aubin Olivier 95700 ROISSY-EN-FRANCE"
-            owner="Consorts COTTIN"
-            type="terrain"
-            category="succession en cours"
-          />
-          <ProspectionInformation
-            address="28, rue du Fromager 95500 LE THILLAY"
-            owner="Mr ALVES"
-            type="terrain"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="198, avenue de la mer 95500 GONESSE"
-            owner="Mr MOUSTILLON"
-            type="maison"
-            category="à vendre"
-          />
-          <ProspectionInformation
-            address="19, rue du Pont 95380 LOUVRES"
-            owner="Mr & Mme FLUTIER"
-            type="appartement"
-            category="potentiellement à vendre"
-          />
+          {informations.map((information: Information) => (
+            <ProspectionInformation key={information.id} {...information} />
+          ))}
         </section>
-      </main>
-      {infoModal &&
+      </MainSection>
+      {/* DISPLAY ADD INFO MODAL */}
+      {addInfoModal && createPortal(<AddInfoModal />, document.body)}
+      {/* DISPLAY DELETE MODAL */}
+      {deleteModal &&
         createPortal(
-          <AddInfoModal closeModal={() => dispatch(hideAddInfoModal())} />,
-          document.body
-        )}
-      {cancelModal &&
-        createPortal(
-          <CancelModal
-            closeModal={() => dispatch(hideCancelConfirmationModal())}
+          <DeleteModal
+            closeModal={() => dispatch(hideDeleteConfirmationModal())}
+            content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
           />,
           document.body
         )}

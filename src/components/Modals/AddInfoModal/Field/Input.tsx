@@ -1,18 +1,24 @@
 import { ChangeEvent, useId } from 'react';
 
 interface InputProps {
-  value: string;
+  children?: React.ReactNode;
+  label?: string;
   type?: string;
-  placeholder: string;
   className?: string;
+  inputName: string;
+  value: string;
+  placeholder: string;
   onChange: (value: string) => void;
 }
 
 function Input({
-  value,
+  children,
+  label,
   type,
+  value,
   placeholder,
   className,
+  inputName,
   onChange,
 }: InputProps) {
   const inputId = useId();
@@ -22,7 +28,13 @@ function Input({
   }
 
   return (
-    <div>
+    <div className="relative flex flex-col">
+      <label htmlFor={inputId} className={label ? 'font-semibold' : 'hidden'}>
+        {label}
+      </label>
+
+      {children}
+
       <input
         className={className}
         // React - state
@@ -31,22 +43,18 @@ function Input({
         id={inputId}
         type={type}
         placeholder={placeholder}
+        name={inputName}
       />
-
-      <label
-        htmlFor={inputId}
-        className="hidden"
-      >
-        {placeholder}
-      </label>
     </div>
   );
 }
 
 // Default values for props
 Input.defaultProps = {
+  children: null,
   type: 'text',
-  className: "",
+  className: '',
+  label: '',
 };
 
 // == Export

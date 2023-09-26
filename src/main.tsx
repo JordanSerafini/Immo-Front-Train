@@ -1,5 +1,6 @@
-// React
+// For Strict Mode
 import React from 'react';
+// React
 import ReactDOM from 'react-dom/client';
 
 // Redux
@@ -9,7 +10,7 @@ import store from './store';
 // Components
 import App from './components/App/App';
 
-// Style
+// Styles
 import './styles/index.scss';
 import './styles/index.tailwind.css';
 

@@ -2,7 +2,7 @@
 interface ActionSectionProps {
   icon: string;
   title: string;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export default function ActionSection({

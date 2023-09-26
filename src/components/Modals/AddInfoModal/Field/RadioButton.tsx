@@ -4,19 +4,21 @@ import { ChangeEvent, useId } from 'react';
 import capFirstLetter from '../../../../utils/capFirstLetter';
 
 interface RadioButtonProps {
-  value: string;
   className?: string;
-  state: string;
   whiteIcon?: string;
   blackIcon?: string;
+  buttonName: string;
+  value: string;
+  state: string;
   onChange: (value: string) => void;
 }
 
 function RadioButton({
-  value,
   className,
   whiteIcon,
   blackIcon,
+  buttonName,
+  value,
   state,
   onChange,
 }: RadioButtonProps) {
@@ -43,6 +45,7 @@ function RadioButton({
         id={inputId}
         checked={state === value}
         type="radio"
+        name={buttonName}
       />
 
       <label
@@ -66,32 +69,3 @@ RadioButton.defaultProps = {
 
 // == Export
 export default RadioButton;
-
-/**
- * <div className="relative">
-        <img
-            className="absolute top-0 left-2"
-            src={selectedTypeOption === 'maison' ? whiteHouse : house}
-            alt="House icon"
-        />
-        <input
-            type="radio"
-            id="maison"
-            name="type"
-            value="maison"
-            onChange={handleRadioChange}
-            checked={selectedTypeOption === 'maison'}
-            className="hidden"
-        />
-        <label
-            htmlFor="maison"
-            className={`rounded-md p-2 pl-8 border-solid border-2 border-accent-400 duration-150 ${
-            selectedTypeOption === 'maison'
-                ? 'bg-accent-400 text-secondary-50'
-                : ''
-            }`}
-        >
-            Maison
-        </label>
-    </div>
- */
