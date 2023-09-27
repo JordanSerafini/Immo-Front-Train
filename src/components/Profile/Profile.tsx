@@ -48,6 +48,7 @@ export default function Profile() {
         </h2>
 
         <div className="grid grid-cols-2 gap-4">
+          {/* REFACTO POSSIBLE FOR EDIT FORMS */}
           <EditFirstname firstname={user.firstname} />
           <EditLastname lastname={user.lastname} />
         </div>

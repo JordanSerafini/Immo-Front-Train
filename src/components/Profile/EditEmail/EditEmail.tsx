@@ -1,6 +1,10 @@
 // React Hooks
 import { FormEvent, useState } from 'react';
 
+// Redux
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { editUser } from '../../../store/reducers/user';
+
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
@@ -8,16 +12,16 @@ import Input from '../../Modals/AddInfoModal/Field/Input';
 // Assets
 import checkIcon from '../../../assets/icons/check-circle.svg';
 
-export default function EditEmail({
-  email,
-}: {
-    email: string | undefined;
-}) {
+export default function EditEmail({ email }: { email: string | undefined }) {
+  // Hook Execution Order
+  const dispatch = useAppDispatch();
+
+  // Redux state
+  const user = useAppSelector((state) => state.user.data);
+
   // Local states
   const [editEmail, setEditEmail] = useState<boolean>(false);
-  const [emailValue, setEmailValue] = useState<string | undefined>(
-    email
-  );
+  const [emailValue, setEmailValue] = useState<string | undefined>(email);
 
   // Handlers Methods
   const handleEditLastname = () => {
@@ -26,19 +30,27 @@ export default function EditEmail({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
+
+    const form: HTMLFormElement = event.currentTarget;
+    const formData = Object.fromEntries(new FormData(form));
+
+    const formValues = { ...user, ...formData };
+
+    dispatch(editUser(formValues));
+    setEditEmail(false);
+  };
 
   return (
-    <PersonnalInfo clickHandler={handleEditLastname} label='Email'>
+    <PersonnalInfo clickHandler={handleEditLastname} label="Email">
       {editEmail ? (
-        <form className='w-[350px]' onSubmit={handleSubmit}>
+        <form className="w-[350px]" onSubmit={handleSubmit}>
           <Input
             inputName="lastname"
             className="relative"
             value={emailValue}
             onChange={setEmailValue}
             placeholder="Entrez votre email"
-            type='email'
+            type="email"
           >
             <button
               type="submit"

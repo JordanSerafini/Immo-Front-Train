@@ -1,6 +1,10 @@
 // React Hooks
 import { FormEvent, useState } from 'react';
 
+// Redux
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { editUser } from '../../../store/reducers/user';
+
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
@@ -8,16 +12,22 @@ import Input from '../../Modals/AddInfoModal/Field/Input';
 // Assets
 import checkIcon from '../../../assets/icons/check-circle.svg';
 
-export default function EditLastname({
-  lastname,
-}: {
+// Typescript interface
+interface EditLastnameProps {
   lastname: string | undefined;
-}) {
+}
+
+export default function EditLastname({ lastname }: EditLastnameProps) {
   // Local states
   const [editLastname, setEditLastname] = useState<boolean>(false);
   const [lastnameValue, setLastnameValue] = useState<string | undefined>(
     lastname
   );
+  // Hook Execution Order
+  const dispatch = useAppDispatch();
+
+  // Redux state
+  const user = useAppSelector((state) => state.user.data);
 
   // Handlers Methods
   const handleEditLastname = () => {
@@ -26,10 +36,18 @@ export default function EditLastname({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
+
+    const form: HTMLFormElement = event.currentTarget;
+    const formData = Object.fromEntries(new FormData(form));
+
+    const formValues = { ...user, ...formData };
+
+    dispatch(editUser(formValues));
+    setEditLastname(false);
+  };
 
   return (
-    <PersonnalInfo clickHandler={handleEditLastname} label='Nom'>
+    <PersonnalInfo clickHandler={handleEditLastname} label="Nom">
       {editLastname ? (
         <form onSubmit={handleSubmit}>
           <Input

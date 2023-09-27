@@ -1,6 +1,10 @@
 // React Hooks
 import { FormEvent, useState } from 'react';
 
+// Redux
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { editUser } from '../../../store/reducers/user';
+
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
@@ -11,8 +15,14 @@ import checkIcon from '../../../assets/icons/check-circle.svg';
 export default function EditPhone({
   phoneNumber,
 }: {
-    phoneNumber: string | undefined;
+  phoneNumber: string | undefined;
 }) {
+  // Hook Execution Order
+  const dispatch = useAppDispatch();
+
+  // Redux state
+  const user = useAppSelector((state) => state.user.data);
+
   // Local states
   const [editPhoneNumber, setEditPhoneNumber] = useState<boolean>(false);
   const [phoneNumberValue, setPhoneNumberValue] = useState<string | undefined>(
@@ -26,12 +36,20 @@ export default function EditPhone({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
+
+    const form: HTMLFormElement = event.currentTarget;
+    const formData = Object.fromEntries(new FormData(form));
+
+    const formValues = { ...user, ...formData };
+
+    dispatch(editUser(formValues));
+    setEditPhoneNumber(false);
+  };
 
   return (
-    <PersonnalInfo clickHandler={handleEditLastname} label='Téléphone'>
+    <PersonnalInfo clickHandler={handleEditLastname} label="Téléphone">
       {editPhoneNumber ? (
-        <form className='w-[250px]' onSubmit={handleSubmit}>
+        <form className="w-[250px]" onSubmit={handleSubmit}>
           <Input
             inputName="phone"
             className="relative"
