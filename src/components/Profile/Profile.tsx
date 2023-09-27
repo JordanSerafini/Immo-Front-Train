@@ -1,31 +1,19 @@
-// React Hooks
-import { useState } from 'react';
-
 // Redux
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
 import MainSection from '../SharedComponents/MainSection/MainSection';
-import PersonnalInfo from './PersonnalInfo/PersonnalInfo';
-import Input from '../Modals/AddInfoModal/Field/Input';
+import EditFirstname from './EditFirstname/EditFirstname';
+import EditLastname from './EditLastname/EditLastname';
+import EditPhone from './EditPhone/EditPhone';
+import EditEmail from './EditEmail/EditEmail';
 
 // Assets
 import portrait from '../../assets/images/portrait_01.png';
-import pencilIcon from '../../assets/icons/edit-pencil.svg';
-import checkIcon from '../../assets/icons/check-circle.svg';
 
 export default function Profile() {
   // Redux state
   const user = useAppSelector((state) => state.user.data);
-
-  // Local states
-  const [editLastname, setEditLastname] = useState<boolean>(false);
-  const [lastnameValue, setLastnameValue] = useState<string | undefined>(user.lastname);
-
-  // Handlers Methods
-  const handleEditLastname = () => {
-    setEditLastname(!editLastname);
-  };
 
   return (
     <MainSection className="z-0">
@@ -59,43 +47,13 @@ export default function Profile() {
           Informations personnelles
         </h2>
 
-        <div className="grid grid-cols-2 m-2">
-          <PersonnalInfo label="Prénom" content={user.firstname} />
-          <div>
-            <p className="relative font-semibold w-fit text-secondary-600">
-              Nom
-              <button
-                type="button"
-                onClick={handleEditLastname}
-                className="absolute top-0 right-0 translate-x-[110%] hover:scale-105 duration-300"
-              >
-                <img src={pencilIcon} alt="Pencil" />
-              </button>
-            </p>
-            {editLastname ? (
-              <form>
-                <Input
-                  inputName="lastname"
-                  className='relative'
-                  value={lastnameValue}
-                  onChange={setLastnameValue}
-                  placeholder="Entrez votre nom"
-                >
-                  <button type="submit" className='absolute z-10 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-2 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300'>
-                  Ok <img src={checkIcon} alt="check" />
-                  </button>
-                </Input>
-              </form>
-            ) : (
-              <p className="md:text-lg">{user.lastname}</p>
-            )}
-          </div>
+        <div className="grid grid-cols-2 gap-4">
+          <EditFirstname firstname={user.firstname} />
+          <EditLastname lastname={user.lastname} />
         </div>
 
-        <div className="grid justify-between grid-cols-1 m-2 lg:grid-cols-2">
-          <PersonnalInfo label="Téléphone" content={user.phone} />
-          <PersonnalInfo label="Email" content={user.email} />
-        </div>
+        <EditPhone phoneNumber={user.phone} />
+        <EditEmail email={user.email} />
       </section>
     </MainSection>
   );

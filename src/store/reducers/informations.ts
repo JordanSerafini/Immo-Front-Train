@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createAsyncThunk,
   createReducer,
@@ -8,7 +9,7 @@ import {
 import axiosInstance from '../../utils/axios';
 
 // Typescript interface
-import { Information, CreateInfoType } from '../../@types/information';
+import { Information } from '../../@types/information';
 
 // Create an information interface
 interface InformationsState {
@@ -96,7 +97,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
       console.log(action.payload);
       state.informations.push(action.payload.data);
     })
-    .addCase(createInformation.rejected, (state, action) => {
+    .addCase(createInformation.rejected, (state) => {
       state.error = true;
       console.log('Erreur');
     })
