@@ -8,6 +8,7 @@ interface ModalState {
   isNextActionModalOpen: boolean;
   isDeleteConfirmationOpen: boolean;
   informationToDelete: number | null;
+  infoId: number | null;
 }
 
 export const initialState: ModalState = {
@@ -17,6 +18,7 @@ export const initialState: ModalState = {
   isNextActionModalOpen: false,
   isDeleteConfirmationOpen: false,
   informationToDelete: null,
+  infoId: null,
 };
 
 export const showAddInfoModal = createAction('addInfo/show');
@@ -69,7 +71,7 @@ const modalReducer = createReducer(initialState, (builder) => {
       state.isNextActionModalOpen = false;
     })
     // Delete Confirmation Modal
-    .addCase(showDeleteConfirmationModal, (state, action) => {
+    .addCase(showDeleteConfirmationModal, (state) => {
       state.isDeleteConfirmationOpen = true;
     })
     .addCase(hideDeleteConfirmationModal, (state) => {

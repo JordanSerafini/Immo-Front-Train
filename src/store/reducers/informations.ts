@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createAsyncThunk,
   createReducer,
@@ -8,7 +9,7 @@ import {
 import axiosInstance from '../../utils/axios';
 
 // Typescript interface
-import { Information, CreateInformation } from '../../@types/information';
+import { Information } from '../../@types/information';
 
 // Create an information interface
 interface InformationsState {
@@ -28,6 +29,8 @@ export const fetchInformations = createAsyncThunk(
   async () => {
     const response = await axiosInstance.get(`/informations`);
 
+    console.log(response.data);
+
     return response.data;
   }
 );
@@ -43,12 +46,27 @@ export const filterInformation = createAction(
   }
 );
 
-export const createInformation = createAsyncThunk(
+export const createInformationAndAction = createAsyncThunk(
   'information/create',
-  async ({ formData }: { formData: CreateInformation }) => {
+  async ({
+    formData,
+  }: {
+    formData: {
+      date: string;
+      sector_id: number;
+      notification_date: string;
+    };
+  }) => {
+    // First request to create an information
     const response = await axiosInstance.post(`/informations`, formData);
 
-    return response.data;
+    // Second request to create an action
+    await axiosInstance.post(
+      `/informations/${response.data.data.id}/actions`,
+      formData
+    );
+
+    return response ;
   }
 );
 
@@ -86,11 +104,11 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.informations = filteredInformation;
     })
     // CreateInformation
-    .addCase(createInformation.fulfilled, (state, action) => {
+    .addCase(createInformationAndAction.fulfilled, (state, action) => {
       console.log(action.payload);
-      state.informations.push(action.payload.data);
+      state.informations.push(action.payload.data.data);
     })
-    .addCase(createInformation.rejected, (state, action) => {
+    .addCase(createInformationAndAction.rejected, (state) => {
       state.error = true;
       console.log('Erreur');
     })

@@ -1,14 +1,28 @@
+// Assets
+import pencilIcon from '../../../assets/icons/edit-pencil.svg';
+
 // Typescript interface
 interface PersonnalInfoProps {
+  clickHandler: () => void;
+  children: React.ReactNode;
   label: string;
-  content: string | null;
 }
 
-export default function PersonnalInfo({ label, content }: PersonnalInfoProps) {
+export default function PersonnalInfo({ clickHandler, children, label }: PersonnalInfoProps) {
+
   return (
-    <div>
-      <p className="font-semibold text-secondary-600">{label}</p>
-      <p className="md:text-lg">{content}</p>
+    <div className='m-2'>
+      <p className="relative font-semibold w-fit text-secondary-600">
+        {label}
+        <button
+          type="button"
+          onClick={clickHandler}
+          className="absolute top-0 right-0 translate-x-[110%] hover:scale-105 duration-300"
+        >
+          <img src={pencilIcon} alt="Pencil" />
+        </button>
+      </p>
+      {children}
     </div>
   );
 }

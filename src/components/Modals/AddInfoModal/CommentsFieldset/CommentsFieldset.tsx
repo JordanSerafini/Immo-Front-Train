@@ -7,7 +7,7 @@ import Textarea from '../Field/Textarea';
 
 export default function CommentsFieldset() {
   // Comments Local State
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>('Test');
   
   return (
     <Fieldset title="Commentaires">

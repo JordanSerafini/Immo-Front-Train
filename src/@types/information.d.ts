@@ -15,3 +15,9 @@ export interface Information {
   collaborator_id: number | null;
   sector_id: number;
 }
+
+export interface CreateInfoType {
+  date: string;
+  collaborator_id: number | null;
+  sector_id: number;
+}
