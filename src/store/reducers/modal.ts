@@ -69,7 +69,7 @@ const modalReducer = createReducer(initialState, (builder) => {
       state.isNextActionModalOpen = false;
     })
     // Delete Confirmation Modal
-    .addCase(showDeleteConfirmationModal, (state, action) => {
+    .addCase(showDeleteConfirmationModal, (state) => {
       state.isDeleteConfirmationOpen = true;
     })
     .addCase(hideDeleteConfirmationModal, (state) => {
