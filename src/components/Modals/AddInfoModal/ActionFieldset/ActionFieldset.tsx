@@ -8,8 +8,8 @@ import AddButton from '../../../SharedComponents/Buttons/AddButton';
 
 export default function ActionFieldset() {
     // Action Local State
-  const [actionTextarea, setActionTextarea] = useState<boolean>(false);
-  const [action, setAction] = useState<string>('');
+  const [actionTextarea, setActionTextarea] = useState<boolean>(true);
+  const [action, setAction] = useState<string>('test');
 
   // Handle method
   const handleAddActionClick = () => {
@@ -24,7 +24,7 @@ export default function ActionFieldset() {
                 onChange={setAction}
                 placeholder="Renseignez votre action"
                 // Maybe another inputName. Check the back to see what is needed
-                textareaName='action'
+                textareaName='description'
               />
             ) : (
               // Add Action Button

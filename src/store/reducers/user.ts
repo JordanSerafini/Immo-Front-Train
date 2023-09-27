@@ -73,7 +73,6 @@ const userReducer = createReducer(initialState, (builder) => {
           action.payload.user.firstname
         } ${action.payload.user.lastname.toUpperCase()} est connecté !`
       );
-      console.log(action.payload.user)
 
       state.data = action.payload.user;
       state.data.logged = true;

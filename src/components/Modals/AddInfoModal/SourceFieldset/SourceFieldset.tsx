@@ -7,7 +7,7 @@ import Textarea from '../Field/Textarea';
 
 export default function SourceFieldset() {
   // Info Source Local State
-  const [sourceInfo, setSourceInfo] = useState<string>('');
+  const [sourceInfo, setSourceInfo] = useState<string>('test source');
   return (
     <Fieldset title="*Source de l'information">
       <div className="mb-5">
