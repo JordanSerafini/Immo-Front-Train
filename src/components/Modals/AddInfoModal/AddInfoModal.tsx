@@ -51,7 +51,7 @@ export default function AddInfoModal() {
 
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
-    useState<string>('Appartement');
+    useState<string>('Maison');
 
   // HANDLERS
   const handleCancelClick = () => {

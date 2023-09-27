@@ -21,7 +21,7 @@ import Input from '../AddInfoModal/Field/Input';
 import getFullDate from '../../../utils/getFullDate';
 
 // Typescript interface
-import { createInformationAndAction } from '../../../store/reducers/informations';
+import { createInformation, createInformationAndAction } from '../../../store/reducers/informations';
 
 export default function NextActionModal({ formData } : {formData: {[k: string]: FormDataEntryValue} | undefined}) {
   // Hook Execution Order
@@ -35,12 +35,6 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
 
   // Methods
   const closeAllModal = () => {
-    // const actionData = {
-    //   information_id: formData?.id,
-    //   description: formData?.action,
-    //   date: getFullDate()
-    // }
-
     const infoData = {
       ...formData,
       notification_date: nextActionDate,
@@ -49,7 +43,11 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
       sector_id: 1
     }
 
-    dispatch(createInformationAndAction({formData: infoData}))
+    if (formData && formData.description && formData.description.length){
+      dispatch(createInformationAndAction({ formData: infoData }))
+    } else {
+      dispatch(createInformation({ formData: infoData }))
+    }
     
     dispatch(hideAddInfoModal());
     dispatch(hideCancelConfirmationModal());
@@ -76,11 +74,3 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
     </Modal>
   );
 }
-
-/**
- * INSERT INTO action (
-      description,
-      date,
-      notification_date,
-      information_id  
- */

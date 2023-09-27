@@ -23,7 +23,7 @@ export default function LoginForm() {
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('nathalie.petit@example.com');
+  const [email, setEmail] = useState<string>('sebastien.moreau@example.com');
   const [password, setPassword] = useState<string>('pass123');
 
   const togglePasswordVisibility = () => {

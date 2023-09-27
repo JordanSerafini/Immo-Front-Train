@@ -96,8 +96,10 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.data.logged = true;
+      state.data.firstname = action.payload.firstname;
+      state.data.lastname = action.payload.lastname;
+      state.data.phone = action.payload.phone;
+      state.data.email = action.payload.email;
     });
 });
 

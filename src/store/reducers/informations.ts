@@ -46,8 +46,25 @@ export const filterInformation = createAction(
   }
 );
 
-export const createInformationAndAction = createAsyncThunk(
+export const createInformation = createAsyncThunk(
   'information/create',
+  async ({
+    formData,
+  }: {
+    formData: {
+      date: string;
+      sector_id: number;
+      notification_date: string;
+    };
+  }) => {
+    const response = await axiosInstance.post('/informations', formData);
+
+    return response;
+  }
+);
+
+export const createInformationAndAction = createAsyncThunk(
+  'information/createWithAction',
   async ({
     formData,
   }: {
@@ -61,12 +78,13 @@ export const createInformationAndAction = createAsyncThunk(
     const response = await axiosInstance.post(`/informations`, formData);
 
     // Second request to create an action
+    // We want to use the id from the previous created information to send it to the route post to create an action
     await axiosInstance.post(
       `/informations/${response.data.data.id}/actions`,
       formData
     );
 
-    return response ;
+    return response;
   }
 );
 
@@ -104,6 +122,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.informations = filteredInformation;
     })
     // CreateInformation
+    .addCase(createInformation.fulfilled, (state, action) => {
+      state.informations.push(action.payload.data.data);
+    })
+    // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       console.log(action.payload);
       state.informations.push(action.payload.data.data);

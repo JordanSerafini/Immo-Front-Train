@@ -8,8 +8,8 @@ import AddButton from '../../../SharedComponents/Buttons/AddButton';
 
 export default function ActionFieldset() {
     // Action Local State
-  const [actionTextarea, setActionTextarea] = useState<boolean>(true);
-  const [action, setAction] = useState<string>('test');
+  const [actionTextarea, setActionTextarea] = useState<boolean>(false);
+  const [action, setAction] = useState<string>('');
 
   // Handle method
   const handleAddActionClick = () => {
