@@ -1,14 +1,11 @@
 // React Hooks
-import { FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 
 // React Router
 import { useNavigate } from 'react-router-dom';
 
 // Redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-
-// Store
-import { login } from '../../store/reducers/user';
+import { useAppSelector } from '../../hooks/redux';
 
 // Components
 import LoginForm from "./LoginForm/LoginForm";
@@ -19,24 +16,14 @@ import LoginFooter from './LoginFooter/LoginFooter';
 import illustration from '../../assets/images/illustration.png';
 
 export default function Login() {
-  // Hook Execution Order 
-  const dispatch = useAppDispatch();
+  // Hook Execution Order
   const navigate = useNavigate();
 
   // Redux State
   const isLogged = useAppSelector((state) => state.user.data.logged);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-
-    dispatch(login(formData));
-  };
-
   useEffect(() => {
-    // Once the use is connected, we can redirect him to the "/app/prospection"
+    // Once the user is connected, we can redirect him to the "/app/prospection"
     // Later the redirection will also depend on the role of the user (Admin or collaborator)
     if (isLogged) {
       navigate('/app/prospection');
@@ -60,7 +47,7 @@ export default function Login() {
         <h2 className="mt-auto text-4xl font-bold text-center text-transparent uppercase bg-gradient-to-r from-accent-400 to-primary-300 bg-clip-text">
           Connexion
         </h2>
-        <LoginForm submitMethod={handleSubmit} />
+        <LoginForm />
 
         {/* FOOTER */}
         {/* HTML SEMANTIC TO IMPROVE... */}

@@ -8,7 +8,7 @@ import {
 import axiosInstance from '../../utils/axios';
 
 // Typescript interface
-import { Information, CreateInformation } from '../../@types/information';
+import { Information, CreateInfoType } from '../../@types/information';
 
 // Create an information interface
 interface InformationsState {
@@ -45,7 +45,11 @@ export const filterInformation = createAction(
 
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({ formData }: { formData: CreateInformation }) => {
+  async ({
+    formData,
+  }: {
+    formData: CreateInfoType;
+  }) => {
     const response = await axiosInstance.post(`/informations`, formData);
 
     return response.data;

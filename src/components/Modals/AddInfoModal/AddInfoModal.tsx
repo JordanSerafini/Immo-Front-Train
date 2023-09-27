@@ -42,6 +42,7 @@ import getFullDate from '../../../utils/getFullDate';
 import './animation.scss';
 
 export default function AddInfoModal() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationAddInfoModalOpen
@@ -49,10 +50,6 @@ export default function AddInfoModal() {
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
-
-  const handleCancelClick = () => {
-    dispatch(showCancelConfirmationAddInfoModalOpen());
-  };
 
   // Type Local State
   // Decide the default checked button
@@ -65,20 +62,22 @@ export default function AddInfoModal() {
   const collaboratorId = useAppSelector((state) => state.user.data.id);
 
   // HANDLERS
+  const handleCancelClick = () => {
+    dispatch(showCancelConfirmationAddInfoModalOpen());
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.currentTarget;
+    const form: HTMLFormElement = event.currentTarget;
     const formEntries = Object.fromEntries(new FormData(form));
-
+    
     const formData = {
       ...formEntries,
       date: getFullDate(),
       collaborator_id: collaboratorId,
       sector_id: 1,
     };
-
-    console.log(formData);
 
     // If there's an action, show the next action modal ELSE hide add info modal and send form
     // For the first case, the form will be send once the show next action modal is valid. So please, think to give a formData props to next action modal

@@ -17,7 +17,6 @@ import { fetchInformations } from '../../store/reducers/informations';
 // Components
 import MainSection from '../SharedComponents/MainSection/MainSection';
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
-import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';

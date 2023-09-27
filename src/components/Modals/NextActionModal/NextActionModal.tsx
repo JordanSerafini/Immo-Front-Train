@@ -40,6 +40,7 @@ export default function NextActionModal({
           onChange={setState}
           placeholder="jj / mm / dddd"
           label='*Prochaine action prévue le :'
+          inputName='notification_date'
         />
         <ValidButton
           className="block m-auto"
