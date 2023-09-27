@@ -1,13 +1,13 @@
 export interface User {
-  id: number | null;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
-  password?: string | null;
-  phone: string | null;
+  id: number | undefined;
+  firstname: string | undefined;
+  lastname: string | undefined;
+  email: string | undefined;
+  password?: string | undefined;
+  phone: string | undefined;
   acces: boolean;
-  secret_key: null | string;
-  role_id: number | null;
-  avatar_id: number | null;
+  secret_key: undefined | string;
+  role_id: number | undefined;
+  avatar_id: number | undefined;
   logged: boolean;
 }

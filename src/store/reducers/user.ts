@@ -18,15 +18,15 @@ export const initialState: UserState = {
   loading: false,
   error: false,
   data: {
-    id: null,
-    firstname: null,
-    lastname: null,
-    email: null,
-    phone: null,
+    id: undefined,
+    firstname: undefined,
+    lastname: undefined,
+    email: undefined,
+    phone: undefined,
     acces: false,
-    secret_key: null,
-    role_id: null,
-    avatar_id: null,
+    secret_key: undefined,
+    role_id: undefined,
+    avatar_id: undefined,
     logged: false,
   },
   JSWToken: null,
@@ -78,14 +78,14 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     // Logout
     .addCase(logout.fulfilled, (state) => {
-      state.data.id = null;
-      state.data.firstname = null
-      state.data.lastname = null
-      state.data.email = null
-      state.data.phone = null
+      state.data.id = undefined;
+      state.data.firstname = undefined
+      state.data.lastname = undefined
+      state.data.email = undefined
+      state.data.phone = undefined
       state.data.acces = false;
-      state.data.role_id = null
-      state.data.avatar_id = null
+      state.data.role_id = undefined
+      state.data.avatar_id = undefined
       state.data.logged = false;
     });
 });

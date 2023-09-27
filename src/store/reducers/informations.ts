@@ -48,7 +48,9 @@ export const createInformation = createAsyncThunk(
   async ({
     formData,
   }: {
-    formData: CreateInfoType;
+    formData: {date: string;
+      collaborator_id: number | undefined;
+      sector_id: number;};
   }) => {
     const response = await axiosInstance.post(`/informations`, formData);
 
