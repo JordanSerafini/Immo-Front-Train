@@ -8,7 +8,7 @@ export default {
         lato: ['Lato', 'sans-serif'],
       },
       boxShadow: {
-        custom: '0 4px 10px 0px rgba(0, 0, 0, 0.25)',
+        custom: '0 4px 10px 0px rgba(0, 0, 0, 0.25);',
         primary: '0px 5px 30px 5px #B380FF;',
         accent: '0px 5px 30px 5px #8097FF;'
       },

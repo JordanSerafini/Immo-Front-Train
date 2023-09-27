@@ -18,7 +18,7 @@ export default function ProfileSection({
     <section className="flex flex-wrap items-center justify-center gap-5 py-6">
       <img
         className="rounded-full w-28 shadow-custom"
-        src={portait}
+        src={user.url || portait}
         alt="Collaborator Portrait"
       />
       <div className="flex flex-col items-center gap-5">

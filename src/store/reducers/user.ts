@@ -1,7 +1,4 @@
-import {
-  createReducer,
-  createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -18,15 +15,15 @@ export const initialState: UserState = {
   loading: false,
   error: false,
   data: {
-    id: null,
-    firstname: null,
-    lastname: null,
-    email: null,
-    phone: null,
+    id: undefined,
+    firstname: undefined,
+    lastname: undefined,
+    email: undefined,
+    phone: undefined,
     acces: false,
-    secret_key: null,
-    role_id: null,
-    avatar_id: null,
+    secret_key: undefined,
+    role_id: undefined,
+    url: undefined,
     logged: false,
   },
   JSWToken: null,
@@ -50,6 +47,18 @@ export const logout = createAsyncThunk('user/logout', async () => {
   return response;
 });
 
+export const editUser = createAsyncThunk(
+  'user/edit',
+  async (formData: User) => {
+    const { data } = await axiosInstance.patch(
+      `/collaborator/${formData.id}`,
+      formData
+    );
+
+    return data;
+  }
+);
+
 const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
@@ -58,16 +67,14 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      console.log(`${action.payload.user.firstname} ${action.payload.user.lastname.toUpperCase()} est connecté !`)
+      // eslint-disable-next-line no-console
+      console.log(
+        `${
+          action.payload.user.firstname
+        } ${action.payload.user.lastname.toUpperCase()} est connecté !`
+      );
 
-      state.data.id = action.payload.user.id;
-      state.data.firstname = action.payload.user.firstname;
-      state.data.lastname = action.payload.user.lastname;
-      state.data.email = action.payload.user.email;
-      state.data.phone = action.payload.user.phone;
-      state.data.acces = action.payload.user.acces;
-      state.data.role_id = action.payload.user.role_id;
-      state.data.avatar_id = action.payload.user.avatar_id;
+      state.data = action.payload.user;
       state.data.logged = true;
 
       state.loading = false;
@@ -78,15 +85,21 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     // Logout
     .addCase(logout.fulfilled, (state) => {
-      state.data.id = null;
-      state.data.firstname = null
-      state.data.lastname = null
-      state.data.email = null
-      state.data.phone = null
+      state.data.id = undefined;
+      state.data.firstname = undefined;
+      state.data.lastname = undefined;
+      state.data.email = undefined;
+      state.data.phone = undefined;
+      state.data.url = undefined;
       state.data.acces = false;
-      state.data.role_id = null
-      state.data.avatar_id = null
       state.data.logged = false;
+    })
+    // Edit User
+    .addCase(editUser.fulfilled, (state, action) => {
+      state.data.firstname = action.payload.firstname;
+      state.data.lastname = action.payload.lastname;
+      state.data.phone = action.payload.phone;
+      state.data.email = action.payload.email;
     });
 });
 

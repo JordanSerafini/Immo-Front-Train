@@ -24,7 +24,7 @@ export default function ActionFieldset() {
                 onChange={setAction}
                 placeholder="Renseignez votre action"
                 // Maybe another inputName. Check the back to see what is needed
-                textareaName='action'
+                textareaName='description'
               />
             ) : (
               // Add Action Button

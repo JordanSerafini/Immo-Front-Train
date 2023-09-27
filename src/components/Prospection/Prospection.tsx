@@ -1,7 +1,7 @@
 // React
 import { useEffect } from 'react';
 
-// React Router
+// React Dom
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -17,7 +17,6 @@ import { fetchInformations } from '../../store/reducers/informations';
 // Components
 import MainSection from '../SharedComponents/MainSection/MainSection';
 import ProspectionInformation from './ProspectionInformation/ProspectionInformation';
-import NavBar from '../NavBar/NavBar';
 import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';
@@ -28,8 +27,8 @@ import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomin
 
 // Assets
 import plus from '../../assets/icons/plus.svg';
-import actionToDo from '../../assets/icons/action-to-do.svg';
-import upcomingAction from '../../assets/icons/upcoming-action.svg';
+import actionToDoIcon from '../../assets/icons/action-to-do.svg';
+import upcomingActionIcon from '../../assets/icons/upcoming-action.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
 // Typescript interface
@@ -39,7 +38,6 @@ export default function Prospection() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  // Redux States
   const informations = useAppSelector(
     (state) => state.information.informations
   );
@@ -65,10 +63,25 @@ export default function Prospection() {
   if (isLoading) {
     return (
       <MainSection>
-        <img className="relative w-[50px] -left-1/2 -top-1/2" src={loader} alt="Loader" />
+        <img
+          className="relative w-[50px] -left-1/2 -top-1/2"
+          src={loader}
+          alt="Loader"
+        />
       </MainSection>
     );
   }
+
+  const currentDate = new Date();
+  const ISOCurrentDate = currentDate.toISOString();
+
+  const actionToDo = informations.filter(
+    (information) => information.notification_date < ISOCurrentDate
+  );
+
+  const upcomingAction = informations.filter(
+    (information) => information.notification_date > ISOCurrentDate
+  );
 
   return (
     <>
@@ -76,67 +89,17 @@ export default function Prospection() {
         {/* SECTIONS for ActionToDo & UpcomingAction */}
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
           {/* Refacto incoming when the back is ope */}
-          <ActionSection icon={actionToDo} title="Actions à faire">
-              <CardActionToDo
-                address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-                owner="Mr et Mme AKHTAR"
-                type="maison"
-              />
-              <CardActionToDo
-                address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-                owner="Mr et Mme DUCHAUFFOUR"
-                type="maison"
-              />
-              <CardActionToDo
-                address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-                owner="Mr VIFFRY"
-                type="appartement"
-              />
-              <CardActionToDo
-                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                owner="Mr ALCARAZ"
-                type="terrain"
-              />
+          <ActionSection icon={actionToDoIcon} title="Actions à faire">
+            {actionToDo.map((information) => (
+              <CardActionToDo key={information.id} {...information} />
+            ))}
           </ActionSection>
 
           {/* Refacto incoming when the back is ope */}
-          <ActionSection icon={upcomingAction} title="Actions à venir">
-              <CardUpcomingAction
-                address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-                owner="Mr et Mme AKHTAR"
-                type="maison"
-                notificationDate="20/02/2023"
-              />
-              <CardUpcomingAction
-                address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-                owner="Mr et Mme DUCHAUFFOUR"
-                type="maison"
-                notificationDate="22/02/2023"
-              />
-              <CardUpcomingAction
-                address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-                owner="Mr VIFFRY"
-                type="appartement"
-                notificationDate="25/02/2023"
-              />
-              <CardUpcomingAction
-                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                owner="Mr ALCARAZ"
-                type="terrain"
-                notificationDate="02/03/2023"
-              />
-              <CardUpcomingAction
-                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                owner="Mr ALCARAZ"
-                type="terrain"
-                notificationDate="02/03/2023"
-              />
-              <CardUpcomingAction
-                address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-                owner="Mr ALCARAZ"
-                type="terrain"
-                notificationDate="02/03/2023"
-              />
+          <ActionSection icon={upcomingActionIcon} title="Actions à venir">
+            {upcomingAction.map((information) => (
+              <CardUpcomingAction key={information.id} {...information} />
+            ))}
           </ActionSection>
         </div>
 

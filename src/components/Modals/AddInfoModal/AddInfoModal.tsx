@@ -7,12 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
 import {
-  hideAddInfoModal,
   showNextActionModal,
   showCancelConfirmationAddInfoModalOpen,
   hideCancelConfirmationAddInfoModalOpen,
 } from '../../../store/reducers/modal';
-import { createInformation } from '../../../store/reducers/informations';
 
 // Shared Components
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
@@ -35,13 +33,11 @@ import ActionFieldset from './ActionFieldset/ActionFieldset';
 // Assets
 import plus from '../../../assets/icons/plus.svg';
 
-// Utils
-import getFullDate from '../../../utils/getFullDate';
-
 // Style
 import './animation.scss';
 
 export default function AddInfoModal() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationAddInfoModalOpen
@@ -50,44 +46,25 @@ export default function AddInfoModal() {
     (state) => state.modal.isNextActionModalOpen
   );
 
-  const handleCancelClick = () => {
-    dispatch(showCancelConfirmationAddInfoModalOpen());
-  };
+  // Local States
+  const [formData, setFormData] = useState<{[k: string]: FormDataEntryValue}>()
 
-  // Type Local State
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('Maison');
 
-  // Next Action / Notification state
-  const [nextAction, setNextAction] = useState<string>('');
-
-  const collaboratorId = useAppSelector((state) => state.user.data.id);
-
   // HANDLERS
+  const handleCancelClick = () => {
+    dispatch(showCancelConfirmationAddInfoModalOpen());
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.currentTarget;
-    const formEntries = Object.fromEntries(new FormData(form));
+    const form: HTMLFormElement = event.currentTarget;
+    setFormData(Object.fromEntries(new FormData(form)));
 
-    const formData = {
-      ...formEntries,
-      date: getFullDate(),
-      collaborator_id: collaboratorId,
-      sector_id: 1,
-    };
-
-    console.log(formData);
-
-    // If there's an action, show the next action modal ELSE hide add info modal and send form
-    // For the first case, the form will be send once the show next action modal is valid. So please, think to give a formData props to next action modal
-    if (formEntries.action && formEntries.action.length) {
-      dispatch(showNextActionModal());
-    } else {
-      dispatch(hideAddInfoModal());
-      dispatch(createInformation({formData}))
-    }
+    dispatch(showNextActionModal());
   };
 
   return (
@@ -152,7 +129,7 @@ export default function AddInfoModal() {
       {/* NEXT ACTION MODAL */}
       {nextActionModal &&
         createPortal(
-          <NextActionModal state={nextAction} setState={setNextAction} />,
+          <NextActionModal formData={formData} />,
           document.body
         )}
     </Modal>
