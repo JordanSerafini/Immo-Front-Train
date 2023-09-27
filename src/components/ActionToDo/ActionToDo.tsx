@@ -1,6 +1,9 @@
 // React Router
 import { Link } from 'react-router-dom';
 
+// Redux
+import { useAppSelector } from '../../hooks/redux';
+
 // Components
 import NavBar from '../NavBar/NavBar';
 import CardActionToDo from './CardActionToDo/CardActionToDo';
@@ -10,6 +13,13 @@ import logo from '../../assets/logo.svg';
 import actionToDoIcon from '../../assets/icons/action-to-do.svg';
 
 export default function ActionToDo() {
+  const informations = useAppSelector((state) => state.information.informations);
+
+  const currentDate = new Date();
+  const ISOCurrentDate = currentDate.toISOString();
+
+  const actionToDo = informations.filter(information => information.notification_date < ISOCurrentDate)
+
   return (
     <>
       <NavBar />
@@ -30,26 +40,9 @@ export default function ActionToDo() {
         </div>
 
         <ul className="grid gap-5 lg:grid-cols-2">
-          <CardActionToDo
-            address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-            owner="Mr et Mme AKHTAR"
-            type="maison"
-          />
-          <CardActionToDo
-            address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-            owner="Mr et Mme DUCHAUFFOUR"
-            type="maison"
-          />
-          <CardActionToDo
-            address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-            owner="Mr VIFFRY"
-            type="appartement"
-          />
-          <CardActionToDo
-            address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-            owner="Mr ALCARAZ"
-            type="terrain"
-          />
+          {actionToDo.map(information => (
+            <CardActionToDo key={information.id} {...information} />
+          ))}
         </ul>
       </main>
     </>

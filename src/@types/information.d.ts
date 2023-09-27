@@ -14,6 +14,7 @@ export interface Information {
   date: string;
   collaborator_id: number | null;
   sector_id: number;
+  notification_date: string;
 }
 
 export interface CreateInfoType {

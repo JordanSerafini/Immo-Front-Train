@@ -27,8 +27,8 @@ import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomin
 
 // Assets
 import plus from '../../assets/icons/plus.svg';
-import actionToDo from '../../assets/icons/action-to-do.svg';
-import upcomingAction from '../../assets/icons/upcoming-action.svg';
+import actionToDoIcon from '../../assets/icons/action-to-do.svg';
+import upcomingActionIcon from '../../assets/icons/upcoming-action.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
 // Typescript interface
@@ -72,73 +72,26 @@ export default function Prospection() {
     );
   }
 
+  const currentDate = new Date();
+  const ISOCurrentDate = currentDate.toISOString();
+
+  const actionToDo = informations.filter(information => information.notification_date < ISOCurrentDate)
+
   return (
     <>
       <MainSection>
         {/* SECTIONS for ActionToDo & UpcomingAction */}
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
           {/* Refacto incoming when the back is ope */}
-          <ActionSection icon={actionToDo} title="Actions à faire">
-            <CardActionToDo
-              address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-              owner="Mr et Mme AKHTAR"
-              type="maison"
-            />
-            <CardActionToDo
-              address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-              owner="Mr et Mme DUCHAUFFOUR"
-              type="maison"
-            />
-            <CardActionToDo
-              address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-              owner="Mr VIFFRY"
-              type="appartement"
-            />
-            <CardActionToDo
-              address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-              owner="Mr ALCARAZ"
-              type="terrain"
-            />
+          <ActionSection icon={actionToDoIcon} title="Actions à faire">
+          {actionToDo.map(information => (
+            <CardActionToDo key={information.id} {...information} />
+          ))}
           </ActionSection>
 
           {/* Refacto incoming when the back is ope */}
-          <ActionSection icon={upcomingAction} title="Actions à venir">
-            <CardUpcomingAction
-              address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-              owner="Mr et Mme AKHTAR"
-              type="maison"
-              notificationDate="20/02/2023"
-            />
-            <CardUpcomingAction
-              address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-              owner="Mr et Mme DUCHAUFFOUR"
-              type="maison"
-              notificationDate="22/02/2023"
-            />
-            <CardUpcomingAction
-              address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-              owner="Mr VIFFRY"
-              type="appartement"
-              notificationDate="25/02/2023"
-            />
-            <CardUpcomingAction
-              address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-              owner="Mr ALCARAZ"
-              type="terrain"
-              notificationDate="02/03/2023"
-            />
-            <CardUpcomingAction
-              address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-              owner="Mr ALCARAZ"
-              type="terrain"
-              notificationDate="02/03/2023"
-            />
-            <CardUpcomingAction
-              address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-              owner="Mr ALCARAZ"
-              type="terrain"
-              notificationDate="02/03/2023"
-            />
+          <ActionSection icon={upcomingActionIcon} title="Actions à venir">
+            <p>Component Incoming</p>
           </ActionSection>
         </div>
 

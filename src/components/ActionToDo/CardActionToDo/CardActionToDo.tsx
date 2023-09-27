@@ -9,27 +9,19 @@ import houseIcon from '../../../assets/icons/house.svg';
 import apartmentIcon from '../../../assets/icons/apartment.svg';
 import landIcon from '../../../assets/icons/land.svg';
 
-// Typescript interface
-interface CardActionToDoProps {
-  address: string;
-  owner: string;
-  type: string;
-}
+// TypescriptInterface
+import { Information } from '../../../@types/information';
 
-export default function CardActionToDo({
-  address,
-  owner,
-  type,
-}: CardActionToDoProps) {
+export default function CardActionToDo({id, type, address_number, address_street, code_zip, address_city, owner_name}: Information) {
   let icon: string;
   switch (type) {
-    case 'maison':
+    case 'Maison':
       icon = houseIcon;
       break;
-    case 'appartement':
+    case 'Appartement':
       icon = apartmentIcon;
       break;
-    case 'terrain':
+    case 'Terrain':
       icon = landIcon;
       break;
     default:
@@ -40,10 +32,12 @@ export default function CardActionToDo({
     <li className="flex items-start justify-between gap-5 p-3 rounded-lg bg-secondary-50 shadow-custom">
       <div className="flex flex-col gap-1">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px]" />
-        <p>{address}</p>
-        <p>{owner}</p>
+        <p>{address_number} {address_street}{' '}
+            {code_zip}{' '}
+            {address_city.toLocaleUpperCase()}</p>
+        <p>{owner_name}</p>
       </div>
-      <Link to="/app/actionManager">
+      <Link to={`/app/actionManager/${id}`}>
         <ValidButton content="Traiter" />
       </Link>
     </li>
