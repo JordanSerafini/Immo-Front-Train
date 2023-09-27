@@ -23,7 +23,7 @@ export const initialState: UserState = {
     acces: false,
     secret_key: undefined,
     role_id: undefined,
-    avatar_id: undefined,
+    url: undefined,
     logged: false,
   },
   JSWToken: null,
@@ -67,11 +67,13 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
+      // eslint-disable-next-line no-console
       console.log(
         `${
           action.payload.user.firstname
         } ${action.payload.user.lastname.toUpperCase()} est connecté !`
       );
+      console.log(action.payload.user)
 
       state.data = action.payload.user;
       state.data.logged = true;
@@ -89,8 +91,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.lastname = undefined;
       state.data.email = undefined;
       state.data.phone = undefined;
-      state.data.role_id = undefined;
-      state.data.avatar_id = undefined;
+      state.data.url = undefined;
       state.data.acces = false;
       state.data.logged = false;
     })
