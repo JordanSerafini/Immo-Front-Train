@@ -12,7 +12,15 @@ import landIcon from '../../../assets/icons/land.svg';
 // TypescriptInterface
 import { Information } from '../../../@types/information';
 
-export default function CardActionToDo({id, type, address_number, address_street, code_zip, address_city, owner_name}: Information) {
+export default function CardActionToDo({
+  id,
+  type,
+  address_number,
+  address_street,
+  code_zip,
+  address_city,
+  owner_name,
+}: Information) {
   let icon: string;
   switch (type) {
     case 'Maison':
@@ -32,9 +40,10 @@ export default function CardActionToDo({id, type, address_number, address_street
     <li className="flex items-start justify-between gap-5 p-3 rounded-lg bg-secondary-50 shadow-custom">
       <div className="flex flex-col gap-1">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px]" />
-        <p>{address_number} {address_street}{' '}
-            {code_zip}{' '}
-            {address_city.toLocaleUpperCase()}</p>
+        <p>
+          {address_number} {address_street} {code_zip}{' '}
+          {address_city.toLocaleUpperCase()}
+        </p>
         <p>{owner_name}</p>
       </div>
       <Link to={`/app/actionManager/${id}`}>

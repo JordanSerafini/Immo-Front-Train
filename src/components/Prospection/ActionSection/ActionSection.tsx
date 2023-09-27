@@ -11,7 +11,7 @@ export default function ActionSection({
   children,
 }: ActionSectionProps) {
   return (
-    <section className="p-4 rounded-lg shadow-custom bg-secondary-50 max-h-[250px] overflow-y-scroll">
+    <section className="p-4 rounded-lg shadow-custom bg-secondary-50 max-h-[250px] overflow-y-auto overflow-x-hidden">
       <div className="flex gap-2 mb-4">
         <img src={icon} alt={icon} />
         <h1 className="text-lg font-semibold font-poppins">{title}</h1>

@@ -75,7 +75,13 @@ export default function Prospection() {
   const currentDate = new Date();
   const ISOCurrentDate = currentDate.toISOString();
 
-  const actionToDo = informations.filter(information => information.notification_date < ISOCurrentDate)
+  const actionToDo = informations.filter(
+    (information) => information.notification_date < ISOCurrentDate
+  );
+
+  const upcomingAction = informations.filter(
+    (information) => information.notification_date > ISOCurrentDate
+  );
 
   return (
     <>
@@ -84,14 +90,16 @@ export default function Prospection() {
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
           {/* Refacto incoming when the back is ope */}
           <ActionSection icon={actionToDoIcon} title="Actions à faire">
-          {actionToDo.map(information => (
-            <CardActionToDo key={information.id} {...information} />
-          ))}
+            {actionToDo.map((information) => (
+              <CardActionToDo key={information.id} {...information} />
+            ))}
           </ActionSection>
 
           {/* Refacto incoming when the back is ope */}
           <ActionSection icon={upcomingActionIcon} title="Actions à venir">
-            <p>Component Incoming</p>
+            {upcomingAction.map((information) => (
+              <CardUpcomingAction key={information.id} {...information} />
+            ))}
           </ActionSection>
         </div>
 

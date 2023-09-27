@@ -1,6 +1,9 @@
 // React Router
 import { Link } from 'react-router-dom';
 
+// Redux
+import { useAppSelector } from '../../hooks/redux';
+
 // Components
 import NavBar from '../NavBar/NavBar';
 import CardUpcomingAction from './CardUpcomingAction/CardUpcomingAction';
@@ -10,6 +13,17 @@ import logo from '../../assets/logo.svg';
 import upcomingActionIcon from '../../assets/icons/upcoming-action.svg';
 
 export default function UpcomingAction() {
+  const informations = useAppSelector(
+    (state) => state.information.informations
+  );
+
+  const currentDate = new Date();
+  const ISOCurrentDate = currentDate.toISOString();
+
+  const upcomingAction = informations.filter(
+    (information) => information.notification_date > ISOCurrentDate
+  );
+
   return (
     <>
       <NavBar />
@@ -24,48 +38,13 @@ export default function UpcomingAction() {
             alt="Action to do Icon"
             className="w-[50px]"
           />
-          <h1>
-            Actions à venir
-          </h1>
+          <h1>Actions à venir</h1>
         </div>
 
         <ul className="grid gap-5 lg:grid-cols-2">
-          <CardUpcomingAction
-            address="5, rue de la Liberté 95190 GOUSSAINVILLE"
-            owner="Mr et Mme AKHTAR"
-            type="maison"
-            notificationDate="20/02/2023"
-          />
-          <CardUpcomingAction
-            address="25, boulevard Roger Salengro 95190 GOUSSAINVILLE"
-            owner="Mr et Mme DUCHAUFFOUR"
-            type="maison"
-            notificationDate="22/02/2023"
-          />
-          <CardUpcomingAction
-            address="12, rue du Montoir Saint-Nicolas 95190 FONTENAY-EN-PARISIS"
-            owner="Mr VIFFRY"
-            type="appartement"
-            notificationDate="25/02/2023"
-          />
-          <CardUpcomingAction
-            address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-            owner="Mr ALCARAZ"
-            type="terrain"
-            notificationDate="02/03/2023"
-          />
-          <CardUpcomingAction
-            address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-            owner="Mr ALCARAZ"
-            type="terrain"
-            notificationDate="02/03/2023"
-          />
-          <CardUpcomingAction
-            address="43, rue Lucien Mèche 95190 GOUSSAINVILLE"
-            owner="Mr ALCARAZ"
-            type="terrain"
-            notificationDate="02/03/2023"
-          />
+          {upcomingAction.map((information) => (
+            <CardUpcomingAction key={information.id} {...information} />
+          ))}
         </ul>
       </main>
     </>
