@@ -12,13 +12,13 @@ import CardActionToDo from './CardActionToDo/CardActionToDo';
 import logo from '../../assets/logo.svg';
 import actionToDoIcon from '../../assets/icons/action-to-do.svg';
 
+// utils
+import filteredActionToDo from '../../utils/filteredActionToDo';
+
 export default function ActionToDo() {
   const informations = useAppSelector((state) => state.information.informations);
 
-  const currentDate = new Date();
-  const ISOCurrentDate = currentDate.toISOString();
-
-  const actionToDo = informations.filter(information => information.notification_date < ISOCurrentDate)
+  const actionToDo = filteredActionToDo(informations)
 
   return (
     <>

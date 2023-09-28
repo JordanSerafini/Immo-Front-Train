@@ -12,18 +12,15 @@ import CardUpcomingAction from './CardUpcomingAction/CardUpcomingAction';
 import logo from '../../assets/logo.svg';
 import upcomingActionIcon from '../../assets/icons/upcoming-action.svg';
 
+// utils
+import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
+
 export default function UpcomingAction() {
   const informations = useAppSelector(
     (state) => state.information.informations
   );
 
-  const currentDate = new Date();
-  const ISOCurrentDate = currentDate.toISOString();
-
-  const upcomingAction = informations.filter(
-    (information) => information.notification_date > ISOCurrentDate
-  );
-
+  const upcomingAction = filteredUpcomingAction(informations)
   return (
     <>
       <NavBar />
