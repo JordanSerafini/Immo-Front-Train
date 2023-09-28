@@ -35,13 +35,18 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
 
   // Methods
   const closeAllModal = () => {
+    const date = new Date(nextActionDate);
+    date.setUTCHours(0, 0, 0, 0);
+    const ISONotifDate = date.toISOString()
+
     const infoData = {
       ...formData,
-      notification_date: nextActionDate,
+      notification_date: ISONotifDate,
       collaborator_id: collaboratorId,
       date: getFullDate(),
       sector_id: 1
     }
+
 
     if (formData && formData.description && formData.description.length){
       dispatch(createInformationAndAction({ formData: infoData }))

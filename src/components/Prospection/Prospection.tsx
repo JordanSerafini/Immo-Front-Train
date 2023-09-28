@@ -34,6 +34,10 @@ import loader from '../../assets/loader/tail-spin.svg';
 // Typescript interface
 import { Information } from '../../@types/information';
 
+// utils
+import filteredActionToDo from '../../utils/filteredActionToDo';
+import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
+
 export default function Prospection() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
@@ -74,16 +78,9 @@ export default function Prospection() {
     );
   }
 
-  const currentDate = new Date();
-  const ISOCurrentDate = currentDate.toISOString();
+  const actionToDo = filteredActionToDo(informations);
 
-  const actionToDo = informations.filter(
-    (information) => information.notification_date <= ISOCurrentDate
-  );
-
-  const upcomingAction = informations.filter(
-    (information) => information.notification_date > ISOCurrentDate
-  );
+  const upcomingAction = filteredUpcomingAction(informations);
 
   return (
     <>

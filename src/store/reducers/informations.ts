@@ -135,6 +135,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.data);
+      state.filteredInformations.push(action.payload.data.data)
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
@@ -150,6 +151,9 @@ const informationsReducer = createReducer(initialState, (builder) => {
       const deletedId = parseInt(action.payload, 10);
 
       state.informations = state.informations.filter(
+        (info) => info.id !== deletedId
+      );
+      state.filteredInformations = state.filteredInformations.filter(
         (info) => info.id !== deletedId
       );
     })
