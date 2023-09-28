@@ -11,10 +11,12 @@ export interface Information {
   source: string;
   category: string;
   comment: null | string;
-  date: string;
+  date: string ;
   collaborator_id: number | null;
   sector_id: number;
   notification_date: string;
+  phone_1: string;
+  phone_2: string;
 }
 
 export interface CreateInfoType {

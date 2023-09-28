@@ -129,7 +129,7 @@ export default function AddInfoModal() {
       {/* NEXT ACTION MODAL */}
       {nextActionModal &&
         createPortal(
-          <NextActionModal formData={formData} />,
+          <NextActionModal withInfo formData={formData} />,
           document.body
         )}
     </Modal>

@@ -50,12 +50,14 @@ export const logout = createAsyncThunk('user/logout', async () => {
 export const editUser = createAsyncThunk(
   'user/edit',
   async (formData: User) => {
-    const { data } = await axiosInstance.patch(
+    const response = await axiosInstance.patch(
       `/collaborator/${formData.id}`,
       formData
     );
 
-    return data;
+    console.log(response)
+
+    return response;
   }
 );
 
@@ -70,11 +72,11 @@ const userReducer = createReducer(initialState, (builder) => {
       // eslint-disable-next-line no-console
       console.log(
         `${
-          action.payload.user.firstname
-        } ${action.payload.user.lastname.toUpperCase()} est connecté !`
+          action.payload.result.firstname
+        } ${action.payload.result.lastname.toUpperCase()} est connecté !`
       );
 
-      state.data = action.payload.user;
+      state.data = action.payload.result;
       state.data.logged = true;
 
       state.loading = false;
@@ -96,10 +98,11 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {
-      state.data.firstname = action.payload.firstname;
-      state.data.lastname = action.payload.lastname;
-      state.data.phone = action.payload.phone;
-      state.data.email = action.payload.email;
+      console.log(action.payload)
+      state.data.firstname = action.payload.data.firstname;
+      state.data.lastname = action.payload.data.lastname;
+      state.data.phone = action.payload.data.phone;
+      state.data.email = action.payload.data.email;
     });
 });
 

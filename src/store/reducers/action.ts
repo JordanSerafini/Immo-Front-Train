@@ -1,8 +1,5 @@
 /* eslint-disable no-console */
-import {
-  createAsyncThunk,
-  createReducer,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -13,31 +10,60 @@ import { Action } from '../../@types/action';
 interface ActionState {
   loading: boolean;
   error: boolean;
-  actions: Action[];
+  data: Action[];
 }
 
 export const initialState: ActionState = {
   loading: false,
   error: false,
-  actions: [],
+  data: [],
 };
 
-export const createProspectionAction = createAsyncThunk(
-  'action/create',
-  async ({ formData }: { formData: Action }) => {
-    const response = await axiosInstance.post(`/informations/${formData.information_id}/actions`, formData);
-
-    console.log(response)
+export const fetchActions = createAsyncThunk(
+  'action/getAll',
+  async ({infoId} : {infoId: number}) => {
+    const response = await axiosInstance.get(`/informations/${infoId}/actions`);
 
     return response.data;
   }
 );
 
+export const createProspectionAction = createAsyncThunk(
+  'action/create',
+  async ({ formData }: { formData: {[k: string]: FormDataEntryValue;} }) => {
+
+    const response = await axiosInstance.post(
+      `/informations/${formData.information_id}/actions`,
+      formData
+    );
+
+    console.log(response);
+
+    return response.data;
+
+  }
+);
+
 const actionsReducer = createReducer(initialState, (builder) => {
   builder
+    // Fetch All Actions
+    .addCase(fetchActions.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    })
+    .addCase(fetchActions.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
+      state.data = action.payload;
+    })
+    .addCase(fetchActions.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
-      state.actions.push(action.payload.data);
+      console.log(action.payload)
+      state.data.push(action.payload);
     })
     .addCase(createProspectionAction.rejected, (state) => {
       state.error = true;

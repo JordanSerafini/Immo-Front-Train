@@ -1,5 +1,6 @@
 export interface Action {
-    information_id: FormDataEntryValue | undefined;
+    id?: number;
+    information_id: FormDataEntryValue | number | undefined;
     description: FormDataEntryValue | undefined;
     date: string;
 }

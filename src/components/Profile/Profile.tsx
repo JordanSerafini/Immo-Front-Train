@@ -43,7 +43,7 @@ export default function Profile() {
       </section>
 
       <section className="relative max-w-[600px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
-        <h2 className="text-lg font-semibold font-poppins">
+        <h2 className="text-lg">
           Informations personnelles
         </h2>
 
