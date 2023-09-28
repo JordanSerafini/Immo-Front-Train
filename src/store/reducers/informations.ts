@@ -67,12 +67,17 @@ export const createInformation = createAsyncThunk(
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    await axiosInstance.patch(
+    console.log(information)
+
+    const response1 = await axiosInstance.patch(
       `/informations/${information.id}`,
       information
     );
 
+    console.log(response1)
+
     const response = await axiosInstance.get(`/informations`);
+
 
     return response.data;
   }

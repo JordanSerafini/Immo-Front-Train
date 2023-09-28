@@ -2,7 +2,7 @@
 import { FormEvent, useState } from 'react';
 
 // React Router
-import { Link, useParams, Navigate } from 'react-router-dom';
+import {  useParams, Navigate } from 'react-router-dom';
 
 // React dom
 import { createPortal } from 'react-dom';
@@ -16,7 +16,6 @@ import {
   hideCancelConfirmationModal,
   showNextActionModal,
 } from '../../store/reducers/modal';
-import { createProspectionAction } from '../../store/reducers/action';
 
 
 // Selectors
@@ -33,9 +32,6 @@ import Textarea from '../Modals/AddInfoModal/Field/Textarea';
 import InfoSection from './InfoSection/InfoSection';
 import ActionSection from './ActionSection/ActionSection';
 import NextActionModal from '../Modals/NextActionModal/NextActionModal';
-
-// Typescript interface
-import { Action } from '../../@types/action';
 
 // Utils
 import getFullDate from '../../utils/getFullDate';
@@ -58,6 +54,7 @@ export default function ActionManager() {
 
   // Local States
   const [action, setAction] = useState<string>('');
+  const [formData, setFormData] = useState({})
 
   if (!information) {
     return <Navigate to="/app/prospection" replace />;
@@ -71,13 +68,14 @@ export default function ActionManager() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = {
+    const formValues = {
       information_id: infoId,
       description: action,
       date: getFullDate(),
     }
 
-    dispatch(createProspectionAction({formData}))
+    setFormData(formValues)
+
     dispatch(showNextActionModal());
   };
 
@@ -123,7 +121,7 @@ export default function ActionManager() {
       {/* NEXT ACTION MODAL */}
       {nextActionModal &&
         createPortal(
-          <NextActionModal withInfo={false} information={information} />,
+          <NextActionModal withInfo={false} information={information} formData={formData} />,
           document.body
         )}
     </>
