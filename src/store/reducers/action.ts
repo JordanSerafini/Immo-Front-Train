@@ -30,7 +30,8 @@ export const fetchActions = createAsyncThunk(
 
 export const createProspectionAction = createAsyncThunk(
   'action/create',
-  async ({ formData }: { formData: Action }) => {
+  async ({ formData }: { formData: {[k: string]: FormDataEntryValue;} }) => {
+
     const response = await axiosInstance.post(
       `/informations/${formData.information_id}/actions`,
       formData
@@ -39,6 +40,7 @@ export const createProspectionAction = createAsyncThunk(
     console.log(response);
 
     return response.data;
+
   }
 );
 
@@ -60,7 +62,8 @@ const actionsReducer = createReducer(initialState, (builder) => {
     })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
-      state.data.push(action.payload.data);
+      console.log(action.payload)
+      state.data.push(action.payload);
     })
     .addCase(createProspectionAction.rejected, (state) => {
       state.error = true;
