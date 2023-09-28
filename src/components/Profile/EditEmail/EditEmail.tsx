@@ -36,6 +36,8 @@ export default function EditEmail({ email }: { email: string | undefined }) {
 
     const formValues = { ...user, ...formData };
 
+    console.log(formValues)
+
     dispatch(editUser(formValues));
     setEditEmail(false);
   };
@@ -45,7 +47,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
       {editEmail ? (
         <form className="w-[350px]" onSubmit={handleSubmit}>
           <Input
-            inputName="lastname"
+            inputName="email"
             className="relative"
             value={emailValue}
             onChange={setEmailValue}

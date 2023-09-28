@@ -50,7 +50,7 @@ export default function ActionManager() {
   // Redux States
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
-  );
+    );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
@@ -64,7 +64,7 @@ export default function ActionManager() {
   }
 
   // HANDLERS
-  const handleCancelClick = () => {
+    const handleCancelClick = () => {
     dispatch(showCancelConfirmationModal());
   };
 

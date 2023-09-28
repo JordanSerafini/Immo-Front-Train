@@ -48,11 +48,11 @@ function NextActionModal({ formData, withInfo, information } : {formData?: {[k: 
       sector_id: 1
     }
 
-
     // If there's an Information to create AND an action to create
     if (withInfo && formData && formData.description && formData.description.length){
       dispatch(createInformationAndAction({ formData: infoData }))
-    } else if (withInfo) {
+    } else if (withInfo && formData) {
+      console.log("coucou")
       // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }))
     } else if (!withInfo && information ) {

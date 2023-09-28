@@ -7,10 +7,10 @@ import Input from '../Field/Input';
 
 export default function OwnerFieldset() {
   // Owner Local States
-  const [ownerName, setOwnerName] = useState<string>('');
-  const [ownerPhoneNumber1, setOwnerPhoneNumber1] = useState<string>('');
-  const [ownerPhoneNumber2, setOwnerPhoneNumber2] = useState<string>('');
-  const [ownerEmail, setOwnerEmail] = useState<string>('');
+  const [ownerName, setOwnerName] = useState<string>('test');
+  const [ownerPhoneNumber1, setOwnerPhoneNumber1] = useState<string>('0606060606');
+  const [ownerPhoneNumber2, setOwnerPhoneNumber2] = useState<string>('0606060606');
+  const [ownerEmail, setOwnerEmail] = useState<string>('test@hotmail.fr');
 
   return (
     <Fieldset title="*Propriétaires">
