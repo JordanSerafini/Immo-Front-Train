@@ -12,7 +12,7 @@ interface LogoProps {
 
 function Logo({ path = "/app/prospection", className }: LogoProps) {
   return (
-    <Link to={path} className={className}>
+    <Link to={path} className={`${className} block w-fit`}>
       <img src={logo} alt="Logo Immo Pros" />
     </Link>
   );

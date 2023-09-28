@@ -10,7 +10,7 @@ import {
   hideCancelConfirmationModal,
   hideNextActionModal,
 } from '../../../store/reducers/modal';
-
+import { createProspectionAction } from '../../../store/reducers/action';
 
 // Components
 import Modal from '../Modal';
@@ -21,9 +21,10 @@ import Input from '../AddInfoModal/Field/Input';
 import getFullDate from '../../../utils/getFullDate';
 
 // Typescript interface
-import { createInformation, createInformationAndAction } from '../../../store/reducers/informations';
+import { createInformation, createInformationAndAction, updateInformation } from '../../../store/reducers/informations';
+import { Information } from '../../../@types/information';
 
-export default function NextActionModal({ formData } : {formData: {[k: string]: FormDataEntryValue} | undefined}) {
+function NextActionModal({ formData, withInfo, information } : {formData?: {[k: string]: FormDataEntryValue} | undefined; withInfo: boolean; information?: Information}) {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
@@ -35,18 +36,28 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
 
   // Methods
   const closeAllModal = () => {
+    const date = new Date(nextActionDate);
+    date.setUTCHours(0, 0, 0, 0);
+    const ISONotifDate = date.toISOString()
+
     const infoData = {
       ...formData,
-      notification_date: nextActionDate,
+      notification_date: ISONotifDate,
       collaborator_id: collaboratorId,
       date: getFullDate(),
       sector_id: 1
     }
 
-    if (formData && formData.description && formData.description.length){
+    // If there's an Information to create AND an action to create
+    if (withInfo && formData && formData.description && formData.description.length){
       dispatch(createInformationAndAction({ formData: infoData }))
-    } else {
+    } else if (withInfo && formData) {
+      console.log("coucou")
+      // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }))
+    } else if (!withInfo && information ) {
+      // Else if there's not an Information to create
+      dispatch(updateInformation(information))
     }
     
     dispatch(hideAddInfoModal());
@@ -74,3 +85,10 @@ export default function NextActionModal({ formData } : {formData: {[k: string]: 
     </Modal>
   );
 }
+
+NextActionModal.defaultProps = {
+  formData: [],
+  information: []
+}
+
+export default NextActionModal;

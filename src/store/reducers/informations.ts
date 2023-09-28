@@ -16,20 +16,20 @@ interface InformationsState {
   loading: boolean;
   error: boolean;
   informations: Information[];
+  filteredInformations: Information[];
 }
 
 export const initialState: InformationsState = {
   loading: true,
   error: false,
   informations: [],
+  filteredInformations: [],
 };
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
     const response = await axiosInstance.get(`/informations`);
-
-    console.log(response.data);
 
     return response.data;
   }
@@ -57,9 +57,24 @@ export const createInformation = createAsyncThunk(
       notification_date: string;
     };
   }) => {
+
     const response = await axiosInstance.post('/informations', formData);
 
     return response;
+  }
+);
+
+export const updateInformation = createAsyncThunk(
+  'information/update',
+  async (information: Information) => {
+    await axiosInstance.patch(
+      `/informations/${information.id}`,
+      information
+    );
+
+    const response = await axiosInstance.get(`/informations`);
+
+    return response.data;
   }
 );
 
@@ -80,7 +95,7 @@ export const createInformationAndAction = createAsyncThunk(
     // Second request to create an action
     // We want to use the id from the previous created information to send it to the route post to create an action
     await axiosInstance.post(
-      `/informations/${response.data.data.id}/actions`,
+      `/informations/${response.data.result.id}/actions`,
       formData
     );
 
@@ -105,6 +120,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchInformations.fulfilled, (state, action) => {
       state.informations = action.payload;
+      state.filteredInformations = action.payload;
 
       state.loading = false;
     })
@@ -115,30 +131,67 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
 
-      const filteredInformation = state.informations.filter((info) =>
-        info.address_city.includes(slug)
-      );
+      const slugLC = slug.toLowerCase();
 
-      state.informations = filteredInformation;
+      const filteredInfos = state.informations.filter((info) => {
+        const address = `${
+          info.address_number
+        } ${info.address_street.toLowerCase()} ${
+          info.code_zip
+        } ${info.address_city.toLowerCase()}`;
+
+        if (
+          address.includes(slugLC) ||
+          info.owner_name.toLowerCase().includes(slugLC)
+        )
+          return true;
+
+        return false;
+      });
+
+      if (!slug.length) {
+        state.filteredInformations = state.informations;
+      } else {
+        state.filteredInformations = filteredInfos;
+      }
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      state.informations.push(action.payload.data.data);
+      console.log(action.payload)
+      state.informations.push(action.payload.data.result);
+      state.filteredInformations.push(action.payload.data.result);
+    })
+    .addCase(createInformation.rejected, (state, action) => {
+      state.error = true;
+      console.log(action.payload)
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.informations.push(action.payload.data.data);
+      state.informations.push(action.payload.data.result);
+      state.filteredInformations.push(action.payload.data.result);
     })
     .addCase(createInformationAndAction.rejected, (state) => {
       state.error = true;
       console.log('Erreur');
+    })
+    // UpdateInformation
+    .addCase(updateInformation.fulfilled, (state, action) => {
+      state.informations = action.payload;
+      state.filteredInformations = action.payload;
+
+      state.loading = false;
+    })
+    .addCase(updateInformation.rejected, (state) => {
+      state.error = true;
     })
     // DeleteInformation
     .addCase(deleteInformation.fulfilled, (state, action) => {
       const deletedId = parseInt(action.payload, 10);
 
       state.informations = state.informations.filter(
+        (info) => info.id !== deletedId
+      );
+      state.filteredInformations = state.filteredInformations.filter(
         (info) => info.id !== deletedId
       );
     })

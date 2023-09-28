@@ -46,7 +46,7 @@ export default function CardUpcomingAction({
       </div>
       <p className="font-semibold text-center max-w-1/4">
         <em className="italic">
-          A traiter le {formatDate(notification_date.slice(0, 10))}
+          A traiter le {formatDate(notification_date)}
         </em>
       </p>
     </li>

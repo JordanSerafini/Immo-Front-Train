@@ -34,13 +34,19 @@ import loader from '../../assets/loader/tail-spin.svg';
 // Typescript interface
 import { Information } from '../../@types/information';
 
+// utils
+import filteredActionToDo from '../../utils/filteredActionToDo';
+import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
+
 export default function Prospection() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux States
   const informations = useAppSelector(
     (state) => state.information.informations
   );
+  const filteredInformations = useAppSelector((state) => state.information.filteredInformations)
   const isLoading = useAppSelector((state) => state.information.loading);
   const addInfoModal = useAppSelector(
     (state) => state.modal.isAddInfoModalOpen
@@ -72,30 +78,21 @@ export default function Prospection() {
     );
   }
 
-  const currentDate = new Date();
-  const ISOCurrentDate = currentDate.toISOString();
+  const actionToDo = filteredActionToDo(informations);
 
-  const actionToDo = informations.filter(
-    (information) => information.notification_date < ISOCurrentDate
-  );
-
-  const upcomingAction = informations.filter(
-    (information) => information.notification_date > ISOCurrentDate
-  );
+  const upcomingAction = filteredUpcomingAction(informations);
 
   return (
     <>
       <MainSection>
         {/* SECTIONS for ActionToDo & UpcomingAction */}
         <div className="hidden grid-cols-2 lg:grid gap-x-10">
-          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={actionToDoIcon} title="Actions à faire">
             {actionToDo.map((information) => (
               <CardActionToDo key={information.id} {...information} />
             ))}
           </ActionSection>
 
-          {/* Refacto incoming when the back is ope */}
           <ActionSection icon={upcomingActionIcon} title="Actions à venir">
             {upcomingAction.map((information) => (
               <CardUpcomingAction key={information.id} {...information} />
@@ -126,7 +123,7 @@ export default function Prospection() {
 
         {/* PROSPECTION INFORMATIONS */}
         <section className="grid gap-x-10 lg:grid-cols-2">
-          {informations.map((information: Information) => (
+          {filteredInformations.map((information: Information) => (
             <ProspectionInformation key={information.id} {...information} />
           ))}
         </section>

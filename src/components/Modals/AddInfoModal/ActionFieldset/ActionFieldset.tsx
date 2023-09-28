@@ -23,7 +23,6 @@ export default function ActionFieldset() {
                 value={action}
                 onChange={setAction}
                 placeholder="Renseignez votre action"
-                // Maybe another inputName. Check the back to see what is needed
                 textareaName='description'
               />
             ) : (
