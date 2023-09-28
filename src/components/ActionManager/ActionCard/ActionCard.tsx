@@ -1,11 +1,18 @@
-export default function ActionCard() {
+// Typescript interface
+import { Action } from '../../../@types/action';
+
+// utils
+import formatDate from '../../../utils/formatDate';
+
+export default function ActionCard({
+  date,
+  description,
+}: Action) {
   return (
     <li>
-      <p className="mb-1">Le 02/09/2023</p>
+      <p className="mb-1">Le {formatDate(date)}</p>
       <p className="p-4 rounded-md text-md sm:text-lg bg-secondary-100">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus a
-        optio temporibus fugit error quod libero consectetur, deserunt nobis
-        similique.
+        {description as string}
       </p>
     </li>
   );
