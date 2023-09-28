@@ -10,8 +10,9 @@ import { filterInformation } from '../../../store/reducers/informations';
 // Assets
 import search from '../../../assets/icons/search.svg';
 
+
 export default function SearchInput() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -19,8 +20,6 @@ export default function SearchInput() {
     event.preventDefault();
 
     dispatch(filterInformation(searchValue))
-
-    setSearchValue('');
   };
 
   return (

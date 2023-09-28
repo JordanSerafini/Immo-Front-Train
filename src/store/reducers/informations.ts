@@ -16,20 +16,20 @@ interface InformationsState {
   loading: boolean;
   error: boolean;
   informations: Information[];
+  filteredInformations: Information[];
 }
 
 export const initialState: InformationsState = {
   loading: true,
   error: false,
   informations: [],
+  filteredInformations: [],
 };
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
     const response = await axiosInstance.get(`/informations`);
-
-    console.log(response.data);
 
     return response.data;
   }
@@ -105,6 +105,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchInformations.fulfilled, (state, action) => {
       state.informations = action.payload;
+      state.filteredInformations = action.payload;
 
       state.loading = false;
     })
@@ -114,12 +115,22 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
+      
+      const slugLC = slug.toLowerCase();
 
-      const filteredInformation = state.informations.filter((info) =>
-        info.address_city.includes(slug)
-      );
+      const filteredInfos = state.informations.filter(info => {
+        const address = `${info.address_number} ${info.address_street.toLowerCase()} ${info.code_zip} ${info.address_city.toLowerCase()}`
+        
+        if (address.includes(slugLC) || info.owner_name.toLowerCase().includes(slugLC)) return true
+        
+        return false
+      })
 
-      state.informations = filteredInformation;
+      if (!slug.length) {
+        state.filteredInformations = state.informations
+      } else {
+        state.filteredInformations = filteredInfos
+      }
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
