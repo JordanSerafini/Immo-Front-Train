@@ -14,7 +14,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
+  showNextActionModal,
 } from '../../store/reducers/modal';
+import { createProspectionAction } from '../../store/reducers/action';
+
 
 // Selectors
 import { findInformation } from '../../store/selectors/information';
@@ -27,9 +30,15 @@ import CancelModal from '../Modals/CancelModal/CancelModal';
 import Textarea from '../Modals/AddInfoModal/Field/Textarea';
 
 // Components
-import ActionCard from './ActionCard/ActionCard';
 import InfoSection from './InfoSection/InfoSection';
 import ActionSection from './ActionSection/ActionSection';
+import NextActionModal from '../Modals/NextActionModal/NextActionModal';
+
+// Typescript interface
+import { Action } from '../../@types/action';
+
+// Utils
+import getFullDate from '../../utils/getFullDate';
 
 export default function ActionManager() {
   // Hook Execution Order
@@ -42,6 +51,9 @@ export default function ActionManager() {
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
   );
+  const nextActionModal = useAppSelector(
+    (state) => state.modal.isNextActionModalOpen
+  );
   const information = useAppSelector(findInformation(infoId as string));
 
   // Local States
@@ -51,7 +63,6 @@ export default function ActionManager() {
     return <Navigate to="/app/prospection" replace />;
   }
 
-
   // HANDLERS
   const handleCancelClick = () => {
     dispatch(showCancelConfirmationModal());
@@ -60,7 +71,14 @@ export default function ActionManager() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form: HTMLFormElement = event.currentTarget;
+    const formData = {
+      information_id: infoId,
+      description: action,
+      date: getFullDate(),
+    }
+
+    dispatch(createProspectionAction({formData}))
+    dispatch(showNextActionModal());
   };
 
   return (
@@ -68,7 +86,7 @@ export default function ActionManager() {
       <MainSection>
         <h1>Gestionnaire d&apos;action</h1>
 
-        <div className="2xl:flex">
+        <div className="2xl:grid-cols-2 2xl:grid">
           <InfoSection {...information} />
           <ActionSection infoId={information.id} />
         </div>
@@ -100,6 +118,12 @@ export default function ActionManager() {
             closeModal={() => dispatch(hideCancelConfirmationModal())}
             content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
           />,
+          document.body
+        )}
+      {/* NEXT ACTION MODAL */}
+      {nextActionModal &&
+        createPortal(
+          <NextActionModal withInfo={false} information={information} />,
           document.body
         )}
     </>

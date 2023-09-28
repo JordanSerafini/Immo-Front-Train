@@ -19,7 +19,7 @@ export default function ActionSection({ infoId }: { infoId: number }) {
     }, [dispatch, infoId])
 
   return (
-    <section className="relative max-w-[600px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
+    <section className="relative max-w-[600px] 2xl:w-full p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
       <h2>Historique des actions</h2>
 
       <ul className="flex flex-col gap-4 mx-2 my-4">

@@ -63,6 +63,20 @@ export const createInformation = createAsyncThunk(
   }
 );
 
+export const updateInformation = createAsyncThunk(
+  'information/update',
+  async (information: Information) => {
+    await axiosInstance.patch(
+      `/informations/${information.id}`,
+      information
+    );
+
+    const response = await axiosInstance.get(`/informations`);
+
+    return response.data;
+  }
+);
+
 export const createInformationAndAction = createAsyncThunk(
   'information/createWithAction',
   async ({
@@ -115,36 +129,54 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
-      
+
       const slugLC = slug.toLowerCase();
 
-      const filteredInfos = state.informations.filter(info => {
-        const address = `${info.address_number} ${info.address_street.toLowerCase()} ${info.code_zip} ${info.address_city.toLowerCase()}`
-        
-        if (address.includes(slugLC) || info.owner_name.toLowerCase().includes(slugLC)) return true
-        
-        return false
-      })
+      const filteredInfos = state.informations.filter((info) => {
+        const address = `${
+          info.address_number
+        } ${info.address_street.toLowerCase()} ${
+          info.code_zip
+        } ${info.address_city.toLowerCase()}`;
+
+        if (
+          address.includes(slugLC) ||
+          info.owner_name.toLowerCase().includes(slugLC)
+        )
+          return true;
+
+        return false;
+      });
 
       if (!slug.length) {
-        state.filteredInformations = state.informations
+        state.filteredInformations = state.informations;
       } else {
-        state.filteredInformations = filteredInfos
+        state.filteredInformations = filteredInfos;
       }
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.data);
-      state.filteredInformations.push(action.payload.data.data)
+      state.filteredInformations.push(action.payload.data.data);
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.data);
-      state.filteredInformations.push(action.payload.data.data)
+      state.filteredInformations.push(action.payload.data.data);
     })
     .addCase(createInformationAndAction.rejected, (state) => {
       state.error = true;
       console.log('Erreur');
+    })
+    // UpdateInformation
+    .addCase(updateInformation.fulfilled, (state, action) => {
+      state.informations = action.payload;
+      state.filteredInformations = action.payload;
+
+      state.loading = false;
+    })
+    .addCase(updateInformation.rejected, (state) => {
+      state.error = true;
     })
     // DeleteInformation
     .addCase(deleteInformation.fulfilled, (state, action) => {
