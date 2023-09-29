@@ -24,6 +24,8 @@ export default function Detail() {
 
   const information = useAppSelector((state) => state.info.data);
 
+  console.log(information)
+
   const { infoId } = useParams();
 
   useEffect(() => {

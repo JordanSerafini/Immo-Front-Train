@@ -44,6 +44,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
 
     const formValues = { ...user, ...formData };
 
+
     dispatch(editUser(formValues));
     setEditFirstname(false);
   };

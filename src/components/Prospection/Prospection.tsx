@@ -58,6 +58,7 @@ export default function Prospection() {
   // UseEffects
   useEffect(() => {
     dispatch(fetchInformations());
+    console.log(informations)
   }, [dispatch]);
 
   // Methods

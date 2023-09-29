@@ -8,10 +8,10 @@ import Textarea from '../Field/Textarea';
 
 export default function LocationFieldset({ typeState }: { typeState: string }) {
   // Location Local States
-  const [streetNumber, setStreetNumber] = useState<string>('');
-  const [streetName, setStreetName] = useState<string>('');
-  const [zipCode, setZipCode] = useState<string>('');
-  const [city, setCity] = useState<string>('');
+  const [streetNumber, setStreetNumber] = useState<string>('25');
+  const [streetName, setStreetName] = useState<string>('rue du Test');
+  const [zipCode, setZipCode] = useState<string>('95190');
+  const [city, setCity] = useState<string>('ANNECY');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
   return (
