@@ -41,7 +41,7 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             onChange={setZipCode}
             value={zipCode}
             type="number"
-            className="w-[80px]"
+            className="w-[125px]"
             inputName='code_zip'
           />
           <Input

@@ -16,6 +16,9 @@ import MainSection from '../SharedComponents/MainSection/MainSection';
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
 
+// Utils
+import capFirstLetter from '../../utils/capFirstLetter';
+
 export default function Detail() {
   const dispatch = useAppDispatch();
 
@@ -70,7 +73,7 @@ export default function Detail() {
 
           <h2 className="mt-4">Catégorie</h2>
           <p className="text-lg font-semibold text-accent-400 md:text-xl">
-            {information?.category}
+            {information?.category && capFirstLetter(information.category)}
           </p>
 
           <h2 className="mt-4">Commentaires</h2>
