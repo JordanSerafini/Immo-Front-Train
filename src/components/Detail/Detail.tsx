@@ -12,20 +12,28 @@ import { fetchInformation } from '../../store/reducers/information';
 
 // Components
 import MainSection from '../SharedComponents/MainSection/MainSection';
+import LeafletMap from './LeafletMap';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
 
+// Typescript interface
+import { Information } from '../../@types/information';
+
 export default function Detail() {
   const dispatch = useAppDispatch();
 
-  const information = useAppSelector((state) => state.info.data);
+  const information: Information | null = useAppSelector((state) => state.info.data);
 
   const { infoId } = useParams();
 
   useEffect(() => {
     dispatch(fetchInformation({ id: infoId }));
   }, [dispatch, infoId]);
+
+  if (!information) {
+    return <p>Loading</p>
+  }
 
   return (
     <MainSection>
@@ -85,6 +93,7 @@ export default function Detail() {
               Information créée le : {information?.date.slice(0, 10)}
             </em>
           </p>
+        <LeafletMap {...information} />
         </section>
     </MainSection>
   );
