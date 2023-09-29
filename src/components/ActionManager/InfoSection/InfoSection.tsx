@@ -12,6 +12,9 @@ import houseIcon from '../../../assets/icons/house.svg';
 import apartmentIcon from '../../../assets/icons/apartment.svg';
 import landIcon from '../../../assets/icons/land.svg';
 
+// Utils
+import capFirstLetter from '../../../utils/capFirstLetter';
+
 // Typescript interface
 import { Information } from "../../../@types/information"
 
@@ -64,7 +67,7 @@ export default function InfoSection({
                 {owner_name}
               </p>
               <strong className="text-lg font-bold md:text-xl text-accent-400">
-                {category.toUpperCase()}
+                {capFirstLetter(category)}
               </strong>
             </div>
 

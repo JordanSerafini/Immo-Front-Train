@@ -55,8 +55,6 @@ export const editUser = createAsyncThunk(
       formData
     );
 
-    console.log(response)
-
     return response;
   }
 );
@@ -98,7 +96,6 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.data.firstname = action.payload.data.firstname;
       state.data.lastname = action.payload.data.lastname;
       state.data.phone = action.payload.data.phone;

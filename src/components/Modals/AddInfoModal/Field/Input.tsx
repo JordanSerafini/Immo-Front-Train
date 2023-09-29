@@ -19,7 +19,7 @@ function Input({
   placeholder,
   className,
   inputName,
-  onChange,
+  onChange
 }: InputProps) {
   const inputId = useId();
 
@@ -45,6 +45,7 @@ function Input({
         placeholder={placeholder}
         name={inputName}
       />
+
     </div>
   );
 }

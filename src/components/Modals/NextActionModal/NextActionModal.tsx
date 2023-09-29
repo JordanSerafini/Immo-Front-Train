@@ -57,6 +57,8 @@ function NextActionModal({
 
     const infoData = {
       ...formData,
+      type: formData?.type?.toLowerCase(),
+      category: formData?.category?.toLowerCase(),
       notification_date: ISONotifDate,
       collaborator_id: collaboratorId,
       date: getFullDate(),

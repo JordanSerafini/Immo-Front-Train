@@ -168,7 +168,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(createInformation.rejected, (state, action) => {
       state.error = true;
-      console.log(action.payload)
+      console.log("erreur")
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {

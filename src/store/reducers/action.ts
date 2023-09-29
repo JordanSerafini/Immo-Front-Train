@@ -37,8 +37,6 @@ export const createProspectionAction = createAsyncThunk(
       formData
     );
 
-    console.log(response);
-
     return response.data;
 
   }
@@ -52,7 +50,6 @@ const actionsReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(fetchActions.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
       state.data = action.payload;
     })
@@ -62,7 +59,6 @@ const actionsReducer = createReducer(initialState, (builder) => {
     })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.data.push(action.payload);
     })
     .addCase(createProspectionAction.rejected, (state) => {
