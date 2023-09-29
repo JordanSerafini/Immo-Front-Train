@@ -36,6 +36,10 @@ import plus from '../../../assets/icons/plus.svg';
 // Style
 import './animation.scss';
 
+// Typescript interface
+import { Information } from '../../../@types/information';
+import { Action } from '../../../@types/action';
+
 export default function AddInfoModal() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
@@ -47,7 +51,7 @@ export default function AddInfoModal() {
   );
 
   // Local States
-  const [formData, setFormData] = useState<{[k: string]: FormDataEntryValue}>()
+  const [formData, setFormData] = useState<Information & Action>()
 
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
@@ -62,7 +66,7 @@ export default function AddInfoModal() {
     event.preventDefault();
 
     const form: HTMLFormElement = event.currentTarget;
-    setFormData(Object.fromEntries(new FormData(form)));
+    setFormData(Object.fromEntries(new FormData(form)) as unknown as Information & Action);
 
     dispatch(showNextActionModal());
   };

@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router-dom';
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
+import {
+  createInformation,
+  createInformationAndAction,
+  updateInformation,
+} from '../../../store/reducers/informations';
+
 // Store
 import {
   hideAddInfoModal,
@@ -23,19 +29,15 @@ import Input from '../AddInfoModal/Field/Input';
 import getFullDate from '../../../utils/getFullDate';
 
 // Typescript interface
-import {
-  createInformation,
-  createInformationAndAction,
-  updateInformation,
-} from '../../../store/reducers/informations';
 import { Information } from '../../../@types/information';
+import { Action } from '../../../@types/action';
 
 function NextActionModal({
   formData,
   withInfo,
   information,
 }: {
-  formData?: { [k: string]: FormDataEntryValue } | undefined;
+  formData?: Information & Action;
   withInfo: boolean;
   information?: Information;
 }) {
@@ -56,11 +58,11 @@ function NextActionModal({
     const ISONotifDate = date.toISOString();
 
     const infoData = {
-      ...formData,
-      type: formData?.type?.toLowerCase(),
-      category: formData?.category?.toLowerCase(),
+      ...formData as Information,
+      type: formData?.type?.toLowerCase() as string,
+      category: formData?.category?.toLowerCase() as string,
       notification_date: ISONotifDate,
-      collaborator_id: collaboratorId,
+      collaborator_id: collaboratorId as number,
       date: getFullDate(),
       sector_id: 1,
     };
@@ -79,8 +81,9 @@ function NextActionModal({
     } else if (!withInfo && information) {
       // Else if there's not an Information to create
       const formValues = {
+        id: formData?.information_id as number,
         description: formData?.description as string,
-        information_id: formData?.information_id as string,
+        information_id: formData?.information_id as number,
         date: getFullDate(),
       };
       // Type problem

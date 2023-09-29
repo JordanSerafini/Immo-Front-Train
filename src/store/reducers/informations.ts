@@ -48,16 +48,7 @@ export const filterInformation = createAction(
 
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({
-    formData,
-  }: {
-    formData: {
-      date: string;
-      sector_id: number;
-      notification_date: string;
-    };
-  }) => {
-
+  async ({ formData }: { formData: Information }) => {
     const response = await axiosInstance.post('/informations', formData);
 
     return response;
@@ -67,17 +58,16 @@ export const createInformation = createAsyncThunk(
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    console.log(information)
+    console.log(information);
 
     const response1 = await axiosInstance.patch(
       `/informations/${information.id}`,
       information
     );
 
-    console.log(response1)
+    console.log(response1);
 
     const response = await axiosInstance.get(`/informations`);
-
 
     return response.data;
   }
@@ -162,13 +152,13 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
     })
-    .addCase(createInformation.rejected, (state, action) => {
+    .addCase(createInformation.rejected, (state) => {
       state.error = true;
-      console.log("erreur")
+      console.log('erreur');
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {

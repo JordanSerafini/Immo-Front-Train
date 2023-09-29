@@ -30,7 +30,7 @@ export const fetchActions = createAsyncThunk(
 
 export const createProspectionAction = createAsyncThunk(
   'action/create',
-  async ({ formData }: { formData: {[k: string]: FormDataEntryValue;} }) => {
+  async ({ formData }: { formData: Action }) => {
 
     const response = await axiosInstance.post(
       `/informations/${formData.information_id}/actions`,

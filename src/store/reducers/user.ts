@@ -74,7 +74,11 @@ const userReducer = createReducer(initialState, (builder) => {
         } ${action.payload.result.lastname.toUpperCase()} est connecté !`
       );
 
+      // We want to delete the password to not send it into our redux state
+      delete action.payload.result.password;
+
       state.data = action.payload.result;
+
       state.data.logged = true;
 
       state.loading = false;
