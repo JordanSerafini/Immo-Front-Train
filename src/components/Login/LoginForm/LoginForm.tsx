@@ -46,7 +46,7 @@ export default function LoginForm() {
   };
   return (
     <form
-      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10"
+      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10 relative"
       onSubmit={handleSubmit}
     >
       <Input
@@ -81,16 +81,14 @@ export default function LoginForm() {
         </button>
       </Input>
 
-      <div className="relative">
-        {errorMessage && (
-          <ErrorMsg
-            errorMessage={errorMessage}
-            className="absolute top-0 -translate-x-1/2 left-1/2"
-          />
-        )}
+      {errorMessage && (
+        <ErrorMsg
+          errorMessage={errorMessage}
+          className="absolute -translate-x-1/2 top-[65%] left-1/2"
+        />
+      )}
 
-        <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
-      </div>
+      <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
     </form>
   );
 }

@@ -9,6 +9,7 @@ interface InputProps {
   label?: string;
   inputName: string;
   placeholder: string;
+  regExp?: RegExp;
   value: string | undefined;
   onChange: (value: string) => void;
 }
@@ -21,9 +22,11 @@ function Input({
   inputName,
   placeholder,
   value,
-  onChange
+  regExp,
+  onChange,
 }: InputProps) {
   const inputId = useId();
+  const condition = regExp?.test(value as string);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     onChange(event.target.value);
@@ -31,12 +34,21 @@ function Input({
 
   return (
     <div className="relative flex flex-col">
-      <label htmlFor={inputId} className={`absolute font-poppins font-medium z-0 duration-300 ${value?.length ? "-translate-y-full" : "translate-y-[10%]"}`}>{label || placeholder}</label>
+      <label
+        htmlFor={inputId}
+        className={`absolute font-poppins font-medium z-0 duration-300 ${
+          value?.length ? '-translate-y-full' : 'translate-y-[10%]'
+        }`}
+      >
+        {label || placeholder}
+      </label>
 
       {children}
 
       <input
-        className={`${className} z-10`}
+        className={`${className} ${
+          condition && 'border-primary-300  focus:ring-transparent'
+        } z-10`}
         // React - state
         value={value}
         onChange={handleChange}
@@ -45,7 +57,6 @@ function Input({
         placeholder={placeholder}
         name={inputName}
       />
-
     </div>
   );
 }
@@ -54,8 +65,9 @@ function Input({
 Input.defaultProps = {
   children: null,
   type: 'text',
-  className: '',
+  className: null,
   label: null,
+  regExp: null,
 };
 
 // == Export
