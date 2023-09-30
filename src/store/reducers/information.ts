@@ -48,7 +48,6 @@ const informationReducer = createReducer(initialState, (builder) => {
     .addCase(fetchInformation.rejected, (state) => {
       state.error = true;
       state.loading = false;
-      console.log('Une erreur est survenue');
     })
 });
 

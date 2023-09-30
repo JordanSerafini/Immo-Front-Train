@@ -62,11 +62,12 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
         </div>
         {typeState === 'Appartement' && (
           <Textarea
-            label="*Si l'information concerne un appartement :"
+            label="Si l'information concerne un appartement :"
             value={appartmentInfo}
             onChange={setAppartmentInfo}
             placeholder="Informations complémentaires..."
             textareaName='address_info'
+            regExp={/^.+$/m}
           />
         )}
       </div>
