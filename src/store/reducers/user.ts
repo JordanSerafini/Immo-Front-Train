@@ -9,13 +9,14 @@ interface UserState {
   loading: boolean;
   error: boolean;
   errorMessage: null | string;
+  logged: boolean;
   data: User;
-  JSWToken: null | string;
 }
 export const initialState: UserState = {
   loading: false,
   error: false,
   errorMessage: null,
+  logged: false,
   data: {
     id: undefined,
     firstname: undefined,
@@ -26,9 +27,7 @@ export const initialState: UserState = {
     secret_key: undefined,
     role_id: undefined,
     url: undefined,
-    logged: false,
   },
-  JSWToken: null,
 };
 
 export const login = createAsyncThunk(
@@ -44,6 +43,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk('user/logout', async () => {
   const response = await axiosInstance.get('/logout');
+
   return response;
 });
 
@@ -55,7 +55,7 @@ export const editUser = createAsyncThunk(
       formData
     );
 
-    return response;
+    return response.data;
   }
 );
 
@@ -63,8 +63,11 @@ const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
     .addCase(login.pending, (state) => {
+      // Reset errorMessage state
       state.errorMessage = null;
+      // Reset error state
       state.error = false;
+
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
@@ -73,21 +76,15 @@ const userReducer = createReducer(initialState, (builder) => {
       if (!token) {
         state.errorMessage = action.payload
       } else {
+        // The token goes to the axios headers
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
-        
-        // eslint-disable-next-line no-console
-        console.log(
-          `${
-            action.payload.result.firstname
-          } ${action.payload.result.lastname.toUpperCase()} est connecté !`
-        );
 
         // We want to delete the password to not send it into our redux state
         delete action.payload.result.password;
   
         state.data = action.payload.result;
   
-        state.data.logged = true;
+        state.logged = true;
       }
 
       state.loading = false;
@@ -105,14 +102,17 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.phone = undefined;
       state.data.url = undefined;
       state.data.acces = false;
-      state.data.logged = false;
+
+      state.logged = false;
+
+      delete axiosInstance.defaults.headers.common.Authorization
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {
-      state.data.firstname = action.payload.data.firstname;
-      state.data.lastname = action.payload.data.lastname;
-      state.data.phone = action.payload.data.phone;
-      state.data.email = action.payload.data.email;
+      state.data.firstname = action.payload.firstname;
+      state.data.lastname = action.payload.lastname;
+      state.data.phone = action.payload.phone;
+      state.data.email = action.payload.email;
     });
 });
 

@@ -52,17 +52,17 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
   return (
     <PersonnalInfo clickHandler={handleEditLastname} label="Prénom">
       {editFirstname ? (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='mt-5 max-w-[300px]'>
           <Input
             inputName="firstname"
             className="relative"
             value={firstnameValue}
             onChange={setFirstnameValue}
-            placeholder="Entrez votre nom"
+            placeholder="Entrez votre prénom"
           >
             <button
               type="submit"
-              className="absolute z-10 flex gap-2 p-[0.35rem] font-semibold rounded-md top-0 -right-2 sm:top-1/2 sm:right-2 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
+              className="absolute z-30 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-1 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
             >
               Ok <img src={checkIcon} alt="check" />
             </button>

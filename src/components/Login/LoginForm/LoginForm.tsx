@@ -7,17 +7,15 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 // Store
 import { login } from '../../../store/reducers/user';
 
-// Components
+// Shared Components
 import Input from '../../Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ErrorMsg from '../../SharedComponents/ErrorMsg/ErrorMsg';
 
 // Assets
 import eyeIcon from '../../../assets/icons/eye-empty.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import emailIcon from '../../../assets/icons/email.svg';
-
-// Style
-import './animation.scss';
 
 export default function LoginForm() {
   // Hook Execution Order
@@ -84,12 +82,12 @@ export default function LoginForm() {
       </Input>
 
       <div className="relative">
-        {errorMessage && <p
-          className="absolute top-0 font-semibold text-red-500 -translate-x-1/2 left-1/2 animate-shake"
-        >
-          {errorMessage}
-        </p> }
-        
+        {errorMessage && (
+          <ErrorMsg
+            errorMessage={errorMessage}
+            className="absolute top-0 -translate-x-1/2 left-1/2"
+          />
+        )}
 
         <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
       </div>

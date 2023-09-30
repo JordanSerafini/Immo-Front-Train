@@ -31,9 +31,8 @@ export default function NavBar() {
   const dispatch = useAppDispatch();
 
   // Redux states
-  const user = useAppSelector((state) => state.user.data);
-  const isLoading = useAppSelector((state) => state.user.loading);
-  const isLogged = useAppSelector((state) => state.user.data.logged);
+  const user = useAppSelector((state) => state.user);
+  const {loading, logged} = user
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
   // Functions
@@ -49,10 +48,10 @@ export default function NavBar() {
 
   // Use Effect
   useEffect(() => {
-    if (!isLogged) {
+    if (!logged) {
       navigate('/login');
     }
-  }, [isLogged, navigate]);
+  }, [logged, navigate]);
 
   return (
     <>
@@ -67,7 +66,7 @@ export default function NavBar() {
             : 'translate-x-[100%] opacity-0'
         }`}
       >
-        {isLoading ? (
+        {loading ? (
           <img src={loader} alt="Loader" className='m-auto' />
         ) : (
           <>
@@ -82,7 +81,7 @@ export default function NavBar() {
             <Divider />
 
             <h2 className="my-5 text-2xl italic font-medium font-poppins">
-              {user.role_id === 2 ? 'NÉGOCIATEUR' : 'ADMINISTRATEUR'}
+              {user.data.role_id === 2 ? 'NÉGOCIATEUR' : 'ADMINISTRATEUR'}
             </h2>
 
             {/* NAVIGATION LINKS */}
