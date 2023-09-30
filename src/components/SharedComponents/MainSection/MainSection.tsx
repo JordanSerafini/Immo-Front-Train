@@ -12,7 +12,7 @@ function MainSection({
   return (
     <>
       <NavBar />
-      <main className={`m-5 h-fit md:m-10 md:mb-auto grow ${className}`}>
+      <main className={`m-5 min-h-full h-fit md:m-10 md:mb-auto relative grow ${className}`}>
         <Logo className="sm:hidden" />
         {children}
       </main>

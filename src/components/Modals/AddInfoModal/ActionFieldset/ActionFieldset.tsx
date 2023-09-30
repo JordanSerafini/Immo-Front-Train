@@ -24,6 +24,7 @@ export default function ActionFieldset() {
                 onChange={setAction}
                 placeholder="Renseignez votre action"
                 textareaName='description'
+                regExp={/^.+.{5,}$/m}
               />
             ) : (
               // Add Action Button

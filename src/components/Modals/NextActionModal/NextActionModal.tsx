@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router-dom';
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
+import {
+  createInformation,
+  createInformationAndAction,
+  updateInformation,
+} from '../../../store/reducers/informations';
+
 // Store
 import {
   hideAddInfoModal,
@@ -23,19 +29,15 @@ import Input from '../AddInfoModal/Field/Input';
 import getFullDate from '../../../utils/getFullDate';
 
 // Typescript interface
-import {
-  createInformation,
-  createInformationAndAction,
-  updateInformation,
-} from '../../../store/reducers/informations';
 import { Information } from '../../../@types/information';
+import { Action } from '../../../@types/action';
 
 function NextActionModal({
   formData,
   withInfo,
   information,
 }: {
-  formData?: { [k: string]: FormDataEntryValue } | undefined;
+  formData?: Information & Action;
   withInfo: boolean;
   information?: Information;
 }) {
@@ -56,11 +58,11 @@ function NextActionModal({
     const ISONotifDate = date.toISOString();
 
     const infoData = {
-      ...formData,
-      type: formData?.type?.toLowerCase(),
-      category: formData?.category?.toLowerCase(),
+      ...formData as Information,
+      type: formData?.type?.toLowerCase() as string,
+      category: formData?.category?.toLowerCase() as string,
       notification_date: ISONotifDate,
-      collaborator_id: collaboratorId,
+      collaborator_id: collaboratorId as number,
       date: getFullDate(),
       sector_id: 1,
     };
@@ -72,15 +74,16 @@ function NextActionModal({
       formData.description &&
       formData.description.length
     ) {
-      dispatch(createInformationAndAction({ formData: infoData }));
+      dispatch(createInformationAndAction({ formData: infoData as Information & Action }));
     } else if (withInfo && formData) {
       // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }));
     } else if (!withInfo && information) {
       // Else if there's not an Information to create
       const formValues = {
+        id: formData?.information_id as number,
         description: formData?.description as string,
-        information_id: formData?.information_id as string,
+        information_id: formData?.information_id as number,
         date: getFullDate(),
       };
       // Type problem
@@ -99,7 +102,7 @@ function NextActionModal({
 
   return (
     <Modal>
-      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
+      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2 mt-8">
         <Input
           type="date"
           value={nextActionDate}
@@ -107,6 +110,7 @@ function NextActionModal({
           placeholder="jj / mm / dddd"
           label="*Prochaine action prévue le :"
           inputName="notification_date"
+          regExp={/^\d{4}-\d{2}-\d{2}$/}
         />
         <ValidButton
           className="block m-auto"

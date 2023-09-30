@@ -58,7 +58,6 @@ export default function Prospection() {
   // UseEffects
   useEffect(() => {
     dispatch(fetchInformations());
-    console.log(informations)
   }, [dispatch]);
 
   // Methods
@@ -71,7 +70,7 @@ export default function Prospection() {
     return (
       <MainSection>
         <img
-          className="relative w-[50px] -left-1/2 -top-1/2"
+          className="absolute w-[50px] left-1/2 top-1/4 z-30"
           src={loader}
           alt="Loader"
         />

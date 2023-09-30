@@ -18,9 +18,3 @@ export interface Information {
   phone_1: string;
   phone_2: string;
 }
-
-export interface CreateInfoType {
-  date: string;
-  collaborator_id: number | null;
-  sector_id: number;
-}

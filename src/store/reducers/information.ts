@@ -35,9 +35,10 @@ export const fetchInformation = createAsyncThunk(
 
 const informationReducer = createReducer(initialState, (builder) => {
   builder
-    // FetchInformations
+    // Fetch just one information by its id
     .addCase(fetchInformation.pending, (state) => {
       state.loading = true;
+      state.error = false;
     })
     .addCase(fetchInformation.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -46,7 +47,7 @@ const informationReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchInformation.rejected, (state) => {
       state.error = true;
-      console.log('Une erreur est survenue');
+      state.loading = false;
     })
 });
 

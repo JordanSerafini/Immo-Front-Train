@@ -17,6 +17,7 @@ export default function CommentsFieldset() {
           onChange={setComment}
           placeholder="Écrivez vos commentaires..."
           textareaName="comment"
+          regExp={/^.+$/m}
         />
       </div>
     </Fieldset>
