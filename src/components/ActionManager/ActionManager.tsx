@@ -38,7 +38,7 @@ import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
 
 // Utils
-import getFullDate from '../../utils/getFullDate';
+import getFullDate from '../../utils/getFormatedFullDate';
 
 export default function ActionManager() {
   // Hook Execution Order

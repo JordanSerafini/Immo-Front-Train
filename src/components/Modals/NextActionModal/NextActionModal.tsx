@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
@@ -26,11 +29,13 @@ import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import Input from '../AddInfoModal/Field/Input';
 
 // Utils
-import getFullDate from '../../../utils/getFullDate';
+import getFormatedFullDate from '../../../utils/getFormatedFullDate';
 
 // Typescript interface
 import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
+
+dayjs.extend(utc);
 
 function NextActionModal({
   formData,
@@ -46,24 +51,22 @@ function NextActionModal({
   const navigate = useNavigate();
 
   // Local States
-  const [nextActionDate, setNextActionDate] = useState<string>(getFullDate());
+  const [nextActionDate, setNextActionDate] = useState<string>(
+    getFormatedFullDate()
+  );
 
   // Redux state
   const collaboratorId = useAppSelector((state) => state.user.data.id);
 
   // Methods
   const closeAllModal = () => {
-    const date = new Date(nextActionDate);
-    date.setUTCHours(0, 0, 0, 0);
-    const ISONotifDate = date.toISOString();
-
     const infoData = {
-      ...formData as Information,
+      ...(formData as Information),
       type: formData?.type?.toLowerCase() as string,
       category: formData?.category?.toLowerCase() as string,
-      notification_date: ISONotifDate,
+      notification_date: dayjs(nextActionDate).utc().toISOString(),
       collaborator_id: collaboratorId as number,
-      date: getFullDate(),
+      date: dayjs().toISOString(),
       sector_id: 1,
     };
 
@@ -74,7 +77,11 @@ function NextActionModal({
       formData.description &&
       formData.description.length
     ) {
-      dispatch(createInformationAndAction({ formData: infoData as Information & Action }));
+      dispatch(
+        createInformationAndAction({
+          formData: infoData as Information & Action,
+        })
+      );
     } else if (withInfo && formData) {
       // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }));
@@ -84,12 +91,15 @@ function NextActionModal({
         id: formData?.information_id as number,
         description: formData?.description as string,
         information_id: formData?.information_id as number,
-        date: getFullDate(),
+        date: getFormatedFullDate(),
       };
       // Type problem
       dispatch(createProspectionAction({ formData: formValues }));
       dispatch(
-        updateInformation({ ...information, notification_date: ISONotifDate })
+        updateInformation({
+          ...information,
+          notification_date: dayjs(nextActionDate).utc().toISOString(),
+        })
       );
     }
 
