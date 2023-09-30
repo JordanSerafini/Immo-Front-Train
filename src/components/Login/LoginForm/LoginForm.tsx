@@ -2,7 +2,7 @@
 import { FormEvent, useState } from 'react';
 
 // Redux
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
 import { login } from '../../../store/reducers/user';
@@ -16,9 +16,17 @@ import eyeIcon from '../../../assets/icons/eye-empty.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import emailIcon from '../../../assets/icons/email.svg';
 
+// Style
+import './animation.scss';
+
 export default function LoginForm() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
+
+  // Redux state
+  const user = useAppSelector((state) => state.user);
+
+  const { errorMessage } = user;
 
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
@@ -75,7 +83,16 @@ export default function LoginForm() {
         </button>
       </Input>
 
-      <ValidButton content="Se connecter" isSubmit className="mt-10" />
+      <div className="relative">
+        {errorMessage && <p
+          className="absolute top-0 font-semibold text-red-500 -translate-x-1/2 left-1/2 animate-shake"
+        >
+          {errorMessage}
+        </p> }
+        
+
+        <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
+      </div>
     </form>
   );
 }

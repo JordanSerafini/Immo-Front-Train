@@ -8,12 +8,14 @@ import { User } from '../../@types/user';
 interface UserState {
   loading: boolean;
   error: boolean;
+  errorMessage: null | string;
   data: User;
   JSWToken: null | string;
 }
 export const initialState: UserState = {
   loading: false,
   error: false,
+  errorMessage: null,
   data: {
     id: undefined,
     firstname: undefined,
@@ -34,11 +36,9 @@ export const login = createAsyncThunk(
   async (formData: FormData) => {
     const objData = Object.fromEntries(formData);
 
-    const { data } = await axiosInstance.post('/login', objData);
+    const response = await axiosInstance.post('/login', objData);
 
-    axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.token}`;
-
-    return data;
+    return response.data;
   }
 );
 
@@ -63,23 +63,32 @@ const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
     .addCase(login.pending, (state) => {
+      state.errorMessage = null;
       state.error = false;
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      // eslint-disable-next-line no-console
-      console.log(
-        `${
-          action.payload.result.firstname
-        } ${action.payload.result.lastname.toUpperCase()} est connecté !`
-      );
+      const {token} = action.payload;
+      // We check if the user is successfully connected
+      if (!token) {
+        state.errorMessage = action.payload
+      } else {
+        axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+        
+        // eslint-disable-next-line no-console
+        console.log(
+          `${
+            action.payload.result.firstname
+          } ${action.payload.result.lastname.toUpperCase()} est connecté !`
+        );
 
-      // We want to delete the password to not send it into our redux state
-      delete action.payload.result.password;
-
-      state.data = action.payload.result;
-
-      state.data.logged = true;
+        // We want to delete the password to not send it into our redux state
+        delete action.payload.result.password;
+  
+        state.data = action.payload.result;
+  
+        state.data.logged = true;
+      }
 
       state.loading = false;
     })
