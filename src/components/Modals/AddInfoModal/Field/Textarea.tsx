@@ -2,22 +2,25 @@ import { ChangeEvent, useId } from 'react';
 
 interface TextareaProps {
   label?: string;
-  value: string;
   placeholder: string;
   className?: string;
   textareaName: string;
+  regExp?: RegExp;
+  value: string;
   onChange: (value: string) => void;
 }
 
 function Textarea({
   label,
-  value,
   placeholder,
   className,
   textareaName,
+  regExp,
+  value,
   onChange,
 }: TextareaProps) {
   const inputId = useId();
+  const condition = regExp?.test(value as string);
 
   function handleChange(event: ChangeEvent<HTMLTextAreaElement>): void {
     onChange(event.target.value);
@@ -32,7 +35,9 @@ function Textarea({
       )}
 
       <textarea
-        className={`w-full mt-2 min-h-[100px] ${className}`}
+        className={`w-full mt-2 min-h-[100px] ${
+          condition && 'border-primary-300 focus:ring-transparent'
+        } ${className}`}
         // React - state
         value={value}
         onChange={handleChange}
@@ -48,6 +53,7 @@ function Textarea({
 Textarea.defaultProps = {
   label: '',
   className: '',
+  regExp: null,
 };
 
 // == Export

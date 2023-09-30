@@ -47,7 +47,10 @@ function Input({
 
       <input
         className={`${className} ${
-          condition && 'border-primary-300  focus:ring-transparent'
+          (condition ||
+            (type === 'number' && condition &&
+              !Number.isNaN(parseInt(value as string, 10)))) &&
+          'border-primary-300 focus:ring-transparent'
         } z-10`}
         // React - state
         value={value}

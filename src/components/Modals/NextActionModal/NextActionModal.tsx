@@ -110,6 +110,7 @@ function NextActionModal({
           placeholder="jj / mm / dddd"
           label="*Prochaine action prévue le :"
           inputName="notification_date"
+          regExp={/^\d{4}-\d{2}-\d{2}$/}
         />
         <ValidButton
           className="block m-auto"

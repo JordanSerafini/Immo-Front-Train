@@ -16,6 +16,7 @@ export default function SourceFieldset() {
           onChange={setSourceInfo}
           placeholder="Renseignez la source de l'information..."
           textareaName="source"
+          regExp={/^.+$/m}
         />
       </div>
     </Fieldset>

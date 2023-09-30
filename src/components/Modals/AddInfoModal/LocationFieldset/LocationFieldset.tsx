@@ -1,9 +1,9 @@
 // React Hooks
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 // Components
 import Fieldset from '../../Form/Fieldset';
-import Input from '../Field/Input';
+import MemoizedInput from '../Field/MemoizedInput';
 import Textarea from '../Field/Textarea';
 
 export default function LocationFieldset({ typeState }: { typeState: string }) {
@@ -14,11 +14,11 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
   const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
-  return (
+  return useMemo (() => (
     <Fieldset title="*Localisation">
       <div className="flex flex-col gap-8 mb-5 mt-7">
         <div className="flex justify-between gap-10">
-          <Input
+          <MemoizedInput
             placeholder="N°"
             onChange={setStreetNumber}
             value={streetNumber}
@@ -27,18 +27,19 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             inputName="address_number"
             label='N°'
           />
-          <Input
+          <MemoizedInput
             placeholder="Rue"
             onChange={setStreetName}
             value={streetName}
             className="w-full sm:w-[300px]"
             inputName='address_street'
             label='Rue'
+            regExp={/^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/}
           />
         </div>
 
         <div className="flex justify-between gap-10">
-          <Input
+          <MemoizedInput
             placeholder="Code Postal"
             onChange={setZipCode}
             value={zipCode}
@@ -47,13 +48,14 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             inputName='code_zip'
             label='Code Postal'
           />
-          <Input
+          <MemoizedInput
             placeholder="Ville"
             onChange={setCity}
             value={city}
             className="w-full md:w-[260px]"
             inputName='address_city'
             label='Ville'
+            regExp={/^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/}
           />
         </div>
         {typeState === 'Appartement' && (
@@ -67,5 +69,5 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
         )}
       </div>
     </Fieldset>
-  );
+  ), [appartmentInfo, city, streetName, streetNumber, typeState, zipCode]);
 }
