@@ -40,7 +40,7 @@ export default function LoginForm() {
   };
   return (
     <form
-      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-5"
+      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10"
       onSubmit={handleSubmit}
     >
       <Input
@@ -52,7 +52,7 @@ export default function LoginForm() {
         type="email"
       >
         <img
-          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
           src={emailIcon}
           alt="Email Icon"
         />
@@ -68,7 +68,7 @@ export default function LoginForm() {
       >
         <button type="button" onClick={togglePasswordVisibility}>
           <img
-            className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+            className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
             src={showPassword ? eyeIcon : eyeOffIcon}
             alt="Password Icon"
           />

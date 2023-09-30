@@ -8,16 +8,16 @@ import Textarea from '../Field/Textarea';
 
 export default function LocationFieldset({ typeState }: { typeState: string }) {
   // Location Local States
-  const [streetNumber, setStreetNumber] = useState<string>('25');
-  const [streetName, setStreetName] = useState<string>('rue du Test');
-  const [zipCode, setZipCode] = useState<string>('95190');
-  const [city, setCity] = useState<string>('ANNECY');
+  const [streetNumber, setStreetNumber] = useState<string>('');
+  const [streetName, setStreetName] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
+  const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
   return (
     <Fieldset title="*Localisation">
-      <div className="flex flex-col gap-4 my-5">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row">
+      <div className="flex flex-col gap-8 mb-5 mt-7">
+        <div className="flex justify-between gap-10">
           <Input
             placeholder="N°"
             onChange={setStreetNumber}
@@ -25,6 +25,7 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             className="w-[3.5rem]"
             type="number"
             inputName="address_number"
+            label='N°'
           />
           <Input
             placeholder="Rue"
@@ -32,10 +33,11 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             value={streetName}
             className="w-full sm:w-[300px]"
             inputName='address_street'
+            label='Rue'
           />
         </div>
 
-        <div className="flex flex-col justify-between gap-4 sm:flex-row">
+        <div className="flex justify-between gap-10">
           <Input
             placeholder="Code Postal"
             onChange={setZipCode}
@@ -43,6 +45,7 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             type="number"
             className="w-[125px]"
             inputName='code_zip'
+            label='Code Postal'
           />
           <Input
             placeholder="Ville"
@@ -50,6 +53,7 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             value={city}
             className="w-full md:w-[260px]"
             inputName='address_city'
+            label='Ville'
           />
         </div>
         {typeState === 'Appartement' && (

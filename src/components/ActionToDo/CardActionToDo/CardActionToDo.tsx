@@ -22,14 +22,14 @@ export default function CardActionToDo({
   owner_name,
 }: Information) {
   let icon: string;
-  switch (type) {
-    case 'Maison':
+  switch (type.toLowerCase()) {
+    case 'maison':
       icon = houseIcon;
       break;
-    case 'Appartement':
+    case 'appartement':
       icon = apartmentIcon;
       break;
-    case 'Terrain':
+    case 'terrain':
       icon = landIcon;
       break;
     default:

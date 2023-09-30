@@ -1,24 +1,26 @@
+// React
 import { ChangeEvent, useId } from 'react';
 
+// Typescript interface
 interface InputProps {
   children?: React.ReactNode;
-  label?: string;
   type?: string;
   className?: string;
+  label?: string;
   inputName: string;
-  value: string | undefined;
   placeholder: string;
+  value: string | undefined;
   onChange: (value: string) => void;
 }
 
 function Input({
   children,
-  label,
   type,
-  value,
-  placeholder,
   className,
+  label,
   inputName,
+  placeholder,
+  value,
   onChange
 }: InputProps) {
   const inputId = useId();
@@ -29,14 +31,12 @@ function Input({
 
   return (
     <div className="relative flex flex-col">
-      <label htmlFor={inputId} className={label ? 'font-semibold' : 'hidden'}>
-        {label}
-      </label>
+      <label htmlFor={inputId} className={`absolute font-poppins font-medium z-0 duration-300 ${value?.length ? "-translate-y-full" : "translate-y-[10%]"}`}>{label || placeholder}</label>
 
       {children}
 
       <input
-        className={className}
+        className={`${className} z-10`}
         // React - state
         value={value}
         onChange={handleChange}
@@ -55,7 +55,7 @@ Input.defaultProps = {
   children: null,
   type: 'text',
   className: '',
-  label: '',
+  label: null,
 };
 
 // == Export

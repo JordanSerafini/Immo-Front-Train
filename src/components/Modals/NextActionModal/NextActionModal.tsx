@@ -102,7 +102,7 @@ function NextActionModal({
 
   return (
     <Modal>
-      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
+      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2 mt-8">
         <Input
           type="date"
           value={nextActionDate}
