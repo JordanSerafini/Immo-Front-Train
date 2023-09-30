@@ -74,7 +74,7 @@ function NextActionModal({
       formData.description &&
       formData.description.length
     ) {
-      dispatch(createInformationAndAction({ formData: infoData }));
+      dispatch(createInformationAndAction({ formData: infoData as Information & Action }));
     } else if (withInfo && formData) {
       // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }));

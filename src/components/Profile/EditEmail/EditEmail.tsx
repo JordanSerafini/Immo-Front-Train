@@ -51,6 +51,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
             onChange={setEmailValue}
             placeholder="Entrez votre email"
             type="email"
+            regExp={/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
           >
             <button
               type="submit"

@@ -22,10 +22,11 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             placeholder="N°"
             onChange={setStreetNumber}
             value={streetNumber}
-            className="w-[3.5rem]"
+            className="w-[4rem]"
             type="number"
             inputName="address_number"
             label='N°'
+            regExp={/^[0-9]{1,4}$/}
           />
           <MemoizedInput
             placeholder="Rue"
@@ -47,6 +48,7 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             className="w-[125px]"
             inputName='code_zip'
             label='Code Postal'
+            regExp={/^[0-9]{5}$/}
           />
           <MemoizedInput
             placeholder="Ville"

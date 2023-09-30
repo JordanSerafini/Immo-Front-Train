@@ -56,6 +56,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
             value={lastnameValue}
             onChange={setLastnameValue}
             placeholder="Entrez votre nom"
+            regExp={/^[a-zA-Z]{2,}$/}
           >
             <button
               type="submit"

@@ -14,7 +14,7 @@ export default function OwnerFieldset() {
   const [ownerEmail, setOwnerEmail] = useState<string>('');
 
   return useMemo(() => (
-    <Fieldset title="*Propriétaires">
+    <Fieldset title="Propriétaires">
        <div className="flex flex-col gap-8 mb-5 mt-7">
          <MemoizedInput
           placeholder="Nom des propriétaires"

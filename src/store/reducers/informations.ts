@@ -10,6 +10,7 @@ import axiosInstance from '../../utils/axios';
 
 // Typescript interface
 import { Information } from '../../@types/information';
+import { Action } from '../../@types/action';
 
 // Create an information interface
 interface InformationsState {
@@ -78,21 +79,24 @@ export const createInformationAndAction = createAsyncThunk(
   async ({
     formData,
   }: {
-    formData: {
-      date: string;
-      sector_id: number;
-      notification_date: string;
-    };
+    formData: Information & Action
   }) => {
     // First request to create an information
     const response = await axiosInstance.post(`/informations`, formData);
 
+    const actionData = {
+      information_id: response.data.result.id,
+      description: formData.description,
+      date: formData.notification_date
+    }
+
     // Second request to create an action
     // We want to use the id from the previous created information to send it to the route post to create an action
     await axiosInstance.post(
-      `/informations/${response.data.result.id}/actions`,
-      formData
+      `/informations/${actionData.information_id}/actions`,
+      actionData
     );
+
 
     return response;
   }
@@ -152,7 +156,6 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
     })
@@ -161,6 +164,9 @@ const informationsReducer = createReducer(initialState, (builder) => {
       console.log('erreur');
     })
     // CreateInformation WITH Action
+    .addCase(createInformationAndAction.pending, (state, action) => {
+      console.log(action.payload)
+    })
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);

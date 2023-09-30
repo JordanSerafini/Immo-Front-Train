@@ -56,7 +56,8 @@ export default function EditPhone({
             value={phoneNumberValue}
             onChange={setPhoneNumberValue}
             placeholder="Entrez votre n° de téléphone"
-            // Don't know if I keep the text type for phone number...
+            type='number'
+            regExp={/^\d{10}$/}
           >
             <button
               type="submit"
