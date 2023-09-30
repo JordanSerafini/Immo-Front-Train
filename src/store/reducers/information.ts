@@ -27,7 +27,6 @@ export const fetchInformation = createAsyncThunk(
   async ({id} : {id: string | undefined}) => {
     const response = await axiosInstance.get(`/informations/${id}`);
 
-
     return response.data;
   }
 );

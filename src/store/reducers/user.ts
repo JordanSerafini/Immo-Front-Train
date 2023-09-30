@@ -76,6 +76,7 @@ const userReducer = createReducer(initialState, (builder) => {
       if (!token) {
         state.errorMessage = action.payload
       } else {
+        localStorage.setItem('accessToken', token)
         // The token goes to the axios headers
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -105,6 +106,7 @@ const userReducer = createReducer(initialState, (builder) => {
 
       state.logged = false;
 
+      localStorage.removeItem('accessToken');
       delete axiosInstance.defaults.headers.common.Authorization
     })
     // Edit User

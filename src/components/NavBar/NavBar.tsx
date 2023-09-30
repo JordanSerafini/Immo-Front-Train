@@ -1,8 +1,6 @@
-// React
-import { useEffect } from 'react';
 
 // React Router
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -27,12 +25,11 @@ import './animation.scss';
 
 export default function NavBar() {
   // Hook Execution Order
-  const navigate = useNavigate()
   const dispatch = useAppDispatch();
 
   // Redux states
   const user = useAppSelector((state) => state.user);
-  const {loading, logged} = user
+  const {loading} = user
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
   // Functions
@@ -45,13 +42,6 @@ export default function NavBar() {
     // We want to hide the navbar for the logout so when the user RE connect, the navbar is closed
     dispatch(hideNavBar());
   }
-
-  // Use Effect
-  useEffect(() => {
-    if (!logged) {
-      navigate('/login');
-    }
-  }, [logged, navigate]);
 
   return (
     <>

@@ -23,6 +23,7 @@ import DashBoard from '../DashBoard/DashBoard';
 import NotFound from '../NotFound/NotFound';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">

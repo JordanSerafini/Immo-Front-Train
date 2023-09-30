@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // React router
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -21,10 +21,13 @@ import loader from '../../assets/loader/tail-spin.svg';
 import capFirstLetter from '../../utils/capFirstLetter';
 
 export default function Detail() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux state
   const information = useAppSelector((state) => state.info.data);
   const isLoading = useAppSelector((state) => state.info.loading);
+  const isError = useAppSelector((state) => state.info.error);
 
   const { infoId } = useParams();
 
@@ -54,6 +57,24 @@ export default function Detail() {
     );
   }
 
+  if(!information || isError) {
+    return (
+      <MainSection>
+        <div className="flex items-center gap-6 mt-5">
+          <Link to="/app/prospection">
+            <img
+              className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
+              src={arrowLeftIcon}
+              alt="Go back to Home Page"
+            />
+          </Link>
+          <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
+        </div>
+        <p>Pas d&apos;information</p>
+      </MainSection>
+    )
+  }
+
   return (
     <MainSection>
       <div className="flex items-center gap-6 mt-5">
@@ -70,7 +91,7 @@ export default function Detail() {
       <section className="max-w-[800px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
         {/* p style in "./detail.css" */}
         <h2>Type de bien</h2>
-        <p className="md:text-lg">{information?.type}</p>
+        <p className="md:text-lg">{information.type}</p>
 
         <h2 className="mt-4">Localisation</h2>
         <p className="md:text-lg">

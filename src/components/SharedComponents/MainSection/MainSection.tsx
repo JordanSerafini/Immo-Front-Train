@@ -1,3 +1,8 @@
+// React dom
+import { useNavigate } from 'react-router-dom';
+
+import axiosInstance from "../../../utils/axios";
+
 // Components
 import NavBar from '../../NavBar/NavBar';
 import Logo from '../Logo/Logo';
@@ -9,6 +14,18 @@ function MainSection({
   children: React.ReactNode;
   className?: string;
 }) {
+  // React Execution Order
+  const navigate = useNavigate();
+
+  // Local Storage
+  const accessToken = localStorage.getItem('accessToken')
+
+  if(accessToken){
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+  } else {
+    navigate("/login")
+  }
+
   return (
     <>
       <NavBar />
