@@ -2,7 +2,6 @@
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
-import MainSection from '../SharedComponents/MainSection/MainSection';
 import EditFirstname from './EditFirstname/EditFirstname';
 import EditLastname from './EditLastname/EditLastname';
 import EditPhone from './EditPhone/EditPhone';
@@ -16,7 +15,7 @@ export default function Profile() {
   const user = useAppSelector((state) => state.user.data);
 
   return (
-    <MainSection className="z-0">
+    <>
       <h1 className="mt-20 text-3xl font-semibold text-center font-poppins md:mt-10">
         Mon profil
       </h1>
@@ -56,6 +55,6 @@ export default function Profile() {
         <EditPhone phoneNumber={user.phone} />
         <EditEmail email={user.email} />
       </section>
-    </MainSection>
+    </>
   );
 }

@@ -1,6 +1,5 @@
-
 // React Router
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -15,6 +14,7 @@ import Divider from '../SharedComponents/Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
 import ProfileSection from './ProfileSection/ProfileSection';
 import Navigation from './Navigation/Navigation';
+import axiosInstance from '../../utils/axios';
 
 // Assets
 import logoutIcon from '../../assets/icons/log-out.svg';
@@ -25,11 +25,12 @@ import './animation.scss';
 
 export default function NavBar() {
   // Hook Execution Order
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   // Redux states
   const user = useAppSelector((state) => state.user);
-  const {loading} = user
+  const { loading } = user;
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
   // Functions
@@ -41,7 +42,14 @@ export default function NavBar() {
     dispatch(logout());
     // We want to hide the navbar for the logout so when the user RE connect, the navbar is closed
     dispatch(hideNavBar());
-  }
+
+    if (!user.logged) {
+      navigate('/login');
+    }
+
+    localStorage.removeItem('accessToken');
+    delete axiosInstance.defaults.headers.common.Authorization;
+  };
 
   return (
     <>
@@ -57,11 +65,11 @@ export default function NavBar() {
         }`}
       >
         {loading ? (
-          <img src={loader} alt="Loader" className='m-auto' />
+          <img src={loader} alt="Loader" className="m-auto" />
         ) : (
           <>
             {/* LOGO */}
-            <Logo className='hidden sm:block sm:my-5' />
+            <Logo className="hidden sm:block sm:my-5" />
 
             <Divider />
 

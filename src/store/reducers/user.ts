@@ -42,6 +42,7 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk('user/logout', async () => {
+  
   const response = await axiosInstance.get('/logout');
 
   return response;
@@ -71,20 +72,20 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      const {token} = action.payload;
+      const { token } = action.payload;
       // We check if the user is successfully connected
       if (!token) {
-        state.errorMessage = action.payload
+        state.errorMessage = action.payload;
       } else {
-        localStorage.setItem('accessToken', token)
+        localStorage.setItem('accessToken', token);
         // The token goes to the axios headers
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
         // We want to delete the password to not send it into our redux state
         delete action.payload.result.password;
-  
+
         state.data = action.payload.result;
-  
+
         state.logged = true;
       }
 
@@ -105,9 +106,6 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.acces = false;
 
       state.logged = false;
-
-      localStorage.removeItem('accessToken');
-      delete axiosInstance.defaults.headers.common.Authorization
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {

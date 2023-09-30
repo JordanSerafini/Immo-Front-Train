@@ -2,16 +2,13 @@
 import { useEffect } from 'react';
 
 // React router
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { fetchInformation } from '../../store/reducers/information';
-
-// Components
-import MainSection from '../SharedComponents/MainSection/MainSection';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
@@ -37,7 +34,7 @@ export default function Detail() {
 
   if (isLoading) {
     return (
-      <MainSection>
+      <>
         <div className="flex items-center gap-6 mt-5">
           <Link to="/app/prospection">
             <img
@@ -53,13 +50,13 @@ export default function Detail() {
           src={loader}
           alt="Loader"
         />
-      </MainSection>
+      </>
     );
   }
 
   if(!information || isError) {
     return (
-      <MainSection>
+      <>
         <div className="flex items-center gap-6 mt-5">
           <Link to="/app/prospection">
             <img
@@ -71,12 +68,12 @@ export default function Detail() {
           <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
         </div>
         <p>Pas d&apos;information</p>
-      </MainSection>
+      </>
     )
   }
 
   return (
-    <MainSection>
+    <>
       <div className="flex items-center gap-6 mt-5">
         <Link to="/app/prospection">
           <img
@@ -132,6 +129,6 @@ export default function Detail() {
           </em>
         </p>
       </section>
-    </MainSection>
+    </>
   );
 }

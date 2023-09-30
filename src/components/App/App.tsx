@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
+import InitApp from './InitApp';
 // Login & Support
 import Login from '../Login/Login';
 import Support from '../Support/Support';
@@ -23,7 +24,6 @@ import DashBoard from '../DashBoard/DashBoard';
 import NotFound from '../NotFound/NotFound';
 
 function App() {
-
   return (
     <BrowserRouter>
       <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">
@@ -38,17 +38,20 @@ function App() {
           />
 
           {/* This Route allows us to not write /app for every following routes  */}
-          <Route path="/app/*">
-            <Route path="prospection" element={<Prospection />} />
-            <Route path="detail/:infoId" element={<Detail />} />
-            <Route path="actionToDo" element={<ActionToDo />} />
-            <Route path="upcomingAction" element={<UpcomingAction />} />
-            <Route path="actionManager/:infoId" element={<ActionManager />} />
+          <Route path="/app" element={<InitApp />}>
+            <Route path="/app/prospection" element={<Prospection />} />
+            <Route path="/app/detail/:infoId" element={<Detail />} />
+            <Route path="/app/actionToDo" element={<ActionToDo />} />
+            <Route path="/app/upcomingAction" element={<UpcomingAction />} />
+            <Route
+              path="/app/actionManager/:infoId"
+              element={<ActionManager />}
+            />
 
-            <Route path="admin" element={<Administration />} />
-            <Route path="dashboard" element={<DashBoard />} />
+            <Route path="/app/admin" element={<Administration />} />
+            <Route path="/app/dashboard" element={<DashBoard />} />
 
-            <Route path="profile/:collaboratorId" element={<Profile />} />
+            <Route path="/app/profile/:collaboratorId" element={<Profile />} />
           </Route>
 
           <Route path="/*" element={<NotFound />} />

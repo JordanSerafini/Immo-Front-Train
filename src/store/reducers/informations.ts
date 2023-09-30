@@ -164,9 +164,6 @@ const informationsReducer = createReducer(initialState, (builder) => {
       console.log('erreur');
     })
     // CreateInformation WITH Action
-    .addCase(createInformationAndAction.pending, (state, action) => {
-      console.log(action.payload)
-    })
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
