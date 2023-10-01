@@ -65,6 +65,9 @@ const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
     .addCase(login.pending, (state) => {
+      // Just in case => Reset data initiale state
+      // It's a precaution
+      state.data = initialState.data;
       // Reset errorMessage state
       state.errorMessage = null;
       // Reset error state
@@ -90,7 +93,6 @@ const userReducer = createReducer(initialState, (builder) => {
 
         // Set User into the local storage
         localStorage.setItem('user', JSON.stringify(user));
-        // console.log(JSON.parse(localStorage.getItem('user') || '{}'))
       }
 
       state.loading = false;
