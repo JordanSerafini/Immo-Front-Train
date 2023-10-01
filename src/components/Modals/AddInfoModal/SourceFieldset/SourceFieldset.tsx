@@ -5,7 +5,8 @@ import { useState } from 'react';
 import Fieldset from '../../Form/Fieldset';
 import Textarea from '../Field/Textarea';
 
-export default function SourceFieldset() {
+export default function SourceFieldset(regExps: { [key: string]: RegExp }) {
+  const {source} = regExps
   // Info Source Local State
   const [sourceInfo, setSourceInfo] = useState<string>('');
   return (
@@ -16,7 +17,8 @@ export default function SourceFieldset() {
           onChange={setSourceInfo}
           placeholder="Renseignez la source de l'information..."
           textareaName="source"
-          regExp={/^.+$/m}
+          regExp={source}
+          isRequired
         />
       </div>
     </Fieldset>

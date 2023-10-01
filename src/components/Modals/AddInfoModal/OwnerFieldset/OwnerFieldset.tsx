@@ -5,8 +5,11 @@ import { useState, useMemo } from 'react';
 import Fieldset from '../../Form/Fieldset';
 import MemoizedInput from '../Field/MemoizedInput';
 
-export default function OwnerFieldset() {
-  
+export default function OwnerFieldset(regExps : { [key: string]: RegExp }) {
+  // Regexp Destructuring
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const {owner_name, phone_1, phone_2, owner_email} = regExps
+
   // Owner Local States
   const [ownerName, setOwnerName] = useState<string>('');
   const [ownerPhoneNumber1, setOwnerPhoneNumber1] = useState<string>('');
@@ -22,7 +25,7 @@ export default function OwnerFieldset() {
           onChange={setOwnerName}
           className="w-full"
           inputName="owner_name"
-          regExp={/^[A-Za-z .'-]+$/}
+          regExp={owner_name}
         />
         <div className="grid gap-8 md:gap-0 md:grid-cols-2">
           <MemoizedInput
@@ -32,7 +35,7 @@ export default function OwnerFieldset() {
             className="w-1/2 md:w-3/4"
             type="number"
             inputName="phone_1"
-            regExp={/^\d{10}$/}
+            regExp={phone_1}
           />
           <MemoizedInput
             placeholder="Autre. N° Tel."
@@ -41,7 +44,7 @@ export default function OwnerFieldset() {
             className="w-1/2 md:w-3/4"
             type="number"
             inputName="phone_2"
-            regExp={/^\d{10}$/}
+            regExp={phone_2}
           />
         </div>
 
@@ -52,9 +55,9 @@ export default function OwnerFieldset() {
           className="w-3/4"
           type="email"
           inputName="owner_email"
-          regExp={/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
+          regExp={owner_email}
         />
       </div>
     </Fieldset>
-  ), [ownerEmail, ownerName, ownerPhoneNumber1, ownerPhoneNumber2]);
+  ), [ownerEmail, ownerName, ownerPhoneNumber1, ownerPhoneNumber2, owner_email, owner_name, phone_1, phone_2]);
 }

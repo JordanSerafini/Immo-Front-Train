@@ -6,6 +6,7 @@ interface TextareaProps {
   className?: string;
   textareaName: string;
   regExp?: RegExp;
+  isRequired?: boolean;
   value: string;
   onChange: (value: string) => void;
 }
@@ -16,6 +17,7 @@ function Textarea({
   className,
   textareaName,
   regExp,
+  isRequired = false,
   value,
   onChange,
 }: TextareaProps) {
@@ -44,6 +46,7 @@ function Textarea({
         id={inputId}
         placeholder={placeholder}
         name={textareaName}
+        required={isRequired}
       />
     </div>
   );
@@ -54,6 +57,7 @@ Textarea.defaultProps = {
   label: '',
   className: '',
   regExp: null,
+  isRequired: false,
 };
 
 // == Export

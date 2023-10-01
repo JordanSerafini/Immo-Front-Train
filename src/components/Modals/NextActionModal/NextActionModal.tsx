@@ -121,6 +121,7 @@ function NextActionModal({
           label="*Prochaine action prévue le :"
           inputName="notification_date"
           regExp={/^\d{4}-\d{2}-\d{2}$/}
+          isRequired
         />
         <ValidButton
           className="block m-auto"

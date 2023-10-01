@@ -12,7 +12,7 @@ import {
   fetchInformations,
   resetInformations,
 } from '../../store/reducers/informations';
-import { setUserWithStorage, logout } from '../../store/reducers/user';
+import { setUserWithStorage } from '../../store/reducers/user';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -22,7 +22,6 @@ import NavBar from '../NavBar/NavBar';
 import MainSection from '../SharedComponents/MainSection/MainSection';
 
 export default function InitApp() {
-  console.log("render")
   // Hook Execution Order
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
