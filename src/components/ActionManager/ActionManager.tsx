@@ -55,6 +55,7 @@ export default function ActionManager() {
     (state) => state.modal.isNextActionModalOpen
   );
   const information = useAppSelector(findInformation(infoId as string));
+  const regExps = useAppSelector((state) => state.regexps);
 
   // Local States
   const [action, setAction] = useState<string>('');
@@ -102,6 +103,7 @@ export default function ActionManager() {
               onChange={setAction}
               textareaName="description"
               placeholder="Renseignez votre action"
+              regExp={regExps.description}
             />
             <div className="flex mt-5 justify-evenly">
               <ValidButton content="Enregistrer" isSubmit />

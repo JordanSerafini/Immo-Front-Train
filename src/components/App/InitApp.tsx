@@ -1,3 +1,7 @@
+// Library
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React
 import { useEffect } from 'react';
 
@@ -51,6 +55,8 @@ export default function InitApp() {
       }
       if (!user.id) {
         dispatch(setUserWithStorage());
+        // We Redirect the user to the prospection page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+        navigate('/app/prospection');
       }
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
@@ -75,6 +81,7 @@ export default function InitApp() {
       <MainSection>
         <Outlet />
       </MainSection>
+      <ToastContainer autoClose={2000} />
     </>
   );
 }

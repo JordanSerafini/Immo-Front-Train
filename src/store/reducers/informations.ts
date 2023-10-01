@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 /* eslint-disable no-console */
 import {
   createAsyncThunk,
@@ -27,7 +31,7 @@ export const initialState: InformationsState = {
   filteredInformations: [],
 };
 
-export const resetInformations = createAction("informations/reset");
+export const resetInformations = createAction('informations/reset');
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
@@ -78,19 +82,15 @@ export const updateInformation = createAsyncThunk(
 
 export const createInformationAndAction = createAsyncThunk(
   'information/createWithAction',
-  async ({
-    formData,
-  }: {
-    formData: Information & Action
-  }) => {
+  async ({ formData }: { formData: Information & Action }) => {
     // First request to create an information
     const response = await axiosInstance.post(`/informations`, formData);
 
     const actionData = {
       information_id: response.data.result.id,
       description: formData.description,
-      date: formData.notification_date
-    }
+      date: formData.notification_date,
+    };
 
     // Second request to create an action
     // We want to use the id from the previous created information to send it to the route post to create an action
@@ -98,7 +98,6 @@ export const createInformationAndAction = createAsyncThunk(
       `/informations/${actionData.information_id}/actions`,
       actionData
     );
-
 
     return response;
   }
@@ -127,7 +126,13 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchInformations.rejected, (state) => {
       state.error = true;
-      console.log('Une erreur est survenue');
+
+      toast.error(
+        'Une erreur est survenue lors de la récupération des informations de prospection...',
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
@@ -160,19 +165,39 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(createInformation.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
+
+      toast.success('Votre information à bien été créée !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(createInformation.rejected, (state) => {
       state.error = true;
-      console.log('erreur');
+      toast.error(
+        "Une erreur est survenue lors de la tentative de création d'une information de prospection...",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
+
+      toast.success('Votre information et votre action ont bien été créées !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+
+      console.log(action.payload)
     })
     .addCase(createInformationAndAction.rejected, (state) => {
       state.error = true;
-      console.log('Erreur');
+      toast.error(
+        "Une erreur est survenue lors de la tentative de création d'une information de prospection et d'une action...",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     // UpdateInformation
     .addCase(updateInformation.fulfilled, (state, action) => {
@@ -180,9 +205,20 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.filteredInformations = action.payload;
 
       state.loading = false;
+
+      toast.success('Votre information a bien été mise à jour !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(updateInformation.rejected, (state) => {
       state.error = true;
+
+      toast.error(
+        "Une erreur est survenue lors de la tentative d'édition d'une information...",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     // DeleteInformation
     .addCase(deleteInformation.fulfilled, (state, action) => {
@@ -194,13 +230,24 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.filteredInformations = state.filteredInformations.filter(
         (info) => info.id !== deletedId
       );
+
+      toast.success("L'information a été supprimée avec succès !", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(deleteInformation.rejected, (state) => {
       state.error = true;
+
+      toast.error(
+        "Une erreur est survenue lors de la tentative de suppression d'une information de prospection...",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     .addCase(resetInformations, () => {
       return initialState;
-    })
+    });
 });
 
 export default informationsReducer;
