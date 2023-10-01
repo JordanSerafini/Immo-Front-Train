@@ -20,7 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   // Redux State
-  const isLogged = useAppSelector((state) => state.user.logged);
+  const isLogged = useAppSelector((state) => state.user.data.logged);
 
   useEffect(() => {
     // Once the user is connected, we can redirect him to the "/app/prospection"

@@ -21,11 +21,13 @@ interface InformationsState {
 }
 
 export const initialState: InformationsState = {
-  loading: true,
+  loading: false,
   error: false,
   informations: [],
   filteredInformations: [],
 };
+
+export const resetInformations = createAction("informations/reset");
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
@@ -195,7 +197,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteInformation.rejected, (state) => {
       state.error = true;
-    });
+    })
+    .addCase(resetInformations, () => {
+      return initialState;
+    })
 });
 
 export default informationsReducer;

@@ -1,4 +1,4 @@
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
+import { createReducer, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -9,14 +9,12 @@ interface UserState {
   loading: boolean;
   error: boolean;
   errorMessage: null | string;
-  logged: boolean;
   data: User;
 }
 export const initialState: UserState = {
   loading: false,
   error: false,
   errorMessage: null,
-  logged: false,
   data: {
     id: undefined,
     firstname: undefined,
@@ -27,6 +25,7 @@ export const initialState: UserState = {
     secret_key: undefined,
     role_id: undefined,
     url: undefined,
+    logged: false,
   },
 };
 
@@ -60,6 +59,8 @@ export const editUser = createAsyncThunk(
   }
 );
 
+export const setUserWithStorage = createAction('user/storage');
+
 const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
@@ -84,9 +85,12 @@ const userReducer = createReducer(initialState, (builder) => {
         // We want to delete the password to not send it into our redux state
         delete action.payload.result.password;
 
-        state.data = action.payload.result;
+        const user = {...action.payload.result, logged: true};
+        state.data = user;
 
-        state.logged = true;
+        // Set User into the local storage
+        localStorage.setItem('user', JSON.stringify(user));
+        // console.log(JSON.parse(localStorage.getItem('user') || '{}'))
       }
 
       state.loading = false;
@@ -96,16 +100,12 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     // Logout
-    .addCase(logout.fulfilled, (state) => {
-      state.data.id = undefined;
-      state.data.firstname = undefined;
-      state.data.lastname = undefined;
-      state.data.email = undefined;
-      state.data.phone = undefined;
-      state.data.url = undefined;
-      state.data.acces = false;
-
-      state.logged = false;
+    .addCase(logout.pending, () => {
+      // We want to reset the state also while pending to avoid useless rerender in Init App
+      return initialState;
+    })
+    .addCase(logout.fulfilled, () => {
+      return initialState;
     })
     // Edit User
     .addCase(editUser.fulfilled, (state, action) => {
@@ -113,7 +113,12 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.lastname = action.payload.lastname;
       state.data.phone = action.payload.phone;
       state.data.email = action.payload.email;
-    });
+    })
+    // Set user state with the storage
+    .addCase(setUserWithStorage, (state) => {
+      const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
+      state.data = storedUser;
+    })
 });
 
 export default userReducer;
