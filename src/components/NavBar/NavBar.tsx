@@ -25,7 +25,7 @@ export default function NavBar() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  // Redux states
+    // Redux states
   const user = useAppSelector((state) => state.user.data);
   const { loading } = useAppSelector((state) => state.user);
 

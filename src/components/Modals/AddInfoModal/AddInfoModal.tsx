@@ -42,15 +42,20 @@ import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
 
 export default function AddInfoModal() {
-  const modalRef = useRef<HTMLDivElement>(null);
   // Hook Execution Order
   const dispatch = useAppDispatch();
+
+  // React References
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Redux States
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationAddInfoModalOpen
   );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
+  const regExps = useAppSelector((state) => state.regexps);
 
   // Local States
   const [formData, setFormData] = useState<Information & Action>();
@@ -59,23 +64,6 @@ export default function AddInfoModal() {
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('Maison');
-
-  // RegExps
-  const regExps: { [key: string]: RegExp } = {
-    address_number: /^[0-9]{1,4}$/,
-    address_street: /^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/,
-    code_zip: /^[0-9]{5}$/,
-    address_city: /^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/,
-    address_info: /^.+$/m,
-    owner_name: /^[A-Za-z .'-]+$/,
-    phone_1: /^\d{10}$/,
-    phone_2: /^\d{10}$/,
-    owner_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    comment: /^.+$/m,
-    source: /^.+$/m,
-    action: /^.+.{5,}$/m,
-    description: /^.+.{5,}$/m
-  };
 
   // HANDLERS
   const handleCancelClick = () => {
@@ -92,9 +80,10 @@ export default function AddInfoModal() {
     ) as unknown as Information & Action;
 
     // FORM VALIDATION
-
+    // The idea is to push into the wrongValues array to gather all invalid inputs
     const wrongValues: string[] = [];
 
+    // For each entries from formEntries, we iterate to test the regexp from our redux initialState
     Object.keys(formEntries).forEach((fieldName) => {
       const value = formDatas.get(fieldName);
 
@@ -105,13 +94,18 @@ export default function AddInfoModal() {
       }
     });
 
+    // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
     if (wrongValues.length) {
+      // So we set our errorMessage local state to those values
       setErrorMessage(wrongValues);
 
-      if(modalRef.current) {
-        modalRef.current.scrollTo({top: 0, behavior: "smooth"})
+      if (modalRef.current) {
+        // We also want to force the scroll to the top of our modal
+        // UX Choice : We want the user to see what's going on
+        modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else {
+      // Otherwise, we set our local react state to formEntries, so we can send it into our <NextActionModal /> component
       setFormData(formEntries);
       dispatch(showNextActionModal());
     }
@@ -136,6 +130,7 @@ export default function AddInfoModal() {
         Ajout d&apos;une information
       </h1>
 
+      {/* Error Message if there's at least an invalid inputs according to regexps tests */}
       {errorMessage.length > 0 && (
         <p className="font-semibold text-red-500">
           Les champs suivants sont incorrects: {errorMessage.join(' / ')}

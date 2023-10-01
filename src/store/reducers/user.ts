@@ -113,6 +113,9 @@ const userReducer = createReducer(initialState, (builder) => {
       state.data.lastname = action.payload.lastname;
       state.data.phone = action.payload.phone;
       state.data.email = action.payload.email;
+
+      // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
+      localStorage.setItem("user", JSON.stringify(state.data))
     })
     // Set user state with the storage
     .addCase(setUserWithStorage, (state) => {
