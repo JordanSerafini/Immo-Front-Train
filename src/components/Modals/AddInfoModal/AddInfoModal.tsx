@@ -1,5 +1,5 @@
 // React
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -35,12 +35,14 @@ import plus from '../../../assets/icons/plus.svg';
 
 // Style
 import './animation.scss';
+import '../../SharedComponents/ErrorMsg/animation.scss';
 
 // Typescript interface
 import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
 
 export default function AddInfoModal() {
+  const modalRef = useRef<HTMLDivElement>(null);
   // Hook Execution Order
   const dispatch = useAppDispatch();
   const cancelModal = useAppSelector(
@@ -51,11 +53,29 @@ export default function AddInfoModal() {
   );
 
   // Local States
-  const [formData, setFormData] = useState<Information & Action>()
+  const [formData, setFormData] = useState<Information & Action>();
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('Maison');
+
+  // RegExps
+  const regExps: { [key: string]: RegExp } = {
+    address_number: /^[0-9]{1,4}$/,
+    address_street: /^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/,
+    code_zip: /^[0-9]{5}$/,
+    address_city: /^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/,
+    address_info: /^.+$/m,
+    owner_name: /^[A-Za-z .'-]+$/,
+    phone_1: /^\d{10}$/,
+    phone_2: /^\d{10}$/,
+    owner_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    comment: /^.+$/m,
+    source: /^.+$/m,
+    action: /^.+.{5,}$/m,
+    description: /^.+.{5,}$/m
+  };
 
   // HANDLERS
   const handleCancelClick = () => {
@@ -65,14 +85,40 @@ export default function AddInfoModal() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form: HTMLFormElement = event.currentTarget;
-    setFormData(Object.fromEntries(new FormData(form)) as unknown as Information & Action);
+    const formElement: HTMLFormElement = event.currentTarget;
+    const formDatas = new FormData(formElement);
+    const formEntries = Object.fromEntries(
+      formDatas
+    ) as unknown as Information & Action;
 
-    dispatch(showNextActionModal());
+    // FORM VALIDATION
+
+    const wrongValues: string[] = [];
+
+    Object.keys(formEntries).forEach((fieldName) => {
+      const value = formDatas.get(fieldName);
+
+      if (fieldName in regExps && regExps[fieldName] && value?.length) {
+        if (!regExps[fieldName].test(value as string)) {
+          wrongValues.push(fieldName);
+        }
+      }
+    });
+
+    if (wrongValues.length) {
+      setErrorMessage(wrongValues);
+
+      if(modalRef.current) {
+        modalRef.current.scrollTo({top: 0, behavior: "smooth"})
+      }
+    } else {
+      setFormData(formEntries);
+      dispatch(showNextActionModal());
+    }
   };
 
   return (
-    <Modal closeModal={handleCancelClick}>
+    <Modal closeModal={handleCancelClick} reference={modalRef}>
       {/* Temporary style */}
       <button
         onClick={handleCancelClick}
@@ -90,6 +136,12 @@ export default function AddInfoModal() {
         Ajout d&apos;une information
       </h1>
 
+      {errorMessage.length > 0 && (
+        <p className="font-semibold text-red-500">
+          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
+        </p>
+      )}
+
       <em className="italic">*Champs obligatoires</em>
 
       <form
@@ -101,17 +153,17 @@ export default function AddInfoModal() {
           setState={setSelectedTypeOption}
         />
 
-        <LocationFieldset typeState={selectedTypeOption} />
+        <LocationFieldset typeState={selectedTypeOption} regExps={regExps} />
 
-        <OwnerFieldset />
+        <OwnerFieldset {...regExps} />
 
-        <SourceFieldset />
+        <SourceFieldset {...regExps} />
 
         <CategoryFieldset />
 
-        <CommentsFieldset />
+        <CommentsFieldset {...regExps} />
 
-        <ActionFieldset />
+        <ActionFieldset {...regExps} />
 
         {/* GROUP BTNS */}
         <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">

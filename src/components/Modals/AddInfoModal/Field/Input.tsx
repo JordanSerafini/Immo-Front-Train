@@ -10,6 +10,7 @@ interface InputProps {
   inputName: string;
   placeholder: string;
   regExp?: RegExp;
+  isRequired?: boolean
   value: string | undefined;
   onChange: (value: string) => void;
 }
@@ -21,8 +22,9 @@ function Input({
   label,
   inputName,
   placeholder,
-  value,
   regExp,
+  isRequired = false,
+  value,
   onChange,
 }: InputProps) {
   const inputId = useId();
@@ -59,6 +61,7 @@ function Input({
         type={type}
         placeholder={placeholder}
         name={inputName}
+        required={isRequired}
       />
     </div>
   );
@@ -71,6 +74,7 @@ Input.defaultProps = {
   className: null,
   label: null,
   regExp: null,
+  isRequired: false,
 };
 
 // == Export

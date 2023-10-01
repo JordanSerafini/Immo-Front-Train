@@ -3,7 +3,6 @@
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
-import MainSection from '../SharedComponents/MainSection/MainSection';
 import CardUpcomingAction from './CardUpcomingAction/CardUpcomingAction';
 
 // Assets
@@ -19,7 +18,7 @@ export default function UpcomingAction() {
 
   const upcomingAction = filteredUpcomingAction(informations)
   return (
-    <MainSection>
+    <>
         <div className="flex flex-col items-center justify-center gap-2 mb-6">
           <img
             src={upcomingActionIcon}
@@ -34,6 +33,6 @@ export default function UpcomingAction() {
             <CardUpcomingAction key={information.id} {...information} />
           ))}
         </ul>
-    </MainSection>
+    </>
   );
 }

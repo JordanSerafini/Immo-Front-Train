@@ -21,11 +21,13 @@ interface InformationsState {
 }
 
 export const initialState: InformationsState = {
-  loading: true,
+  loading: false,
   error: false,
   informations: [],
   filteredInformations: [],
 };
+
+export const resetInformations = createAction("informations/reset");
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
@@ -164,9 +166,6 @@ const informationsReducer = createReducer(initialState, (builder) => {
       console.log('erreur');
     })
     // CreateInformation WITH Action
-    .addCase(createInformationAndAction.pending, (state, action) => {
-      console.log(action.payload)
-    })
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
@@ -198,7 +197,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteInformation.rejected, (state) => {
       state.error = true;
-    });
+    })
+    .addCase(resetInformations, () => {
+      return initialState;
+    })
 });
 
 export default informationsReducer;

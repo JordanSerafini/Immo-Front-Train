@@ -8,9 +8,8 @@ import { editUser } from '../../../store/reducers/user';
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
-
-// Assets
-import checkIcon from '../../../assets/icons/check-circle.svg';
+import EditForm from '../EditForm/EditForm';
+import EditSubmitBtn from '../EditForm/EditSubmitBtn';
 
 export default function EditPhone({
   phoneNumber,
@@ -49,24 +48,19 @@ export default function EditPhone({
   return (
     <PersonnalInfo clickHandler={handleEditLastname} label="Téléphone">
       {editPhoneNumber ? (
-        <form className="mt-5 max-w-[300px]" onSubmit={handleSubmit}>
+        <EditForm submitMethod={handleSubmit}>
           <Input
             inputName="phone"
             className="relative"
             value={phoneNumberValue}
             onChange={setPhoneNumberValue}
             placeholder="Entrez votre n° de téléphone"
-            type='number'
+            type="number"
             regExp={/^\d{10}$/}
           >
-            <button
-              type="submit"
-              className="absolute z-30 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-1 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
-            >
-              Ok <img src={checkIcon} alt="check" />
-            </button>
+            <EditSubmitBtn />
           </Input>
-        </form>
+        </EditForm>
       ) : (
         <p className="md:text-lg">{phoneNumber}</p>
       )}

@@ -6,7 +6,15 @@ import Fieldset from '../../Form/Fieldset';
 import MemoizedInput from '../Field/MemoizedInput';
 import Textarea from '../Field/Textarea';
 
-export default function LocationFieldset({ typeState }: { typeState: string }) {
+interface LocationFieldsetProps {
+  typeState: string; 
+  regExps: { [key: string]: RegExp }
+}
+
+export default function LocationFieldset({ typeState, regExps }: LocationFieldsetProps) {
+  // RegExp Destructuring
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const {address_number, address_street, code_zip, address_city, address_info} = regExps
   // Location Local States
   const [streetNumber, setStreetNumber] = useState<string>('');
   const [streetName, setStreetName] = useState<string>('');
@@ -26,7 +34,8 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             type="number"
             inputName="address_number"
             label='N°'
-            regExp={/^[0-9]{1,4}$/}
+            regExp={address_number}
+            isRequired
           />
           <MemoizedInput
             placeholder="Rue"
@@ -35,7 +44,8 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             className="w-full sm:w-[300px]"
             inputName='address_street'
             label='Rue'
-            regExp={/^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/}
+            regExp={address_street}
+            isRequired
           />
         </div>
 
@@ -48,7 +58,8 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             className="w-[125px]"
             inputName='code_zip'
             label='Code Postal'
-            regExp={/^[0-9]{5}$/}
+            regExp={code_zip}
+            isRequired
           />
           <MemoizedInput
             placeholder="Ville"
@@ -57,7 +68,8 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             className="w-full md:w-[260px]"
             inputName='address_city'
             label='Ville'
-            regExp={/^[A-Za-zÀ-ÖØ-öø-ÿ .'-]+$/}
+            regExp={address_city}
+            isRequired
           />
         </div>
         {typeState === 'Appartement' && (
@@ -67,10 +79,10 @@ export default function LocationFieldset({ typeState }: { typeState: string }) {
             onChange={setAppartmentInfo}
             placeholder="Informations complémentaires..."
             textareaName='address_info'
-            regExp={/^.+$/m}
+            regExp={address_info}
           />
         )}
       </div>
     </Fieldset>
-  ), [appartmentInfo, city, streetName, streetNumber, typeState, zipCode]);
+  ), [address_city, address_info, address_number, address_street, appartmentInfo, city, code_zip, streetName, streetNumber, typeState, zipCode]);
 }

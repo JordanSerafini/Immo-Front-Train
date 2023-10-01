@@ -14,7 +14,7 @@ function ErrorMsg({ errorMessage, className }: ErrorMsgProps) {
 }
 
 ErrorMsg.defaultProps = {
-    className: null,
+    className: "",
 }
 
 export default ErrorMsg;

@@ -9,4 +9,5 @@ export interface User {
   secret_key: undefined | string;
   role_id: number | undefined;
   url: string | undefined;
+  logged: boolean;
 }

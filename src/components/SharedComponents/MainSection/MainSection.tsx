@@ -1,5 +1,4 @@
 // Components
-import NavBar from '../../NavBar/NavBar';
 import Logo from '../Logo/Logo';
 
 function MainSection({
@@ -9,14 +8,12 @@ function MainSection({
   children: React.ReactNode;
   className?: string;
 }) {
+
   return (
-    <>
-      <NavBar />
-      <main className={`m-5 min-h-full h-fit md:m-10 md:mb-auto relative grow ${className}`}>
+      <main className={`m-5 h-fit md:mb-auto relative grow z-0 ${className}`}>
         <Logo className="sm:hidden" />
         {children}
       </main>
-    </>
   );
 }
 

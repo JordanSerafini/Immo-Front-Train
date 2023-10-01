@@ -8,9 +8,8 @@ import { editUser } from '../../../store/reducers/user';
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
-
-// Assets
-import checkIcon from '../../../assets/icons/check-circle.svg';
+import EditForm from '../EditForm/EditForm';
+import EditSubmitBtn from '../EditForm/EditSubmitBtn';
 
 // Typescript interface
 interface EditLastnameProps {
@@ -49,7 +48,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
   return (
     <PersonnalInfo clickHandler={handleEditLastname} label="Nom">
       {editLastname ? (
-        <form onSubmit={handleSubmit} className='mt-5 max-w-[300px]'>
+        <EditForm submitMethod={handleSubmit}>
           <Input
             inputName="lastname"
             className="relative"
@@ -58,14 +57,9 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
             placeholder="Entrez votre nom"
             regExp={/^[a-zA-Z]{2,}$/}
           >
-            <button
-              type="submit"
-              className="absolute z-30 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-1 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
-            >
-              Ok <img src={checkIcon} alt="check" />
-            </button>
+            <EditSubmitBtn />
           </Input>
-        </form>
+        </EditForm>
       ) : (
         <p className="md:text-lg">{lastname}</p>
       )}
