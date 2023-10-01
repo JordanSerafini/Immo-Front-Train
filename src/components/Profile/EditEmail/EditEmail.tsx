@@ -8,6 +8,7 @@ import { editUser } from '../../../store/reducers/user';
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
+import EditForm from '../EditForm/EditForm';
 
 // Assets
 import checkIcon from '../../../assets/icons/check-circle.svg';
@@ -36,8 +37,6 @@ export default function EditEmail({ email }: { email: string | undefined }) {
 
     const formValues = { ...user, ...formData };
 
-    console.log(formValues)
-
     dispatch(editUser(formValues));
     setEditEmail(false);
   };
@@ -45,7 +44,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
   return (
     <PersonnalInfo clickHandler={handleEditLastname} label="Email">
       {editEmail ? (
-        <form className="w-[350px]" onSubmit={handleSubmit}>
+        <EditForm submitMethod={handleSubmit}>
           <Input
             inputName="email"
             className="relative"
@@ -53,15 +52,16 @@ export default function EditEmail({ email }: { email: string | undefined }) {
             onChange={setEmailValue}
             placeholder="Entrez votre email"
             type="email"
+            regExp={/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
           >
             <button
               type="submit"
-              className="absolute z-10 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-2 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
+              className="absolute z-30 flex gap-2 p-[0.35rem] font-semibold rounded-md top-0 -right-2 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
             >
               Ok <img src={checkIcon} alt="check" />
             </button>
           </Input>
-        </form>
+        </EditForm>
       ) : (
         <p className="md:text-lg">{email}</p>
       )}

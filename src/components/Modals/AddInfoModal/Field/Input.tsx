@@ -1,27 +1,34 @@
+// React
 import { ChangeEvent, useId } from 'react';
 
+// Typescript interface
 interface InputProps {
   children?: React.ReactNode;
-  label?: string;
   type?: string;
   className?: string;
+  label?: string;
   inputName: string;
-  value: string | undefined;
   placeholder: string;
+  regExp?: RegExp;
+  isRequired?: boolean
+  value: string | undefined;
   onChange: (value: string) => void;
 }
 
 function Input({
   children,
-  label,
   type,
-  value,
-  placeholder,
   className,
+  label,
   inputName,
+  placeholder,
+  regExp,
+  isRequired = false,
+  value,
   onChange,
 }: InputProps) {
   const inputId = useId();
+  const condition = regExp?.test(value as string);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     onChange(event.target.value);
@@ -29,14 +36,24 @@ function Input({
 
   return (
     <div className="relative flex flex-col">
-      <label htmlFor={inputId} className={label ? 'font-semibold' : 'hidden'}>
-        {label}
+      <label
+        htmlFor={inputId}
+        className={`absolute font-poppins font-medium z-0 duration-300 ${
+          value?.length ? '-translate-y-full' : 'translate-y-[10%]'
+        }`}
+      >
+        {label || placeholder}
       </label>
 
       {children}
 
       <input
-        className={className}
+        className={`${className} ${
+          (condition ||
+            (type === 'number' && condition &&
+              !Number.isNaN(parseInt(value as string, 10)))) &&
+          'border-primary-300 focus:ring-transparent'
+        } z-10`}
         // React - state
         value={value}
         onChange={handleChange}
@@ -44,6 +61,7 @@ function Input({
         type={type}
         placeholder={placeholder}
         name={inputName}
+        required={isRequired}
       />
     </div>
   );
@@ -53,8 +71,10 @@ function Input({
 Input.defaultProps = {
   children: null,
   type: 'text',
-  className: '',
-  label: '',
+  className: null,
+  label: null,
+  regExp: null,
+  isRequired: false,
 };
 
 // == Export

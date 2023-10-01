@@ -10,6 +10,7 @@ import axiosInstance from '../../utils/axios';
 
 // Typescript interface
 import { Information } from '../../@types/information';
+import { Action } from '../../@types/action';
 
 // Create an information interface
 interface InformationsState {
@@ -20,11 +21,13 @@ interface InformationsState {
 }
 
 export const initialState: InformationsState = {
-  loading: true,
+  loading: false,
   error: false,
   informations: [],
   filteredInformations: [],
 };
+
+export const resetInformations = createAction("informations/reset");
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
@@ -48,16 +51,7 @@ export const filterInformation = createAction(
 
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({
-    formData,
-  }: {
-    formData: {
-      date: string;
-      sector_id: number;
-      notification_date: string;
-    };
-  }) => {
-
+  async ({ formData }: { formData: Information }) => {
     const response = await axiosInstance.post('/informations', formData);
 
     return response;
@@ -67,17 +61,16 @@ export const createInformation = createAsyncThunk(
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    console.log(information)
+    console.log(information);
 
     const response1 = await axiosInstance.patch(
       `/informations/${information.id}`,
       information
     );
 
-    console.log(response1)
+    console.log(response1);
 
     const response = await axiosInstance.get(`/informations`);
-
 
     return response.data;
   }
@@ -88,21 +81,24 @@ export const createInformationAndAction = createAsyncThunk(
   async ({
     formData,
   }: {
-    formData: {
-      date: string;
-      sector_id: number;
-      notification_date: string;
-    };
+    formData: Information & Action
   }) => {
     // First request to create an information
     const response = await axiosInstance.post(`/informations`, formData);
 
+    const actionData = {
+      information_id: response.data.result.id,
+      description: formData.description,
+      date: formData.notification_date
+    }
+
     // Second request to create an action
     // We want to use the id from the previous created information to send it to the route post to create an action
     await axiosInstance.post(
-      `/informations/${response.data.result.id}/actions`,
-      formData
+      `/informations/${actionData.information_id}/actions`,
+      actionData
     );
+
 
     return response;
   }
@@ -162,13 +158,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
     })
-    .addCase(createInformation.rejected, (state, action) => {
+    .addCase(createInformation.rejected, (state) => {
       state.error = true;
-      console.log(action.payload)
+      console.log('erreur');
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
@@ -202,7 +197,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteInformation.rejected, (state) => {
       state.error = true;
-    });
+    })
+    .addCase(resetInformations, () => {
+      return initialState;
+    })
 });
 
 export default informationsReducer;

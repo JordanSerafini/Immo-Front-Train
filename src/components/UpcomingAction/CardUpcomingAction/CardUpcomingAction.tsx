@@ -20,14 +20,14 @@ export default function CardUpcomingAction({
   notification_date,
 }: Information) {
   let icon: string;
-  switch (type) {
-    case 'Maison':
+  switch (type.toLowerCase()) {
+    case 'maison':
       icon = houseIcon;
       break;
-    case 'Appartement':
+    case 'appartement':
       icon = apartmentIcon;
       break;
-    case 'Terrain':
+    case 'terrain':
       icon = landIcon;
       break;
     default:

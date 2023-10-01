@@ -2,14 +2,15 @@
 import { FormEvent, useState } from 'react';
 
 // Redux
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
 import { login } from '../../../store/reducers/user';
 
-// Components
+// Shared Components
 import Input from '../../Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ErrorMsg from '../../SharedComponents/ErrorMsg/ErrorMsg';
 
 // Assets
 import eyeIcon from '../../../assets/icons/eye-empty.svg';
@@ -20,11 +21,16 @@ export default function LoginForm() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux state
+  const user = useAppSelector((state) => state.user);
+
+  const { errorMessage } = user;
+
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('sebastien.moreau@example.com');
+  const [password, setPassword] = useState<string>('pass123');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -40,7 +46,7 @@ export default function LoginForm() {
   };
   return (
     <form
-      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-5"
+      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10 relative"
       onSubmit={handleSubmit}
     >
       <Input
@@ -52,7 +58,7 @@ export default function LoginForm() {
         type="email"
       >
         <img
-          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
           src={emailIcon}
           alt="Email Icon"
         />
@@ -68,14 +74,21 @@ export default function LoginForm() {
       >
         <button type="button" onClick={togglePasswordVisibility}>
           <img
-            className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5"
+            className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
             src={showPassword ? eyeIcon : eyeOffIcon}
             alt="Password Icon"
           />
         </button>
       </Input>
 
-      <ValidButton content="Se connecter" isSubmit className="mt-10" />
+      {errorMessage && (
+        <ErrorMsg
+          errorMessage={errorMessage}
+          className="absolute -translate-x-1/2 top-[65%] left-1/2"
+        />
+      )}
+
+      <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
     </form>
   );
 }

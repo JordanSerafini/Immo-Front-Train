@@ -33,8 +33,12 @@ import InfoSection from './InfoSection/InfoSection';
 import ActionSection from './ActionSection/ActionSection';
 import NextActionModal from '../Modals/NextActionModal/NextActionModal';
 
+// Typescript interface
+import { Information } from '../../@types/information';
+import { Action } from '../../@types/action';
+
 // Utils
-import getFullDate from '../../utils/getFullDate';
+import getFullDate from '../../utils/getFormatedFullDate';
 
 export default function ActionManager() {
   // Hook Execution Order
@@ -54,7 +58,7 @@ export default function ActionManager() {
 
   // Local States
   const [action, setAction] = useState<string>('');
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState<Information & Action>()
 
   if (!information) {
     return <Navigate to="/app/prospection" replace />;
@@ -74,7 +78,7 @@ export default function ActionManager() {
       date: getFullDate(),
     }
 
-    setFormData(formValues)
+    setFormData(formValues as unknown as Information & Action)
 
     dispatch(showNextActionModal());
   };

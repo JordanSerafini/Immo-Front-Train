@@ -1,8 +1,5 @@
-// React
-import { useEffect } from 'react';
-
 // React Router
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -10,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Store
 import { hideNavBar } from '../../store/reducers/navbar';
 import { logout } from '../../store/reducers/user';
+import { resetInformations } from '../../store/reducers/informations';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
@@ -17,6 +15,7 @@ import Divider from '../SharedComponents/Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
 import ProfileSection from './ProfileSection/ProfileSection';
 import Navigation from './Navigation/Navigation';
+import axiosInstance from '../../utils/axios';
 
 // Assets
 import logoutIcon from '../../assets/icons/log-out.svg';
@@ -27,13 +26,12 @@ import './animation.scss';
 
 export default function NavBar() {
   // Hook Execution Order
-  const navigate = useNavigate()
   const dispatch = useAppDispatch();
 
   // Redux states
   const user = useAppSelector((state) => state.user.data);
-  const isLoading = useAppSelector((state) => state.user.loading);
-  const isLogged = useAppSelector((state) => state.user.data.logged);
+  const { loading } = useAppSelector((state) => state.user);
+
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
   // Functions
@@ -42,17 +40,17 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
     // We want to hide the navbar for the logout so when the user RE connect, the navbar is closed
     dispatch(hideNavBar());
-  }
+    // We want to reset the redux state of Informations to make a new fetch
+    // We do that to prevent a bad state display => Imagine the user uses the app on his phone, it will change the informations values in DB but NOT in the state
+    dispatch(resetInformations());
 
-  // Use Effect
-  useEffect(() => {
-    if (!isLogged) {
-      navigate('/login');
-    }
-  }, [isLogged, navigate]);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem("user");
+    delete axiosInstance.defaults.headers.common.Authorization;
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -67,17 +65,17 @@ export default function NavBar() {
             : 'translate-x-[100%] opacity-0'
         }`}
       >
-        {isLoading ? (
-          <img src={loader} alt="Loader" className='m-auto' />
+        {loading ? (
+          <img src={loader} alt="Loader" className="m-auto" />
         ) : (
           <>
             {/* LOGO */}
-            <Logo className='hidden sm:block sm:my-5' />
+            <Logo className="hidden sm:block sm:my-5" />
 
             <Divider />
 
             {/* PROFILE SECTION */}
-            <ProfileSection closeNavBarMethod={closeNavBar} />
+            <ProfileSection {...user} closeNavBarMethod={closeNavBar} />
 
             <Divider />
 

@@ -1,0 +1,23 @@
+.animate-shake {
+  animation: 300ms forwards ease shake;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  25% {
+    transform: translateX(-40%);
+  }
+  50% {
+    transform: translateX(-55%);
+  }
+  75% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+}

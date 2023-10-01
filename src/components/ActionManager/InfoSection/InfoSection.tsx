@@ -12,6 +12,9 @@ import houseIcon from '../../../assets/icons/house.svg';
 import apartmentIcon from '../../../assets/icons/apartment.svg';
 import landIcon from '../../../assets/icons/land.svg';
 
+// Utils
+import capFirstLetter from '../../../utils/capFirstLetter';
+
 // Typescript interface
 import { Information } from "../../../@types/information"
 
@@ -33,14 +36,14 @@ export default function InfoSection({
     const collaborator = useAppSelector((state) => state.user.data);
 
     let icon: string;
-    switch (type) {
-      case 'Maison':
+    switch (type.toLowerCase()) {
+      case 'maison':
         icon = houseIcon;
         break;
-      case 'Appartement':
+      case 'appartement':
         icon = apartmentIcon;
         break;
-      case 'Terrain':
+      case 'terrain':
         icon = landIcon;
         break;
       default:
@@ -64,7 +67,7 @@ export default function InfoSection({
                 {owner_name}
               </p>
               <strong className="text-lg font-bold md:text-xl text-accent-400">
-                {category.toUpperCase()}
+                {capFirstLetter(category)}
               </strong>
             </div>
 
@@ -92,7 +95,7 @@ export default function InfoSection({
                 <em className="font-semibold"> {collaborator.firstname} {collaborator.lastname?.toUpperCase()}</em>
               </p>
               <p>
-                Créer le
+                Créée le
                 <em className="font-semibold"> {date.slice(0, 10)}</em>
               </p>
             </div>
