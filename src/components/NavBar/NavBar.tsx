@@ -21,14 +21,11 @@ import axiosInstance from '../../utils/axios';
 import logoutIcon from '../../assets/icons/log-out.svg';
 import loader from '../../assets/loader/tail-spin.svg';
 
-// Style
-import './animation.scss';
-
 export default function NavBar() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  // Redux states
+    // Redux states
   const user = useAppSelector((state) => state.user.data);
   const { loading } = useAppSelector((state) => state.user);
 

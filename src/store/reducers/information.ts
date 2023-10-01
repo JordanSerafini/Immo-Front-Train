@@ -1,7 +1,9 @@
-import {
-  createAsyncThunk,
-  createReducer,
-} from '@reduxjs/toolkit';
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// Redux
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -24,13 +26,12 @@ export const initialState: InformationState = {
 
 export const fetchInformation = createAsyncThunk(
   'information/APICall',
-  async ({id} : {id: string | undefined}) => {
+  async ({ id }: { id: string | undefined }) => {
     const response = await axiosInstance.get(`/informations/${id}`);
 
     return response.data;
   }
 );
-
 
 const informationReducer = createReducer(initialState, (builder) => {
   builder
@@ -47,7 +48,14 @@ const informationReducer = createReducer(initialState, (builder) => {
     .addCase(fetchInformation.rejected, (state) => {
       state.error = true;
       state.loading = false;
-    })
+
+      toast.error(
+        "Une erreur est survenue lors de la tentative de récupération d'une information...",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
+    });
 });
 
 export default informationReducer;

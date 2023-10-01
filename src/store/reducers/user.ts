@@ -1,4 +1,13 @@
-import { createReducer, createAsyncThunk, createAction } from '@reduxjs/toolkit';
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// Redux
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -41,7 +50,6 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk('user/logout', async () => {
-  
   const response = await axiosInstance.get('/logout');
 
   return response;
@@ -65,6 +73,9 @@ const userReducer = createReducer(initialState, (builder) => {
   builder
     // Login
     .addCase(login.pending, (state) => {
+      // Just in case => Reset data initiale state
+      // It's a precaution
+      state.data = initialState.data;
       // Reset errorMessage state
       state.errorMessage = null;
       // Reset error state
@@ -85,19 +96,29 @@ const userReducer = createReducer(initialState, (builder) => {
         // We want to delete the password to not send it into our redux state
         delete action.payload.result.password;
 
-        const user = {...action.payload.result, logged: true};
+        const user = { ...action.payload.result, logged: true };
         state.data = user;
 
         // Set User into the local storage
         localStorage.setItem('user', JSON.stringify(user));
-        // console.log(JSON.parse(localStorage.getItem('user') || '{}'))
       }
+
+      toast.info("Bienvenue sur votre application Immo'Pros", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
 
       state.loading = false;
     })
     .addCase(login.rejected, (state) => {
       state.error = true;
       state.loading = false;
+
+      toast.error(
+        'Une erreur est survenue lors de la tentative de connexion...',
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     // Logout
     .addCase(logout.pending, () => {
@@ -105,20 +126,41 @@ const userReducer = createReducer(initialState, (builder) => {
       return initialState;
     })
     .addCase(logout.fulfilled, () => {
+      toast.info('Vous êtes déconnecté.', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+
       return initialState;
     })
     // Edit User
+    .addCase(editUser.pending, (state) => {
+      state.error = false;
+    })
     .addCase(editUser.fulfilled, (state, action) => {
       state.data.firstname = action.payload.firstname;
       state.data.lastname = action.payload.lastname;
       state.data.phone = action.payload.phone;
       state.data.email = action.payload.email;
+
+      // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
+      localStorage.setItem('user', JSON.stringify(state.data));
+
+      toast.success('Modification réalisée avec succès !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    .addCase(editUser.rejected, (state) => {
+      state.error = true;
+
+      toast.error('Une erreur est survenue lors de la modification...', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // Set user state with the storage
     .addCase(setUserWithStorage, (state) => {
-      const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
       state.data = storedUser;
-    })
+    });
 });
 
 export default userReducer;
