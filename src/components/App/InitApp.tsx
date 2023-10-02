@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // React
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // React Router
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -40,6 +40,10 @@ export default function InitApp() {
     (state) => state.information.loading
   );
 
+  // Local State
+  // The flag is really important to avoid multiple fetches
+  const [flag, setFlag] = useState<boolean>(false);
+
   // Local Storage
   const accessToken = localStorage.getItem('accessToken');
 
@@ -47,7 +51,10 @@ export default function InitApp() {
   useEffect(() => {
     if (accessToken) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      if (!informations.length && !isInformationLoading) {
+
+      // S'il n'y a pas d'information et que ce n'est pas en train de charger alors ça fetch
+      if (!flag && !informations.length && !isInformationLoading) {
+        setFlag(true)
         // eslint-disable-next-line no-console
         console.log('fetch informations');
         dispatch(fetchInformations());
@@ -64,14 +71,7 @@ export default function InitApp() {
       // Just in case, we want to force a logout and reset informations state
       dispatch(resetInformations());
     }
-  }, [
-    isInformationLoading,
-    user,
-    informations,
-    accessToken,
-    dispatch,
-    navigate,
-  ]);
+  }, [isInformationLoading, user, informations, accessToken, dispatch, navigate, flag]);
 
   return (
     <>

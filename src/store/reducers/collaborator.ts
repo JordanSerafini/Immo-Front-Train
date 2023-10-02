@@ -70,8 +70,6 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
 
       state.data.push(action.payload);
 
-      console.log(action.payload);
-
       toast.success(
         `Le compte ${action.payload.firstname} ${action.payload.lastname.toUpperCase()} a bien été créé !`,
         {

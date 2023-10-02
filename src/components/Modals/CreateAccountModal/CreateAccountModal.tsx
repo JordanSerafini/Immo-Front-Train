@@ -103,7 +103,6 @@ export default function CreateAccountModal() {
     } else {
       dispatch(createCollaborator({ formData: formEntries }));
       dispatch(hideCreateAccountModal())
-      console.log(formEntries);
     }
   };
 
