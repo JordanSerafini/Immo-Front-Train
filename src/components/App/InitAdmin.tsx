@@ -33,8 +33,8 @@ export default function InitAdmin() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    // We check if there's a JWToken and if the user is admin. Otherwise it'll redirect him through the login page
-    if (accessToken && user.id === 1) {
+    // !!! SECURITY ISSUE - We want to check if the user id admin. It's maybe a bad idea to set user with storage for the admin case !!!
+    if (accessToken) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       if (!user.id) {
         dispatch(setUserWithStorage());
