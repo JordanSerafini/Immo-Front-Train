@@ -15,7 +15,7 @@ export default function ProfileSection({
   return (
     <section className="flex flex-wrap items-center justify-center gap-5 py-6">
       <img
-        className="rounded-full w-28 shadow-custom"
+        className="rounded-full w-28 aspect-square shadow-custom"
         src={url}
         alt="Collaborator Portrait"
       />
