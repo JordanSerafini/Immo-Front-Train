@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 // Store
 import {
-  showNextActionModal,
-  showCancelConfirmationAddInfoModalOpen,
-  hideCancelConfirmationAddInfoModalOpen,
+  showCancelConfirmationModal,
+  hideCancelConfirmationModal,
+  
 } from '../../../store/reducers/modal';
 
 // Shared Components
@@ -19,16 +19,6 @@ import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 // Modal Components
 import Modal from '../Modal';
 import CancelModal from '../CancelModal/CancelModal';
-import NextActionModal from '../NextActionModal/NextActionModal';
-
-// Components
-import TypeFieldset from './TypeFieldset/TypeFieldset';
-import LocationFieldset from './LocationFieldset/LocationFieldset';
-import OwnerFieldset from './OwnerFieldset/OwnerFieldset';
-import SourceFieldset from './SourceFieldset/SourceFieldset';
-import CategoryFieldset from './CategoryFieldset/CategoryFieldset';
-import CommentsFieldset from './CommentsFieldset/CommentsFieldset';
-import ActionFieldset from './ActionFieldset/ActionFieldset';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';
@@ -37,10 +27,9 @@ import plus from '../../../assets/icons/plus.svg';
 import '../../SharedComponents/ErrorMsg/animation.scss';
 
 // Typescript interface
-import { Information } from '../../../@types/information';
-import { Action } from '../../../@types/action';
+import { User } from '../../../@types/user';
 
-export default function AddInfoModal() {
+export default function CreateAccountModal() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
@@ -49,24 +38,17 @@ export default function AddInfoModal() {
 
   // Redux States
   const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationAddInfoModalOpen
-  );
-  const nextActionModal = useAppSelector(
-    (state) => state.modal.isNextActionModalOpen
+    (state) => state.modal.isCancelConfirmationModalOpen
   );
   const regExps = useAppSelector((state) => state.regexps);
 
   // Local States
-  const [formData, setFormData] = useState<Information & Action>();
+  const [formData, setFormData] = useState<User>();
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
-
-  // Decide the default checked button
-  const [selectedTypeOption, setSelectedTypeOption] =
-    useState<string>('Maison');
 
   // HANDLERS
   const handleCancelClick = () => {
-    dispatch(showCancelConfirmationAddInfoModalOpen());
+    dispatch(showCancelConfirmationModal());
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -74,9 +56,7 @@ export default function AddInfoModal() {
 
     const formElement: HTMLFormElement = event.currentTarget;
     const formDatas = new FormData(formElement);
-    const formEntries = Object.fromEntries(
-      formDatas
-    ) as unknown as Information & Action;
+    const formEntries = Object.fromEntries(formDatas) as unknown as User;
 
     // FORM VALIDATION
     // The idea is to push into the wrongValues array to gather all invalid inputs
@@ -106,7 +86,8 @@ export default function AddInfoModal() {
     } else {
       // Otherwise, we set our local react state to formEntries, so we can send it into our <NextActionModal /> component
       setFormData(formEntries);
-      dispatch(showNextActionModal());
+
+      console.log('sent form to back-end');
     }
   };
 
@@ -126,7 +107,7 @@ export default function AddInfoModal() {
       </button>
 
       <h1 className="my-5 text-2xl font-semibold text-center font-poppins">
-        Ajout d&apos;une information
+        Création d&apos;un nouveau compte
       </h1>
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
@@ -136,29 +117,12 @@ export default function AddInfoModal() {
         </p>
       )}
 
-      <em className="italic">*Champs obligatoires</em>
+      <em className="italic">*Tous les champs sont obligatoires</em>
 
       <form
         onSubmit={handleSubmit}
         className="flex flex-col lg:items-start flex-wrap justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
       >
-        <TypeFieldset
-          state={selectedTypeOption}
-          setState={setSelectedTypeOption}
-        />
-
-        <LocationFieldset typeState={selectedTypeOption} regExps={regExps} />
-
-        <OwnerFieldset {...regExps} />
-
-        <SourceFieldset {...regExps} />
-
-        <CategoryFieldset />
-
-        <CommentsFieldset {...regExps} />
-
-        <ActionFieldset {...regExps} />
-
         {/* GROUP BTNS */}
         <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
           <ValidButton content="Enregistrer" isSubmit />
@@ -169,17 +133,10 @@ export default function AddInfoModal() {
       {cancelModal &&
         createPortal(
           <CancelModal
-            closeModal={() =>
-              dispatch(hideCancelConfirmationAddInfoModalOpen())
-            }
+            closeModal={() => dispatch(hideCancelConfirmationModal())}
             content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
+            redirectPath='/admin/panel'
           />,
-          document.body
-        )}
-      {/* NEXT ACTION MODAL */}
-      {nextActionModal &&
-        createPortal(
-          <NextActionModal withInfo formData={formData} />,
           document.body
         )}
     </Modal>

@@ -1,27 +1,41 @@
+// React dom
+import { createPortal } from 'react-dom';
+
 // Redux
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+
+// Reducer
+import {
+  showCreateAccountModal,
+} from '../../store/reducers/modal';
 
 // Components
 import CollabCard from './CollabCard/CollabCard';
 import SectorCard from './SectorCard/SectorCard';
+import CreateAccountModal from '../Modals/CreateAccountModal/CreateAccountModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function Panel() {
+  // Hook Execution Order
+  const dispatch = useAppDispatch();
+
   // Redux states
   const collaborators = useAppSelector((state) => state.collaborator.data);
   const sectors = useAppSelector((state) => state.sector.data);
-
   const isCollaboratorsLoading = useAppSelector(
     (state) => state.collaborator.loading
   );
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
+  const createAccountModal = useAppSelector(
+    (state) => state.modal.isCreateAccountModalOpen
+  );
 
   // Handle Methods
   const handleCreateCollaboratorClick = () => {
-    console.log('click add collab');
+    dispatch(showCreateAccountModal());
   };
 
   return (
@@ -74,6 +88,9 @@ export default function Panel() {
           sectors.map((sector) => <SectorCard key={sector.id} {...sector} />)
         )}
       </section>
+      {/* DISPLAY CREATE ACCOUNT MODAL */}
+      {createAccountModal &&
+        createPortal(<CreateAccountModal />, document.body)}
     </>
   );
 }
