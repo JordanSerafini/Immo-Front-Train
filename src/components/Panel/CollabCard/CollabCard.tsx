@@ -31,11 +31,6 @@ export default function CollabCard({ firstname, lastname, phone, email, acces }:
       </div>
 
       <div className="flex flex-col items-center gap-4">
-        <h3 className="text-center">Date de création de compte</h3>
-        <p>En attente</p>
-      </div>
-
-      <div className="flex flex-col items-center gap-4">
         <h3 className="text-center">Accès</h3>
         <p>{acces ? "Oui" : "Non"}</p>
       </div>

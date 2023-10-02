@@ -5,11 +5,13 @@ import { createPortal } from 'react-dom';
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Store
+// Reducers
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
+  hideCreateAccountModal,
 } from '../../../store/reducers/modal';
+import { createCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
@@ -64,6 +66,9 @@ export default function CreateAccountModal() {
 
     const formElement: HTMLFormElement = event.currentTarget;
     const formDatas = new FormData(formElement);
+    formDatas.append('acces', 'true');
+    formDatas.append('role_id', '2');
+    formDatas.append('avatar_id', '1');
     const formEntries = Object.fromEntries(formDatas) as unknown as User;
 
     // FORM VALIDATION
@@ -81,6 +86,10 @@ export default function CreateAccountModal() {
       }
     });
 
+    if (password !== passwordConfirmation) {
+      wrongValues.push('Mots de passes différents');
+    }
+
     // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
     if (wrongValues.length) {
       // So we set our errorMessage local state to those values
@@ -92,7 +101,9 @@ export default function CreateAccountModal() {
         modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else {
-      console.log('sent form to back-end');
+      dispatch(createCollaborator({ formData: formEntries }));
+      dispatch(hideCreateAccountModal())
+      console.log(formEntries);
     }
   };
 
@@ -173,7 +184,7 @@ export default function CreateAccountModal() {
           inputName="password"
           label="Mot de passe"
           regExp={regExps.password}
-          type='password'
+          type="password"
           isRequired
           value={password}
           onChange={setPassword}
@@ -190,12 +201,16 @@ export default function CreateAccountModal() {
           placeholder="Confirmez le mot de passe"
           inputName="password_confirmation"
           label="Confirmez le mot de passe"
-          type='password'
+          type="password"
           containerClassName="mt-[1.5rem]"
           isRequired
           value={passwordConfirmation}
           onChange={setPasswordConfirmation}
-          className={passwordConfirmation.length > 8 && password === passwordConfirmation ? "border-primary-500 focus:ring-transparent" : ""}
+          className={
+            passwordConfirmation.length > 8 && password === passwordConfirmation
+              ? 'border-primary-300 focus:ring-transparent'
+              : ''
+          }
         />
 
         {/* GROUP BTNS */}
