@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // React
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 // React Router
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -12,11 +12,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import {
-  fetchInformations,
-  resetInformations,
-} from '../../store/reducers/informations';
 import { setUserWithStorage } from '../../store/reducers/user';
+import { fetchCollaborators } from '../../store/reducers/collaborator';
+import { fetchSectors } from '../../store/reducers/sector';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -25,53 +23,54 @@ import axiosInstance from '../../utils/axios';
 import NavBar from '../NavBar/NavBar';
 import MainSection from '../SharedComponents/MainSection/MainSection';
 
-export default function InitApp() {
+export default function InitAdmin() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // Redux States
   const user = useAppSelector((state) => state.user.data);
-
-  const informations = useAppSelector(
-    (state) => state.information.informations
+  const collaborators = useAppSelector((state) => state.collaborator.data);
+  const isCollaboratorsLoading = useAppSelector(
+    (state) => state.collaborator.loading
   );
-  const isInformationLoading = useAppSelector(
-    (state) => state.information.loading
-  );
-
-  // Local State
-  // The flag is really important to avoid multiple fetches
-  const [flag, setFlag] = useState<boolean>(false);
+  const sectors = useAppSelector((state) => state.sector.data);
+  const isSectorsLoading = useAppSelector((state) => state.sector.loading);
 
   // Local Storage
   const accessToken = localStorage.getItem('accessToken');
 
-  // Dispatch
   useEffect(() => {
+    // !!! SECURITY ISSUE - We want to check if the user id admin. It's maybe a bad idea to set user with storage for the admin case !!!
     if (accessToken) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
-      // S'il n'y a pas d'information et que ce n'est pas en train de charger alors ça fetch
-      if (!flag && !informations.length && !isInformationLoading) {
-        setFlag(true)
-        // eslint-disable-next-line no-console
-        console.log('fetch informations');
-        dispatch(fetchInformations());
+      if (!collaborators.length && !isCollaboratorsLoading) {
+        dispatch(fetchCollaborators());
       }
+      if (!sectors.length && !isSectorsLoading) {
+        dispatch(fetchSectors());
+      }
+
       if (!user.id) {
         dispatch(setUserWithStorage());
-        // We Redirect the user to the prospection page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-        navigate('/app/prospection');
+        // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+        navigate('/admin/panel');
       }
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
-
-      // Just in case, we want to force a logout and reset informations state
-      dispatch(resetInformations());
     }
-  }, [isInformationLoading, user, informations, accessToken, dispatch, navigate, flag]);
+  }, [
+    accessToken,
+    collaborators.length,
+    dispatch,
+    isCollaboratorsLoading,
+    isSectorsLoading,
+    navigate,
+    sectors.length,
+    user.id,
+  ]);
 
   return (
     <>

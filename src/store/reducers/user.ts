@@ -103,9 +103,11 @@ const userReducer = createReducer(initialState, (builder) => {
         localStorage.setItem('user', JSON.stringify(user));
       }
 
-      toast.info("Bienvenue sur votre application Immo'Pros", {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
+      if (state.data.logged) {
+        toast.info("Bienvenue sur votre application Immo'Pros", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
 
       state.loading = false;
     })

@@ -6,6 +6,7 @@ interface InputProps {
   children?: React.ReactNode;
   type?: string;
   className?: string;
+  containerClassName?: string;
   label?: string;
   inputName: string;
   placeholder: string;
@@ -19,6 +20,7 @@ function Input({
   children,
   type,
   className,
+  containerClassName,
   label,
   inputName,
   placeholder,
@@ -35,7 +37,7 @@ function Input({
   }
 
   return (
-    <div className="relative flex flex-col">
+    <div className={`relative flex flex-col ${containerClassName}`}>
       <label
         htmlFor={inputId}
         className={`absolute font-poppins font-medium z-0 duration-300 ${
@@ -71,7 +73,8 @@ function Input({
 Input.defaultProps = {
   children: null,
   type: 'text',
-  className: null,
+  className: "",
+  containerClassName: "",
   label: null,
   regExp: null,
   isRequired: false,

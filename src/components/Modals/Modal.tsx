@@ -4,6 +4,9 @@
 
 import { LegacyRef } from "react";
 
+// Style
+import "./animation.scss";
+
 // Typescript Interface
 interface ModalProps {
   // Not sure if the type is good here. It seems too simple...

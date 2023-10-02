@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 // Library
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-/* eslint-disable no-console */
+// Redux toolkit
 import {
   createAsyncThunk,
   createReducer,
@@ -16,7 +17,7 @@ import axiosInstance from '../../utils/axios';
 import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
 
-// Create an information interface
+// Typescript interface
 interface InformationsState {
   loading: boolean;
   error: boolean;
@@ -126,6 +127,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchInformations.rejected, (state) => {
       state.error = true;
+      state.loading = false;
 
       toast.error(
         'Une erreur est survenue lors de la récupération des informations de prospection...',

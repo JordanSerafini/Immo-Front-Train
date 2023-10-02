@@ -34,7 +34,6 @@ import ActionFieldset from './ActionFieldset/ActionFieldset';
 import plus from '../../../assets/icons/plus.svg';
 
 // Style
-import './animation.scss';
 import '../../SharedComponents/ErrorMsg/animation.scss';
 
 // Typescript interface
