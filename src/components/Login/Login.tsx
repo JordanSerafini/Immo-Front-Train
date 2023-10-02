@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
-import LoginForm from "./LoginForm/LoginForm";
-import Logo from "../SharedComponents/Logo/Logo";
+import LoginForm from './LoginForm/LoginForm';
+import Logo from '../SharedComponents/Logo/Logo';
 import LoginFooter from './LoginFooter/LoginFooter';
 
 // Assets
@@ -21,19 +21,23 @@ export default function Login() {
 
   // Redux State
   const isLogged = useAppSelector((state) => state.user.data.logged);
+  // 1 ===  ADMIN // 2 === COLLABORATOR
+  const roleId = useAppSelector((state) => state.user.data.role_id);
 
   useEffect(() => {
-    // Once the user is connected, we can redirect him to the "/app/prospection"
-    // Later the redirection will also depend on the role of the user (Admin or collaborator)
+    // Once the user is connected, we can redirect him to the "/app/prospection" if COLLABORATOR or "/admin/panel" if ADMIN
     if (isLogged) {
-      navigate('/app/prospection');
+      if (roleId === 1) {
+        navigate('/admin/panel')
+      } else {
+        navigate('/app/prospection');
+      }
     }
-  }, [isLogged, navigate]);
+  }, [roleId, isLogged, navigate]);
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
-      
-      <Logo path='/login' className='absolute top-5 left-5 sm:hidden' />
+      <Logo path="/login" className="absolute top-5 left-5 sm:hidden" />
 
       {/* ILLUSTRATION */}
       <img
