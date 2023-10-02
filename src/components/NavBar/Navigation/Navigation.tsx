@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../hooks/redux';
 import home from '../../../assets/icons/home.svg';
 import actionToDo from '../../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../../assets/icons/upcoming-action.svg';
+import settingsIcon from "../../../assets/icons/settings.svg";
 
 // Component
 import NavItem from './NavItem/NavItem';
@@ -47,7 +48,7 @@ export default function Navigation({
     },
     {
       content: 'Dashboard',
-      icon: actionToDo,
+      icon: settingsIcon,
       path: '/admin/dashboard',
     },
   ];

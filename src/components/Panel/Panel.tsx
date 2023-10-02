@@ -1,11 +1,5 @@
-// React
-import { useEffect } from 'react';
-
 // Redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-
-// Store
-import { fetchCollaborators } from '../../store/reducers/collaborator';
+import { useAppSelector } from '../../hooks/redux';
 
 // Components
 import CollabCard from './CollabCard/CollabCard';
@@ -13,23 +7,22 @@ import SectorCard from './SectorCard/SectorCard';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
+import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function Panel() {
-  // Hook Execution Order
-  const dispatch = useAppDispatch();
-
   // Redux states
   const collaborators = useAppSelector((state) => state.collaborator.data);
+  const sectors = useAppSelector((state) => state.sector.data);
+
+  const isCollaboratorsLoading = useAppSelector(
+    (state) => state.collaborator.loading
+  );
+  const isSectorsLoading = useAppSelector((state) => state.sector.loading);
 
   // Handle Methods
   const handleCreateCollaboratorClick = () => {
     console.log('click add collab');
   };
-
-  // Fetch API
-  useEffect(() => {
-    dispatch(fetchCollaborators());
-  }, [dispatch])
 
   return (
     <>
@@ -51,15 +44,35 @@ export default function Panel() {
           </span>
         </button>
 
-        {collaborators.map(collaborator => (
-          <CollabCard key={collaborator.id} {...collaborator} />
-        ))}
+        {isCollaboratorsLoading ? (
+          <img src={loaderSVG} alt="Loader" className="block m-auto" />
+        ) : (
+          collaborators.map((collaborator) => (
+            <CollabCard key={collaborator.id} {...collaborator} />
+          ))
+        )}
       </section>
 
-      <section className="p-4 my-5 overflow-x-hidden overflow-y-auto rounded-lg shadow-custom bg-secondary-50">
+      <section className="p-4 my-5 overflow-x-hidden overflow-y-auto rounded-lg shadow-custom bg-secondary-50 max-h-[70vh] lg:max-h-[40vh]">
         <h2>Secteurs</h2>
 
-        <SectorCard />
+        {/* CREATE SECTOR BUTTON (component possible) */}
+        <button
+          onClick={handleCreateCollaboratorClick}
+          type="button"
+          className="flex items-center justify-center gap-2 px-3 py-2 my-3 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
+        >
+          <img src={plusIcon} alt="Add Info Button Icon" className="w-[30px]" />
+          <span className="text-secondary-50 font-poppins">
+            Ajouter un secteur
+          </span>
+        </button>
+
+        {isSectorsLoading ? (
+          <img src={loaderSVG} alt="Loader" className="block m-auto" />
+        ) : (
+          sectors.map((sector) => <SectorCard key={sector.id} {...sector} />)
+        )}
       </section>
     </>
   );
