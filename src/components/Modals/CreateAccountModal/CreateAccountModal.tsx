@@ -9,10 +9,10 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
-  
 } from '../../../store/reducers/modal';
 
 // Shared Components
+import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 
@@ -43,8 +43,16 @@ export default function CreateAccountModal() {
   const regExps = useAppSelector((state) => state.regexps);
 
   // Local States
-  const [formData, setFormData] = useState<User>();
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
+
+  // Controlled Inputs states
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
+  const [lastname, setLastname] = useState<string>('');
+  const [firstname, setFirstname] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
   // HANDLERS
   const handleCancelClick = () => {
@@ -84,16 +92,13 @@ export default function CreateAccountModal() {
         modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else {
-      // Otherwise, we set our local react state to formEntries, so we can send it into our <NextActionModal /> component
-      setFormData(formEntries);
-
       console.log('sent form to back-end');
     }
   };
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* Temporary style */}
+      {/* Temporary style - COMPONENT REFACTO POSSIBLE ! */}
       <button
         onClick={handleCancelClick}
         type="button"
@@ -106,8 +111,8 @@ export default function CreateAccountModal() {
         />
       </button>
 
-      <h1 className="my-5 text-2xl font-semibold text-center font-poppins">
-        Création d&apos;un nouveau compte
+      <h1 className="block w-3/4 m-auto text-2xl font-semibold my-7 lg:text-3xl font-poppins">
+        Création d&apos;un nouveau compte négociateur
       </h1>
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
@@ -121,11 +126,81 @@ export default function CreateAccountModal() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col lg:items-start flex-wrap justify-center sm:w-[500px] lg:flex-row lg:w-[900px] gap-6 mb-4"
+        className="flex flex-col gap-8 lg:w-[600px] m-10"
       >
+        <MemoizedInput
+          placeholder="Nom"
+          inputName="lastname"
+          label="Nom"
+          regExp={regExps.lastname}
+          isRequired
+          value={lastname}
+          onChange={setLastname}
+        />
+
+        <MemoizedInput
+          placeholder="Prénom"
+          inputName="firstname"
+          label="Prénom"
+          regExp={regExps.firstname}
+          isRequired
+          value={firstname}
+          onChange={setFirstname}
+        />
+
+        <MemoizedInput
+          placeholder="N° Téléphone"
+          inputName="phone"
+          label="N° Téléphone"
+          type="number"
+          regExp={regExps.phone}
+          isRequired
+          value={phone}
+          onChange={setPhone}
+        />
+
+        <MemoizedInput
+          placeholder="Adresse Email"
+          inputName="email"
+          label="Adresse Email"
+          regExp={regExps.email}
+          isRequired
+          value={email}
+          onChange={setEmail}
+        />
+        <MemoizedInput
+          placeholder="Mot de passe"
+          inputName="password"
+          label="Mot de passe"
+          regExp={regExps.password}
+          type='password'
+          isRequired
+          value={password}
+          onChange={setPassword}
+        />
+
+        <div className="-mt-5">
+          <p className="font-medium text-md font-poppins text-secondary-700">
+            Force du mot de passe
+          </p>
+          <p>feature incoming</p>
+        </div>
+
+        <MemoizedInput
+          placeholder="Confirmez le mot de passe"
+          inputName="password_confirmation"
+          label="Confirmez le mot de passe"
+          type='password'
+          containerClassName="mt-[1.5rem]"
+          isRequired
+          value={passwordConfirmation}
+          onChange={setPasswordConfirmation}
+          className={passwordConfirmation.length > 8 && password === passwordConfirmation ? "border-primary-500 focus:ring-transparent" : ""}
+        />
+
         {/* GROUP BTNS */}
         <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
-          <ValidButton content="Enregistrer" isSubmit />
+          <ValidButton content="Créer le compte" isSubmit />
           <CancelButton content="Annuler" onClickMethod={handleCancelClick} />
         </div>
       </form>
@@ -135,7 +210,7 @@ export default function CreateAccountModal() {
           <CancelModal
             closeModal={() => dispatch(hideCancelConfirmationModal())}
             content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
-            redirectPath='/admin/panel'
+            redirectPath="/admin/panel"
           />,
           document.body
         )}
