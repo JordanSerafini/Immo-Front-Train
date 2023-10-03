@@ -28,7 +28,7 @@ export default function Login() {
     // Once the user is connected, we can redirect him to the "/app/prospection" if COLLABORATOR or "/admin/panel" if ADMIN
     if (isLogged) {
       if (roleId === 1) {
-        navigate('/admin/panel')
+        navigate('/admin/dashboard')
       } else {
         navigate('/app/prospection');
       }

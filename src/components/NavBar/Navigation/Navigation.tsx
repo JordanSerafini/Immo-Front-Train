@@ -9,6 +9,7 @@ import home from '../../../assets/icons/home.svg';
 import actionToDo from '../../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../../assets/icons/upcoming-action.svg';
 import settingsIcon from "../../../assets/icons/settings.svg";
+import statsIcon from "../../../assets/icons/stats.svg";
 
 // Component
 import NavItem from './NavItem/NavItem';
@@ -42,15 +43,21 @@ export default function Navigation({
 
   const adminLinks = [
     {
-      content: 'Accueil',
-      icon: home,
-      path: '/admin/panel',
-    },
-    {
       content: 'Dashboard',
-      icon: settingsIcon,
+      icon: statsIcon,
       path: '/admin/dashboard',
     },
+    {
+      content: 'Collaborateurs',
+      icon: settingsIcon,
+      path: '/admin/collaborator',
+    },
+    {
+      content: 'Secteurs',
+      icon: settingsIcon,
+      path: '/admin/sector',
+    },
+    
   ];
 
   return (

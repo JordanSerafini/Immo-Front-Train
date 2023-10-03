@@ -11,24 +11,21 @@ import {
 
 // Components
 import CollabCard from './CollabCard/CollabCard';
-import SectorCard from './SectorCard/SectorCard';
 import CreateAccountModal from '../Modals/CreateAccountModal/CreateAccountModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
-export default function Panel() {
+export default function CollaboratorManager() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
   // Redux states
   const collaborators = useAppSelector((state) => state.collaborator.data);
-  const sectors = useAppSelector((state) => state.sector.data);
   const isCollaboratorsLoading = useAppSelector(
     (state) => state.collaborator.loading
   );
-  const isSectorsLoading = useAppSelector((state) => state.sector.loading);
   const createAccountModal = useAppSelector(
     (state) => state.modal.isCreateAccountModalOpen
   );
@@ -43,7 +40,7 @@ export default function Panel() {
       {/* TITLE */}
       <h1 className="mt-20 mb-5 lg:mt-10">Administration</h1>
 
-      <section className="p-4 my-5 overflow-x-hidden overflow-y-auto rounded-lg max-h-[70vh] lg:max-h-[40vh] shadow-custom bg-secondary-50">
+      <section className="min-h-screen p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50">
         <h2>Comptes négociateurs</h2>
 
         {/* CREATE COLLABORATOR BUTTON (component possible) */}
@@ -67,27 +64,6 @@ export default function Panel() {
         )}
       </section>
 
-      <section className="p-4 my-5 overflow-x-hidden overflow-y-auto rounded-lg shadow-custom bg-secondary-50 max-h-[70vh] lg:max-h-[40vh]">
-        <h2>Secteurs</h2>
-
-        {/* CREATE SECTOR BUTTON (component possible) */}
-        <button
-          onClick={handleCreateCollaboratorClick}
-          type="button"
-          className="flex items-center justify-center gap-2 px-3 py-2 my-3 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
-        >
-          <img src={plusIcon} alt="Add Info Button Icon" className="w-[30px]" />
-          <span className="text-secondary-50 font-poppins">
-            Ajouter un secteur
-          </span>
-        </button>
-
-        {isSectorsLoading ? (
-          <img src={loaderSVG} alt="Loader" className="block m-auto" />
-        ) : (
-          sectors.map((sector) => <SectorCard key={sector.id} {...sector} />)
-        )}
-      </section>
       {/* DISPLAY CREATE ACCOUNT MODAL */}
       {createAccountModal &&
         createPortal(<CreateAccountModal />, document.body)}

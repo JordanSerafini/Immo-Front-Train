@@ -57,7 +57,7 @@ export default function InitAdmin() {
       if (!user.id) {
         dispatch(setUserWithStorage());
         // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-        navigate('/admin/panel');
+        navigate('/admin/dashboard');
       }
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
