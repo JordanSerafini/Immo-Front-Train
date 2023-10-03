@@ -49,6 +49,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(fetchCollaborators.fulfilled, (state, action) => {
+      console.log(action.payload)
       state.data = action.payload;
 
       state.loading = false;

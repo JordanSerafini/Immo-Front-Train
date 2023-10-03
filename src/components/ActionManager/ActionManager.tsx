@@ -1,5 +1,5 @@
 // React
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 // React Router
 import { useParams, Navigate } from 'react-router-dom';
