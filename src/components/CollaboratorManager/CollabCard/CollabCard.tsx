@@ -1,10 +1,21 @@
+// Redux
+import { useAppSelector } from '../../../hooks/redux';
+
+// Selector
+import { findCollaborator } from '../../../store/selectors/collaborator';
+
 // Assets
 import portrait from '../../../assets/images/portrait_01.png';
 
 // Typescript interface
 import { User } from '../../../@types/user';
 
-export default function CollabCard({ firstname, lastname, phone, email, acces, url }: User) {
+export default function CollabCard({ id, firstname, lastname, phone, email, acces, url }: User) {
+  const user = useAppSelector(findCollaborator(id as number))
+  const handleAcces = () => {
+    console.log(user)
+  }
+
   return (
     <article className="flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
@@ -32,7 +43,7 @@ export default function CollabCard({ firstname, lastname, phone, email, acces, u
 
       <div className="flex flex-col items-center gap-4 xl:col-span-2">
         <h3 className="text-center">Accès</h3>
-        <button type='button' aria-label='access-toggler' className={`shadow-inner w-[60px] h-[30px] rounded-full  p-1 duration-150 focus:ring-2 ${acces ? "bg-green-400" : "bg-secondary-500"}`}>
+        <button onClick={handleAcces} type='button' aria-label='access-toggler' className={`shadow-inner w-[60px] h-[30px] rounded-full  p-1 duration-150 focus:ring-2 ${acces ? "bg-green-400" : "bg-secondary-500"}`}>
           <div className={`h-full rounded-full aspect-square bg-secondary-100 ${acces ? "translate-x-[135%]" : ""}`}/>
         </button>
       </div>
