@@ -5,11 +5,15 @@ import 'react-toastify/dist/ReactToastify.css';
 // Redux toolkit
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
+// Axios types
+import { AxiosError } from 'axios';
+
 // Axios
 import axiosInstance from '../../utils/axios';
 
 // Typescript interface
 import { User } from '../../@types/user';
+import { ErrorType } from '../../@types/error';
 
 interface CollaboratorState {
   loading: boolean;
@@ -26,18 +30,32 @@ export const initialState: CollaboratorState = {
 export const fetchCollaborators = createAsyncThunk(
   'collaborator/getAll',
   async () => {
-    const response = await axiosInstance.get('/collaborator');
+    try {
+      const response = await axiosInstance.get('/collaborator');
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const createCollaborator = createAsyncThunk(
   'collaborator/create',
   async ({ formData }: { formData: User }) => {
-    const response = await axiosInstance.post('/collaborator', formData);
+    try {
+      const response = await axiosInstance.post('/collaborator', formData);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -53,16 +71,13 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(fetchCollaborators.rejected, (state) => {
+    .addCase(fetchCollaborators.rejected, (state, action) => {
       state.error = false;
       state.loading = false;
 
-      toast.error(
-        'Une erreur est survenue lors de la récupération des collaborateurs...',
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // Create Collaborator
     .addCase(createCollaborator.fulfilled, (state, action) => {
@@ -71,11 +86,21 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.data.push(action.payload);
 
       toast.success(
-        `Le compte ${action.payload.firstname} ${action.payload.lastname.toUpperCase()} a bien été créé !`,
+        `Le compte ${
+          action.payload.firstname
+        } ${action.payload.lastname.toUpperCase()} a bien été créé !`,
         {
           position: toast.POSITION.BOTTOM_RIGHT,
         }
       );
+    })
+    .addCase(createCollaborator.rejected, (state, action) => {
+      state.error = false;
+      state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     });
 });
 
