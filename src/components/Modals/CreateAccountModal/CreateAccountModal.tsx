@@ -46,6 +46,9 @@ export default function CreateAccountModal() {
     (state) => state.modal.isCancelConfirmationModalOpen
   );
   const regExps = useAppSelector((state) => state.regexps.user);
+  const passwordRegExps = useAppSelector(
+    (state) => state.regexps.passwordStrength
+  );
 
   // Local States
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
@@ -200,10 +203,16 @@ export default function CreateAccountModal() {
           <p className="font-medium text-center text-md font-poppins">
             Force du mot de passe
           </p>
-          <section className='grid grid-cols-3 gap-4'>
-            <PasswordStrength content='Faible' tailwindColor='bg-red-600' />
-            <PasswordStrength content='Moyen' tailwindColor='bg-orange-500' />
-            <PasswordStrength content='Fort' tailwindColor='bg-green-600' />
+          <section className="grid grid-cols-3 gap-4">
+            {passwordRegExps.weak.test(password) && (
+              <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
+            )}
+            {passwordRegExps.medium.test(password) && (
+              <PasswordStrength content="Moyen" tailwindColor="bg-orange-500" />
+            )}
+            {passwordRegExps.strong.test(password) && (
+              <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
+            )}
           </section>
         </div>
 
