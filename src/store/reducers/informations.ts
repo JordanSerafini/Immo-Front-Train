@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Library
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +9,9 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 
+// Axios types
+import { AxiosError } from 'axios';
+
 // Axios
 import axiosInstance from '../../utils/axios';
 
@@ -18,6 +20,8 @@ import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
 
 // Typescript interface
+import { ErrorType } from '../../@types/error';
+
 interface InformationsState {
   loading: boolean;
   error: boolean;
@@ -57,61 +61,83 @@ export const filterInformation = createAction(
 export const createInformation = createAsyncThunk(
   'information/create',
   async ({ formData }: { formData: Information }) => {
-    const response = await axiosInstance.post('/informations', formData);
+    try {
+      const response = await axiosInstance.post('/informations', formData);
 
-    return response;
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    // Temporary to fix uppercase issue. It will not longer be the case with a new populate
-    information.type = information.type.toLowerCase()
-    console.log(information)
+    try {
+      // Temporary to fix uppercase issue. It will not longer be the case with a new populate
+      information.type = information.type.toLowerCase();
 
-    const response1 = await axiosInstance.patch(
-      `/informations/${information.id}`,
-      information
-    );
+      await axiosInstance.patch(`/informations/${information.id}`, information);
 
-    console.log(response1);
+      const response = await axiosInstance.get(`/informations`);
 
-    const response = await axiosInstance.get(`/informations`);
-
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const createInformationAndAction = createAsyncThunk(
   'information/createWithAction',
   async ({ formData }: { formData: Information & Action }) => {
-    // First request to create an information
-    const response = await axiosInstance.post(`/informations`, formData);
+    try {
+      // First request to create an information
+      const response = await axiosInstance.post(`/informations`, formData);
 
-    const actionData = {
-      information_id: response.data.result.id,
-      description: formData.description,
-      date: formData.notification_date,
-    };
+      const actionData = {
+        information_id: response.data.result.id,
+        description: formData.description,
+        date: formData.notification_date,
+      };
 
-    // Second request to create an action
-    // We want to use the id from the previous created information to send it to the route post to create an action
-    await axiosInstance.post(
-      `/informations/${actionData.information_id}/actions`,
-      actionData
-    );
+      // Second request to create an action
+      // We want to use the id from the previous created information to send it to the route post to create an action
+      await axiosInstance.post(
+        `/informations/${actionData.information_id}/actions`,
+        actionData
+      );
 
-    return response;
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const deleteInformation = createAsyncThunk(
   'information/delete',
   async ({ id }: { id: string }) => {
-    await axiosInstance.delete(`/informations/${id}`);
+    try {
+      await axiosInstance.delete(`/informations/${id}`);
 
-    return id;
+      return id;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -127,16 +153,13 @@ const informationsReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(fetchInformations.rejected, (state) => {
+    .addCase(fetchInformations.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
 
-      toast.error(
-        'Une erreur est survenue lors de la récupération des informations de prospection...',
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
@@ -174,14 +197,11 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(createInformation.rejected, (state) => {
+    .addCase(createInformation.rejected, (state, action) => {
       state.error = true;
-      toast.error(
-        "Une erreur est survenue lors de la tentative de création d'une information de prospection...",
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
@@ -191,24 +211,18 @@ const informationsReducer = createReducer(initialState, (builder) => {
       toast.success('Votre information et votre action ont bien été créées !', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-
-      console.log(action.payload)
     })
-    .addCase(createInformationAndAction.rejected, (state) => {
+    .addCase(createInformationAndAction.rejected, (state, action) => {
       state.error = true;
-      toast.error(
-        "Une erreur est survenue lors de la tentative de création d'une information de prospection et d'une action...",
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(updateInformation.pending, (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
     })
     // UpdateInformation
     .addCase(updateInformation.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.informations = action.payload;
       state.filteredInformations = action.payload;
 
@@ -218,15 +232,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(updateInformation.rejected, (state) => {
+    .addCase(updateInformation.rejected, (state, action) => {
       state.error = true;
 
-      toast.error(
-        "Une erreur est survenue lors de la tentative d'édition d'une information...",
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // DeleteInformation
     .addCase(deleteInformation.fulfilled, (state, action) => {
@@ -243,15 +254,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(deleteInformation.rejected, (state) => {
+    .addCase(deleteInformation.rejected, (state, action) => {
       state.error = true;
 
-      toast.error(
-        "Une erreur est survenue lors de la tentative de suppression d'une information de prospection...",
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(resetInformations, () => {
       return initialState;
