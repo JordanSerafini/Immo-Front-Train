@@ -1,7 +1,3 @@
-// Library
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 // React
 import { useEffect, useState } from 'react';
 
@@ -54,7 +50,7 @@ export default function InitApp() {
 
       // S'il n'y a pas d'information et que ce n'est pas en train de charger alors ça fetch
       if (!flag && !informations.length && !isInformationLoading) {
-        setFlag(true)
+        setFlag(true);
         // eslint-disable-next-line no-console
         console.log('fetch informations');
         dispatch(fetchInformations());
@@ -71,7 +67,15 @@ export default function InitApp() {
       // Just in case, we want to force a logout and reset informations state
       dispatch(resetInformations());
     }
-  }, [isInformationLoading, user, informations, accessToken, dispatch, navigate, flag]);
+  }, [
+    isInformationLoading,
+    user,
+    informations,
+    accessToken,
+    dispatch,
+    navigate,
+    flag,
+  ]);
 
   return (
     <>
@@ -79,7 +83,6 @@ export default function InitApp() {
       <MainSection>
         <Outlet />
       </MainSection>
-      <ToastContainer autoClose={2000} />
     </>
   );
 }

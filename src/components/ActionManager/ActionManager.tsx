@@ -1,8 +1,8 @@
 // React
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 // React Router
-import {  useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 // React dom
 import { createPortal } from 'react-dom';
@@ -16,7 +16,6 @@ import {
   hideCancelConfirmationModal,
   showNextActionModal,
 } from '../../store/reducers/modal';
-
 
 // Selectors
 import { findInformation } from '../../store/selectors/information';
@@ -50,7 +49,7 @@ export default function ActionManager() {
   // Redux States
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
-    );
+  );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
@@ -59,14 +58,14 @@ export default function ActionManager() {
 
   // Local States
   const [action, setAction] = useState<string>('');
-  const [formData, setFormData] = useState<Information & Action>()
+  const [formData, setFormData] = useState<Information & Action>();
 
   if (!information) {
     return <Navigate to="/app/prospection" replace />;
   }
 
   // HANDLERS
-    const handleCancelClick = () => {
+  const handleCancelClick = () => {
     dispatch(showCancelConfirmationModal());
   };
 
@@ -77,9 +76,9 @@ export default function ActionManager() {
       information_id: infoId,
       description: action,
       date: getFullDate(),
-    }
+    };
 
-    setFormData(formValues as unknown as Information & Action)
+    setFormData(formValues as unknown as Information & Action);
 
     dispatch(showNextActionModal());
   };
@@ -127,7 +126,11 @@ export default function ActionManager() {
       {/* NEXT ACTION MODAL */}
       {nextActionModal &&
         createPortal(
-          <NextActionModal withInfo={false} information={information} formData={formData} />,
+          <NextActionModal
+            withInfo={false}
+            information={information}
+            formData={formData}
+          />,
           document.body
         )}
     </>

@@ -1,9 +1,5 @@
-// Library
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 // React
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // React Router
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -37,6 +33,10 @@ export default function InitAdmin() {
   const sectors = useAppSelector((state) => state.sector.data);
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
 
+  // Local State
+  // The flag is really important to avoid multiple fetches
+  const [flag, setFlag] = useState<boolean>(false);
+
   // Local Storage
   const accessToken = localStorage.getItem('accessToken');
 
@@ -45,7 +45,9 @@ export default function InitAdmin() {
     if (accessToken) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
-      if (!collaborators.length && !isCollaboratorsLoading) {
+      if (!flag && !collaborators.length && !isCollaboratorsLoading) {
+        setFlag(true);
+        console.log("fetch Collabs")
         dispatch(fetchCollaborators());
       }
       if (!sectors.length && !isSectorsLoading) {
@@ -65,6 +67,7 @@ export default function InitAdmin() {
     accessToken,
     collaborators.length,
     dispatch,
+    flag,
     isCollaboratorsLoading,
     isSectorsLoading,
     navigate,
@@ -78,7 +81,6 @@ export default function InitAdmin() {
       <MainSection>
         <Outlet />
       </MainSection>
-      <ToastContainer autoClose={2000} />
     </>
   );
 }

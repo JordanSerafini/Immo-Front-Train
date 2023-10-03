@@ -38,8 +38,6 @@ export default function Panel() {
     dispatch(showCreateAccountModal());
   };
 
-  console.log(collaborators)
-
   return (
     <>
       {/* TITLE */}
