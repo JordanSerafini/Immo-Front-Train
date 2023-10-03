@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React
 import { FormEvent, useState } from 'react';
 
@@ -78,9 +82,13 @@ export default function ActionManager() {
       date: getFullDate(),
     };
 
-    setFormData(formValues as unknown as Information & Action);
+    if (formValues.description.length <= 5) {
+      toast.error('Votre action doit comprendre au moins 6 caractères...', {position: toast.POSITION.BOTTOM_CENTER});
+    } else {
+      setFormData(formValues as unknown as Information & Action);
 
-    dispatch(showNextActionModal());
+      dispatch(showNextActionModal());
+    }
   };
 
   return (
