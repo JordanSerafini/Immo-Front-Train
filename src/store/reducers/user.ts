@@ -129,7 +129,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(logout.fulfilled, () => {
       toast.info('Vous êtes déconnecté.', {
-        position: toast.POSITION.BOTTOM_RIGHT,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
 
       return initialState;

@@ -68,7 +68,7 @@ const actionsReducer = createReducer(initialState, (builder) => {
     })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
-      state.data.push(action.payload);
+      state.data.push(action.payload.result);
 
       toast.success('Action créée avec succès !', {
         position: toast.POSITION.BOTTOM_RIGHT,

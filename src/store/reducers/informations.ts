@@ -66,7 +66,9 @@ export const createInformation = createAsyncThunk(
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    console.log(information);
+    // Temporary to fix uppercase issue. It will not longer be the case with a new populate
+    information.type = information.type.toLowerCase()
+    console.log(information)
 
     const response1 = await axiosInstance.patch(
       `/informations/${information.id}`,
@@ -201,8 +203,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
         }
       );
     })
+    .addCase(updateInformation.pending, (state, action) => {
+      console.log(action.payload)
+    })
     // UpdateInformation
     .addCase(updateInformation.fulfilled, (state, action) => {
+      console.log(action.payload)
       state.informations = action.payload;
       state.filteredInformations = action.payload;
 
