@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
@@ -22,6 +26,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
 
   // Redux state
   const user = useAppSelector((state) => state.user.data);
+  const regExps = useAppSelector((state) => state.regexps.firstname);
 
   // Local states
   const [editFirstname, setEditFirstname] = useState<boolean>(false);
@@ -42,8 +47,14 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
 
     const formValues = { ...user, ...formData };
 
-    dispatch(editUser(formValues));
-    setEditFirstname(false);
+    if (regExps.test(firstnameValue as string)) {
+      dispatch(editUser(formValues));
+      setEditFirstname(false);
+    } else {
+      toast.error('Votre prénom doit avoir au moins un caractère', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
   };
 
   return (
@@ -56,7 +67,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
             value={firstnameValue}
             onChange={setFirstnameValue}
             placeholder="Entrez votre prénom"
-            regExp={/^[a-zA-Z]{2,}$/}
+            regExp={regExps}
           >
             <EditSubmitBtn />
           </Input>
