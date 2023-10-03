@@ -219,6 +219,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
       });
     })
     .addCase(updateInformation.pending, (state, action) => {
+      // eslint-disable-next-line no-console
       console.log(action.payload);
     })
     // UpdateInformation

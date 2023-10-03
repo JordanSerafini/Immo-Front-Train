@@ -27,7 +27,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
   // Local states
   const [editEmail, setEditEmail] = useState<boolean>(false);
   const [emailValue, setEmailValue] = useState<string | undefined>(email);
-  const regExps = useAppSelector((state) => state.regexps.email);
+  const regExps = useAppSelector((state) => state.regexps.user.email);
 
   // Handlers Methods
   const handleEditLastname = () => {

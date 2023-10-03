@@ -26,7 +26,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
 
   // Redux state
   const user = useAppSelector((state) => state.user.data);
-  const regExps = useAppSelector((state) => state.regexps.firstname);
+  const regExps = useAppSelector((state) => state.regexps.user.firstname);
 
   // Local states
   const [editFirstname, setEditFirstname] = useState<boolean>(false);

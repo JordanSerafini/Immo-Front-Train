@@ -54,7 +54,7 @@ export default function AddInfoModal() {
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
-  const regExps = useAppSelector((state) => state.regexps);
+  const regExps = useAppSelector((state) => state.regexps.information);
 
   // Local States
   const [formData, setFormData] = useState<Information & Action>();

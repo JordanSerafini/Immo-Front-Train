@@ -110,7 +110,7 @@ export default function ActionManager() {
               onChange={setAction}
               textareaName="description"
               placeholder="Renseignez votre action"
-              regExp={regExps.description}
+              regExp={regExps.information.description}
             />
             <div className="flex mt-5 justify-evenly">
               <ValidButton content="Enregistrer" isSubmit />

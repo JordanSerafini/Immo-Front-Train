@@ -26,7 +26,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
   const [lastnameValue, setLastnameValue] = useState<string | undefined>(
     lastname
   );
-  const regExps = useAppSelector((state) => state.regexps.lastname);
+  const regExps = useAppSelector((state) => state.regexps.user.lastname);
   // Hook Execution Order
   const dispatch = useAppDispatch();
 

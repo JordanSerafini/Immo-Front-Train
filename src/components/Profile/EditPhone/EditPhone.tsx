@@ -31,7 +31,7 @@ export default function EditPhone({
   const [phoneNumberValue, setPhoneNumberValue] = useState<string | undefined>(
     phoneNumber
   );
-  const regExps = useAppSelector((state) => state.regexps.phone);
+  const regExps = useAppSelector((state) => state.regexps.user.phone);
 
   // Handlers Methods
   const handleEditLastname = () => {
