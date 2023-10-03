@@ -2,6 +2,9 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Axios types
+import { AxiosError } from 'axios';
+
 // Redux
 import {
   createReducer,
@@ -12,18 +15,18 @@ import {
 // Axios
 import axiosInstance from '../../utils/axios';
 
+// Typescript interfaces
 import { User } from '../../@types/user';
+import { ErrorType } from '../../@types/error';
 
 interface UserState {
   loading: boolean;
   error: boolean;
-  errorMessage: null | string;
   data: User;
 }
 export const initialState: UserState = {
   loading: false,
   error: false,
-  errorMessage: null,
   data: {
     id: undefined,
     firstname: undefined,
@@ -47,7 +50,10 @@ export const login = createAsyncThunk(
 
       return response;
     } catch (error) {
-      throw new Error(`${error}`);
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
     }
   }
 );
@@ -58,7 +64,10 @@ export const logout = createAsyncThunk('user/logout', async () => {
 
     return response;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw new Error(
+      (error as ErrorType).response.data.error ||
+        (error as AxiosError).response?.statusText
+    );
   }
 });
 
@@ -73,7 +82,10 @@ export const editUser = createAsyncThunk(
 
       return response;
     } catch (error) {
-      throw new Error(`${error}`);
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
     }
   }
 );
@@ -87,8 +99,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // Just in case => Reset data initiale state
       // It's a precaution
       state.data = initialState.data;
-      // Reset errorMessage state
-      state.errorMessage = null;
+
       // Reset error state
       state.error = false;
 
@@ -97,9 +108,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       const { token } = action.payload.data;
       // We check if the user is successfully connected
-      if (!token) {
-        state.errorMessage = action.payload.data;
-      } else {
+      if (token) {
         localStorage.setItem('accessToken', token);
         // The token goes to the axios headers
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
