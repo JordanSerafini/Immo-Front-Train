@@ -1,8 +1,14 @@
+// Library
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
 import InitApp from './InitApp';
+import InitAdmin from './InitAdmin';
+
 // Login & Support
 import Login from '../Login/Login';
 import Support from '../Support/Support';
@@ -17,7 +23,7 @@ import ActionManager from '../ActionManager/ActionManager';
 import UpcomingAction from '../UpcomingAction/UpcomingAction';
 
 // Admin
-import Administration from '../Admininistration/Administration';
+import Panel from '../Panel/Panel';
 import DashBoard from '../DashBoard/DashBoard';
 
 // 404 - Error
@@ -47,15 +53,17 @@ function App() {
               path="/app/actionManager/:infoId"
               element={<ActionManager />}
             />
-
-            <Route path="/app/admin" element={<Administration />} />
-            <Route path="/app/dashboard" element={<DashBoard />} />
-
             <Route path="/app/profile/:collaboratorId" element={<Profile />} />
+          </Route>
+
+          <Route path="/admin" element={<InitAdmin />}>
+            <Route path="/admin/panel" element={<Panel />} />
+            <Route path="/admin/dashboard" element={<DashBoard />} />
           </Route>
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
+      <ToastContainer autoClose={2000} />
       </div>
     </BrowserRouter>
   );

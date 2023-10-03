@@ -19,10 +19,7 @@ import axiosInstance from '../../utils/axios';
 
 // Assets
 import logoutIcon from '../../assets/icons/log-out.svg';
-import loader from '../../assets/loader/tail-spin.svg';
-
-// Style
-import './animation.scss';
+  import loader from '../../assets/loader/tail-spin.svg';
 
 export default function NavBar() {
   // Hook Execution Order
@@ -47,7 +44,7 @@ export default function NavBar() {
     dispatch(resetInformations());
 
     localStorage.removeItem('accessToken');
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
     delete axiosInstance.defaults.headers.common.Authorization;
     dispatch(logout());
   };

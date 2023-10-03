@@ -1,7 +1,12 @@
-import {
-  createAsyncThunk,
-  createReducer,
-} from '@reduxjs/toolkit';
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// Redux
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+
+// Axios types
+import { AxiosError } from 'axios';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -9,7 +14,9 @@ import axiosInstance from '../../utils/axios';
 // Typescript interface
 import { Information } from '../../@types/information';
 
-// Create an information interface
+// Typescript interface
+import { ErrorType } from '../../@types/error';
+
 interface InformationState {
   loading: boolean;
   error: boolean;
@@ -24,13 +31,19 @@ export const initialState: InformationState = {
 
 export const fetchInformation = createAsyncThunk(
   'information/APICall',
-  async ({id} : {id: string | undefined}) => {
-    const response = await axiosInstance.get(`/informations/${id}`);
+  async ({ id }: { id: string | undefined }) => {
+    try {
+      const response = await axiosInstance.get(`/informations/${id}`);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
-
 
 const informationReducer = createReducer(initialState, (builder) => {
   builder
@@ -44,10 +57,14 @@ const informationReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(fetchInformation.rejected, (state) => {
+    .addCase(fetchInformation.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
-    })
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    });
 });
 
 export default informationReducer;

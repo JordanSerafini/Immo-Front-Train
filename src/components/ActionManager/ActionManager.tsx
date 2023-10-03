@@ -1,8 +1,12 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React
 import { FormEvent, useState } from 'react';
 
 // React Router
-import {  useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 // React dom
 import { createPortal } from 'react-dom';
@@ -16,7 +20,6 @@ import {
   hideCancelConfirmationModal,
   showNextActionModal,
 } from '../../store/reducers/modal';
-
 
 // Selectors
 import { findInformation } from '../../store/selectors/information';
@@ -50,22 +53,23 @@ export default function ActionManager() {
   // Redux States
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
-    );
+  );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
   const information = useAppSelector(findInformation(infoId as string));
+  const regExps = useAppSelector((state) => state.regexps);
 
   // Local States
   const [action, setAction] = useState<string>('');
-  const [formData, setFormData] = useState<Information & Action>()
+  const [formData, setFormData] = useState<Information & Action>();
 
   if (!information) {
     return <Navigate to="/app/prospection" replace />;
   }
 
   // HANDLERS
-    const handleCancelClick = () => {
+  const handleCancelClick = () => {
     dispatch(showCancelConfirmationModal());
   };
 
@@ -76,11 +80,15 @@ export default function ActionManager() {
       information_id: infoId,
       description: action,
       date: getFullDate(),
+    };
+
+    if (formValues.description.length <= 5) {
+      toast.error('Votre action doit comprendre au moins 6 caractères...', {position: toast.POSITION.BOTTOM_CENTER});
+    } else {
+      setFormData(formValues as unknown as Information & Action);
+
+      dispatch(showNextActionModal());
     }
-
-    setFormData(formValues as unknown as Information & Action)
-
-    dispatch(showNextActionModal());
   };
 
   return (
@@ -102,6 +110,7 @@ export default function ActionManager() {
               onChange={setAction}
               textareaName="description"
               placeholder="Renseignez votre action"
+              regExp={regExps.information.description}
             />
             <div className="flex mt-5 justify-evenly">
               <ValidButton content="Enregistrer" isSubmit />
@@ -125,7 +134,11 @@ export default function ActionManager() {
       {/* NEXT ACTION MODAL */}
       {nextActionModal &&
         createPortal(
-          <NextActionModal withInfo={false} information={information} formData={formData} />,
+          <NextActionModal
+            withInfo={false}
+            information={information}
+            formData={formData}
+          />,
           document.body
         )}
     </>

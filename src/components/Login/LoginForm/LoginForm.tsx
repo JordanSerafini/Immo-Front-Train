@@ -2,7 +2,7 @@
 import { FormEvent, useState } from 'react';
 
 // Redux
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
 import { login } from '../../../store/reducers/user';
@@ -10,7 +10,6 @@ import { login } from '../../../store/reducers/user';
 // Shared Components
 import Input from '../../Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import ErrorMsg from '../../SharedComponents/ErrorMsg/ErrorMsg';
 
 // Assets
 import eyeIcon from '../../../assets/icons/eye-empty.svg';
@@ -21,15 +20,11 @@ export default function LoginForm() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  // Redux state
-  const user = useAppSelector((state) => state.user);
-
-  const { errorMessage } = user;
-
   // The useState React Hook is used to set a state variable and its setter
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('sebastien.moreau@example.com');
+  // const [email, setEmail] = useState<string>('Jordan.Serafini@admin.com');
+  const [email, setEmail] = useState<string>('amandine.leroux@example.com');
   const [password, setPassword] = useState<string>('pass123');
 
   const togglePasswordVisibility = () => {
@@ -80,13 +75,6 @@ export default function LoginForm() {
           />
         </button>
       </Input>
-
-      {errorMessage && (
-        <ErrorMsg
-          errorMessage={errorMessage}
-          className="absolute -translate-x-1/2 top-[65%] left-1/2"
-        />
-      )}
 
       <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
     </form>

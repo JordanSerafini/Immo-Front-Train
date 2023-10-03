@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
@@ -22,6 +26,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
   const [lastnameValue, setLastnameValue] = useState<string | undefined>(
     lastname
   );
+  const regExps = useAppSelector((state) => state.regexps.user.lastname);
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
@@ -41,8 +46,14 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
 
     const formValues = { ...user, ...formData };
 
-    dispatch(editUser(formValues));
-    setEditLastname(false);
+    if (regExps.test(lastnameValue as string)) {
+      dispatch(editUser(formValues));
+      setEditLastname(false);
+    } else {
+      toast.error('Votre nom doit avoir au moins un caractère', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
   };
 
   return (
@@ -55,7 +66,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
             value={lastnameValue}
             onChange={setLastnameValue}
             placeholder="Entrez votre nom"
-            regExp={/^[a-zA-Z]{2,}$/}
+            regExp={regExps}
           >
             <EditSubmitBtn />
           </Input>

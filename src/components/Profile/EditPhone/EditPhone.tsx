@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
@@ -27,6 +31,7 @@ export default function EditPhone({
   const [phoneNumberValue, setPhoneNumberValue] = useState<string | undefined>(
     phoneNumber
   );
+  const regExps = useAppSelector((state) => state.regexps.user.phone);
 
   // Handlers Methods
   const handleEditLastname = () => {
@@ -41,8 +46,16 @@ export default function EditPhone({
 
     const formValues = { ...user, ...formData };
 
-    dispatch(editUser(formValues));
-    setEditPhoneNumber(false);
+    if (regExps.test(phoneNumberValue as string)) {
+      dispatch(editUser(formValues));
+      setEditPhoneNumber(false);
+    } else {
+      toast.error("Votre numéro de téléphone doit contenir 10 chiffres.", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
+
+
   };
 
   return (
@@ -56,7 +69,7 @@ export default function EditPhone({
             onChange={setPhoneNumberValue}
             placeholder="Entrez votre n° de téléphone"
             type="number"
-            regExp={/^\d{10}$/}
+            regExp={regExps}
           >
             <EditSubmitBtn />
           </Input>

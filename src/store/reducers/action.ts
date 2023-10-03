@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 /* eslint-disable no-console */
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
@@ -21,7 +25,7 @@ export const initialState: ActionState = {
 
 export const fetchActions = createAsyncThunk(
   'action/getAll',
-  async ({infoId} : {infoId: number}) => {
+  async ({ infoId }: { infoId: number }) => {
     const response = await axiosInstance.get(`/informations/${infoId}/actions`);
 
     return response.data;
@@ -31,14 +35,12 @@ export const fetchActions = createAsyncThunk(
 export const createProspectionAction = createAsyncThunk(
   'action/create',
   async ({ formData }: { formData: Action }) => {
-
     const response = await axiosInstance.post(
       `/informations/${formData.information_id}/actions`,
       formData
     );
 
     return response.data;
-
   }
 );
 
@@ -56,14 +58,31 @@ const actionsReducer = createReducer(initialState, (builder) => {
     .addCase(fetchActions.rejected, (state) => {
       state.loading = false;
       state.error = true;
+
+      toast.error(
+        'Une erreur est survenue lors de la récupération des actions...',
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
-      state.data.push(action.payload);
+      state.data.push(action.payload.result);
+
+      toast.success('Action créée avec succès !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(createProspectionAction.rejected, (state) => {
       state.error = true;
-      console.log('Erreur');
+
+      toast.error(
+        'Une erreur est survenue lors de la récupération des informations de prospection...',
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
     });
 });
 

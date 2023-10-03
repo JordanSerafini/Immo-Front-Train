@@ -1,9 +1,16 @@
-/* eslint-disable no-console */
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// Redux toolkit
 import {
   createAsyncThunk,
   createReducer,
   createAction,
 } from '@reduxjs/toolkit';
+
+// Axios types
+import { AxiosError } from 'axios';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -12,7 +19,9 @@ import axiosInstance from '../../utils/axios';
 import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
 
-// Create an information interface
+// Typescript interface
+import { ErrorType } from '../../@types/error';
+
 interface InformationsState {
   loading: boolean;
   error: boolean;
@@ -27,7 +36,7 @@ export const initialState: InformationsState = {
   filteredInformations: [],
 };
 
-export const resetInformations = createAction("informations/reset");
+export const resetInformations = createAction('informations/reset');
 
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
@@ -52,64 +61,83 @@ export const filterInformation = createAction(
 export const createInformation = createAsyncThunk(
   'information/create',
   async ({ formData }: { formData: Information }) => {
-    const response = await axiosInstance.post('/informations', formData);
+    try {
+      const response = await axiosInstance.post('/informations', formData);
 
-    return response;
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
-    console.log(information);
+    try {
+      // Temporary to fix uppercase issue. It will not longer be the case with a new populate
+      information.type = information.type.toLowerCase();
 
-    const response1 = await axiosInstance.patch(
-      `/informations/${information.id}`,
-      information
-    );
+      await axiosInstance.patch(`/informations/${information.id}`, information);
 
-    console.log(response1);
+      const response = await axiosInstance.get(`/informations`);
 
-    const response = await axiosInstance.get(`/informations`);
-
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const createInformationAndAction = createAsyncThunk(
   'information/createWithAction',
-  async ({
-    formData,
-  }: {
-    formData: Information & Action
-  }) => {
-    // First request to create an information
-    const response = await axiosInstance.post(`/informations`, formData);
+  async ({ formData }: { formData: Information & Action }) => {
+    try {
+      // First request to create an information
+      const response = await axiosInstance.post(`/informations`, formData);
 
-    const actionData = {
-      information_id: response.data.result.id,
-      description: formData.description,
-      date: formData.notification_date
+      const actionData = {
+        information_id: response.data.result.id,
+        description: formData.description,
+        date: formData.notification_date,
+      };
+
+      // Second request to create an action
+      // We want to use the id from the previous created information to send it to the route post to create an action
+      await axiosInstance.post(
+        `/informations/${actionData.information_id}/actions`,
+        actionData
+      );
+
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
     }
-
-    // Second request to create an action
-    // We want to use the id from the previous created information to send it to the route post to create an action
-    await axiosInstance.post(
-      `/informations/${actionData.information_id}/actions`,
-      actionData
-    );
-
-
-    return response;
   }
 );
 
 export const deleteInformation = createAsyncThunk(
   'information/delete',
   async ({ id }: { id: string }) => {
-    await axiosInstance.delete(`/informations/${id}`);
+    try {
+      await axiosInstance.delete(`/informations/${id}`);
 
-    return id;
+      return id;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -125,9 +153,13 @@ const informationsReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(fetchInformations.rejected, (state) => {
+    .addCase(fetchInformations.rejected, (state, action) => {
       state.error = true;
-      console.log('Une erreur est survenue');
+      state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(filterInformation, (state, action) => {
       const { slug } = action.payload;
@@ -160,19 +192,35 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(createInformation.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
+
+      toast.success('Votre information à bien été créée !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
-    .addCase(createInformation.rejected, (state) => {
+    .addCase(createInformation.rejected, (state, action) => {
       state.error = true;
-      console.log('erreur');
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
       state.informations.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
+
+      toast.success('Votre information et votre action ont bien été créées !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
-    .addCase(createInformationAndAction.rejected, (state) => {
+    .addCase(createInformationAndAction.rejected, (state, action) => {
       state.error = true;
-      console.log('Erreur');
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    .addCase(updateInformation.pending, (state, action) => {
+      // eslint-disable-next-line no-console
+      console.log(action.payload);
     })
     // UpdateInformation
     .addCase(updateInformation.fulfilled, (state, action) => {
@@ -180,9 +228,17 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.filteredInformations = action.payload;
 
       state.loading = false;
+
+      toast.success('Votre information a bien été mise à jour !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
-    .addCase(updateInformation.rejected, (state) => {
+    .addCase(updateInformation.rejected, (state, action) => {
       state.error = true;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // DeleteInformation
     .addCase(deleteInformation.fulfilled, (state, action) => {
@@ -194,13 +250,21 @@ const informationsReducer = createReducer(initialState, (builder) => {
       state.filteredInformations = state.filteredInformations.filter(
         (info) => info.id !== deletedId
       );
+
+      toast.success("L'information a été supprimée avec succès !", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
-    .addCase(deleteInformation.rejected, (state) => {
+    .addCase(deleteInformation.rejected, (state, action) => {
       state.error = true;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(resetInformations, () => {
       return initialState;
-    })
+    });
 });
 
 export default informationsReducer;
