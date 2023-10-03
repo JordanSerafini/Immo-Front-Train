@@ -42,7 +42,7 @@ export default function CreateAccountModal() {
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
   );
-  const regExps = useAppSelector((state) => state.regexps);
+  const regExps = useAppSelector((state) => state.regexps.user);
 
   // Local States
   const [errorMessage, setErrorMessage] = useState<string[]>([]);

@@ -2,6 +2,9 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Axios types
+import { AxiosError } from 'axios';
+
 // Redux
 import {
   createReducer,
@@ -12,18 +15,18 @@ import {
 // Axios
 import axiosInstance from '../../utils/axios';
 
+// Typescript interfaces
 import { User } from '../../@types/user';
+import { ErrorType } from '../../@types/error';
 
 interface UserState {
   loading: boolean;
   error: boolean;
-  errorMessage: null | string;
   data: User;
 }
 export const initialState: UserState = {
   loading: false,
   error: false,
-  errorMessage: null,
   data: {
     id: undefined,
     firstname: undefined,
@@ -41,29 +44,49 @@ export const initialState: UserState = {
 export const login = createAsyncThunk(
   'user/login',
   async (formData: FormData) => {
-    const objData = Object.fromEntries(formData);
+    try {
+      const objData = Object.fromEntries(formData);
+      const response = await axiosInstance.post('/login', objData);
 
-    const response = await axiosInstance.post('/login', objData);
-
-    return response.data;
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const logout = createAsyncThunk('user/logout', async () => {
-  const response = await axiosInstance.get('/logout');
+  try {
+    const response = await axiosInstance.get('/logout');
 
-  return response;
+    return response;
+  } catch (error) {
+    throw new Error(
+      (error as ErrorType).response.data.error ||
+        (error as AxiosError).response?.statusText
+    );
+  }
 });
 
 export const editUser = createAsyncThunk(
   'user/edit',
   async (formData: User) => {
-    const response = await axiosInstance.patch(
-      `/collaborator/${formData.id}`,
-      formData
-    );
+    try {
+      const response = await axiosInstance.patch(
+        `/collaborator/${formData.id}`,
+        formData
+      );
 
-    return response.data;
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -76,27 +99,24 @@ const userReducer = createReducer(initialState, (builder) => {
       // Just in case => Reset data initiale state
       // It's a precaution
       state.data = initialState.data;
-      // Reset errorMessage state
-      state.errorMessage = null;
+
       // Reset error state
       state.error = false;
 
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      const { token } = action.payload;
+      const { token } = action.payload.data;
       // We check if the user is successfully connected
-      if (!token) {
-        state.errorMessage = action.payload;
-      } else {
+      if (token) {
         localStorage.setItem('accessToken', token);
         // The token goes to the axios headers
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
         // We want to delete the password to not send it into our redux state
-        delete action.payload.result.password;
+        delete action.payload.data.result.password;
 
-        const user = { ...action.payload.result, logged: true };
+        const user = { ...action.payload.data.result, logged: true };
         state.data = user;
 
         // Set User into the local storage
@@ -111,16 +131,13 @@ const userReducer = createReducer(initialState, (builder) => {
 
       state.loading = false;
     })
-    .addCase(login.rejected, (state) => {
+    .addCase(login.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
 
-      toast.error(
-        'Une erreur est survenue lors de la tentative de connexion...',
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // Logout
     .addCase(logout.pending, () => {
@@ -134,15 +151,23 @@ const userReducer = createReducer(initialState, (builder) => {
 
       return initialState;
     })
+    .addCase(logout.rejected, (state, action) => {
+      state.error = true;
+      state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
     // Edit User
     .addCase(editUser.pending, (state) => {
       state.error = false;
     })
     .addCase(editUser.fulfilled, (state, action) => {
-      state.data.firstname = action.payload.result.firstname;
-      state.data.lastname = action.payload.result.lastname;
-      state.data.phone = action.payload.result.phone;
-      state.data.email = action.payload.result.email;
+      state.data.firstname = action.payload.data.result.firstname;
+      state.data.lastname = action.payload.data.result.lastname;
+      state.data.phone = action.payload.data.result.phone;
+      state.data.email = action.payload.data.result.email;
 
       // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
       localStorage.setItem('user', JSON.stringify(state.data));
@@ -151,10 +176,11 @@ const userReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(editUser.rejected, (state) => {
+    .addCase(editUser.rejected, (state, action) => {
       state.error = true;
+      state.loading = false;
 
-      toast.error('Une erreur est survenue lors de la modification...', {
+      toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })

@@ -15,7 +15,6 @@ export default function ActionSection({ infoId }: { infoId: number }) {
   const actions = useAppSelector((state) => state.actions.data);
   const isActionLoading = useAppSelector((state) => state.actions.loading);
 
-  console.log(actions)
   useEffect(() => {
     dispatch(fetchActions({ infoId }));
   }, [dispatch, infoId]);

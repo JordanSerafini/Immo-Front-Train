@@ -1,3 +1,7 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
@@ -23,6 +27,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
   // Local states
   const [editEmail, setEditEmail] = useState<boolean>(false);
   const [emailValue, setEmailValue] = useState<string | undefined>(email);
+  const regExps = useAppSelector((state) => state.regexps.user.email);
 
   // Handlers Methods
   const handleEditLastname = () => {
@@ -37,8 +42,15 @@ export default function EditEmail({ email }: { email: string | undefined }) {
 
     const formValues = { ...user, ...formData };
 
-    dispatch(editUser(formValues));
-    setEditEmail(false);
+
+    if (regExps.test(emailValue as string)) {
+      dispatch(editUser(formValues));
+      setEditEmail(false);
+    } else {
+      toast.error("Votre email n'est pas valide.", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
   };
 
   return (
@@ -52,7 +64,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
             onChange={setEmailValue}
             placeholder="Entrez votre email"
             type="email"
-            regExp={/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
+            regExp={regExps}
           >
             <button
               type="submit"

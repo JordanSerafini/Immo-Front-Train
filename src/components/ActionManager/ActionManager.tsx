@@ -1,5 +1,9 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 // React Router
 import { useParams, Navigate } from 'react-router-dom';
@@ -78,9 +82,13 @@ export default function ActionManager() {
       date: getFullDate(),
     };
 
-    setFormData(formValues as unknown as Information & Action);
+    if (formValues.description.length <= 5) {
+      toast.error('Votre action doit comprendre au moins 6 caractères...', {position: toast.POSITION.BOTTOM_CENTER});
+    } else {
+      setFormData(formValues as unknown as Information & Action);
 
-    dispatch(showNextActionModal());
+      dispatch(showNextActionModal());
+    }
   };
 
   return (
@@ -102,7 +110,7 @@ export default function ActionManager() {
               onChange={setAction}
               textareaName="description"
               placeholder="Renseignez votre action"
-              regExp={regExps.description}
+              regExp={regExps.information.description}
             />
             <div className="flex mt-5 justify-evenly">
               <ValidButton content="Enregistrer" isSubmit />
