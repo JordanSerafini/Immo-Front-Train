@@ -54,7 +54,7 @@ export default function CreateAccountModal() {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   // Controlled Inputs states
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
+  // const [avatarUrl, setAvatarUrl] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [phone, setPhone] = useState<string>('');

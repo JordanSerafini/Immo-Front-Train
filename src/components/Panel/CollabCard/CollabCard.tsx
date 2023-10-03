@@ -6,8 +6,8 @@ import { User } from '../../../@types/user';
 
 export default function CollabCard({ firstname, lastname, phone, email, acces, url }: User) {
   return (
-    <article className="flex flex-col items-center justify-center gap-4 p-5 my-5 rounded-lg xl:flex-row xl:justify-around shadow-custom bg-secondary-50">
-      <div className="flex justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
+    <article className="flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
+      <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
           src={url || portrait}
           alt="Portrait"
@@ -20,19 +20,21 @@ export default function CollabCard({ firstname, lastname, phone, email, acces, u
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 xl:col-span-3">
         <h3 className="text-center">Numéro de téléphone</h3>
         <p>{phone}</p>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 xl:col-span-3">
         <h3 className="text-center">Adresse email</h3>
         <p>{email}</p>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 xl:col-span-2">
         <h3 className="text-center">Accès</h3>
-        <p>{acces ? "Oui" : "Non"}</p>
+        <button type='button' aria-label='access-toggler' className={`shadow-inner w-[60px] h-[30px] rounded-full  p-1 duration-150 focus:ring-2 ${acces ? "bg-green-400" : "bg-secondary-500"}`}>
+          <div className={`h-full rounded-full aspect-square bg-secondary-100 ${acces ? "translate-x-[135%]" : ""}`}/>
+        </button>
       </div>
     </article>
   );
