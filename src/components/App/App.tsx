@@ -1,3 +1,7 @@
+// Library
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -59,6 +63,7 @@ function App() {
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
+      <ToastContainer autoClose={2000} />
       </div>
     </BrowserRouter>
   );

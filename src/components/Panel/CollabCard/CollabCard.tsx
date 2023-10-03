@@ -4,12 +4,12 @@ import portrait from '../../../assets/images/portrait_01.png';
 // Typescript interface
 import { User } from '../../../@types/user';
 
-export default function CollabCard({ firstname, lastname, phone, email, acces }: User) {
+export default function CollabCard({ firstname, lastname, phone, email, acces, url }: User) {
   return (
     <article className="flex flex-col items-center justify-center gap-4 p-5 my-5 rounded-lg xl:flex-row xl:justify-around shadow-custom bg-secondary-50">
       <div className="flex justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
-          src={portrait}
+          src={url || portrait}
           alt="Portrait"
           className="rounded-full w-28 aspect-square shadow-custom"
         />

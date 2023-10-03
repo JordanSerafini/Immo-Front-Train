@@ -1,7 +1,3 @@
-// Library
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 // React
 import { useEffect } from 'react';
 
@@ -78,7 +74,6 @@ export default function InitAdmin() {
       <MainSection>
         <Outlet />
       </MainSection>
-      <ToastContainer autoClose={2000} />
     </>
   );
 }
