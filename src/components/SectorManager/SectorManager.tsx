@@ -32,7 +32,7 @@ export default function SectorManager() {
       {/* TITLE */}
       <h1 className="mt-20 mb-5 lg:mt-10">Sector Manager</h1>
 
-      <section className="min-h-screen p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50">
+      <section className="min-h-[50vh] p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50">
         <h2>Secteurs</h2>
 
         {/* CREATE SECTOR BUTTON (component possible) */}
@@ -47,11 +47,13 @@ export default function SectorManager() {
           </span>
         </button>
 
-        {isSectorsLoading ? (
+        {isSectorsLoading && sectors.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />
         ) : (
           sectors.map((sector) => <SectorCard key={sector.id} {...sector} />)
         )}
+
+        {!sectors.length && <p className='text-lg font-semibold text-center'>Pas encore de secteur...</p>}
       </section>
 
     </>

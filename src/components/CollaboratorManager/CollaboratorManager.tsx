@@ -43,9 +43,9 @@ export default function CollaboratorManager() {
   return (
     <>
       {/* TITLE */}
-      <h1 className="mt-20 mb-5 lg:mt-10">Administration</h1>
+      <h1 className="mt-20 mb-5 lg:mt-10">Collaborator Manager</h1>
 
-      <section className="min-h-screen p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50">
+      <section className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[50vh] shadow-custom bg-secondary-50">
         <h2>Comptes négociateurs</h2>
 
         {/* CREATE COLLABORATOR BUTTON (component possible) */}
@@ -60,13 +60,15 @@ export default function CollaboratorManager() {
           </span>
         </button>
 
-        {isCollaboratorsLoading ? (
+        {isCollaboratorsLoading && collaborators.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />
         ) : (
           collaborators.map((collaborator) => (
             <CollabCard key={collaborator.id} {...collaborator} />
           ))
         )}
+
+        {!collaborators.length && <p className='text-lg font-semibold text-center'>Pas encore de collaborateur...</p>}
       </section>
 
       {/* DISPLAY CREATE ACCOUNT MODAL */}
