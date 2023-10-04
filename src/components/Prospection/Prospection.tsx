@@ -49,7 +49,7 @@ export default function Prospection() {
   const deleteModal = useAppSelector(
     (state) => state.modal.isDeleteConfirmationOpen
   );
-
+  
   // Methods
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
@@ -114,7 +114,7 @@ export default function Prospection() {
           <ProspectionInformation key={information.id} {...information} />
         ))}
 
-        {!filteredInformations.length && <p className='text-lg font-semibold text-center'>Pas encore d&apos;information...</p>}
+        {!filteredInformations.length && <p className='col-span-2 text-lg font-semibold text-center'>Pas encore d&apos;information...</p>}
       </section>
       {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}
