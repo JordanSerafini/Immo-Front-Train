@@ -22,7 +22,7 @@ export default function LeafletMap({ owner_name, address_number, address_street,
       try {
         console.log("fetch leaflet")
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${adresse}&format=json&limit=1`);
-        
+        console.log(response)
         if (!response.ok) {
           throw new Error('Probleme API coordonnées');
         }
