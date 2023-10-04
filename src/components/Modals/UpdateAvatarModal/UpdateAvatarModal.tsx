@@ -1,5 +1,11 @@
+// React
+import { useEffect } from 'react';
+
 // Redux
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+// Reducer
+import { fetchAvatars } from '../../../store/reducers/avatar';
 
 // Components
 import Modal from '../Modal';
@@ -19,10 +25,20 @@ export default function UpdateAvatarModal({
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Redux states
+  const avatars = useAppSelector((state) => state.avatar.data);
+  const isLoading = useAppSelector((state) => state.avatar.loading);
+
   // Handlers
   const handleConfirmClick = () => {
     closeModal();
   };
+
+  useEffect(() => {
+    dispatch(fetchAvatars());
+  }, [dispatch])
+
+  console.log(avatars)
 
   return (
     <Modal closeModal={closeModal}>
