@@ -10,6 +10,9 @@ import { findCollaborator } from '../../../store/selectors/collaborator';
 // Assets
 import portrait from '../../../assets/images/portrait_01.png';
 
+// Utils
+import formatPhone from '../../../utils/formatPhone';
+
 // Typescript interface
 import { User } from '../../../@types/user';
 
@@ -62,7 +65,7 @@ export default function CollabCard({
 
       <div className="flex flex-col items-center gap-4 xl:col-span-3">
         <h3 className="text-center">Numéro de téléphone</h3>
-        <p>{phone}</p>
+        <p>{formatPhone(phone as string)}</p>
       </div>
 
       <div className="flex flex-col items-center gap-4 xl:col-span-3">
