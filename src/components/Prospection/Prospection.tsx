@@ -49,7 +49,7 @@ export default function Prospection() {
   const deleteModal = useAppSelector(
     (state) => state.modal.isDeleteConfirmationOpen
   );
-  
+
   // Methods
   const handleAddInfoClick = () => {
     dispatch(showAddInfoModal());
@@ -75,15 +75,22 @@ export default function Prospection() {
       {/* SECTIONS for ActionToDo & UpcomingAction */}
       <div className="hidden grid-cols-2 lg:grid gap-x-10">
         <ActionSection icon={actionToDoIcon} title="Actions à faire">
-          {actionToDo.map((information) => (
-            <CardActionToDo key={information.id} {...information} />
-          ))}
+          {actionToDo.length ? (
+            actionToDo.map((information) => (
+              <CardActionToDo key={information.id} {...information} />
+            ))
+          ) : (
+            <p className="italic">
+              Il n&apos;y a aucune action à faire pour le moment...
+            </p>
+          )}
         </ActionSection>
 
         <ActionSection icon={upcomingActionIcon} title="Actions à venir">
-          {upcomingAction.map((information) => (
+          {upcomingAction.length ? (upcomingAction.map((information) => (
             <CardUpcomingAction key={information.id} {...information} />
-          ))}
+          ))) : <p className='italic'>Il n&apos;y a aucune action à venir pour le moment...</p>}
+
         </ActionSection>
       </div>
 
@@ -114,7 +121,11 @@ export default function Prospection() {
           <ProspectionInformation key={information.id} {...information} />
         ))}
 
-        {!filteredInformations.length && <p className='col-span-2 text-lg font-semibold text-center'>Pas encore d&apos;information...</p>}
+        {!filteredInformations.length && (
+          <p className="col-span-2 text-lg font-semibold text-center">
+            Pas encore d&apos;information...
+          </p>
+        )}
       </section>
       {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}

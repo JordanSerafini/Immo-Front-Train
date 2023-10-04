@@ -24,6 +24,10 @@ export default function Detail() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Local State
+  const defaultLong = 2.29449;
+  const defaultLat = 48.8584;
+
   // Redux state
   const information = useAppSelector((state) => state.information.information);
   const isLoading = useAppSelector((state) => state.information.loading);
@@ -88,7 +92,7 @@ export default function Detail() {
         <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
       </div>
 
-      <section className="max-w-[800px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
+      <section className="max-w-[800px] p-4 m-auto my-10 rounded-lg shadow-custom bg-secondary-50">
         {/* p style in "./detail.css" */}
         <h2>Type de bien</h2>
         <p className="md:text-lg">{information.type}</p>
@@ -131,10 +135,10 @@ export default function Detail() {
             Information créée le : {information?.date.slice(0, 10)}
           </em>
         </p>
-        {information.longitude && information.latitude ? (
-          <LeafletMap {...information} />
+        {(information.longitude === defaultLong && information.latitude === defaultLat) ? (
+          <p className='italic text-center'>Pas de carte à afficher...</p>
         ) : (
-          <p>Pas de carte à afficher</p>
+          <LeafletMap {...information} />
         )}
       </section>
     </>
