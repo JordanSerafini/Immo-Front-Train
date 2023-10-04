@@ -7,11 +7,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Reducer
 import {
   showCreateAccountModal,
+  hideDeleteConfirmationModal,
 } from '../../store/reducers/modal';
 
 // Components
 import CollabCard from './CollabCard/CollabCard';
 import CreateAccountModal from '../Modals/CreateAccountModal/CreateAccountModal';
+import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
@@ -28,6 +30,9 @@ export default function CollaboratorManager() {
   );
   const createAccountModal = useAppSelector(
     (state) => state.modal.isCreateAccountModalOpen
+  );
+  const deleteModal = useAppSelector(
+    (state) => state.modal.isDeleteConfirmationOpen
   );
 
   // Handle Methods
@@ -67,6 +72,16 @@ export default function CollaboratorManager() {
       {/* DISPLAY CREATE ACCOUNT MODAL */}
       {createAccountModal &&
         createPortal(<CreateAccountModal />, document.body)}
+      {/* DISPLAY DELETE MODAL */}
+      {deleteModal &&
+        createPortal(
+          <DeleteModal
+            deleteUser
+            closeModal={() => dispatch(hideDeleteConfirmationModal())}
+            content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
+          />,
+          document.body
+        )}
     </>
   );
 }

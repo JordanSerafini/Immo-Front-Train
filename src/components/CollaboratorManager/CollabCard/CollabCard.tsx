@@ -1,8 +1,12 @@
+// React router
+import { Link } from 'react-router-dom';
+
 // Redux
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 
 // Reducers
 import { updateAccess } from '../../../store/reducers/collaborator';
+import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
 // Selector
 import { findCollaborator } from '../../../store/selectors/collaborator';
@@ -33,21 +37,36 @@ export default function CollabCard({
 
   // Improvments to make here
   if (!user) {
-    return <p className='text-xl font-semibold text-center'>Pas de collaborateur à afficher</p>
+    return (
+      <p className="text-xl font-semibold text-center">
+        Pas de collaborateur à afficher
+      </p>
+    );
   }
 
   // Handler
   const handleAcces = () => {
     const formData = {
       ...user,
-      acces: !user.acces
-    }
+      acces: !user.acces,
+    };
 
-    dispatch(updateAccess(formData))
+    dispatch(updateAccess(formData));
+  };
+
+  const handleDelete = () => {
+    dispatch(showDeleteConfirmationModal());
   };
 
   return (
-    <article className="flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
+    <article className="relative flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
+      <Link
+        className="bg-red-500 rounded-full w-[30px] h-[30px]  text-secondary-50 absolute top-2 right-2 flex justify-center items-center hover:bg-red-600 duration-150"
+        onClick={handleDelete}
+        to={{ search: id?.toString() }}
+      >
+        <button type="button">X</button>
+      </Link>
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
           src={url || portrait}

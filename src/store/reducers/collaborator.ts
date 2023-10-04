@@ -136,6 +136,24 @@ export const editCollaborator = createAsyncThunk(
   }
 );
 
+// TEMPORARY IT WILL NOT BE DEPLOY
+// Delete a collaborator
+export const deleteCollaborator = createAsyncThunk(
+  'collaborator/delete',
+  async ({ id }: { id: string }) => {
+    try {
+      await axiosInstance.delete(`/collaborator/${id}`);
+
+      return id;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
+  }
+);
+
 // Update only access
 export const updateAccess = createAsyncThunk(
   'user/updateAccess',
@@ -251,14 +269,14 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
     })
     // Create Collaborator
     .addCase(createCollaborator.fulfilled, (state, action) => {
-      delete action.payload.password;
+      delete action.payload.result.password;
 
-      state.data.push(action.payload);
+      state.data.push(action.payload.result);
 
       toast.success(
         `Le compte ${
-          action.payload.firstname
-        } ${action.payload.lastname.toUpperCase()} a bien été créé !`,
+          action.payload.result.firstname
+        } ${action.payload.result.lastname.toUpperCase()} a bien été créé !`,
         {
           position: toast.POSITION.BOTTOM_RIGHT,
         }
@@ -293,6 +311,25 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
     .addCase(editCollaborator.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    // Delete Collaborator
+    .addCase(deleteCollaborator.fulfilled, (state, action) => {
+      const deletedId = parseInt(action.payload, 10);
+
+      state.data = state.data.filter(
+        (collaborator) => collaborator.id !== deletedId
+      );
+
+      toast.success("Le collaborateur a été supprimé avec succès !", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    .addCase(deleteCollaborator.rejected, (state, action) => {
+      state.error = true;
 
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
