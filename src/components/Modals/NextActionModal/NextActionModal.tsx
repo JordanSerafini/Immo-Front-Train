@@ -3,8 +3,17 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+import {
+  createInformation,
+  createInformationAndAction,
+  updateInformation,
+} from '../../../store/reducers/information';
 
 // Store
 import {
@@ -20,22 +29,20 @@ import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import Input from '../AddInfoModal/Field/Input';
 
 // Utils
-import getFullDate from '../../../utils/getFullDate';
+import getFormatedFullDate from '../../../utils/getFormatedFullDate';
 
 // Typescript interface
-import {
-  createInformation,
-  createInformationAndAction,
-  updateInformation,
-} from '../../../store/reducers/informations';
 import { Information } from '../../../@types/information';
+import { Action } from '../../../@types/action';
+
+dayjs.extend(utc);
 
 function NextActionModal({
   formData,
   withInfo,
   information,
 }: {
-  formData?: { [k: string]: FormDataEntryValue } | undefined;
+  formData?: Information & Action;
   withInfo: boolean;
   information?: Information;
 }) {
@@ -44,22 +51,22 @@ function NextActionModal({
   const navigate = useNavigate();
 
   // Local States
-  const [nextActionDate, setNextActionDate] = useState<string>(getFullDate());
+  const [nextActionDate, setNextActionDate] = useState<string>(
+    getFormatedFullDate()
+  );
 
   // Redux state
-  const collaboratorId = useAppSelector((state) => state.user.data.id);
+  const collaboratorId = useAppSelector((state) => state.collaborator.user.id);
 
   // Methods
   const closeAllModal = () => {
-    const date = new Date(nextActionDate);
-    date.setUTCHours(0, 0, 0, 0);
-    const ISONotifDate = date.toISOString();
-
     const infoData = {
-      ...formData,
-      notification_date: ISONotifDate,
-      collaborator_id: collaboratorId,
-      date: getFullDate(),
+      ...(formData as Information),
+      type: formData?.type?.toLowerCase() as string,
+      category: formData?.category?.toLowerCase() as string,
+      notification_date: dayjs(nextActionDate).utc().toISOString(),
+      collaborator_id: collaboratorId as number,
+      date: dayjs().toISOString(),
       sector_id: 1,
     };
 
@@ -70,21 +77,29 @@ function NextActionModal({
       formData.description &&
       formData.description.length
     ) {
-      dispatch(createInformationAndAction({ formData: infoData }));
+      dispatch(
+        createInformationAndAction({
+          formData: infoData as Information & Action,
+        })
+      );
     } else if (withInfo && formData) {
       // Else if there's an Information to create WITHOUT an action to create
       dispatch(createInformation({ formData: infoData }));
     } else if (!withInfo && information) {
       // Else if there's not an Information to create
       const formValues = {
+        id: formData?.information_id as number,
         description: formData?.description as string,
-        information_id: formData?.information_id as string,
-        date: getFullDate(),
+        information_id: formData?.information_id as number,
+        date: getFormatedFullDate(),
       };
       // Type problem
       dispatch(createProspectionAction({ formData: formValues }));
       dispatch(
-        updateInformation({ ...information, notification_date: ISONotifDate })
+        updateInformation({
+          ...information,
+          notification_date: dayjs(nextActionDate).utc().toISOString(),
+        })
       );
     }
 
@@ -97,7 +112,7 @@ function NextActionModal({
 
   return (
     <Modal>
-      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
+      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2 mt-8">
         <Input
           type="date"
           value={nextActionDate}
@@ -105,6 +120,8 @@ function NextActionModal({
           placeholder="jj / mm / dddd"
           label="*Prochaine action prévue le :"
           inputName="notification_date"
+          regExp={/^\d{4}-\d{2}-\d{2}$/}
+          isRequired
         />
         <ValidButton
           className="block m-auto"

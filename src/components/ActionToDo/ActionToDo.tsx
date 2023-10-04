@@ -2,7 +2,6 @@
 import { useAppSelector } from '../../hooks/redux';
 
 // Components
-import MainSection from '../SharedComponents/MainSection/MainSection';
 import CardActionToDo from './CardActionToDo/CardActionToDo';
 
 // Assets
@@ -13,13 +12,13 @@ import filteredActionToDo from '../../utils/filteredActionToDo';
 
 export default function ActionToDo() {
   const informations = useAppSelector(
-    (state) => state.information.informations
+    (state) => state.information.data
   );
 
   const actionToDo = filteredActionToDo(informations);
 
   return (
-    <MainSection>
+    <>
       <div className="flex flex-col items-center justify-center gap-2 mb-6">
         <img
           src={actionToDoIcon}
@@ -34,6 +33,6 @@ export default function ActionToDo() {
           <CardActionToDo key={information.id} {...information} />
         ))}
       </ul>
-    </MainSection>
+    </>
   );
 }

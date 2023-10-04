@@ -1,5 +1,5 @@
 // React
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 // Redux
@@ -34,20 +34,31 @@ import ActionFieldset from './ActionFieldset/ActionFieldset';
 import plus from '../../../assets/icons/plus.svg';
 
 // Style
-import './animation.scss';
+import '../../SharedComponents/ErrorMsg/animation.scss';
+
+// Typescript interface
+import { Information } from '../../../@types/information';
+import { Action } from '../../../@types/action';
 
 export default function AddInfoModal() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
+
+  // React References
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Redux States
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationAddInfoModalOpen
   );
   const nextActionModal = useAppSelector(
     (state) => state.modal.isNextActionModalOpen
   );
+  const regExps = useAppSelector((state) => state.regexps.information);
 
   // Local States
-  const [formData, setFormData] = useState<{[k: string]: FormDataEntryValue}>()
+  const [formData, setFormData] = useState<Information & Action>();
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   // Decide the default checked button
   const [selectedTypeOption, setSelectedTypeOption] =
@@ -61,14 +72,46 @@ export default function AddInfoModal() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form: HTMLFormElement = event.currentTarget;
-    setFormData(Object.fromEntries(new FormData(form)));
+    const formElement: HTMLFormElement = event.currentTarget;
+    const formDatas = new FormData(formElement);
+    const formEntries = Object.fromEntries(
+      formDatas
+    ) as unknown as Information & Action;
 
-    dispatch(showNextActionModal());
+    // FORM VALIDATION
+    // The idea is to push into the wrongValues array to gather all invalid inputs
+    const wrongValues: string[] = [];
+
+    // For each entries from formEntries, we iterate to test the regexp from our redux initialState
+    Object.keys(formEntries).forEach((fieldName) => {
+      const value = formDatas.get(fieldName);
+
+      if (fieldName in regExps && regExps[fieldName] && value?.length) {
+        if (!regExps[fieldName].test(value as string)) {
+          wrongValues.push(fieldName);
+        }
+      }
+    });
+
+    // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
+    if (wrongValues.length) {
+      // So we set our errorMessage local state to those values
+      setErrorMessage(wrongValues);
+
+      if (modalRef.current) {
+        // We also want to force the scroll to the top of our modal
+        // UX Choice : We want the user to see what's going on
+        modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      // Otherwise, we set our local react state to formEntries, so we can send it into our <NextActionModal /> component
+      setFormData(formEntries);
+      dispatch(showNextActionModal());
+    }
   };
 
   return (
-    <Modal closeModal={handleCancelClick}>
+    <Modal closeModal={handleCancelClick} reference={modalRef}>
       {/* Temporary style */}
       <button
         onClick={handleCancelClick}
@@ -86,6 +129,13 @@ export default function AddInfoModal() {
         Ajout d&apos;une information
       </h1>
 
+      {/* Error Message if there's at least an invalid inputs according to regexps tests */}
+      {errorMessage.length > 0 && (
+        <p className="font-semibold text-red-500">
+          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
+        </p>
+      )}
+
       <em className="italic">*Champs obligatoires</em>
 
       <form
@@ -97,17 +147,17 @@ export default function AddInfoModal() {
           setState={setSelectedTypeOption}
         />
 
-        <LocationFieldset typeState={selectedTypeOption} />
+        <LocationFieldset typeState={selectedTypeOption} regExps={regExps} />
 
-        <OwnerFieldset />
+        <OwnerFieldset {...regExps} />
 
-        <SourceFieldset />
+        <SourceFieldset {...regExps} />
 
         <CategoryFieldset />
 
-        <CommentsFieldset />
+        <CommentsFieldset {...regExps} />
 
-        <ActionFieldset />
+        <ActionFieldset {...regExps} />
 
         {/* GROUP BTNS */}
         <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">

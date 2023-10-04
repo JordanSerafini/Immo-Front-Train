@@ -5,21 +5,23 @@ import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { filterInformation } from '../../../store/reducers/informations';
+import { filterInformations } from '../../../store/reducers/information';
 
 // Assets
 import search from '../../../assets/icons/search.svg';
 
+// Shared Component
+import Input from '../../Modals/AddInfoModal/Field/Input';
 
 export default function SearchInput() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const [searchValue, setSearchValue] = useState<string>('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(filterInformation(searchValue))
+    dispatch(filterInformations(searchValue));
   };
 
   return (
@@ -27,20 +29,22 @@ export default function SearchInput() {
       onSubmit={handleSubmit}
       className="relative z-0 block mx-auto mt-3 mb-6 w-fit md:mx-0 md:mb-3 md:mt-6"
     >
-      <input
-        className="py-2 pl-10 duration-150 rounded-lg w-72 shadow-custom font-poppins focus:ring-4 ring-accent-300"
-        type="text"
-        placeholder="Effectuer votre recherche..."
+      <Input
+        type="search"
+        label="Recherche"
+        inputName="search"
+        placeholder="Effectuez votre recherche..."
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        name="search"
-      />
-      <button
-        type="button"
-        className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2"
+        onChange={setSearchValue}
+        className="pl-10 appearance-none shadow-custom font-poppins w-72"
       >
-        <img src={search} alt="Search icon" />
-      </button>
+        <button
+          type="button"
+          className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2 z-20"
+        >
+          <img src={search} alt="Search icon" />
+        </button>
+      </Input>
     </form>
   );
 }

@@ -10,20 +10,31 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Store
 import { fetchInformation } from '../../store/reducers/information';
 
+
 // Components
 import MainSection from '../SharedComponents/MainSection/MainSection';
 import LeafletMap from './LeafletMap';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
+import loader from '../../assets/loader/tail-spin.svg';
+
+// Utils
+import capFirstLetter from '../../utils/capFirstLetter';
 
 // Typescript interface
 import { Information } from '../../@types/information';
 
 export default function Detail() {
+  // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  const information: Information | null = useAppSelector((state) => state.info.data);
+
+  // Redux state
+  const information = useAppSelector((state) => state.information.information);
+  const isLoading = useAppSelector((state) => state.information.loading);
+  const isError = useAppSelector((state) => state.information.error);
+
 
   const { infoId } = useParams();
 
@@ -31,12 +42,9 @@ export default function Detail() {
     dispatch(fetchInformation({ id: infoId }));
   }, [dispatch, infoId]);
 
-  if (!information) {
-    return <p>Loading</p>
-  }
-
-  return (
-    <MainSection>
+  if (isLoading) {
+    return (
+      <>
         <div className="flex items-center gap-6 mt-5">
           <Link to="/app/prospection">
             <img
@@ -45,12 +53,49 @@ export default function Detail() {
               alt="Go back to Home Page"
             />
           </Link>
-          <h1 className="text-3xl font-semibold font-poppins">
-            Détail
-          </h1>
+          <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
         </div>
+        <img
+          className="absolute w-[50px] left-1/2 top-1/4 z-30"
+          src={loader}
+          alt="Loader"
+        />
+      </>
+    );
+  }
 
-        <section className="max-w-[800px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
+  if(!information || isError) {
+    return (
+      <>
+        <div className="flex items-center gap-6 mt-5">
+          <Link to="/app/prospection">
+            <img
+              className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
+              src={arrowLeftIcon}
+              alt="Go back to Home Page"
+            />
+          </Link>
+          <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
+        </div>
+        <p>Pas d&apos;information</p>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <div className="flex items-center gap-6 mt-5">
+        <Link to="/app/prospection">
+          <img
+            className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
+            src={arrowLeftIcon}
+            alt="Go back to Home Page"
+          />
+        </Link>
+        <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
+      </div>
+
+      <section className="max-w-[800px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
           {/* p style in "./detail.css" */}
           <h2>Type de bien</h2>
           <p className="md:text-lg">{information?.type}</p>
@@ -96,5 +141,6 @@ export default function Detail() {
         <LeafletMap {...information} />
         </section>
     </MainSection>
+    </>
   );
 }

@@ -1,7 +1,14 @@
+// Library
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
+import InitApp from './InitApp';
+import InitAdmin from './InitAdmin';
+
 // Login & Support
 import Login from '../Login/Login';
 import Support from '../Support/Support';
@@ -16,7 +23,8 @@ import ActionManager from '../ActionManager/ActionManager';
 import UpcomingAction from '../UpcomingAction/UpcomingAction';
 
 // Admin
-import Administration from '../Admininistration/Administration';
+import SectorManager from '../SectorManager/SectorManager';
+import CollaboratorManager from '../CollaboratorManager/CollaboratorManager';
 import DashBoard from '../DashBoard/DashBoard';
 
 // 404 - Error
@@ -37,21 +45,30 @@ function App() {
           />
 
           {/* This Route allows us to not write /app for every following routes  */}
-          <Route path="/app/*">
-            <Route path="prospection" element={<Prospection />} />
-            <Route path="detail/:infoId" element={<Detail />} />
-            <Route path="actionToDo" element={<ActionToDo />} />
-            <Route path="upcomingAction" element={<UpcomingAction />} />
-            <Route path="actionManager/:infoId" element={<ActionManager />} />
+          <Route path="/app" element={<InitApp />}>
+            <Route path="/app/prospection" element={<Prospection />} />
+            <Route path="/app/detail/:infoId" element={<Detail />} />
+            <Route path="/app/actionToDo" element={<ActionToDo />} />
+            <Route path="/app/upcomingAction" element={<UpcomingAction />} />
+            <Route
+              path="/app/actionManager/:infoId"
+              element={<ActionManager />}
+            />
+            <Route path="/app/profile/:collaboratorId" element={<Profile />} />
+          </Route>
 
-            <Route path="admin" element={<Administration />} />
-            <Route path="dashboard" element={<DashBoard />} />
-
-            <Route path="profile/:collaboratorId" element={<Profile />} />
+          <Route path="/admin" element={<InitAdmin />}>
+            <Route
+              path="/admin/collaborator"
+              element={<CollaboratorManager />}
+            />
+            <Route path="/admin/sector" element={<SectorManager />} />
+            <Route path="/admin/dashboard" element={<DashBoard />} />
           </Route>
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
+        <ToastContainer autoClose={2000} />
       </div>
     </BrowserRouter>
   );

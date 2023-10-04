@@ -1,29 +1,32 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { editUser } from '../../../store/reducers/user';
+import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
 import Input from '../../Modals/AddInfoModal/Field/Input';
-
-// Assets
-import checkIcon from '../../../assets/icons/check-circle.svg';
+import EditForm from '../EditForm/EditForm';
+import EditSubmitBtn from '../EditForm/EditSubmitBtn';
 
 // Typescript interface
 interface EditFirstnameProps {
   firstname: string | undefined;
 }
 
-
 export default function EditFirstname({ firstname }: EditFirstnameProps) {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
+  const regExps = useAppSelector((state) => state.regexps.user.firstname);
 
   // Local states
   const [editFirstname, setEditFirstname] = useState<boolean>(false);
@@ -44,29 +47,31 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
 
     const formValues = { ...user, ...formData };
 
-    dispatch(editUser(formValues));
-    setEditFirstname(false);
+    if (regExps.test(firstnameValue as string)) {
+      dispatch(editCollaborator(formValues));
+      setEditFirstname(false);
+    } else {
+      toast.error('Votre prénom doit avoir au moins un caractère', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
   };
 
   return (
     <PersonnalInfo clickHandler={handleEditLastname} label="Prénom">
       {editFirstname ? (
-        <form onSubmit={handleSubmit}>
+        <EditForm submitMethod={handleSubmit}>
           <Input
             inputName="firstname"
             className="relative"
             value={firstnameValue}
             onChange={setFirstnameValue}
-            placeholder="Entrez votre nom"
+            placeholder="Entrez votre prénom"
+            regExp={regExps}
           >
-            <button
-              type="submit"
-              className="absolute z-10 flex gap-2 p-[0.35rem] font-semibold rounded-md top-1/2 right-2 translate-y-[-50%] text-secondary-50 bg-primary-300 hover:shadow-primary duration-300"
-            >
-              Ok <img src={checkIcon} alt="check" />
-            </button>
+            <EditSubmitBtn />
           </Input>
-        </form>
+        </EditForm>
       ) : (
         <p className="md:text-lg">{firstname}</p>
       )}

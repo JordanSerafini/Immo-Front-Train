@@ -5,7 +5,12 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { hideAddInfoModal, hideCancelConfirmationAddInfoModalOpen, hideCancelConfirmationModal } from '../../../store/reducers/modal';
+import {
+  hideAddInfoModal,
+  hideCancelConfirmationAddInfoModalOpen,
+  hideCancelConfirmationModal,
+  hideCreateAccountModal,
+} from '../../../store/reducers/modal';
 
 // Components
 import Modal from '../Modal';
@@ -16,23 +21,29 @@ import CancelButton from '../../SharedComponents/Buttons/CancelButton';
 interface CancelModalProps {
   closeModal: () => void;
   content: string;
+  redirectPath?: string;
 }
 
-export default function CancelModal({ closeModal, content }: CancelModalProps) {
+function CancelModal({
+  closeModal,
+  content,
+  redirectPath = '/app/prospection',
+}: CancelModalProps) {
   const dispatch = useAppDispatch();
   const closeAllModal = () => {
-    dispatch(hideAddInfoModal())
-    dispatch(hideCancelConfirmationModal())
-    dispatch(hideCancelConfirmationAddInfoModalOpen())
-  }
+    dispatch(hideAddInfoModal());
+    dispatch(hideCancelConfirmationModal());
+    dispatch(hideCancelConfirmationAddInfoModalOpen());
+    dispatch(hideCreateAccountModal());
+  };
 
   return (
     <Modal closeModal={closeModal}>
       <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
         <h1 className="text-lg font-semibold text-center ">{content}</h1>
         <div className="flex flex-wrap justify-center gap-10">
-          <Link to="/app/prospection">
-          <ValidButton content="Confirmer" onClickMethod={closeAllModal} />
+          <Link to={redirectPath}>
+            <ValidButton content="Confirmer" onClickMethod={closeAllModal} />
           </Link>
           <CancelButton content="Annuler" onClickMethod={closeModal} />
         </div>
@@ -40,3 +51,9 @@ export default function CancelModal({ closeModal, content }: CancelModalProps) {
     </Modal>
   );
 }
+
+CancelModal.defaultProps = {
+  redirectPath: '/app/prospection',
+};
+
+export default CancelModal;

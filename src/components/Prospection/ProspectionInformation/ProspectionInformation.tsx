@@ -35,14 +35,14 @@ export default function ProspectionInformation({
   const dispatch = useAppDispatch();
 
   let icon: string;
-  switch (type) {
-    case 'Maison':
+  switch (type.toLowerCase()) {
+    case 'maison':
       icon = houseIcon;
       break;
-    case 'Appartement':
+    case 'appartement':
       icon = apartmentIcon;
       break;
-    case 'Terrain':
+    case 'terrain':
       icon = landIcon;
       break;
     default:
@@ -56,7 +56,7 @@ export default function ProspectionInformation({
   };
 
   return (
-    <article className="p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
+    <article className="flex flex-col justify-between p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
         <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
         <p className="font-bold md:text-md xl:text-lg">{`${address_number} ${address_street} ${code_zip} ${address_city}`}</p>
