@@ -140,7 +140,6 @@ export default function Detail() {
           </p>
         <LeafletMap {...information} />
         </section>
-    </MainSection>
     </>
   );
 }
