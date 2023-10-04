@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
 import { hideNavBar } from '../../store/reducers/navbar';
-import { logout } from '../../store/reducers/user';
-import { resetInformations } from '../../store/reducers/informations';
+import { logout } from '../../store/reducers/collaborator';
+import { resetInformations } from '../../store/reducers/information';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
@@ -26,8 +26,8 @@ export default function NavBar() {
   const dispatch = useAppDispatch();
 
   // Redux states
-  const user = useAppSelector((state) => state.user.data);
-  const { loading } = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.collaborator.user);
+  const { loading } = useAppSelector((state) => state.collaborator);
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 

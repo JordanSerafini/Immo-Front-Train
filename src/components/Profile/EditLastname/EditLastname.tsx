@@ -7,7 +7,7 @@ import { FormEvent, useState } from 'react';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { editUser } from '../../../store/reducers/user';
+import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
@@ -31,7 +31,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
   const dispatch = useAppDispatch();
 
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
 
   // Handlers Methods
   const handleEditLastname = () => {
@@ -47,7 +47,7 @@ export default function EditLastname({ lastname }: EditLastnameProps) {
     const formValues = { ...user, ...formData };
 
     if (regExps.test(lastnameValue as string)) {
-      dispatch(editUser(formValues));
+      dispatch(editCollaborator(formValues));
       setEditLastname(false);
     } else {
       toast.error('Votre nom doit avoir au moins un caractère', {

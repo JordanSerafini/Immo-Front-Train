@@ -13,6 +13,9 @@ import {
 } from '../../../store/reducers/modal';
 import { createCollaborator } from '../../../store/reducers/collaborator';
 
+// Components
+import PasswordStrength from './PasswordStrength';
+
 // Shared Components
 import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
@@ -43,12 +46,15 @@ export default function CreateAccountModal() {
     (state) => state.modal.isCancelConfirmationModalOpen
   );
   const regExps = useAppSelector((state) => state.regexps.user);
+  const passwordRegExps = useAppSelector(
+    (state) => state.regexps.passwordStrength
+  );
 
   // Local States
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   // Controlled Inputs states
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
+  // const [avatarUrl, setAvatarUrl] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -102,7 +108,7 @@ export default function CreateAccountModal() {
       }
     } else {
       dispatch(createCollaborator({ formData: formEntries }));
-      dispatch(hideCreateAccountModal())
+      dispatch(hideCreateAccountModal());
     }
   };
 
@@ -136,7 +142,7 @@ export default function CreateAccountModal() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-8 lg:w-[600px] m-10"
+        className="flex flex-col gap-8 lg:w-[600px] my-5 mx-10"
       >
         <MemoizedInput
           placeholder="Nom"
@@ -189,11 +195,25 @@ export default function CreateAccountModal() {
           onChange={setPassword}
         />
 
-        <div className="-mt-5">
-          <p className="font-medium text-md font-poppins text-secondary-700">
+        <div className="-mt-5 text-secondary-700">
+          <p className="italic font-semibold text-secondary-600">
+            Le mot de passe doit contenir au mieux 8 caractères, un symbole et
+            un chiffre
+          </p>
+          <p className="font-medium text-center text-md font-poppins">
             Force du mot de passe
           </p>
-          <p>feature incoming</p>
+          <section className="grid grid-cols-3 gap-4">
+            {passwordRegExps.weak.test(password) && (
+              <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
+            )}
+            {passwordRegExps.medium.test(password) && (
+              <PasswordStrength content="Moyen" tailwindColor="bg-orange-500" />
+            )}
+            {passwordRegExps.strong.test(password) && (
+              <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
+            )}
+          </section>
         </div>
 
         <MemoizedInput
@@ -224,7 +244,7 @@ export default function CreateAccountModal() {
           <CancelModal
             closeModal={() => dispatch(hideCancelConfirmationModal())}
             content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
-            redirectPath="/admin/panel"
+            redirectPath="/admin/collaborator"
           />,
           document.body
         )}

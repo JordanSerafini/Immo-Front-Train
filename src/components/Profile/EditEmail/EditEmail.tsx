@@ -7,7 +7,7 @@ import { FormEvent, useState } from 'react';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { editUser } from '../../../store/reducers/user';
+import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
@@ -22,7 +22,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
   const dispatch = useAppDispatch();
 
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
 
   // Local states
   const [editEmail, setEditEmail] = useState<boolean>(false);
@@ -44,7 +44,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
 
 
     if (regExps.test(emailValue as string)) {
-      dispatch(editUser(formValues));
+      dispatch(editCollaborator(formValues));
       setEditEmail(false);
     } else {
       toast.error("Votre email n'est pas valide.", {

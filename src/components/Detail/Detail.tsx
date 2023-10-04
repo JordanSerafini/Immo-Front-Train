@@ -22,9 +22,9 @@ export default function Detail() {
   const dispatch = useAppDispatch();
 
   // Redux state
-  const information = useAppSelector((state) => state.info.data);
-  const isLoading = useAppSelector((state) => state.info.loading);
-  const isError = useAppSelector((state) => state.info.error);
+  const information = useAppSelector((state) => state.information.information);
+  const isLoading = useAppSelector((state) => state.information.loading);
+  const isError = useAppSelector((state) => state.information.error);
 
   const { infoId } = useParams();
 

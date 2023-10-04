@@ -12,7 +12,7 @@ import filteredActionToDo from '../../utils/filteredActionToDo';
 
 export default function ActionToDo() {
   const informations = useAppSelector(
-    (state) => state.information.informations
+    (state) => state.information.data
   );
 
   const actionToDo = filteredActionToDo(informations);

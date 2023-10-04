@@ -23,7 +23,8 @@ import ActionManager from '../ActionManager/ActionManager';
 import UpcomingAction from '../UpcomingAction/UpcomingAction';
 
 // Admin
-import Panel from '../Panel/Panel';
+import SectorManager from '../SectorManager/SectorManager';
+import CollaboratorManager from '../CollaboratorManager/CollaboratorManager';
 import DashBoard from '../DashBoard/DashBoard';
 
 // 404 - Error
@@ -57,13 +58,17 @@ function App() {
           </Route>
 
           <Route path="/admin" element={<InitAdmin />}>
-            <Route path="/admin/panel" element={<Panel />} />
+            <Route
+              path="/admin/collaborator"
+              element={<CollaboratorManager />}
+            />
+            <Route path="/admin/sector" element={<SectorManager />} />
             <Route path="/admin/dashboard" element={<DashBoard />} />
           </Route>
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
-      <ToastContainer autoClose={2000} />
+        <ToastContainer autoClose={2000} />
       </div>
     </BrowserRouter>
   );

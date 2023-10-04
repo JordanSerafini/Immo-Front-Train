@@ -13,7 +13,7 @@ import {
   createInformation,
   createInformationAndAction,
   updateInformation,
-} from '../../../store/reducers/informations';
+} from '../../../store/reducers/information';
 
 // Store
 import {
@@ -56,7 +56,7 @@ function NextActionModal({
   );
 
   // Redux state
-  const collaboratorId = useAppSelector((state) => state.user.data.id);
+  const collaboratorId = useAppSelector((state) => state.collaborator.user.id);
 
   // Methods
   const closeAllModal = () => {

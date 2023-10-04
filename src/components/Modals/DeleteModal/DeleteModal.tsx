@@ -8,15 +8,17 @@ import { useAppDispatch } from '../../../hooks/redux';
 import Modal from '../Modal';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import CancelButton from '../../SharedComponents/Buttons/CancelButton';
-import { deleteInformation } from '../../../store/reducers/informations';
+import { deleteInformation } from '../../../store/reducers/information';
+import { deleteCollaborator } from '../../../store/reducers/collaborator';
 
 // Typescript interface
 interface DeleteModalProps {
   closeModal: () => void;
   content: string;
+  deleteUser: boolean;
 }
 
-export default function DeleteModal({ closeModal, content }: DeleteModalProps) {
+export default function DeleteModal({ closeModal, content, deleteUser }: DeleteModalProps) {
   const dispatch = useAppDispatch();
   // Get the url
   const location = useLocation();
@@ -25,7 +27,13 @@ export default function DeleteModal({ closeModal, content }: DeleteModalProps) {
 
   const handleConfirmClick = () => {
     closeModal();
-    dispatch(deleteInformation({ id }));
+
+    if (deleteUser) {
+      dispatch(deleteCollaborator({ id }))
+    } else {
+      dispatch(deleteInformation({ id }));
+
+    }
   };
 
   return (

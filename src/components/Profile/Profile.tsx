@@ -12,7 +12,7 @@ import portrait from '../../assets/images/portrait_01.png';
 
 export default function Profile() {
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
 
   return (
     <>

@@ -13,7 +13,7 @@ import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
 
 export default function UpcomingAction() {
   const informations = useAppSelector(
-    (state) => state.information.informations
+    (state) => state.information.data
   );
 
   const upcomingAction = filteredUpcomingAction(informations)
