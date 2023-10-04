@@ -113,6 +113,8 @@ export default function Prospection() {
         {filteredInformations.map((information: Information) => (
           <ProspectionInformation key={information.id} {...information} />
         ))}
+
+        {!filteredInformations.length && <p className='text-lg font-semibold text-center'>Pas encore d&apos;information...</p>}
       </section>
       {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}

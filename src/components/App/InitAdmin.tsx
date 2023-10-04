@@ -48,7 +48,7 @@ export default function InitAdmin() {
         setFlag(true);
         dispatch(fetchCollaborators());
       }
-      if (!sectors.length && !isSectorsLoading) {
+      if (!flag && !sectors.length && !isSectorsLoading) {
         dispatch(fetchSectors());
       }
 
