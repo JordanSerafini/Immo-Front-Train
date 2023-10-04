@@ -7,7 +7,7 @@ import { FormEvent, useState } from 'react';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { editUser } from '../../../store/reducers/user';
+import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
@@ -24,7 +24,7 @@ export default function EditPhone({
   const dispatch = useAppDispatch();
 
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
 
   // Local states
   const [editPhoneNumber, setEditPhoneNumber] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export default function EditPhone({
     const formValues = { ...user, ...formData };
 
     if (regExps.test(phoneNumberValue as string)) {
-      dispatch(editUser(formValues));
+      dispatch(editCollaborator(formValues));
       setEditPhoneNumber(false);
     } else {
       toast.error("Votre numéro de téléphone doit contenir 10 chiffres.", {

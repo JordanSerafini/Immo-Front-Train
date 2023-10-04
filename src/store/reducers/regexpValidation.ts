@@ -9,6 +9,9 @@ interface InitialState {
   information: {
     [key: string]: RegExp;
   };
+  passwordStrength: {
+    [key: string]: RegExp;
+  };
 }
 
 export const initialState: InitialState = {
@@ -34,6 +37,14 @@ export const initialState: InitialState = {
     action: /^.+.{5,}$/m,
     description: /^.+.{5,}$/m,
   },
+  passwordStrength: {
+    // Any char
+    weak: /^(?=.*[a-z])/,
+    // Any char with number
+    medium: /^(?=.*[a-z])(?=.*[0-9])/,
+    // Any char, with number, with symbol, between 8 & 20 char
+    strong: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+  }
 };
 
 const getRegexps = createAction('regexp/get');

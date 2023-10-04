@@ -7,7 +7,7 @@ import { FormEvent, useState } from 'react';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { editUser } from '../../../store/reducers/user';
+import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from '../PersonnalInfo/PersonnalInfo';
@@ -25,7 +25,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
   const dispatch = useAppDispatch();
 
   // Redux state
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
   const regExps = useAppSelector((state) => state.regexps.user.firstname);
 
   // Local states
@@ -48,7 +48,7 @@ export default function EditFirstname({ firstname }: EditFirstnameProps) {
     const formValues = { ...user, ...formData };
 
     if (regExps.test(firstnameValue as string)) {
-      dispatch(editUser(formValues));
+      dispatch(editCollaborator(formValues));
       setEditFirstname(false);
     } else {
       toast.error('Votre prénom doit avoir au moins un caractère', {

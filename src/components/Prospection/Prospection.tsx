@@ -38,9 +38,7 @@ export default function Prospection() {
   const dispatch = useAppDispatch();
 
   // Redux States
-  const informations = useAppSelector(
-    (state) => state.information.informations
-  );
+  const informations = useAppSelector((state) => state.information.data);
   const filteredInformations = useAppSelector(
     (state) => state.information.filteredInformations
   );
@@ -122,6 +120,7 @@ export default function Prospection() {
       {deleteModal &&
         createPortal(
           <DeleteModal
+            deleteUser={false}
             closeModal={() => dispatch(hideDeleteConfirmationModal())}
             content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
           />,

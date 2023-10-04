@@ -21,7 +21,7 @@ export default function SectorCard({ city, code_zip, color_code }: Sector) {
         <h3 className="flex gap-2 text-center">
           Attribué à <img src={pencilIcon} alt="Pencil Icon" />
         </h3>
-        <p className='text-center'>Amandine LEROUX</p>
+        <p className='text-center'>Collaborator</p>
       </div>
 
       <div className="flex flex-col items-center gap-4">

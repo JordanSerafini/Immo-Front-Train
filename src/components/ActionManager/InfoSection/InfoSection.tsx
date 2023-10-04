@@ -33,7 +33,7 @@ export default function InfoSection({
     date
 }: Information) {
     // Redux state
-    const collaborator = useAppSelector((state) => state.user.data);
+    const collaborator = useAppSelector((state) => state.collaborator.user);
 
     let icon: string;
     switch (type.toLowerCase()) {
