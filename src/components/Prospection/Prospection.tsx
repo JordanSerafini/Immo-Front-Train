@@ -39,7 +39,7 @@ export default function Prospection() {
 
   // Redux States
   const informations = useAppSelector(
-    (state) => state.information.informations
+    (state) => state.information.data
   );
   const filteredInformations = useAppSelector(
     (state) => state.information.filteredInformations

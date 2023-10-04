@@ -38,6 +38,7 @@ export const initialState: UserState = {
     role_id: undefined,
     url: undefined,
     logged: false,
+    avatar_id: undefined,
   },
 };
 

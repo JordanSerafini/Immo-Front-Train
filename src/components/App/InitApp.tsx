@@ -30,7 +30,7 @@ export default function InitApp() {
   const user = useAppSelector((state) => state.user.data);
 
   const informations = useAppSelector(
-    (state) => state.information.informations
+    (state) => state.information.data
   );
   const isInformationLoading = useAppSelector(
     (state) => state.information.loading

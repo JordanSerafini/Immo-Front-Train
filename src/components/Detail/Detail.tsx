@@ -8,7 +8,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { fetchInformation } from '../../store/reducers/information';
+import { fetchInformation } from '../../store/reducers/informations';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
@@ -22,9 +22,9 @@ export default function Detail() {
   const dispatch = useAppDispatch();
 
   // Redux state
-  const information = useAppSelector((state) => state.info.data);
-  const isLoading = useAppSelector((state) => state.info.loading);
-  const isError = useAppSelector((state) => state.info.error);
+  const information = useAppSelector((state) => state.information.information);
+  const isLoading = useAppSelector((state) => state.information.loading);
+  const isError = useAppSelector((state) => state.information.error);
 
   const { infoId } = useParams();
 

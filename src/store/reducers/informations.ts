@@ -25,19 +25,25 @@ import { ErrorType } from '../../@types/error';
 interface InformationsState {
   loading: boolean;
   error: boolean;
-  informations: Information[];
+  data: Information[];
+  information: Information | null;
   filteredInformations: Information[];
 }
 
+// Initial State
 export const initialState: InformationsState = {
   loading: false,
   error: false,
-  informations: [],
+  data: [],
+  information: null,
   filteredInformations: [],
 };
 
+// ACTIONS
 export const resetInformations = createAction('informations/reset');
 
+// THUNK MIDDLEWARE
+// Get all informations
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
@@ -47,7 +53,25 @@ export const fetchInformations = createAsyncThunk(
   }
 );
 
-export const filterInformation = createAction(
+// Get one information
+export const fetchInformation = createAsyncThunk(
+  'information/APICall',
+  async ({ id }: { id: string | undefined }) => {
+    try {
+      const response = await axiosInstance.get(`/informations/${id}`);
+
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
+  }
+);
+
+// Filter informations
+export const filterInformations = createAction(
   'informations/filter',
   function filter(slug: string) {
     return {
@@ -58,6 +82,7 @@ export const filterInformation = createAction(
   }
 );
 
+// Create information
 export const createInformation = createAsyncThunk(
   'information/create',
   async ({ formData }: { formData: Information }) => {
@@ -74,6 +99,7 @@ export const createInformation = createAsyncThunk(
   }
 );
 
+// Update information
 export const updateInformation = createAsyncThunk(
   'information/update',
   async (information: Information) => {
@@ -95,6 +121,7 @@ export const updateInformation = createAsyncThunk(
   }
 );
 
+// Create information and action
 export const createInformationAndAction = createAsyncThunk(
   'information/createWithAction',
   async ({ formData }: { formData: Information & Action }) => {
@@ -125,6 +152,7 @@ export const createInformationAndAction = createAsyncThunk(
   }
 );
 
+// Delete information
 export const deleteInformation = createAsyncThunk(
   'information/delete',
   async ({ id }: { id: string }) => {
@@ -146,9 +174,10 @@ const informationsReducer = createReducer(initialState, (builder) => {
     // Get All Informations
     .addCase(fetchInformations.pending, (state) => {
       state.loading = true;
+      state.error = false;
     })
     .addCase(fetchInformations.fulfilled, (state, action) => {
-      state.informations = action.payload;
+      state.data = action.payload;
       state.filteredInformations = action.payload;
 
       state.loading = false;
@@ -161,12 +190,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(filterInformation, (state, action) => {
+    .addCase(filterInformations, (state, action) => {
       const { slug } = action.payload;
 
       const slugLC = slug.toLowerCase();
 
-      const filteredInfos = state.informations.filter((info) => {
+      const filteredInfos = state.data.filter((info) => {
         const address = `${
           info.address_number
         } ${info.address_street.toLowerCase()} ${
@@ -183,14 +212,32 @@ const informationsReducer = createReducer(initialState, (builder) => {
       });
 
       if (!slug.length) {
-        state.filteredInformations = state.informations;
+        state.filteredInformations = state.data;
       } else {
         state.filteredInformations = filteredInfos;
       }
     })
+    // Get one information
+    .addCase(fetchInformation.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    })
+    .addCase(fetchInformation.fulfilled, (state, action) => {
+      state.information = action.payload;
+
+      state.loading = false;
+    })
+    .addCase(fetchInformation.rejected, (state, action) => {
+      state.error = true;
+      state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
     // CreateInformation
     .addCase(createInformation.fulfilled, (state, action) => {
-      state.informations.push(action.payload.data.result);
+      state.data.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
 
       toast.success('Votre information à bien été créée !', {
@@ -205,7 +252,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     })
     // CreateInformation WITH Action
     .addCase(createInformationAndAction.fulfilled, (state, action) => {
-      state.informations.push(action.payload.data.result);
+      state.data.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
 
       toast.success('Votre information et votre action ont bien été créées !', {
@@ -218,13 +265,12 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(updateInformation.pending, (state, action) => {
-      // eslint-disable-next-line no-console
-      console.log(action.payload);
+    .addCase(updateInformation.pending, (state) => {
+      state.error = false;
     })
     // UpdateInformation
     .addCase(updateInformation.fulfilled, (state, action) => {
-      state.informations = action.payload;
+      state.data = action.payload;
       state.filteredInformations = action.payload;
 
       state.loading = false;
@@ -244,7 +290,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(deleteInformation.fulfilled, (state, action) => {
       const deletedId = parseInt(action.payload, 10);
 
-      state.informations = state.informations.filter(
+      state.data = state.data.filter(
         (info) => info.id !== deletedId
       );
       state.filteredInformations = state.filteredInformations.filter(

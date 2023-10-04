@@ -12,8 +12,8 @@ export default function ActionSection({ infoId }: { infoId: number }) {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
-  const actions = useAppSelector((state) => state.actions.data);
-  const isActionLoading = useAppSelector((state) => state.actions.loading);
+  const actions = useAppSelector((state) => state.action.data);
+  const isActionLoading = useAppSelector((state) => state.action.loading);
 
   useEffect(() => {
     dispatch(fetchActions({ infoId }));

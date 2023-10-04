@@ -244,7 +244,7 @@ export default function CreateAccountModal() {
           <CancelModal
             closeModal={() => dispatch(hideCancelConfirmationModal())}
             content="Votre progression sera supprimée, vous allez être redirigé vers la page d'accueil, confirmez-vous l'annulation ?"
-            redirectPath="/admin/panel"
+            redirectPath="/admin/collaborator"
           />,
           document.body
         )}

@@ -5,7 +5,7 @@ import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { filterInformation } from '../../../store/reducers/informations';
+import { filterInformations } from '../../../store/reducers/informations';
 
 // Assets
 import search from '../../../assets/icons/search.svg';
@@ -21,7 +21,7 @@ export default function SearchInput() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(filterInformation(searchValue));
+    dispatch(filterInformations(searchValue));
   };
 
   return (
