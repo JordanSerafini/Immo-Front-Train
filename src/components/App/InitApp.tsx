@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
   fetchInformations,
   resetInformations,
-} from '../../store/reducers/informations';
-import { setUserWithStorage } from '../../store/reducers/user';
+} from '../../store/reducers/information';
+import { setUserWithStorage } from '../../store/reducers/collaborator';
 
 // Axios
 import axiosInstance from '../../utils/axios';
@@ -27,7 +27,7 @@ export default function InitApp() {
   const navigate = useNavigate();
 
   // Redux States
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
 
   const informations = useAppSelector(
     (state) => state.information.data

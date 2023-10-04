@@ -8,7 +8,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { fetchInformation } from '../../store/reducers/informations';
+import { fetchInformation } from '../../store/reducers/information';
 
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';

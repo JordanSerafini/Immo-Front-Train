@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../../hooks/redux';
 import Modal from '../Modal';
 import ValidButton from '../../SharedComponents/Buttons/ValidButton';
 import CancelButton from '../../SharedComponents/Buttons/CancelButton';
-import { deleteInformation } from '../../../store/reducers/informations';
+import { deleteInformation } from '../../../store/reducers/information';
 
 // Typescript interface
 interface DeleteModalProps {

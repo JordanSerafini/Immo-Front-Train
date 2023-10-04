@@ -20,9 +20,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   // Redux State
-  const isLogged = useAppSelector((state) => state.user.data.logged);
+  const isLogged = useAppSelector((state) => state.collaborator.user.logged);
   // 1 ===  ADMIN // 2 === COLLABORATOR
-  const roleId = useAppSelector((state) => state.user.data.role_id);
+  const roleId = useAppSelector((state) => state.collaborator.user.role_id);
 
   useEffect(() => {
     // Once the user is connected, we can redirect him to the "/app/prospection" if COLLABORATOR or "/admin/panel" if ADMIN

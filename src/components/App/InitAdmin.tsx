@@ -8,8 +8,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { setUserWithStorage } from '../../store/reducers/user';
-import { fetchCollaborators } from '../../store/reducers/collaborator';
+import { setUserWithStorage, fetchCollaborators } from '../../store/reducers/collaborator';
 import { fetchSectors } from '../../store/reducers/sector';
 
 // Axios
@@ -25,7 +24,7 @@ export default function InitAdmin() {
   const navigate = useNavigate();
 
   // Redux States
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.collaborator.user);
   const collaborators = useAppSelector((state) => state.collaborator.data);
   const isCollaboratorsLoading = useAppSelector(
     (state) => state.collaborator.loading
@@ -47,7 +46,6 @@ export default function InitAdmin() {
 
       if (!flag && !collaborators.length && !isCollaboratorsLoading) {
         setFlag(true);
-        console.log("fetch Collabs")
         dispatch(fetchCollaborators());
       }
       if (!sectors.length && !isSectorsLoading) {

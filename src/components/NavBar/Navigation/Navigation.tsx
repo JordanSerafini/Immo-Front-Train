@@ -20,7 +20,7 @@ export default function Navigation({
   closeNavBarMethod: () => void;
 }) {
   // Redux state
-  const roleId = useAppSelector((state) => state.user.data.role_id);
+  const roleId = useAppSelector((state) => state.collaborator.user.role_id);
 
   // If you want to add a link to the navbar, you just need to add it into the linkItems array
   const collaboratorLinks = [

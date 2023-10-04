@@ -5,7 +5,7 @@ import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../../hooks/redux';
 
 // Store
-import { filterInformations } from '../../../store/reducers/informations';
+import { filterInformations } from '../../../store/reducers/information';
 
 // Assets
 import search from '../../../assets/icons/search.svg';

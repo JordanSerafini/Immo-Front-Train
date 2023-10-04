@@ -30,7 +30,7 @@ interface InformationsState {
   filteredInformations: Information[];
 }
 
-// Initial State
+// INITIAL STATE
 export const initialState: InformationsState = {
   loading: false,
   error: false,
