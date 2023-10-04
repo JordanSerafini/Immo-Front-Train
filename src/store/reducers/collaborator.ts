@@ -3,7 +3,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Redux toolkit
-import { createAsyncThunk, createReducer, createAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createReducer,
+  createAction,
+} from '@reduxjs/toolkit';
 
 // Axios types
 import { AxiosError } from 'axios';
@@ -132,6 +136,26 @@ export const editCollaborator = createAsyncThunk(
   }
 );
 
+// Update only access
+export const updateAccess = createAsyncThunk(
+  'user/updateAccess',
+  async (formData: User) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/collaborator/${formData.id}`,
+        formData
+      );
+
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
+  }
+);
+
 const collaboratorReducer = createReducer(initialState, (builder) => {
   builder
     // LOGIN
@@ -146,25 +170,33 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      const { token } = action.payload.data;
-      // We check if the user is successfully connected
-      if (token) {
-        localStorage.setItem('accessToken', token);
-        // The token goes to the axios headers
-        axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+      const access = action.payload.data.result.acces;
 
-        // We want to delete the password to not send it into our redux state
-        delete action.payload.data.result.password;
+      if (access) {
+        const { token } = action.payload.data;
+        // We check if the user is successfully connected
+        if (token) {
+          localStorage.setItem('accessToken', token);
+          // The token goes to the axios headers
+          axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-        const user = { ...action.payload.data.result, logged: true };
-        state.user = user;
+          // We want to delete the password to not send it into our redux state
+          delete action.payload.data.result.password;
 
-        // Set User into the local storage
-        localStorage.setItem('user', JSON.stringify(user));
-      }
+          const user = { ...action.payload.data.result, logged: true };
+          state.user = user;
 
-      if (state.user.logged) {
-        toast.info("Bienvenue sur votre application Immo'Pros", {
+          // Set User into the local storage
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+
+        if (state.user.logged) {
+          toast.info("Bienvenue sur votre application Immo'Pros", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        }
+      } else {
+        toast.info("Vous n'êtes pas autorisé à accéder à l'application.", {
           position: toast.POSITION.BOTTOM_CENTER,
         });
       }
@@ -249,6 +281,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.user.lastname = action.payload.data.result.lastname;
       state.user.phone = action.payload.data.result.phone;
       state.user.email = action.payload.data.result.email;
+      state.user.acces = action.payload.data.result.acces;
 
       // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
       localStorage.setItem('user', JSON.stringify(state.user));
@@ -258,6 +291,45 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       });
     })
     .addCase(editCollaborator.rejected, (state, action) => {
+      state.error = true;
+      state.loading = false;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    // Update Access
+    .addCase(updateAccess.pending, (state) => {
+      state.error = false;
+    })
+    .addCase(updateAccess.fulfilled, (state, action) => {
+      const updatedCollaborator = action.payload.data.result;
+
+      // Our updateCollaborator Thunk returns our new collab
+      state.data = state.data.map((collaborator) => {
+        // So if we found it into our state.data
+        if (collaborator.id === updatedCollaborator.id) {
+          // We return it with his url
+          return { ...updatedCollaborator, url: collaborator.url };
+        }
+        // Otherwise, we return all of others collabs
+        return collaborator;
+      });
+
+      // This map could be avoided with immer produce but we don't set state.data with immer with our fetchCollabs so..
+
+      toast.success(
+        `${
+          updatedCollaborator.firstname
+        } ${updatedCollaborator.lastname.toUpperCase()} ${
+          updatedCollaborator.acces ? 'a accès' : "n'as plus accès"
+        } à l'application.`,
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
+    })
+    .addCase(updateAccess.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
 

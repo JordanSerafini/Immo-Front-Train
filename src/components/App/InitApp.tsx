@@ -29,9 +29,7 @@ export default function InitApp() {
   // Redux States
   const user = useAppSelector((state) => state.collaborator.user);
 
-  const informations = useAppSelector(
-    (state) => state.information.data
-  );
+  const informations = useAppSelector((state) => state.information.data);
   const isInformationLoading = useAppSelector(
     (state) => state.information.loading
   );

@@ -1,5 +1,8 @@
 // Redux
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
+
+// Reducers
+import { updateAccess } from '../../../store/reducers/collaborator';
 
 // Selector
 import { findCollaborator } from '../../../store/selectors/collaborator';
@@ -19,12 +22,25 @@ export default function CollabCard({
   acces,
   url,
 }: User) {
+  // Hook Execution order
+  const dispatch = useAppDispatch();
+
   // Selector
   const user = useAppSelector(findCollaborator(id as number));
 
+  // Improvments to make here
+  if (!user) {
+    return <p className='text-xl font-semibold text-center'>Pas de collaborateur à afficher</p>
+  }
+
   // Handler
   const handleAcces = () => {
-    console.log(user);
+    const formData = {
+      ...user,
+      acces: !user.acces
+    }
+
+    dispatch(updateAccess(formData))
   };
 
   return (

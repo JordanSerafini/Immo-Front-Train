@@ -21,19 +21,20 @@ export default function Login() {
 
   // Redux State
   const isLogged = useAppSelector((state) => state.collaborator.user.logged);
+  const access = useAppSelector((state) => state.collaborator.user.acces);
   // 1 ===  ADMIN // 2 === COLLABORATOR
   const roleId = useAppSelector((state) => state.collaborator.user.role_id);
 
   useEffect(() => {
     // Once the user is connected, we can redirect him to the "/app/prospection" if COLLABORATOR or "/admin/panel" if ADMIN
-    if (isLogged) {
+    if (isLogged && access) {
       if (roleId === 1) {
-        navigate('/admin/dashboard')
+        navigate('/admin/dashboard');
       } else {
         navigate('/app/prospection');
       }
     }
-  }, [roleId, isLogged, navigate]);
+  }, [roleId, isLogged, navigate, access]);
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
