@@ -67,7 +67,7 @@ export default function NavBar() {
         ) : (
           <>
             {/* LOGO */}
-            <Logo className="hidden sm:block sm:my-5" />
+            <Logo path={user.role_id === 2 ? '/app/prospection' : '/admin/collaborator'} className="hidden sm:block sm:my-5" />
 
             {/* PROFILE SECTION */}
             <ProfileSection {...user} closeNavBarMethod={closeNavBar} />
