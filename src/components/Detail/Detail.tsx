@@ -10,9 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // Store
 import { fetchInformation } from '../../store/reducers/information';
 
-
 // Components
-import MainSection from '../SharedComponents/MainSection/MainSection';
 import LeafletMap from './LeafletMap';
 
 // Assets
@@ -22,19 +20,18 @@ import loader from '../../assets/loader/tail-spin.svg';
 // Utils
 import capFirstLetter from '../../utils/capFirstLetter';
 
-// Typescript interface
-import { Information } from '../../@types/information';
-
 export default function Detail() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
 
+  // Local State
+  const defaultLong = 2.29449;
+  const defaultLat = 48.8584;
 
   // Redux state
   const information = useAppSelector((state) => state.information.information);
   const isLoading = useAppSelector((state) => state.information.loading);
   const isError = useAppSelector((state) => state.information.error);
-
 
   const { infoId } = useParams();
 
@@ -64,7 +61,7 @@ export default function Detail() {
     );
   }
 
-  if(!information || isError) {
+  if (!information || isError) {
     return (
       <>
         <div className="flex items-center gap-6 mt-5">
@@ -79,7 +76,7 @@ export default function Detail() {
         </div>
         <p>Pas d&apos;information</p>
       </>
-    )
+    );
   }
 
   return (
@@ -95,51 +92,55 @@ export default function Detail() {
         <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
       </div>
 
-      <section className="max-w-[800px] p-4 m-auto mt-10 rounded-lg shadow-custom bg-secondary-50">
-          {/* p style in "./detail.css" */}
-          <h2>Type de bien</h2>
-          <p className="md:text-lg">{information?.type}</p>
+      <section className="max-w-[800px] p-4 m-auto my-10 rounded-lg shadow-custom bg-secondary-50">
+        {/* p style in "./detail.css" */}
+        <h2>Type de bien</h2>
+        <p className="md:text-lg">{information.type}</p>
 
-          <h2 className="mt-4">Localisation</h2>
-          <p className="md:text-lg">
-            {information?.address_number} {information?.address_street}{' '}
-            {information?.code_zip}{' '}
-            {information?.address_city.toLocaleUpperCase()}
-          </p>
+        <h2 className="mt-4">Localisation</h2>
+        <p className="md:text-lg">
+          {information.address_number} {information.address_street}{' '}
+          {information.code_zip}{' '}
+          {information.address_city.toLocaleUpperCase()}
+        </p>
 
-          <h2 className="mt-4">Informations complémentaires:</h2>
-          <p className="md:text-lg">
-            {information?.address_info
-              ? `${information.address_info}`
-              : "Pas d'information complémentaires..."}
-          </p>
+        <h2 className="mt-4">Informations complémentaires:</h2>
+        <p className="md:text-lg">
+          {information?.address_info
+            ? `${information.address_info}`
+            : "Pas d'information complémentaires..."}
+        </p>
 
-          <h2 className="mt-4">Propriétaires</h2>
-          <p className="md:text-lg">{information?.owner_name}</p>
-          <p className="md:text-lg">{information?.owner_email}</p>
+        <h2 className="mt-4">Propriétaires</h2>
+        <p className="md:text-lg">{information.owner_name}</p>
+        <p className="md:text-lg">{information.owner_email}</p>
 
-          <h2 className="mt-4">Source de l&apos;information</h2>
-          <p className="md:text-lg">{information?.source}</p>
+        <h2 className="mt-4">Source de l&apos;information</h2>
+        <p className="md:text-lg">{information.source}</p>
 
-          <h2 className="mt-4">Catégorie</h2>
-          <p className="text-lg font-semibold text-accent-400 md:text-xl">
-            {information?.category}
-          </p>
+        <h2 className="mt-4">Catégorie</h2>
+        <p className="text-lg font-semibold text-accent-400 md:text-xl">
+          {capFirstLetter(information.category)}
+        </p>
 
-          <h2 className="mt-4">Commentaires</h2>
-          <p className="md:text-lg">
-            {information?.comment
-              ? `${information.comment}`
-              : 'Pas de commentaire...'}
-          </p>
+        <h2 className="mt-4">Commentaires</h2>
+        <p className="md:text-lg">
+          {information?.comment
+            ? `${information.comment}`
+            : 'Pas de commentaire...'}
+        </p>
 
-          <p className="mt-10 ml-auto">
-            <em className="italic">
-              Information créée le : {information?.date.slice(0, 10)}
-            </em>
-          </p>
-        <LeafletMap {...information} />
-        </section>
+        <p className="mt-10 ml-auto">
+          <em className="italic">
+            Information créée le : {information?.date.slice(0, 10)}
+          </em>
+        </p>
+        {(information.longitude === defaultLong && information.latitude === defaultLat) ? (
+          <p className='italic text-center'>Pas de carte à afficher...</p>
+        ) : (
+          <LeafletMap {...information} />
+        )}
+      </section>
     </>
   );
 }

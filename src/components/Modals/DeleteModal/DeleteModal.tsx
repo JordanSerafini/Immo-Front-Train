@@ -39,7 +39,7 @@ export default function DeleteModal({ closeModal, content, deleteUser }: DeleteM
   return (
     <Modal closeModal={closeModal}>
       <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
-        <h1 className="text-lg font-semibold text-center ">{content}</h1>
+        <h1 className="text-lg">{content}</h1>
         <div className="flex flex-wrap justify-center gap-10">
           <Link to={{ search: '' }}>
             <ValidButton
