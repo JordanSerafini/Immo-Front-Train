@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "lint": "tsc --noEmit && eslint src/**/*.{js,jsx,ts,tsx} --cache --max-warnings=0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "start": "tsc && vite build"
   },
   "dependencies": {
     "@react-leaflet/core": "^2.1.0",
