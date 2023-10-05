@@ -7,9 +7,6 @@
   "author": "Loris QUESADO <loris.quesado@oclock.school>",
   "version": "1.0.0",
   "description": "Packages for Immo'Pros app",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -17,7 +14,7 @@
     "lint": "tsc --noEmit && eslint src/**/*.{js,jsx,ts,tsx} --cache --max-warnings=0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "test": "vitest",
-    "start": "node dist/index.js"
+    "start": "vite preview"
   },
   "dependencies": {
     "@react-leaflet/core": "^2.1.0",
