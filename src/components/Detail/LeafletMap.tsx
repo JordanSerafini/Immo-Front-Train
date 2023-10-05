@@ -3,13 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Information } from '../../@types/information';
 import 'leaflet/dist/leaflet.css';
 
-function UpdateMapCenter({ center }: { center: [number, number] }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView(center);
-  }, [center, map]);
-  return null;
-}
+
 
 export default function LeafletMap({ owner_name, address_number, address_street, code_zip, address_city }: Information) {
 
