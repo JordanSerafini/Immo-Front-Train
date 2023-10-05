@@ -33,7 +33,6 @@ export default function Profile() {
 
   // Handlers
   const handleClick = () => {
-    console.log('coucou');
     dispatch(showUpdateAvatarModal());
   };
 
@@ -86,7 +85,7 @@ export default function Profile() {
         createPortal(
           <UpdateAvatarModal
             closeModal={() => dispatch(hideUpdateAvatarModal())}
-            content="Choisissez un nouvel avatar parmis la liste ci-dessous"
+            content="Choisissez un nouvel avatar parmi la liste ci-dessous"
           />,
           document.body
         )}

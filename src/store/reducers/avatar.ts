@@ -54,7 +54,6 @@ const avatarReducer = createReducer(initialState, (builder) => {
       state.error = false;
     })
     .addCase(fetchAvatars.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.data = action.payload;
 
       state.loading = false;
