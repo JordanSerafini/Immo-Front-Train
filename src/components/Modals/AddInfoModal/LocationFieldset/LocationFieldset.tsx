@@ -1,5 +1,5 @@
 // React Hooks
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 
 // Components
 import Fieldset from '../../Form/Fieldset';
@@ -12,6 +12,9 @@ interface LocationFieldsetProps {
 }
 
 export default function LocationFieldset({ typeState, regExps }: LocationFieldsetProps) {
+  // Ref
+  const focusRef = useRef<HTMLInputElement>(null)
+
   // RegExp Destructuring
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const {address_number, address_street, code_zip, address_city, address_info} = regExps
@@ -21,6 +24,10 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
   const [zipCode, setZipCode] = useState<string>('');
   const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
+
+  useEffect(() => {
+    focusRef.current?.focus();
+  }, [])
 
   return useMemo (() => (
     <Fieldset title="*Localisation">
@@ -35,6 +42,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
             inputName="address_number"
             label='N°'
             regExp={address_number}
+            inputRef={focusRef}
             isRequired
           />
           <MemoizedInput

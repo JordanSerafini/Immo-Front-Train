@@ -56,7 +56,7 @@ export default function NavBar() {
 
       {/* NAVBAR */}
       <header
-        className={`z-30 fixed flex shadow-custom flex-col items-center p-4 pt-[5vh] top-0 right-0 w-3/4 h-screen bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
+        className={`z-30 fixed flex shadow-custom flex-col items-center p-4 pt-[5vh] pb-[10vh] sm:py-2 top-0 right-0 w-3/4 h-full bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
           isNavBarOpen
             ? 'opacity-100 translate-x-[0%]'
             : 'translate-x-[100%] opacity-0'
@@ -69,14 +69,12 @@ export default function NavBar() {
             {/* LOGO */}
             <Logo className="hidden sm:block sm:my-5" />
 
-            <Divider />
-
             {/* PROFILE SECTION */}
             <ProfileSection {...user} closeNavBarMethod={closeNavBar} />
 
             <Divider />
 
-            <h2 className="my-5 text-2xl italic font-medium font-poppins">
+            <h2 className="my-2 italic font-medium sm:my-5">
               {user.role_id === 2 ? 'NÉGOCIATEUR' : 'ADMINISTRATEUR'}
             </h2>
 
@@ -95,7 +93,7 @@ export default function NavBar() {
             {/* DISCONNECT BUTTON */}
             <button
               type="button"
-              className="flex gap-2 p-3 my-4 duration-300 rounded-xl hover:bg-secondary-200"
+              className="flex gap-2 p-3 my-2 duration-300 rounded-xl hover:bg-secondary-200"
               onClick={handleLogout}
             >
               <img src={logoutIcon} alt="logout icon" />
