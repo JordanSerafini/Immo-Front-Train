@@ -8,7 +8,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { setUserWithStorage, fetchCollaborators } from '../../store/reducers/collaborator';
+import {
+  setUserWithStorage,
+  fetchCollaborators,
+} from '../../store/reducers/collaborator';
 import { fetchSectors } from '../../store/reducers/sector';
 
 // Axios
@@ -40,15 +43,14 @@ export default function InitAdmin() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    // !!! SECURITY ISSUE - We want to check if the user id admin. It's maybe a bad idea to set user with storage for the admin case !!!
-    if (accessToken) {
+    if (accessToken && user.role_id === 1) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       if (!flag && !collaborators.length && !isCollaboratorsLoading) {
         setFlag(true);
         dispatch(fetchCollaborators());
       }
-      if (!sectors.length && !isSectorsLoading) {
+      if (!flag && !sectors.length && !isSectorsLoading) {
         dispatch(fetchSectors());
       }
 
@@ -71,6 +73,7 @@ export default function InitAdmin() {
     navigate,
     sectors.length,
     user.id,
+    user.role_id,
   ]);
 
   return (
