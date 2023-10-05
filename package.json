@@ -7,6 +7,9 @@
   "author": "Loris QUESADO <loris.quesado@oclock.school>",
   "version": "1.0.0",
   "description": "Packages for Immo'Pros app",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
