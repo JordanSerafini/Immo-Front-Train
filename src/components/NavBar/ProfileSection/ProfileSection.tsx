@@ -13,7 +13,7 @@ export default function ProfileSection({
   closeNavBarMethod: () => void;
 }) {
   return (
-    <section className="flex flex-wrap items-center justify-center gap-5 py-6">
+    <section className="flex flex-col items-center justify-center gap-5 py-4 sm:py-6">
       <img
         className="rounded-full w-28 aspect-square shadow-custom"
         src={url}

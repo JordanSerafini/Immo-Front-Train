@@ -24,8 +24,8 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
 
   return useMemo (() => (
     <Fieldset title="*Localisation">
-      <div className="flex flex-col gap-8 mb-5 mt-7">
-        <div className="flex justify-between gap-10">
+      <div className="flex flex-col mb-5 gap-7 mt-7">
+        <div className="flex flex-wrap justify-between gap-7 sm:gap-10">
           <MemoizedInput
             placeholder="N°"
             onChange={setStreetNumber}
@@ -41,7 +41,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
             placeholder="Rue"
             onChange={setStreetName}
             value={streetName}
-            className="w-full sm:w-[300px]"
+            className="w-full md:w-[250px]"
             inputName='address_street'
             label='Rue'
             regExp={address_street}
@@ -49,7 +49,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
           />
         </div>
 
-        <div className="flex justify-between gap-10">
+        <div className="flex flex-wrap justify-between gap-7 sm:gap-10">
           <MemoizedInput
             placeholder="Code Postal"
             onChange={setZipCode}
@@ -65,7 +65,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
             placeholder="Ville"
             onChange={setCity}
             value={city}
-            className="w-full md:w-[260px]"
+            className="w-full md:w-[200px]"
             inputName='address_city'
             label='Ville'
             regExp={address_city}

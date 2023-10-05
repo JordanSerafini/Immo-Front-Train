@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 // Redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
@@ -22,9 +24,12 @@ export default function SectorManager() {
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
 
 
+  // Local temporary state
+  const [message, setErrorMessage] = useState<string>("")
+
   // Handle Methods
   const handleCreateSectorrClick = () => {
-    dispatch(showCreateAccountModal());
+    setErrorMessage("Fonctionnalité en cours de développement")
   };
 
   return (
@@ -46,6 +51,8 @@ export default function SectorManager() {
             Ajouter un secteur
           </span>
         </button>
+
+        {message.length > 0 && <p>{message}</p>}
 
         {isSectorsLoading && sectors.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />

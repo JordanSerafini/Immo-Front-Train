@@ -59,11 +59,11 @@ export default function UpdateAvatarModal({
 
   return (
     <Modal closeModal={closeModal}>
-      <div className="flex flex-col min-w-[300px] max-w-[500px] gap-6 p-2">
+      <div className="flex flex-col max-w-[500px] gap-6 p-2">
         <h1 className="text-2xl">{content}</h1>
 
         <form onSubmit={handleSubmit}>
-          <fieldset className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
+          <fieldset className="grid grid-cols-1 gap-4 justify-items-center sm:grid-cols-2 md:grid-cols-3 md:gap-8">
             {isLoading && <img src={loader} alt="Loader" />}
 
             {avatars.length &&
@@ -89,7 +89,7 @@ export default function UpdateAvatarModal({
               ))}
           </fieldset>
 
-          <div className="flex flex-wrap justify-center gap-10 m-5">
+          <div className="flex flex-wrap justify-around gap-2 m-5">
             <ValidButton
               content="Confirmer"
               isSubmit
