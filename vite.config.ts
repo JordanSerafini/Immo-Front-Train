@@ -1,5 +1,9 @@
 import * as vite from 'vite';
 import react from '@vitejs/plugin-react';
+import dotenv from 'dotenv';
+
+// Charge les variables d'environnement depuis un fichier .env
+dotenv.config();
 
 const PORT = Number(process.env.PORT) || 3000;
 
