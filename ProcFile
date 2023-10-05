@@ -1,1 +1,1 @@
-web: yarn vite
+web: vite preview
