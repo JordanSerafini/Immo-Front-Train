@@ -56,3 +56,9 @@ input[type='search']::-webkit-search-results-button,
 input[type='search']::-webkit-search-results-decoration {
   display: none;
 }
+
+/* Clear autofill style */
+input:-webkit-autofill {
+  @apply font-lato;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

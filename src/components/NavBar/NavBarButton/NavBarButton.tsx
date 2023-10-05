@@ -22,7 +22,7 @@ export default function NavBarButton({
   return (
     <button
       type="button"
-      className="absolute z-20 w-8 h-10 border-none top-8 right-5 navbar-btn sm:hidden"
+      className="fixed z-40 w-8 h-10 border-none top-8 right-5 navbar-btn sm:hidden"
       onClick={handleClick}
     >
       <img
