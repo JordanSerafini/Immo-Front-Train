@@ -24,9 +24,9 @@ export default function LoginForm() {
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
-  // const [email, setEmail] = useState<string>('amandine.leroux@example.com');
-  const [password, setPassword] = useState<string>('pass123');
+  // const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
