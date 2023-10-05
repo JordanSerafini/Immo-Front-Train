@@ -39,9 +39,9 @@ function CancelModal({
 
   return (
     <Modal closeModal={closeModal}>
-      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
+      <div className="flex flex-col max-w-[450px] gap-6 p-2">
         <h1 className="text-lg font-semibold text-center ">{content}</h1>
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-wrap justify-around gap-2">
           <Link to={redirectPath}>
             <ValidButton content="Confirmer" onClickMethod={closeAllModal} />
           </Link>

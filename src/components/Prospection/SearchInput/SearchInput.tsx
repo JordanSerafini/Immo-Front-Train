@@ -27,7 +27,7 @@ export default function SearchInput() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative z-0 block mx-auto mt-3 mb-6 w-fit md:mx-0 md:mb-3 md:mt-6"
+      className="relative z-0 block mx-auto my-6 w-fit md:mx-0 md:mb-3 md:mt-6"
     >
       <Input
         type="search"

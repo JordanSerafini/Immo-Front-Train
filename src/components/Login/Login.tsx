@@ -38,7 +38,7 @@ export default function Login() {
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
-      <Logo path="/login" className="absolute top-5 left-5 sm:hidden" />
+      <Logo path="/login" className="absolute top-2 left-2 sm:hidden" />
 
       {/* ILLUSTRATION */}
       <img

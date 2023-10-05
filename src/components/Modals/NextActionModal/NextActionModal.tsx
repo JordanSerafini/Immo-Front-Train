@@ -112,7 +112,7 @@ function NextActionModal({
 
   return (
     <Modal>
-      <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2 mt-8">
+      <div className="flex flex-col max-w-[450px] gap-6 p-2 mt-8">
         <Input
           type="date"
           value={nextActionDate}
@@ -121,6 +121,7 @@ function NextActionModal({
           label="*Prochaine action prévue le :"
           inputName="notification_date"
           regExp={/^\d{4}-\d{2}-\d{2}$/}
+          className='w-full'
           isRequired
         />
         <ValidButton

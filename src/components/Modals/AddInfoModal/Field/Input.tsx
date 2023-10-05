@@ -11,7 +11,7 @@ interface InputProps {
   inputName: string;
   placeholder: string;
   regExp?: RegExp;
-  isRequired?: boolean
+  isRequired?: boolean;
   value: string | undefined;
   onChange: (value: string) => void;
 }
@@ -52,7 +52,8 @@ function Input({
       <input
         className={`${className} ${
           (condition ||
-            (type === 'number' && condition &&
+            (type === 'number' &&
+              condition &&
               !Number.isNaN(parseInt(value as string, 10)))) &&
           'border-primary-300 focus:ring-transparent'
         } z-10`}
@@ -64,6 +65,7 @@ function Input({
         placeholder={placeholder}
         name={inputName}
         required={isRequired}
+        autoComplete="off"
       />
     </div>
   );
@@ -73,8 +75,8 @@ function Input({
 Input.defaultProps = {
   children: null,
   type: 'text',
-  className: "",
-  containerClassName: "",
+  className: '',
+  containerClassName: '',
   label: null,
   regExp: null,
   isRequired: false,

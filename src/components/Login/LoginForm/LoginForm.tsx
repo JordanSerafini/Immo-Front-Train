@@ -37,6 +37,8 @@ export default function LoginForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    setEmail("");
+    setPassword("");
 
     dispatch(login(formData));
   };
