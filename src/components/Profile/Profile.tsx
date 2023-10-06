@@ -45,7 +45,7 @@ export default function Profile() {
       <section className="relative max-w-[600px] p-4 pt-20 m-auto mt-32 rounded-lg md:pt-28 shadow-custom bg-secondary-50">
         <div className="absolute top-[-6rem] left-1/2 w-40 md:w-48 rounded-full aspect-square shadow-accent translate-x-[-50%] -z-10 " />
         <img
-          className="absolute top-[-6rem] w-40 md:w-48 rounded-full left-1/2 translate-x-[-50%]"
+          className="absolute top-[-6rem] w-40 aspect-square bg-white md:w-48 rounded-full left-1/2 translate-x-[-50%]"
           src={user.url || portrait}
           alt="Profile portrait"
         />
