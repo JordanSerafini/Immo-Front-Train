@@ -1,6 +1,9 @@
 // React
 import { ChangeEvent, Ref, useId } from 'react';
 
+import { useAppDispatch } from '../../../../hooks/redux';
+import { filterInformations } from '../../../../store/reducers/information';
+
 // Typescript interface
 interface InputProps {
   children?: React.ReactNode;
@@ -31,11 +34,16 @@ function Input({
   value,
   onChange,
 }: InputProps) {
+  const dispatch = useAppDispatch();
   const inputId = useId();
   const condition = regExp?.test(value as string);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     onChange(event.target.value);
+
+    if (type === "search") {
+      dispatch(filterInformations(event.target.value))
+    }
   }
 
   return (
