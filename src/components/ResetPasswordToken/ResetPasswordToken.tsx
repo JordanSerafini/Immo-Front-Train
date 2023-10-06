@@ -8,14 +8,22 @@ import { useState, FormEvent } from 'react';
 // React Dom
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// Redux
+import { useAppSelector } from '../../hooks/redux';
+
 // Axios
 import axiosInstance from '../../utils/axios';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
-import Input from '../Modals/AddInfoModal/Field/Input';
+import MemoizedInput from '../Modals/AddInfoModal/Field/MemoizedInput';
 import SupportFooter from '../Support/SupportFooter/SupportFooter';
 import ValidButton from '../SharedComponents/Buttons/ValidButton';
+import PasswordStrength from '../Modals/CreateAccountModal/PasswordStrength';
+
+// Assets
+import eyeIcon from '../../assets/icons/eye-empty.svg';
+import eyeOffIcon from '../../assets/icons/eye-off.svg';
 
 // Typescript
 import { ErrorType } from '../../@types/error';
@@ -25,7 +33,16 @@ export default function ResetPasswordToken() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Redux states
+  const passwordRegExps = useAppSelector(
+    (state) => state.regexps.passwordStrength
+  );
+  const regExps = useAppSelector((state) => state.regexps.user);
+
   // Local state
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
@@ -83,23 +100,77 @@ export default function ResetPasswordToken() {
           onSubmit={handleSubmit}
           className="w-full max-w-xl mx-auto font-poppins"
         >
-          <Input
+          <MemoizedInput
             placeholder="Mot de passe"
             value={password}
             onChange={setPassword}
             className="w-full mb-8 shadow-custom"
-            type="password"
+            type={showPassword ? "text" : 'password'}
             inputName="password"
-          />
+            regExp={regExps.password}
+          >
+            <button
+              type="button"
+              className="w-[24px] absolute top-3 right-5 z-20"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <img
+                src={showPassword ? eyeIcon : eyeOffIcon}
+                alt="Password Icon"
+              />
+            </button>
+          </MemoizedInput>
 
-          <Input
+          <MemoizedInput
             placeholder="Confirmez votre mot de passe"
             value={passwordConfirmation}
             onChange={setPasswordConfirmation}
-            className="w-full shadow-custom"
-            type="password"
+            className={`w-full shadow-custom ${
+              passwordConfirmation.length > 8 &&
+              password === passwordConfirmation
+                ? 'border-primary-300 focus:ring-transparent'
+                : ''
+            }`}
+            type={showPasswordConfirmation ? "text" : 'password'}
             inputName="password_confirmation"
-          />
+          >
+            <button
+              type="button"
+              className="w-[24px] absolute top-3 right-5 z-20"
+              onClick={() =>
+                setShowPasswordConfirmation(!showPasswordConfirmation)
+              }
+            >
+              <img
+                src={showPasswordConfirmation ? eyeIcon : eyeOffIcon}
+                alt="Password Icon"
+              />
+            </button>
+          </MemoizedInput>
+
+          <div className="mt-5 text-secondary-700">
+            <p className="italic font-semibold text-secondary-600">
+              Le mot de passe doit contenir au mieux 8 caractères, un symbole et
+              un chiffre
+            </p>
+            <p className="font-medium text-center text-md font-poppins">
+              Force du mot de passe
+            </p>
+            <section className="grid grid-cols-3 gap-4">
+              {passwordRegExps.weak.test(password) && (
+                <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
+              )}
+              {passwordRegExps.medium.test(password) && (
+                <PasswordStrength
+                  content="Moyen"
+                  tailwindColor="bg-orange-500"
+                />
+              )}
+              {passwordRegExps.strong.test(password) && (
+                <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
+              )}
+            </section>
+          </div>
 
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
