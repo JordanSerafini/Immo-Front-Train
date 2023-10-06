@@ -9,10 +9,13 @@ export default function LoginFooter() {
 
   return (
     <footer className="flex flex-col items-center justify-center mt-auto">
-      <Link to="/reset" className="mb-20 text-center underline">
-        Mot de passe oublié ?
+      <Link to="/support" className="mb-5 text-center underline">
+        Contactez le support
       </Link>
+
+      {/* DIVIDER */}
       <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
+
       <p className="flex gap-1 text-xs">
         <img src={copyrightIcon} alt="Copyright" className="w-[18px]" />
         {date.getFullYear()} Immo&apos;Pros

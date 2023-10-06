@@ -1,6 +1,9 @@
 // React Hooks
 import { FormEvent, useState } from 'react';
 
+// React router dom
+import { Link } from 'react-router-dom';
+
 // Redux
 import { useAppDispatch } from '../../../hooks/redux';
 
@@ -79,7 +82,11 @@ export default function LoginForm() {
         </button>
       </Input>
 
-      <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
+      <Link to="/reset" className="ml-1 underline -mt-7 text-start">
+        Mot de passe oublié ?
+      </Link>
+
+      <ValidButton content="Se connecter" isSubmit className="w-full" />
     </form>
   );
 }
