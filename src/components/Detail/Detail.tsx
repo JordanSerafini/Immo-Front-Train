@@ -16,9 +16,13 @@ import LeafletMap from './LeafletMap';
 // Assets
 import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
 import loader from '../../assets/loader/tail-spin.svg';
+import houseIcon from '../../assets/icons/house.svg';
+import apartmentIcon from '../../assets/icons/apartment.svg';
+import landIcon from '../../assets/icons/land.svg';
 
 // Utils
 import capFirstLetter from '../../utils/capFirstLetter';
+import formatPhone from '../../utils/formatPhone';
 
 export default function Detail() {
   // Hook Execution Order
@@ -79,6 +83,22 @@ export default function Detail() {
     );
   }
 
+  // TYPE ICON SWITCH
+  let icon: string;
+  switch (information.type.toLowerCase()) {
+    case 'maison':
+      icon = houseIcon;
+      break;
+    case 'appartement':
+      icon = apartmentIcon;
+      break;
+    case 'terrain':
+      icon = landIcon;
+      break;
+    default:
+      icon = '';
+  }
+
   return (
     <>
       <div className="flex items-center gap-6 mt-5">
@@ -91,55 +111,76 @@ export default function Detail() {
         </Link>
         <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
       </div>
+      {/* p style in "./detail.css" */}
 
-      <section className="max-w-[800px] p-4 m-auto my-10 rounded-lg shadow-custom bg-secondary-50">
-        {/* p style in "./detail.css" */}
-        <h2>Type de bien</h2>
-        <p className="md:text-lg">{information.type}</p>
+      {/* PROPERTY - SECTION */}
+      <section className="max-w-[800px] p-4 m-auto my-5 rounded-lg shadow-custom bg-secondary-50">
+        <h2 className="mb-4">Concernant le bien</h2>
 
-        <h2 className="mt-4">Localisation</h2>
-        <p className="md:text-lg">
+        <img src={icon} alt={`${icon} Icon`} className="w-[25px] inline mr-2" />
+        <p className="inline md:text-lg">
           {information.address_number} {information.address_street}{' '}
-          {information.code_zip}{' '}
-          {information.address_city.toLocaleUpperCase()}
+          {information.code_zip} {information.address_city.toLocaleUpperCase()}
         </p>
 
-        <h2 className="mt-4">Informations complémentaires:</h2>
-        <p className="md:text-lg">
-          {information?.address_info
-            ? `${information.address_info}`
-            : "Pas d'information complémentaires..."}
-        </p>
+        {/* MORE INFOS */}
+        {information.address_info && (
+          <>
+            <h3 className="my-4">Informations complémentaires:</h3>
+            <p className="md:text-lg">{information.address_info}</p>
+          </>
+        )}
 
-        <h2 className="mt-4">Propriétaires</h2>
+        <p className="block mt-5 ml-auto">
+          <em className="italic">
+            Information créée le : {information?.date.slice(0, 10)}
+          </em>
+        </p>
+      </section>
+
+      {/* LEAFLET MAP */}
+      <section className="max-w-[800px] p-4 my-5 m-auto rounded-lg shadow-custom bg-secondary-50">
+        {information.longitude === defaultLong &&
+        information.latitude === defaultLat ? (
+          <p className="italic text-center">L&apos;adresse fournie n&apos;a pas permis la localisation pour afficher la carte...</p>
+        ) : (
+          <>
+            <p className='italic'>Note: Le pointeur peut manquer un peu de précision...</p>
+            <LeafletMap {...information} />
+          </>
+        )}
+      </section>
+
+      {/* OWNER */}
+      <section className="max-w-[800px] p-4 mb-20 sm:mb-5 m-auto rounded-lg shadow-custom bg-secondary-50">
+        <h2>Concernant le propriétaire</h2>
         <p className="md:text-lg">{information.owner_name}</p>
-        <p className="md:text-lg">{information.owner_email}</p>
 
-        <h2 className="mt-4">Source de l&apos;information</h2>
+        {(information.owner_email ||
+          information.phone_1 ||
+          information.phone_2) && (
+          <>
+            <h3 className="mt-4">Ses coordonnnées</h3>
+            <p className="md:text-lg">{information.owner_email}</p>
+            <p className="md:text-lg">{formatPhone(information.phone_1)}</p>
+            <p className="md:text-lg">{formatPhone(information.phone_2)}</p>
+          </>
+        )}
+
+        <h3 className="mt-4">Source de l&apos;information</h3>
         <p className="md:text-lg">{information.source}</p>
 
-        <h2 className="mt-4">Catégorie</h2>
+        <h3 className="mt-4">Catégorie</h3>
         <p className="text-lg font-semibold text-accent-400 md:text-xl">
           {capFirstLetter(information.category)}
         </p>
 
-        <h2 className="mt-4">Commentaires</h2>
+        <h3 className="mt-4">Commentaires</h3>
         <p className="md:text-lg">
           {information?.comment
             ? `${information.comment}`
             : 'Pas de commentaire...'}
         </p>
-
-        <p className="mt-10 ml-auto">
-          <em className="italic">
-            Information créée le : {information?.date.slice(0, 10)}
-          </em>
-        </p>
-        {(information.longitude === defaultLong && information.latitude === defaultLat) ? (
-          <p className='italic text-center'>Pas de carte à afficher...</p>
-        ) : (
-          <LeafletMap {...information} />
-        )}
       </section>
     </>
   );

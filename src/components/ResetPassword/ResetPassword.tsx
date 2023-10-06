@@ -5,31 +5,26 @@ import 'react-toastify/dist/ReactToastify.css';
 // React Hooks & types
 import { FormEvent, useState } from 'react';
 
-// React dom
-import { useNavigate } from 'react-router-dom';
-
 // Axios
 import axiosInstance from '../../utils/axios';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
-import Textarea from '../Modals/AddInfoModal/Field/Textarea';
-import ValidButton from '../SharedComponents/Buttons/ValidButton';
+import SupportFooter from '../Support/SupportFooter/SupportFooter';
 import Input from '../Modals/AddInfoModal/Field/Input';
-import SupportFooter from './SupportFooter/SupportFooter';
+import ValidButton from '../SharedComponents/Buttons/ValidButton';
 
 // Typescript
 import { ErrorType } from '../../@types/error';
+import { useAppSelector } from '../../hooks/redux';
 
-export default function Support() {
-  // Hook Execution Order
-  const navigate = useNavigate();
-
+export default function ResetPassword() {
   // Local States
   const [email, setEmail] = useState<string>('');
-  const [objectValue, setObjectValue] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const emailRegexp = useAppSelector((state) => state.regexps.user.email);
+  const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
+  // Handlers
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -38,13 +33,9 @@ export default function Support() {
 
     try {
       const objData = Object.fromEntries(formData);
-      const response = await axiosInstance.post('/support', objData);
+      await axiosInstance.post('/reset', objData);
 
-      if (response.status === 200) {
-        navigate('/support/confirmation');
-      }
-
-      return response;
+      return setIsEmailSent(true);
     } catch (error) {
       const errMessage = (error as ErrorType).response.data.error;
       toast.error(errMessage, {
@@ -58,15 +49,12 @@ export default function Support() {
     <>
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
-
-      <main className="flex flex-col w-full h-full mx-5 sm:mx-0">
+      <main className="flex flex-col items-center w-full h-full mx-5 text-center sm:mx-0">
         {/* TITLE */}
-        <h1 className="mt-40">Un soucis ?</h1>
-        <h1 className="mb-20">
-          Pas de panique ! Contactez le support technique
+        <h1 className="w-3/4 mt-40 mb-20">
+          Envoyer une demande pour réinitialiser votre mot de passe
         </h1>
 
-        {/* OBJET */}
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-xl mx-auto font-poppins"
@@ -77,28 +65,28 @@ export default function Support() {
             inputName="email"
             type="email"
             placeholder="Votre email"
-            label="Votre email"
-            className="mb-10"
-          />
-          <Input
-            value={objectValue}
-            onChange={setObjectValue}
-            inputName="title"
-            placeholder="Objet de votre demande"
-            label="Objet"
-          />
-
-          {/* OBJECT MESSAGE */}
-          <Textarea
-            value={message}
-            onChange={setMessage}
-            textareaName="content"
-            placeholder="Votre message..."
+            label="Email"
+            regExp={emailRegexp}
           />
 
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
+
+        {isEmailSent && (
+          <>
+            <h2 className="mt-20 text-green-600">
+              Vous allez recevoir un email.
+            </h2>
+            <h2 className="text-green-600">
+              Pensez à vérifier vos courriers indésirables.
+            </h2>
+            <h2 className="mb-5 text-green-600">
+              Le lien de réinitialisation ne sera valable qu&apos;une heure.
+            </h2>
+          </>
+        )}
+
         <SupportFooter />
       </main>
     </>

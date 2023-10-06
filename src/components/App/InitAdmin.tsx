@@ -43,6 +43,11 @@ export default function InitAdmin() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
+    if (!user.id) {
+      dispatch(setUserWithStorage());
+      // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+      navigate('/admin/collaborator');
+    }
     if (accessToken && user.role_id === 1) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
@@ -54,11 +59,7 @@ export default function InitAdmin() {
         dispatch(fetchSectors());
       }
 
-      if (!user.id) {
-        dispatch(setUserWithStorage());
-        // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-        navigate('/admin/collaborator');
-      }
+      
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
@@ -79,7 +80,7 @@ export default function InitAdmin() {
   return (
     <>
       <NavBar />
-      <MainSection>
+      <MainSection specificPath='/admin/collaborator'>
         <Outlet />
       </MainSection>
     </>
