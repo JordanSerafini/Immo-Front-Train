@@ -22,6 +22,7 @@ export default function ResetPassword() {
   // Local States
   const [email, setEmail] = useState<string>('');
   const emailRegexp = useAppSelector((state) => state.regexps.user.email);
+  const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
   // Handlers
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -32,9 +33,9 @@ export default function ResetPassword() {
 
     try {
       const objData = Object.fromEntries(formData);
-      const response = await axiosInstance.post('/reset', objData);
+      await axiosInstance.post('/reset', objData);
 
-      return response;
+      return setIsEmailSent(true);
     } catch (error) {
       const errMessage = (error as ErrorType).response.data.error;
       toast.error(errMessage, {
@@ -48,7 +49,7 @@ export default function ResetPassword() {
     <>
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
-      <main className="flex flex-col items-center w-full h-full mx-5 sm:mx-0">
+      <main className="flex flex-col items-center w-full h-full mx-5 text-center sm:mx-0">
         {/* TITLE */}
         <h1 className="w-3/4 mt-40 mb-20">
           Envoyer une demande pour réinitialiser votre mot de passe
@@ -65,13 +66,26 @@ export default function ResetPassword() {
             type="email"
             placeholder="Votre email"
             label="Email"
-            className="mb-10"
             regExp={emailRegexp}
           />
 
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
+
+        {isEmailSent && (
+          <>
+            <h2 className="mt-20 text-green-600">
+              Vous allez recevoir un email.
+            </h2>
+            <h2 className="text-green-600">
+              Pensez à vérifier vos courriers indésirables.
+            </h2>
+            <h2 className="mb-5 text-green-600">
+              Le lien de réinitialisation ne sera valable qu&apos;une heure.
+            </h2>
+          </>
+        )}
 
         <SupportFooter />
       </main>
