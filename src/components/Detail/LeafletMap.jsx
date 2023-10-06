@@ -19,7 +19,7 @@ export default function LeafletMap({ owner_name, address_number, address_street,
   const adresse = `${address_number} ${address_street} ${code_zip} ${address_city}`;
 
   return (
-    <MapContainer center={[latitude, longitude]} zoom={15} style={{ width: '100%', height: '400px' }}>
+    <MapContainer center={[latitude, longitude]} zoom={15} className='w-full h-[250px] sm:h-[400px]'>
       <UpdateMapCenter center={[latitude, longitude]} />
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -237,10 +237,6 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       return initialState;
     })
     .addCase(logout.fulfilled, () => {
-      toast.info('Vous êtes déconnecté.', {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-
       return initialState;
     })
     .addCase(logout.rejected, (state, action) => {

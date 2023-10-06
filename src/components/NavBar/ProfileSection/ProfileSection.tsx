@@ -8,6 +8,7 @@ export default function ProfileSection({
   firstname,
   lastname,
   id,
+  role_id,
   closeNavBarMethod,
 }: User & {
   closeNavBarMethod: () => void;
@@ -24,13 +25,15 @@ export default function ProfileSection({
           {firstname}{' '}
           <span className="font-semibold">{lastname?.toLocaleUpperCase()}</span>
         </h3>
-        <Link
-          to={`/app/profile/${id}`}
-          className="underline underline-offset-4"
-          onClick={closeNavBarMethod}
-        >
-          Mon profil
-        </Link>
+        {role_id === 2 && (
+          <Link
+            to={`/app/profile/${id}`}
+            className="underline underline-offset-4"
+            onClick={closeNavBarMethod}
+          >
+            Mon profil
+          </Link>
+        )}
       </div>
     </section>
   );

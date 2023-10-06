@@ -5,7 +5,7 @@ export default function SupportFooter() {
   const date = new Date();
 
   return (
-    <footer className="flex flex-col items-center justify-center mt-auto">
+    <footer className="flex flex-col items-center justify-center mt-auto mb-5">
       <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
       <p className="flex gap-1 text-xs">
         <img src={copyrightIcon} alt="Copyright" className="w-[18px]" />
