@@ -1,5 +1,5 @@
 // React Hooks
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useAppDispatch } from '../../../hooks/redux';
@@ -21,8 +21,15 @@ export default function SearchInput() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(filterInformations(searchValue));
+    if (searchValue.length) {
+      dispatch(filterInformations(searchValue));
+    }
   };
+
+  // This useEffect is important to reset filteredInformations and display all infos on the prospection page
+  useEffect(() => {
+    dispatch(filterInformations(""))
+  }, [dispatch])
 
   return (
     <form
@@ -39,7 +46,7 @@ export default function SearchInput() {
         className="pl-10 appearance-none shadow-custom font-poppins w-72"
       >
         <button
-          type="button"
+          type="submit"
           className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2 z-20"
         >
           <img src={search} alt="Search icon" />
