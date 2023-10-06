@@ -1,8 +1,16 @@
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // React Hooks
 import { FormEvent, useState } from 'react';
 
-// Redux
-import { useAppDispatch } from '../../hooks/redux';
+// React dom
+import { useNavigate } from 'react-router-dom';
+
+// axios
+// Axios
+import axiosInstance from '../../utils/axios';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
@@ -11,29 +19,48 @@ import ValidButton from '../SharedComponents/Buttons/ValidButton';
 import Input from '../Modals/AddInfoModal/Field/Input';
 import SupportFooter from './SupportFooter/SupportFooter';
 
+// Typescript
+import { ErrorType } from '../../@types/error';
+
 export default function Support() {
+  // Hook Execution Order
+  const navigate = useNavigate();
+
   // Local States
+  const [email, setEmail] = useState<string>('');
   const [objectValue, setObjectValue] = useState<string>('');
   const [message, setMessage] = useState<string>('');
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    console.log(Object.fromEntries(formData));
+    try {
+      const objData = Object.fromEntries(formData);
+      const response = await axiosInstance.post('/support', objData);
+
+      if (response.status === 200) {
+        navigate('/support/confirmation');
+      }
+
+      return response;
+    } catch (error) {
+      const errMessage = (error as ErrorType).response.data.error;
+      toast.error(errMessage, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      throw new Error(`${error}`);
+    }
   };
 
   return (
     <>
       {/* LOGO */}
-      <Logo
-        path="/"
-        className="absolute top-5 left-5"
-      />
+      <Logo path="/" className="absolute top-5 left-5" />
 
-      <main className="flex flex-col w-full h-full">
+      <main className="flex flex-col w-full h-full mx-5 sm:mx-0">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">
@@ -46,10 +73,19 @@ export default function Support() {
           className="w-full max-w-xl mx-auto font-poppins"
         >
           <Input
+            value={email}
+            onChange={setEmail}
+            inputName="email"
+            type="email"
+            placeholder="Votre email"
+            label="Votre email"
+            className="mb-10"
+          />
+          <Input
             value={objectValue}
             onChange={setObjectValue}
-            inputName="object"
-            placeholder="Renseignez l'objet de votre demande"
+            inputName="title"
+            placeholder="Objet de votre demande"
             label="Objet"
           />
 
@@ -57,16 +93,12 @@ export default function Support() {
           <Textarea
             value={message}
             onChange={setMessage}
-            textareaName="message"
+            textareaName="content"
             placeholder="Votre message..."
           />
 
           {/* SEND BUTTON */}
-          <ValidButton
-            content="Se connecter"
-            isSubmit
-            className="w-full mt-10"
-          />
+          <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
         <SupportFooter />
       </main>
