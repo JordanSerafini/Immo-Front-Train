@@ -95,7 +95,7 @@ export default function Prospection() {
       </div>
 
       {/* TITLE */}
-      <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
+      <h1 className="mt-10">Informations de prospection</h1>
 
       <SearchInput />
 
@@ -123,7 +123,7 @@ export default function Prospection() {
 
         {!filteredInformations.length && (
           <p className="col-span-2 text-lg font-semibold text-center">
-            Pas encore d&apos;information...
+            Pas d&apos;information...
           </p>
         )}
       </section>
