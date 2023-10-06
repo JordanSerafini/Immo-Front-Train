@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent, useId } from 'react';
+import { ChangeEvent, Ref, useId } from 'react';
 
 // Typescript interface
 interface InputProps {
@@ -8,10 +8,11 @@ interface InputProps {
   className?: string;
   containerClassName?: string;
   label?: string;
-  inputName: string;
-  placeholder: string;
   regExp?: RegExp;
   isRequired?: boolean;
+  inputRef?: Ref<HTMLInputElement> | null;
+  placeholder: string;
+  inputName: string;
   value: string | undefined;
   onChange: (value: string) => void;
 }
@@ -23,6 +24,7 @@ function Input({
   containerClassName,
   label,
   inputName,
+  inputRef,
   placeholder,
   regExp,
   isRequired = false,
@@ -41,7 +43,7 @@ function Input({
       <label
         htmlFor={inputId}
         className={`absolute font-poppins font-medium z-0 duration-300 ${
-          value?.length ? '-translate-y-full' : 'translate-y-[10%]'
+          value?.length ? 'opacity-100 -translate-y-full' : 'opacity-0 translate-y-[10%]'
         }`}
       >
         {label || placeholder}
@@ -66,6 +68,7 @@ function Input({
         name={inputName}
         required={isRequired}
         autoComplete="off"
+        ref={inputRef}
       />
     </div>
   );
@@ -80,6 +83,7 @@ Input.defaultProps = {
   label: null,
   regExp: null,
   isRequired: false,
+  inputRef: null,
 };
 
 // == Export

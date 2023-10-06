@@ -21,7 +21,7 @@ export default function NavItem({
         onClick={closeNavBarMethod}
         to={path}
         className={({ isActive }) =>
-          `flex w-full gap-2 px-4 py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
+          `flex w-full gap-2 px-2 sm:px-4 py-2 sm:py-3 duration-300 rounded-lg hover:bg-secondary-200 ${
             isActive && 'bg-secondary-200'
           }`
         }
