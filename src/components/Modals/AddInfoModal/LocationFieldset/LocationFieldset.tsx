@@ -19,10 +19,10 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const {address_number, address_street, code_zip, address_city, address_info} = regExps
   // Location Local States
-  const [streetNumber, setStreetNumber] = useState<string>('');
-  const [streetName, setStreetName] = useState<string>('');
-  const [zipCode, setZipCode] = useState<string>('');
-  const [city, setCity] = useState<string>('');
+  const [streetNumber, setStreetNumber] = useState<string>('123');
+  const [streetName, setStreetName] = useState<string>('rue du Test');
+  const [zipCode, setZipCode] = useState<string>('95190');
+  const [city, setCity] = useState<string>('GOUSSAINVILLE');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 // Redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -36,6 +37,7 @@ import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function NextActionModal({
   formData,
@@ -56,17 +58,29 @@ function NextActionModal({
   );
 
   // Redux state
-  const collaboratorId = useAppSelector((state) => state.collaborator.user.id);
+  const collaborator = useAppSelector((state) => state.collaborator.user);
 
   // Methods
   const closeAllModal = () => {
+    const formatedNotifDate = dayjs
+      .utc(nextActionDate)
+      .tz('Europe/Paris')
+      .toISOString();
+
+    const formatedDate = dayjs
+    .utc(getFormatedFullDate())
+    .tz("Europe/Paris")
+    .toISOString()
+
     const infoData = {
       ...(formData as Information),
+      // We could remove type and category to lowercase
       type: formData?.type?.toLowerCase() as string,
       category: formData?.category?.toLowerCase() as string,
-      notification_date: dayjs(nextActionDate).utc().toISOString(),
-      collaborator_id: collaboratorId as number,
-      date: dayjs().toISOString(),
+      date: formatedDate,
+      notification_date: formatedNotifDate,
+      collaborator_id: collaborator.id as number,
+      // CHANGE SECTOR
       sector_id: 1,
     };
 
@@ -93,12 +107,11 @@ function NextActionModal({
         information_id: formData?.information_id as number,
         date: getFormatedFullDate(),
       };
-      // Type problem
       dispatch(createProspectionAction({ formData: formValues }));
       dispatch(
         updateInformation({
           ...information,
-          notification_date: dayjs(nextActionDate).utc().toISOString(),
+          notification_date: formatedNotifDate,
         })
       );
     }
@@ -121,7 +134,7 @@ function NextActionModal({
           label="*Prochaine action prévue le :"
           inputName="notification_date"
           regExp={/^\d{4}-\d{2}-\d{2}$/}
-          className='w-full'
+          className="w-full"
           isRequired
         />
         <ValidButton

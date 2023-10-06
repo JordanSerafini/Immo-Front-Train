@@ -66,6 +66,8 @@ export default function Prospection() {
     );
   }
 
+  console.log(informations)
+
   const actionToDo = filteredActionToDo(informations);
 
   const upcomingAction = filteredUpcomingAction(informations);
