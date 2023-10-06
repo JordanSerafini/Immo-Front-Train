@@ -16,10 +16,12 @@ import ValidButton from '../SharedComponents/Buttons/ValidButton';
 
 // Typescript
 import { ErrorType } from '../../@types/error';
+import { useAppSelector } from '../../hooks/redux';
 
 export default function ResetPassword() {
   // Local States
   const [email, setEmail] = useState<string>('');
+  const emailRegexp = useAppSelector((state) => state.regexps.user.email);
 
   // Handlers
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -62,8 +64,9 @@ export default function ResetPassword() {
             inputName="email"
             type="email"
             placeholder="Votre email"
-            label="Votre email"
+            label="Email"
             className="mb-10"
+            regExp={emailRegexp}
           />
 
           {/* SEND BUTTON */}
