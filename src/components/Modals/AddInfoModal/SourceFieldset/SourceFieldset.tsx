@@ -8,7 +8,7 @@ import Textarea from '../Field/Textarea';
 export default function SourceFieldset(regExps: { [key: string]: RegExp }) {
   const {source} = regExps
   // Info Source Local State
-  const [sourceInfo, setSourceInfo] = useState<string>("Source de l'information");
+  const [sourceInfo, setSourceInfo] = useState<string>("");
   return (
     <Fieldset title="*Source de l'information">
       <div className="mb-5">
