@@ -2,46 +2,58 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Hooks & types
-import { FormEvent, useState } from 'react';
+// React
+import { useState, FormEvent } from 'react';
 
-// React dom
-import { useNavigate } from 'react-router-dom';
+// React Dom
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Axios
 import axiosInstance from '../../utils/axios';
 
 // Components
 import Logo from '../SharedComponents/Logo/Logo';
-import Textarea from '../Modals/AddInfoModal/Field/Textarea';
-import ValidButton from '../SharedComponents/Buttons/ValidButton';
 import Input from '../Modals/AddInfoModal/Field/Input';
-import SupportFooter from './SupportFooter/SupportFooter';
+import SupportFooter from '../Support/SupportFooter/SupportFooter';
+import ValidButton from '../SharedComponents/Buttons/ValidButton';
 
 // Typescript
 import { ErrorType } from '../../@types/error';
 
-export default function Support() {
-  // Hook Execution Order
+export default function ResetPasswordToken() {
+  // Hook execution order
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // Local States
-  const [email, setEmail] = useState<string>('');
-  const [objectValue, setObjectValue] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  // Local state
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
+  const token = location.search.slice(1);
+
+  // handlers
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    formData.append('token', token);
+
+    if (password !== passwordConfirmation) {
+      return toast.info('Mots de passe différents', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
 
     try {
       const objData = Object.fromEntries(formData);
-      const response = await axiosInstance.post('/support', objData);
+      const response = await axiosInstance.post('/reset/token', objData);
 
       if (response.status === 200) {
-        navigate('/support/confirmation');
+        navigate('/login');
+        toast.success('Votre mot de passe a bien été réinitialisé !', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       }
 
       return response;
@@ -66,34 +78,27 @@ export default function Support() {
           Pas de panique ! Contactez le support technique
         </h1>
 
-        {/* OBJET */}
+        {/* RESET PASSWORD */}
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-xl mx-auto font-poppins"
         >
           <Input
-            value={email}
-            onChange={setEmail}
-            inputName="email"
-            type="email"
-            placeholder="Votre email"
-            label="Votre email"
-            className="mb-10"
-          />
-          <Input
-            value={objectValue}
-            onChange={setObjectValue}
-            inputName="title"
-            placeholder="Objet de votre demande"
-            label="Objet"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={setPassword}
+            className="w-full mb-8 shadow-custom"
+            type="password"
+            inputName="password"
           />
 
-          {/* OBJECT MESSAGE */}
-          <Textarea
-            value={message}
-            onChange={setMessage}
-            textareaName="content"
-            placeholder="Votre message..."
+          <Input
+            placeholder="Confirmez votre mot de passe"
+            value={passwordConfirmation}
+            onChange={setPasswordConfirmation}
+            className="w-full shadow-custom"
+            type="password"
+            inputName="password_confirmation"
           />
 
           {/* SEND BUTTON */}

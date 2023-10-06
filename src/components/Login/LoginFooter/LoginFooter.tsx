@@ -9,7 +9,7 @@ export default function LoginFooter() {
 
   return (
     <footer className="flex flex-col items-center justify-center mt-auto">
-      <Link to="/support" className="mb-20 text-center underline">
+      <Link to="/reset" className="mb-20 text-center underline">
         Mot de passe oublié ?
       </Link>
       <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
