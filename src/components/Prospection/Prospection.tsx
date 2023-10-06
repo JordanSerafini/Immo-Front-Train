@@ -74,7 +74,7 @@ export default function Prospection() {
     <>
       {/* SECTIONS for ActionToDo & UpcomingAction */}
       <div className="hidden grid-cols-2 lg:grid gap-x-10">
-        <ActionSection icon={actionToDoIcon} title="Actions à faire">
+        <ActionSection nbrOfActionsToDo={actionToDo.length} icon={actionToDoIcon} title="Actions à faire">
           {actionToDo.length ? (
             actionToDo.map((information) => (
               <CardActionToDo key={information.id} {...information} />
