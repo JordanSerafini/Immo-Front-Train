@@ -1,5 +1,6 @@
 import BarChart from "./Charts222";
-import BarChartComponent from "./ChartsBarDashboard";
+import BarChartCollaboratorComponent from "./ChartsBarCollaboratorDashboard";
+import BarChartSectorComponent from "./ChartsBarSectorDashboard"
 
 export default function DashBoard() {
   return (
@@ -11,10 +12,11 @@ export default function DashBoard() {
       </section>
       <div className="flex">
         <div className="w-1/2">
-          <BarChartComponent />
+          <BarChartCollaboratorComponent />
         </div>
         <div className="w-1/2">
           {/* Ici, vous pouvez ajouter un autre contenu ou le laisser vide pour l'instant */}
+          <BarChartSectorComponent />
         </div>
       </div>
     </>

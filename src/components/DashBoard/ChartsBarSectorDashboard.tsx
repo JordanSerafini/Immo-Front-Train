@@ -8,27 +8,32 @@ import EditLastname from '../Profile/EditLastname/EditLastname';
 
 Chart.register(BarController, PieController, CategoryScale, LinearScale, BarElement, ArcElement);
 
-export default function BarChartComponent() {
+export default function BarChartSectorComponent() {
   
-  let labelArray = [];
-  let valueArray = [];
+  const [labels, setLabels] = useState([]);
+  const [values, setValues] = useState([]);
   
   async function handleClick() {
     try {
-      const response = await fetch('http://localhost:5000/stats/informations');
+      const response = await fetch('http://localhost:5000/stats/informations/sectors');
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
       const newData = await response.json();
 
-    //const name = newData[0].firstname/Lastname
+      const newLabels = [];
+      const newValues = [];
+
     newData.forEach(element => {
-      const name = `${element.firstname} ${element.Lastname}`
-      const value = element.nb_biens
-      labelArray.push(name)
-      valueArray.push(value)
+      const label = element.label
+      const value = element.nb_infos
+      newLabels.push(label)
+      newValues.push(value)
 
     });
+
+    setLabels(newLabels);
+    setValues(newValues);
       
 
     
@@ -38,11 +43,11 @@ export default function BarChartComponent() {
   }
 
   const data = {
-    labels: labelArray,
+    labels: labels,
     datasets: [
       {
-        label: 'Ventes',
-        data: valueArray,
+        label: labels,
+        data: values,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
