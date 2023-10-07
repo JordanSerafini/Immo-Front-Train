@@ -26,7 +26,7 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
   // const [email, setEmail] = useState<string>('amandine.leroux@example.com');
-  const [password, setPassword] = useState<string>('pass123');
+  const [password, setPassword] = useState<string>('password123!');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
 
@@ -12,36 +12,41 @@ export default function BarChartCollaboratorComponent() {
   
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('http://localhost:5000/stats/informations/collaborators');
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+        const newData = await response.json();
   
-  async function handleClick() {
-    try {
-      const response = await fetch('http://localhost:5000/stats/informations/collaborators');
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-      }
-      const newData = await response.json();
-
-      const newLabels = [];
-      const newValues = [];
-
-
-    newData.forEach(element => {
-      const name = `${element.firstname} ${element.lastname}`
-      const value = element.nb_infos
-      newLabels.push(name)
-      newValues.push(value)
-
-    });
-
-    setLabels(newLabels);
-    setValues(newValues);
+        const newLabels = [];
+        const newValues = [];
+  
+  
+      newData.forEach(element => {
+        const name = `${element.firstname} ${element.lastname}`
+        const value = element.nb_infos
+        newLabels.push(name)
+        newValues.push(value)
+  
+      });
+  
+      setLabels(newLabels);
+      setValues(newValues);
+        
+  
       
-
-    
-    } catch (error) {
-      console.error("Il y a eu un problème avec l'opération fetch: ", error.message);
+      } catch (error) {
+        console.error("Il y a eu un problème avec l'opération fetch: ", error.message);
+      }
     }
-  }
+  
+    fetchData();
+  }, [])
+  
 
   const data = {
     labels: labels,
@@ -80,6 +85,6 @@ export default function BarChartCollaboratorComponent() {
     }
   };
 
-  return <Bar data={data} options={options} onClick={handleClick}  />;
+  return <Bar data={data} options={options}  />;
 }
 
