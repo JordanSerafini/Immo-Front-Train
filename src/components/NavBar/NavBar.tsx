@@ -19,7 +19,10 @@ import axiosInstance from '../../utils/axios';
 
 // Assets
 import logoutIcon from '../../assets/icons/log-out.svg';
-  import loader from '../../assets/loader/tail-spin.svg';
+import loader from '../../assets/loader/tail-spin.svg';
+
+// Style
+import "./navbar.scss";
 
 export default function NavBar() {
   // Hook Execution Order
@@ -60,21 +63,26 @@ export default function NavBar() {
           isNavBarOpen
             ? 'opacity-100 translate-x-[0%]'
             : 'translate-x-[100%] opacity-0'
-        }`}
+        } navbar`}
       >
         {loading ? (
           <img src={loader} alt="Loader" className="m-auto" />
         ) : (
           <>
             {/* LOGO */}
-            <Logo path={user.role_id === 2 ? '/app/prospection' : '/admin/collaborator'} className="hidden sm:block sm:my-5" />
+            <Logo
+              path={
+                user.role_id === 2 ? '/app/prospection' : '/admin/collaborator'
+              }
+              className="hidden sm:block sm:my-5 navbar__logo"
+            />
 
             {/* PROFILE SECTION */}
             <ProfileSection {...user} closeNavBarMethod={closeNavBar} />
 
             <Divider />
 
-            <h2 className="my-2 italic font-medium sm:my-5">
+            <h2 className="my-2 italic font-medium sm:my-[2vh]">
               {user.role_id === 2 ? 'NÉGOCIATEUR' : 'ADMINISTRATEUR'}
             </h2>
 
