@@ -9,6 +9,7 @@ interface ModalState {
   isDeleteConfirmationOpen: boolean;
   isCreateAccountModalOpen: boolean;
   isUpdateAvatarModalOpen: boolean;
+  isCreateSectorModalOpen: boolean;
   informationToDelete: number | null;
   infoId: number | null;
 }
@@ -21,6 +22,7 @@ export const initialState: ModalState = {
   isDeleteConfirmationOpen: false,
   isCreateAccountModalOpen: false,
   isUpdateAvatarModalOpen: false,
+  isCreateSectorModalOpen: false,
   informationToDelete: null,
   infoId: null,
 };
@@ -56,6 +58,10 @@ export const hideCreateAccountModal = createAction('createAccountModal/hide');
 // UPDATE AVATAR MODAL
 export const showUpdateAvatarModal = createAction('updateAvatarModal/show');
 export const hideUpdateAvatarModal = createAction('updateAvatarModal/hide');
+
+// CREATE SECTOR MODAL
+export const showCreateSectorModal = createAction('createSectorModal/show');
+export const hideCreateSectorModal = createAction('createSectorModal/hide');
 
 const modalReducer = createReducer(initialState, (builder) => {
   builder
@@ -107,6 +113,13 @@ const modalReducer = createReducer(initialState, (builder) => {
     })
     .addCase(hideUpdateAvatarModal, (state) => {
       state.isUpdateAvatarModalOpen = false;
+    })
+    // Create Sector Modal
+    .addCase(showCreateSectorModal, (state) => {
+      state.isCreateSectorModalOpen = true;
+    })
+    .addCase(hideCreateSectorModal, (state) => {
+      state.isCreateSectorModalOpen = false;
     });
 });
 

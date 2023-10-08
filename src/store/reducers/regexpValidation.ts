@@ -12,6 +12,9 @@ interface InitialState {
   passwordStrength: {
     [key: string]: RegExp;
   };
+  sector : {
+    [key: string]: RegExp;
+  }
 }
 
 export const initialState: InitialState = {
@@ -44,6 +47,9 @@ export const initialState: InitialState = {
     medium: /^(?=.*[a-z])(?=.*[0-9])/,
     // Any char, with number, with symbol, between 8 & 20 char
     strong: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+  },
+  sector: {
+    color: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
   }
 };
 

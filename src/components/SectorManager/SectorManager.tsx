@@ -1,29 +1,32 @@
-import { useState } from 'react';
+// React dom
+import { createPortal } from 'react-dom';
 
 // Redux
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 
 // Reducer
-
+import { showCreateSectorModal } from '../../store/reducers/modal';
 
 // Components
 import SectorCard from './SectorCard/SectorCard';
+import CreateSectorModal from '../Modals/CreateSectorModal/CreateSectorModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function SectorManager() {
+  // Hook Execution Order
+  const dispatch = useAppDispatch();
+
   // Redux states
   const sectors = useAppSelector((state) => state.sector.data);
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
-
-  // Local temporary state
-  const [message, setErrorMessage] = useState<string>("")
+  const createSectorModal = useAppSelector((state) => state.modal.isCreateSectorModalOpen);
 
   // Handle Methods
   const handleCreateSectorrClick = () => {
-    setErrorMessage("Fonctionnalité en cours de développement")
+    dispatch(showCreateSectorModal());
   };
 
   return (
@@ -46,8 +49,6 @@ export default function SectorManager() {
           </span>
         </button>
 
-        {message.length > 0 && <p>{message}</p>}
-
         {isSectorsLoading && sectors.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />
         ) : (
@@ -56,7 +57,9 @@ export default function SectorManager() {
 
         {!sectors.length && <p className='text-lg font-semibold text-center'>Pas encore de secteur...</p>}
       </section>
-
+      {/* DISPLAY CREATE SECTOR MODAL */}
+      {createSectorModal &&
+        createPortal(<CreateSectorModal />, document.body)}
     </>
   );
 }

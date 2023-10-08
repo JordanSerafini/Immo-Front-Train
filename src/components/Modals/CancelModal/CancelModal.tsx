@@ -10,6 +10,7 @@ import {
   hideCancelConfirmationAddInfoModalOpen,
   hideCancelConfirmationModal,
   hideCreateAccountModal,
+  hideCreateSectorModal,
 } from '../../../store/reducers/modal';
 
 // Components
@@ -35,6 +36,7 @@ function CancelModal({
     dispatch(hideCancelConfirmationModal());
     dispatch(hideCancelConfirmationAddInfoModalOpen());
     dispatch(hideCreateAccountModal());
+    dispatch(hideCreateSectorModal());
   };
 
   return (
