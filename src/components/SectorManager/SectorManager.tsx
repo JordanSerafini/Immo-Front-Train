@@ -1,12 +1,10 @@
 import { useState } from 'react';
 
 // Redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppSelector } from '../../hooks/redux';
 
 // Reducer
-import {
-  showCreateAccountModal,
-} from '../../store/reducers/modal';
+
 
 // Components
 import SectorCard from './SectorCard/SectorCard';
@@ -16,13 +14,9 @@ import plusIcon from '../../assets/icons/plus.svg';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function SectorManager() {
-  // Hook Execution Order
-  const dispatch = useAppDispatch();
-
   // Redux states
   const sectors = useAppSelector((state) => state.sector.data);
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
-
 
   // Local temporary state
   const [message, setErrorMessage] = useState<string>("")

@@ -137,7 +137,9 @@ export const editCollaborator = createAsyncThunk(
   }
 );
 
-export const updateCollaboratorUrl = createAction<{url: string}>("user/editurl");
+export const updateCollaboratorUrl = createAction<{ url: string }>(
+  'user/editurl'
+);
 
 // TEMPORARY IT WILL NOT BE DEPLOY
 // Delete a collaborator
@@ -297,14 +299,14 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.error = false;
     })
     .addCase(editCollaborator.fulfilled, (state, action) => {
-      const {result} = action.payload.data
+      const { result } = action.payload.data;
 
       state.user.firstname = result.firstname;
       state.user.lastname = result.lastname;
       state.user.phone = result.phone;
       state.user.email = result.email;
       state.user.acces = result.acces;
-      state.user.avatar_id = result.avatar_id
+      state.user.avatar_id = result.avatar_id;
 
       // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
       localStorage.setItem('user', JSON.stringify(state.user));
@@ -329,7 +331,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
         (collaborator) => collaborator.id !== deletedId
       );
 
-      toast.success("Le collaborateur a été supprimé avec succès !", {
+      toast.success('Le collaborateur a été supprimé avec succès !', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
