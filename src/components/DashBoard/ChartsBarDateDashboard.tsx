@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Doughnut } from 'react-chartjs-2';
 
+
+// Chart
 import { Chart } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import { BarController, PieController, CategoryScale, LinearScale, BarElement, ArcElement } from 'chart.js';
-import EditLastname from '../Profile/EditLastname/EditLastname';
 
 Chart.register(BarController, PieController, CategoryScale, LinearScale, BarElement, ArcElement);
 
-export default function BarChartSectorComponent() {
+export default function BarChartDateComponent() {
   
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
@@ -16,7 +17,7 @@ export default function BarChartSectorComponent() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:5000/stats/informations/sectors');
+        const response = await fetch(`http://localhost:5000/stats/informations/dates?date1=${date1}&date2=${date2}`);
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${response.status}`);
         }
@@ -84,6 +85,13 @@ export default function BarChartSectorComponent() {
     }
   };
 
-  return <Doughnut data={data} options={options}  />;
+  return (
+    <> 
+
+    <Bar data={data} options={options}  />
+    </>
+ 
+  
+  );
 }
 

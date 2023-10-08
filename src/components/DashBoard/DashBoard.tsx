@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 
 import BarChartCollaboratorComponent from "./ChartsBarCollaboratorDashboard";
-import BarChartSectorComponent from "./ChartsBarSectorDashboard"
+import BarChartSectorComponent from "./ChartsBarSectorDashboard";
+import BarChartDateComponent from "./ChartsBarDateDashboard";
 import ValidButton from "../SharedComponents/Buttons/ValidButton";
 
 
@@ -36,14 +37,14 @@ export default function DashBoard() {
         />
 
         <ValidButton
-          content="Classement autres"
+          content="Classement des collaborateurs entre deux dates"
           isSubmit
-          className={`w-full mt-10 ${activeButton === 'autres' ? 'bg-blue-500 text-white' : ''}`}
-          onClickMethod={() => handleButtonClick('autres')}
+          className={`w-full mt-10 ${activeButton === 'date' ? 'bg-blue-500 text-white' : ''}`}
+          onClickMethod={() => handleButtonClick('date')}
         />
       </div>
 
-      <div className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[50vh] shadow-custom bg-secondary-50">
+      <div className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[40vh] shadow-custom bg-secondary-50">
         <div className="">
           {/* Affichez BarChartCollaboratorComponent si activeButton est "collaborateurs" */}
           {activeButton === 'collaborateurs' && <BarChartCollaboratorComponent />}
@@ -51,6 +52,10 @@ export default function DashBoard() {
         <div className="">
           {/* Affichez BarChartSectorComponent si activeButton est "secteurs" */}
           {activeButton === 'secteurs' && <BarChartSectorComponent />}
+        </div>
+        <div className="">
+          {/* Affichez BarChartSectorComponent si activeButton est "secteurs" */}
+          {activeButton === 'date' && <BarChartDateComponent />}
         </div>
       </div>
     </>
