@@ -43,6 +43,7 @@ export const initialState: CollaboratorState = {
     url: undefined,
     logged: false,
     avatar_id: undefined,
+    sector_id: undefined,
   },
 };
 
