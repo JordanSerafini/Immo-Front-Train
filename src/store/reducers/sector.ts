@@ -75,8 +75,8 @@ export const editSector = createAsyncThunk(
   }
 );
 
-const sectorReducer = createReducer(initialState, (bulider) => {
-  bulider
+const sectorReducer = createReducer(initialState, (builder) => {
+  builder
     // Fetch All Sectors
     .addCase(fetchSectors.pending, (state) => {
       state.error = false;

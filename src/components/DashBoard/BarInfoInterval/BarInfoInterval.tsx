@@ -44,5 +44,9 @@ export default function BarInfoInterval() {
     ],
   };
 
-  return <Bar className='w-full' data={data}/>;
+  const options = {
+    indexAxis: 'y' as const,
+  };
+
+  return <Bar className='w-full' options={options} data={data}/>;
 }
