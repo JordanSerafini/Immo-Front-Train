@@ -160,7 +160,7 @@ export default function AddInfoModal() {
         <ActionFieldset {...regExps} />
 
         {/* GROUP BTNS */}
-        <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
+        <div className="flex justify-around w-3/4 gap-2 m-auto mt-5 mb-20 sm:mb-0">
           <ValidButton content="Enregistrer" isSubmit />
           <CancelButton content="Annuler" onClickMethod={handleCancelClick} />
         </div>

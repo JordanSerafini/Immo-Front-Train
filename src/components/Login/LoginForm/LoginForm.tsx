@@ -1,6 +1,9 @@
 // React Hooks
 import { FormEvent, useState } from 'react';
 
+// React router dom
+import { Link } from 'react-router-dom';
+
 // Redux
 import { useAppDispatch } from '../../../hooks/redux';
 
@@ -24,9 +27,9 @@ export default function LoginForm() {
   // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
-  // const [email, setEmail] = useState<string>('amandine.leroux@example.com');
-  const [password, setPassword] = useState<string>('password123!');
+  // const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,6 +40,8 @@ export default function LoginForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    setEmail("");
+    setPassword("");
 
     dispatch(login(formData));
   };
@@ -77,7 +82,11 @@ export default function LoginForm() {
         </button>
       </Input>
 
-      <ValidButton content="Se connecter" isSubmit className="w-full mt-10" />
+      <Link to="/reset" className="ml-1 underline -mt-7 text-start">
+        Mot de passe oublié ?
+      </Link>
+
+      <ValidButton content="Se connecter" isSubmit className="w-full" />
     </form>
   );
 }

@@ -1,5 +1,5 @@
 // React Hooks
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 
 // Components
 import Fieldset from '../../Form/Fieldset';
@@ -12,6 +12,9 @@ interface LocationFieldsetProps {
 }
 
 export default function LocationFieldset({ typeState, regExps }: LocationFieldsetProps) {
+  // Ref
+  const focusRef = useRef<HTMLInputElement>(null)
+
   // RegExp Destructuring
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const {address_number, address_street, code_zip, address_city, address_info} = regExps
@@ -22,10 +25,14 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
   const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
+  useEffect(() => {
+    focusRef.current?.focus();
+  }, [])
+
   return useMemo (() => (
     <Fieldset title="*Localisation">
-      <div className="flex flex-col gap-8 mb-5 mt-7">
-        <div className="flex justify-between gap-10">
+      <div className="flex flex-col mb-5 gap-7 mt-7">
+        <div className="flex flex-wrap justify-between gap-7 sm:gap-10">
           <MemoizedInput
             placeholder="N°"
             onChange={setStreetNumber}
@@ -35,13 +42,14 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
             inputName="address_number"
             label='N°'
             regExp={address_number}
+            inputRef={focusRef}
             isRequired
           />
           <MemoizedInput
             placeholder="Rue"
             onChange={setStreetName}
             value={streetName}
-            className="w-full sm:w-[300px]"
+            className="w-full md:w-[250px]"
             inputName='address_street'
             label='Rue'
             regExp={address_street}
@@ -49,7 +57,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
           />
         </div>
 
-        <div className="flex justify-between gap-10">
+        <div className="flex flex-wrap justify-between gap-7 sm:gap-10">
           <MemoizedInput
             placeholder="Code Postal"
             onChange={setZipCode}
@@ -65,7 +73,7 @@ export default function LocationFieldset({ typeState, regExps }: LocationFieldse
             placeholder="Ville"
             onChange={setCity}
             value={city}
-            className="w-full md:w-[260px]"
+            className="w-full md:w-[200px]"
             inputName='address_city'
             label='Ville'
             regExp={address_city}

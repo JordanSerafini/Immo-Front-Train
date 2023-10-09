@@ -1,3 +1,6 @@
+// React
+import { useState } from 'react';
+
 // React Dom
 import { createPortal } from 'react-dom';
 
@@ -16,6 +19,7 @@ import ActionSection from './ActionSection/ActionSection';
 import SearchInput from './SearchInput/SearchInput';
 import AddInfoModal from '../Modals/AddInfoModal/AddInfoModal';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
+import LayoutButton from './LayoutButton/LayoutButton';
 
 import CardActionToDo from '../ActionToDo/CardActionToDo/CardActionToDo';
 import CardUpcomingAction from '../UpcomingAction/CardUpcomingAction/CardUpcomingAction';
@@ -36,6 +40,9 @@ import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
 export default function Prospection() {
   // Hook Execution Order
   const dispatch = useAppDispatch();
+
+  // Local State
+  const [layout, setLayout] = useState<boolean>(false);
 
   // Redux States
   const informations = useAppSelector((state) => state.information.data);
@@ -74,47 +81,71 @@ export default function Prospection() {
     <>
       {/* SECTIONS for ActionToDo & UpcomingAction */}
       <div className="hidden grid-cols-2 lg:grid gap-x-10">
-        <ActionSection icon={actionToDoIcon} title="Actions à faire">
-          {actionToDo.map((information) => (
-            <CardActionToDo key={information.id} {...information} />
-          ))}
+        <ActionSection
+          nbrOfActionsToDo={actionToDo.length}
+          icon={actionToDoIcon}
+          title="Actions à faire"
+        >
+          {actionToDo.length ? (
+            actionToDo.map((information) => (
+              <CardActionToDo key={information.id} {...information} />
+            ))
+          ) : (
+            <p className="italic">
+              Il n&apos;y a aucune action à faire pour le moment...
+            </p>
+          )}
         </ActionSection>
 
         <ActionSection icon={upcomingActionIcon} title="Actions à venir">
-          {upcomingAction.map((information) => (
-            <CardUpcomingAction key={information.id} {...information} />
-          ))}
+          {upcomingAction.length ? (
+            upcomingAction.map((information) => (
+              <CardUpcomingAction key={information.id} {...information} />
+            ))
+          ) : (
+            <p className="italic">
+              Il n&apos;y a aucune action à venir pour le moment...
+            </p>
+          )}
         </ActionSection>
       </div>
 
       {/* TITLE */}
-      <h1 className="mt-20 lg:mt-10">Informations de prospection</h1>
+      <h1 className="mt-10">Informations de prospection</h1>
 
       <SearchInput />
 
       {/* ADD INFO BUTTON (component possible) */}
-      <button
-        onClick={handleAddInfoClick}
-        type="button"
-        className="fixed flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-7 right-10 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
-      >
-        <img
-          src={plus}
-          alt="Add Info Button Icon"
-          className="w-full sm:w-[30px]"
-        />
-        <span className="hidden text-secondary-50 font-poppins sm:inline">
-          Ajouter une information
-        </span>
-      </button>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={handleAddInfoClick}
+          type="button"
+          className="fixed z-20 flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-[10vh] right-5 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
+        >
+          <img
+            src={plus}
+            alt="Add Info Button Icon"
+            className="w-full sm:w-[30px]"
+          />
+          <span className="hidden text-secondary-50 font-poppins sm:inline">
+            Ajouter une information
+          </span>
+        </button>
+
+        <LayoutButton state={layout} handleMethod={setLayout} />
+      </div>
 
       {/* PROSPECTION INFORMATIONS */}
-      <section className="grid gap-x-10 lg:grid-cols-2">
+      <section className={`grid gap-x-10 ${layout ? "lg:grid-cols-1" : "lg:grid-cols-2"}`}>
         {filteredInformations.map((information: Information) => (
           <ProspectionInformation key={information.id} {...information} />
         ))}
 
-        {!filteredInformations.length && <p className='text-lg font-semibold text-center'>Pas encore d&apos;information...</p>}
+        {!filteredInformations.length && (
+          <p className="col-span-2 text-lg font-semibold text-center">
+            Pas d&apos;information...
+          </p>
+        )}
       </section>
       {/* DISPLAY ADD INFO MODAL */}
       {addInfoModal && createPortal(<AddInfoModal />, document.body)}

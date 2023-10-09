@@ -17,4 +17,6 @@ export interface Information {
   notification_date: string;
   phone_1: string;
   phone_2: string;
+  longitude: number;
+  latitude: number;
 }

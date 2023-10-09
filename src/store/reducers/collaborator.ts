@@ -43,6 +43,7 @@ export const initialState: CollaboratorState = {
     url: undefined,
     logged: false,
     avatar_id: undefined,
+    sector_id: undefined,
   },
 };
 
@@ -134,6 +135,10 @@ export const editCollaborator = createAsyncThunk(
       );
     }
   }
+);
+
+export const updateCollaboratorUrl = createAction<{ url: string }>(
+  'user/editurl'
 );
 
 // TEMPORARY IT WILL NOT BE DEPLOY
@@ -235,10 +240,6 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       return initialState;
     })
     .addCase(logout.fulfilled, () => {
-      toast.info('Vous êtes déconnecté.', {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-
       return initialState;
     })
     .addCase(logout.rejected, (state, action) => {
@@ -291,15 +292,21 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       });
     })
     // Update Collaborator
+    .addCase(updateCollaboratorUrl, (state, action) => {
+      state.user.url = action.payload?.url;
+    })
     .addCase(editCollaborator.pending, (state) => {
       state.error = false;
     })
     .addCase(editCollaborator.fulfilled, (state, action) => {
-      state.user.firstname = action.payload.data.result.firstname;
-      state.user.lastname = action.payload.data.result.lastname;
-      state.user.phone = action.payload.data.result.phone;
-      state.user.email = action.payload.data.result.email;
-      state.user.acces = action.payload.data.result.acces;
+      const { result } = action.payload.data;
+
+      state.user.firstname = result.firstname;
+      state.user.lastname = result.lastname;
+      state.user.phone = result.phone;
+      state.user.email = result.email;
+      state.user.acces = result.acces;
+      state.user.avatar_id = result.avatar_id;
 
       // It's important to set the user also in the localStorage. Otherwise, it will not update with a window.reload event
       localStorage.setItem('user', JSON.stringify(state.user));
@@ -324,7 +331,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
         (collaborator) => collaborator.id !== deletedId
       );
 
-      toast.success("Le collaborateur a été supprimé avec succès !", {
+      toast.success('Le collaborateur a été supprimé avec succès !', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })

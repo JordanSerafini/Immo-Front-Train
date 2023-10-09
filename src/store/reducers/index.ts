@@ -5,6 +5,7 @@ import actionsReducer from "./action";
 import regexpValidationReducer from "./regexpValidation";
 import collaboratorReducer from "./collaborator";
 import sectorReducer from "./sector";
+import avatarReducer from "./avatar";
 
 const reducer = {
     navbar: navbarReducer,
@@ -15,6 +16,7 @@ const reducer = {
     information: informationsReducer,
     action: actionsReducer,
     sector: sectorReducer,
+    avatar: avatarReducer,
 };
   
 export default reducer;

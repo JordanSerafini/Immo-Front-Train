@@ -1,5 +1,8 @@
 // React
-import { ChangeEvent, useId } from 'react';
+import { ChangeEvent, Ref, useId } from 'react';
+
+import { useAppDispatch } from '../../../../hooks/redux';
+import { filterInformations } from '../../../../store/reducers/information';
 
 // Typescript interface
 interface InputProps {
@@ -8,10 +11,11 @@ interface InputProps {
   className?: string;
   containerClassName?: string;
   label?: string;
-  inputName: string;
-  placeholder: string;
   regExp?: RegExp;
-  isRequired?: boolean
+  isRequired?: boolean;
+  inputRef?: Ref<HTMLInputElement> | null;
+  placeholder: string;
+  inputName: string;
   value: string | undefined;
   onChange: (value: string) => void;
 }
@@ -23,17 +27,23 @@ function Input({
   containerClassName,
   label,
   inputName,
+  inputRef,
   placeholder,
   regExp,
   isRequired = false,
   value,
   onChange,
 }: InputProps) {
+  const dispatch = useAppDispatch();
   const inputId = useId();
   const condition = regExp?.test(value as string);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     onChange(event.target.value);
+
+    if (type === "search") {
+      dispatch(filterInformations(event.target.value))
+    }
   }
 
   return (
@@ -41,7 +51,7 @@ function Input({
       <label
         htmlFor={inputId}
         className={`absolute font-poppins font-medium z-0 duration-300 ${
-          value?.length ? '-translate-y-full' : 'translate-y-[10%]'
+          value?.length ? 'opacity-100 -translate-y-full' : 'opacity-0 translate-y-[10%]'
         }`}
       >
         {label || placeholder}
@@ -52,7 +62,8 @@ function Input({
       <input
         className={`${className} ${
           (condition ||
-            (type === 'number' && condition &&
+            (type === 'number' &&
+              condition &&
               !Number.isNaN(parseInt(value as string, 10)))) &&
           'border-primary-300 focus:ring-transparent'
         } z-10`}
@@ -64,6 +75,8 @@ function Input({
         placeholder={placeholder}
         name={inputName}
         required={isRequired}
+        autoComplete="off"
+        ref={inputRef}
       />
     </div>
   );
@@ -73,11 +86,12 @@ function Input({
 Input.defaultProps = {
   children: null,
   type: 'text',
-  className: "",
-  containerClassName: "",
+  className: '',
+  containerClassName: '',
   label: null,
   regExp: null,
   isRequired: false,
+  inputRef: null,
 };
 
 // == Export

@@ -8,14 +8,15 @@ export default function ProfileSection({
   firstname,
   lastname,
   id,
+  role_id,
   closeNavBarMethod,
 }: User & {
   closeNavBarMethod: () => void;
 }) {
   return (
-    <section className="flex flex-wrap items-center justify-center gap-5 py-6">
+    <section className="flex flex-col items-center justify-center gap-5 py-2 sm:py-[2vh]">
       <img
-        className="rounded-full w-28 aspect-square shadow-custom"
+        className="w-20 rounded-full sm:w-28 aspect-square shadow-custom navbar__profile-img"
         src={url}
         alt="Collaborator Portrait"
       />
@@ -24,13 +25,15 @@ export default function ProfileSection({
           {firstname}{' '}
           <span className="font-semibold">{lastname?.toLocaleUpperCase()}</span>
         </h3>
-        <Link
-          to={`/app/profile/${id}`}
-          className="underline underline-offset-4"
-          onClick={closeNavBarMethod}
-        >
-          Mon profil
-        </Link>
+        {role_id === 2 && (
+          <Link
+            to={`/app/profile/${id}`}
+            className="underline underline-offset-4"
+            onClick={closeNavBarMethod}
+          >
+            Mon profil
+          </Link>
+        )}
       </div>
     </section>
   );

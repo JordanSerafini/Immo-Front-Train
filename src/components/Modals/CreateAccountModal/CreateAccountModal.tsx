@@ -54,7 +54,6 @@ export default function CreateAccountModal() {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   // Controlled Inputs states
-  // const [avatarUrl, setAvatarUrl] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -142,7 +141,7 @@ export default function CreateAccountModal() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-8 lg:w-[600px] my-5 mx-10"
+        className="flex flex-col gap-8 lg:w-[600px] my-5 mx-1 sm:mx-10"
       >
         <MemoizedInput
           placeholder="Nom"
@@ -233,7 +232,7 @@ export default function CreateAccountModal() {
         />
 
         {/* GROUP BTNS */}
-        <div className="flex justify-between w-3/4 gap-4 m-auto mt-5">
+        <div className="flex flex-wrap justify-around w-3/4 gap-4 m-auto mt-5">
           <ValidButton content="Créer le compte" isSubmit />
           <CancelButton content="Annuler" onClickMethod={handleCancelClick} />
         </div>

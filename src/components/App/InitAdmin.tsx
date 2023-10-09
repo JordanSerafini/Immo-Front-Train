@@ -8,7 +8,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 // Store
-import { setUserWithStorage, fetchCollaborators } from '../../store/reducers/collaborator';
+import {
+  setUserWithStorage,
+  fetchCollaborators,
+} from '../../store/reducers/collaborator';
 import { fetchSectors } from '../../store/reducers/sector';
 
 // Axios
@@ -40,8 +43,12 @@ export default function InitAdmin() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    // !!! SECURITY ISSUE - We want to check if the user id admin. It's maybe a bad idea to set user with storage for the admin case !!!
-    if (accessToken) {
+    if (!user.id) {
+      dispatch(setUserWithStorage());
+      // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+      navigate('/admin/collaborator');
+    }
+    if (accessToken && user.role_id === 1) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       if (!flag && !collaborators.length && !isCollaboratorsLoading) {
@@ -52,11 +59,7 @@ export default function InitAdmin() {
         dispatch(fetchSectors());
       }
 
-      if (!user.id) {
-        dispatch(setUserWithStorage());
-        // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-        navigate('/admin/collaborator');
-      }
+      
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
@@ -71,12 +74,13 @@ export default function InitAdmin() {
     navigate,
     sectors.length,
     user.id,
+    user.role_id,
   ]);
 
   return (
     <>
       <NavBar />
-      <MainSection>
+      <MainSection specificPath='/admin/collaborator'>
         <Outlet />
       </MainSection>
     </>

@@ -50,7 +50,7 @@ function RadioButton({
 
       <label
         htmlFor={inputId}
-        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} border-solid border-2 font-poppins text-lg border-accent-400 duration-150 ${
+        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} border-solid border-2 font-poppins text-md sm:text-lg border-accent-400 duration-150 ${
           state === value ? 'bg-accent-400 text-secondary-50' : ''
         }`}
       >

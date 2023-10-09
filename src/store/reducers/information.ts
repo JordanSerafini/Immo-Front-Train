@@ -18,11 +18,9 @@ import axiosInstance from '../../utils/axios';
 // Typescript interface
 import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
-
-// Typescript interface
 import { ErrorType } from '../../@types/error';
 
-interface InformationsState {
+interface InformationState {
   loading: boolean;
   error: boolean;
   data: Information[];
@@ -31,7 +29,7 @@ interface InformationsState {
 }
 
 // INITIAL STATE
-export const initialState: InformationsState = {
+export const initialState: InformationState = {
   loading: false,
   error: false,
   data: [],
@@ -47,9 +45,16 @@ export const resetInformations = createAction('informations/reset');
 export const fetchInformations = createAsyncThunk(
   'informations/APICall',
   async () => {
-    const response = await axiosInstance.get(`/informations`);
+    try {
+      const response = await axiosInstance.get(`/informations`);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -85,7 +90,7 @@ export const filterInformations = createAction(
 // Create information
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({ formData }: { formData: Information }) => {
+  async ({ formData }: { formData : Information | {sector_id: number | undefined}}) => {
     try {
       const response = await axiosInstance.post('/informations', formData);
 
@@ -132,7 +137,7 @@ export const createInformationAndAction = createAsyncThunk(
       const actionData = {
         information_id: response.data.result.id,
         description: formData.description,
-        date: formData.notification_date,
+        date: formData.date,
       };
 
       // Second request to create an action
@@ -290,9 +295,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(deleteInformation.fulfilled, (state, action) => {
       const deletedId = parseInt(action.payload, 10);
 
-      state.data = state.data.filter(
-        (info) => info.id !== deletedId
-      );
+      state.data = state.data.filter((info) => info.id !== deletedId);
       state.filteredInformations = state.filteredInformations.filter(
         (info) => info.id !== deletedId
       );

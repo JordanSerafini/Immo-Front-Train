@@ -13,6 +13,8 @@ import InitAdmin from './InitAdmin';
 import Login from '../Login/Login';
 import Support from '../Support/Support';
 import SupportConfirmation from '../SupportConfirmation/SupportConfirmation';
+import ResetPassword from '../ResetPassword/ResetPassword';
+import ResetPasswordToken from '../ResetPasswordToken/ResetPasswordToken';
 
 // Collaborator
 import Profile from '../Profile/Profile';
@@ -43,6 +45,8 @@ function App() {
             path="/support/confirmation"
             element={<SupportConfirmation />}
           />
+          <Route path='/reset' element={<ResetPassword />} />
+          <Route path='/reset/token' element={<ResetPasswordToken />} />
 
           {/* This Route allows us to not write /app for every following routes  */}
           <Route path="/app" element={<InitApp />}>
@@ -68,7 +72,7 @@ function App() {
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
-        <ToastContainer autoClose={2000} />
+        <ToastContainer autoClose={2000} className="z-0" />
       </div>
     </BrowserRouter>
   );

@@ -1,13 +1,15 @@
+// React dom
+import { createPortal } from 'react-dom';
+
 // Redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 
 // Reducer
-import {
-  showCreateAccountModal,
-} from '../../store/reducers/modal';
+import { showCreateSectorModal } from '../../store/reducers/modal';
 
 // Components
 import SectorCard from './SectorCard/SectorCard';
+import CreateSectorModal from '../Modals/CreateSectorModal/CreateSectorModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
@@ -20,11 +22,11 @@ export default function SectorManager() {
   // Redux states
   const sectors = useAppSelector((state) => state.sector.data);
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
-
+  const createSectorModal = useAppSelector((state) => state.modal.isCreateSectorModalOpen);
 
   // Handle Methods
   const handleCreateSectorrClick = () => {
-    dispatch(showCreateAccountModal());
+    dispatch(showCreateSectorModal());
   };
 
   return (
@@ -55,7 +57,9 @@ export default function SectorManager() {
 
         {!sectors.length && <p className='text-lg font-semibold text-center'>Pas encore de secteur...</p>}
       </section>
-
+      {/* DISPLAY CREATE SECTOR MODAL */}
+      {createSectorModal &&
+        createPortal(<CreateSectorModal />, document.body)}
     </>
   );
 }

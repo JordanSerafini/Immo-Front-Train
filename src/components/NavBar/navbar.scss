@@ -1,0 +1,11 @@
+@media (max-height: 750px) {
+  .navbar__logo {
+    display: none !important;
+  }
+}
+
+@media (max-height: 550px) {
+  .navbar__profile-img {
+    width: 5rem;
+  }
+}
