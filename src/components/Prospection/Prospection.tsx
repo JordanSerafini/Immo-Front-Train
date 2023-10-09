@@ -86,7 +86,7 @@ export default function Prospection() {
           icon={actionToDoIcon}
           title="Actions à faire"
         >
-          {actionToDo.length ? (
+          {actionToDo.length  ? (
             actionToDo.map((information) => (
               <CardActionToDo key={information.id} {...information} />
             ))

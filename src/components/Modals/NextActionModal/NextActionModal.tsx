@@ -81,7 +81,7 @@ function NextActionModal({
       notification_date: formatedNotifDate,
       collaborator_id: collaborator.id as number,
       // CHANGE SECTOR
-      sector_id: collaborator.sector_id,
+      sector_id: collaborator.sector_id || 3,
     };
 
     // If there's an Information to create AND an action to create
