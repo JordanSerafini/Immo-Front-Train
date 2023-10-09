@@ -11,4 +11,5 @@ export interface User {
   avatar_id: numner | undefined;
   url: string | undefined;
   logged: boolean;
+  sector_id: number | undefined;
 }

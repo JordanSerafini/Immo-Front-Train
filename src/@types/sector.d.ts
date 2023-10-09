@@ -4,4 +4,5 @@ export interface Sector {
   city: string;
   code_zip: number;
   collaborator_id: number;
+  label: string;
 }

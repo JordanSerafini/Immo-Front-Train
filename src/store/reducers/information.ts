@@ -90,7 +90,7 @@ export const filterInformations = createAction(
 // Create information
 export const createInformation = createAsyncThunk(
   'information/create',
-  async ({ formData }: { formData: Information }) => {
+  async ({ formData }: { formData : Information | {sector_id: number | undefined}}) => {
     try {
       const response = await axiosInstance.post('/informations', formData);
 
@@ -137,7 +137,7 @@ export const createInformationAndAction = createAsyncThunk(
       const actionData = {
         information_id: response.data.result.id,
         description: formData.description,
-        date: formData.notification_date,
+        date: formData.date,
       };
 
       // Second request to create an action
