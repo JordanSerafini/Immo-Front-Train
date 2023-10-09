@@ -147,9 +147,9 @@ export const deleteCollaborator = createAsyncThunk(
   'collaborator/delete',
   async ({ id }: { id: string }) => {
     try {
-      await axiosInstance.delete(`/collaborator/${id}`);
+      const response = await axiosInstance.delete(`/collaborator/${id}`);
 
-      return id;
+      return {response, id};
     } catch (error) {
       throw new Error(
         (error as ErrorType).response.data.error ||
@@ -325,7 +325,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
     })
     // Delete Collaborator
     .addCase(deleteCollaborator.fulfilled, (state, action) => {
-      const deletedId = parseInt(action.payload, 10);
+      const deletedId = parseInt(action.payload.id, 10);
 
       state.data = state.data.filter(
         (collaborator) => collaborator.id !== deletedId

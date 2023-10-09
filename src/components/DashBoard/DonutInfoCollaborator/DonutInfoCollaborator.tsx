@@ -1,5 +1,5 @@
 // Library
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, LegendOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
 // Redux
@@ -25,12 +25,21 @@ export default function DonutInfoCollaborator() {
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        position: 'right' as LegendOptions<'doughnut'>['position'],
+      },
+    },
+  };
+
   return (
     <Doughnut
-      className="max-w-[100%] md:max-w-[50%] md:max-h-[60%] m-auto"
+      className="max-w-[100%] md:max-w-[20vw] md:max-h-[20vw] m-auto"
       data={data}
       width="200px"
       height="200px"
+      options={options}
     />
   )
 }
