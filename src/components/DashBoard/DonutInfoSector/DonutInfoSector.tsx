@@ -25,7 +25,7 @@ export default function DonutInfoSector() {
 
   return (
     <Doughnut
-      className="max-w-[100%] m-auto"
+      className="max-w-[100%] md:max-w-[50%] md:max-h-[60%] m-auto"
       data={data}
       width="200px"
       height="200px"

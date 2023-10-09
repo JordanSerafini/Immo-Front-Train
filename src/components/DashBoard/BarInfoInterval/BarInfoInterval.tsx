@@ -44,5 +44,5 @@ export default function BarInfoInterval() {
     ],
   };
 
-  return <Bar data={data} />;
+  return <Bar className='w-full' data={data}/>;
 }
