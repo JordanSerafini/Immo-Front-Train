@@ -244,7 +244,6 @@ const informationsReducer = createReducer(initialState, (builder) => {
     .addCase(createInformation.fulfilled, (state, action) => {
       state.data.push(action.payload.data.result);
       state.filteredInformations.push(action.payload.data.result);
-      console.log(action.payload)
 
       toast.success('Votre information à bien été créée !', {
         position: toast.POSITION.BOTTOM_RIGHT,

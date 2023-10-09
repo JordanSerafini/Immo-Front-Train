@@ -15,7 +15,7 @@ function ActionSection({
 
   return (
     <section className="p-4 rounded-lg shadow-custom bg-secondary-50 h-[250px] overflow-y-auto overflow-x-hidden relative">
-      {nbrOfActionsToDo >= 1 && (
+      {nbrOfActionsToDo && nbrOfActionsToDo >= 1 && (
         <aside className="absolute flex items-center justify-center w-8 text-white bg-red-500 rounded-full right-1 aspect-square top-1">
           <p className="font-semibold font-poppins">{nbrOfActionsToDo}</p>
         </aside>
