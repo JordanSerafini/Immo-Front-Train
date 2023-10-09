@@ -1,6 +1,9 @@
 // React
 import { useEffect, useState } from 'react';
 
+// Library
+import dayjs from 'dayjs';
+
 // React Router
 import { Outlet, useNavigate } from 'react-router-dom';
 
@@ -20,6 +23,14 @@ import axiosInstance from '../../utils/axios';
 // Components
 import NavBar from '../NavBar/NavBar';
 import MainSection from '../SharedComponents/MainSection/MainSection';
+import {
+  infoByCollaborator,
+  infoBySector,
+  infoWithInterval,
+} from '../../store/reducers/stats';
+
+// Utils
+import getFormatedFullDate from '../../utils/getFormatedFullDate';
 
 export default function InitAdmin() {
   // Hook Execution Order
@@ -34,6 +45,8 @@ export default function InitAdmin() {
   );
   const sectors = useAppSelector((state) => state.sector.data);
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
+  const stats = useAppSelector((state) => state.stats.dataSector);
+  const isStatsLoading = useAppSelector((state) => state.stats.loading);
 
   // Local State
   // The flag is really important to avoid multiple fetches
@@ -46,7 +59,7 @@ export default function InitAdmin() {
     if (!user.id) {
       dispatch(setUserWithStorage());
       // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-      navigate('/admin/collaborator');
+      navigate('/admin/dashboard');
     }
     if (accessToken && user.role_id === 1) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -56,10 +69,22 @@ export default function InitAdmin() {
         dispatch(fetchCollaborators());
       }
       if (!flag && !sectors.length && !isSectorsLoading) {
+        setFlag(true);
         dispatch(fetchSectors());
       }
-
-      
+      if (!flag && !stats.length && !isStatsLoading) {
+        setFlag(true);
+        dispatch(infoBySector());
+        dispatch(infoByCollaborator());
+        dispatch(
+          infoWithInterval({
+            formValues: {
+              firstDate: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
+              secondDate: getFormatedFullDate(),
+            },
+          })
+        );
+      }
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
@@ -71,8 +96,10 @@ export default function InitAdmin() {
     flag,
     isCollaboratorsLoading,
     isSectorsLoading,
+    isStatsLoading,
     navigate,
     sectors.length,
+    stats.length,
     user.id,
     user.role_id,
   ]);
@@ -80,7 +107,7 @@ export default function InitAdmin() {
   return (
     <>
       <NavBar />
-      <MainSection specificPath='/admin/collaborator'>
+      <MainSection specificPath="/admin/dashboard">
         <Outlet />
       </MainSection>
     </>
