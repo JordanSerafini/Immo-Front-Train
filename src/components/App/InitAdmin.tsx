@@ -1,6 +1,9 @@
 // React
 import { useEffect, useState } from 'react';
 
+// Library
+import dayjs from 'dayjs';
+
 // React Router
 import { Outlet, useNavigate } from 'react-router-dom';
 
@@ -20,7 +23,14 @@ import axiosInstance from '../../utils/axios';
 // Components
 import NavBar from '../NavBar/NavBar';
 import MainSection from '../SharedComponents/MainSection/MainSection';
-import { infoByCollaborator, infoBySector } from '../../store/reducers/stats';
+import {
+  infoByCollaborator,
+  infoBySector,
+  infoWithInterval,
+} from '../../store/reducers/stats';
+
+// Utils
+import getFormatedFullDate from '../../utils/getFormatedFullDate';
 
 export default function InitAdmin() {
   // Hook Execution Order
@@ -37,9 +47,6 @@ export default function InitAdmin() {
   const isSectorsLoading = useAppSelector((state) => state.sector.loading);
   const stats = useAppSelector((state) => state.stats.dataSector);
   const isStatsLoading = useAppSelector((state) => state.stats.loading);
-
-  const test = useAppSelector((state) => state.stats.dataCollabs);
-  console.log(test)
 
   // Local State
   // The flag is really important to avoid multiple fetches
@@ -68,7 +75,15 @@ export default function InitAdmin() {
       if (!flag && !stats.length && !isStatsLoading) {
         setFlag(true);
         dispatch(infoBySector());
-        dispatch(infoByCollaborator())
+        dispatch(infoByCollaborator());
+        dispatch(
+          infoWithInterval({
+            formValues: {
+              firstDate: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
+              secondDate: getFormatedFullDate(),
+            },
+          })
+        );
       }
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page

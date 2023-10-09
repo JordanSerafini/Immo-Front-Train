@@ -18,6 +18,7 @@ interface StatsState {
   error: boolean;
   dataSector: StatsInfoSector[];
   dataCollabs: StatsInfoCollab[];
+  dataInterval: StatsInfoCollab[];
 }
 
 export const initialState: StatsState = {
@@ -25,6 +26,7 @@ export const initialState: StatsState = {
   error: false,
   dataSector: [],
   dataCollabs: [],
+  dataInterval: [],
 };
 
 export const infoBySector = createAsyncThunk('stats/infobysector', async () => {
@@ -46,6 +48,28 @@ export const infoByCollaborator = createAsyncThunk(
     try {
       const response = await axiosInstance.get(
         '/stats/informations/collaborators'
+      );
+
+      return response;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
+  }
+);
+
+export const infoWithInterval = createAsyncThunk(
+  'stats/infowithinterval',
+  async ({
+    formValues,
+  }: {
+    formValues: { firstDate: string; secondDate: string };
+  }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/stats/informations/dates`, formValues
       );
 
       return response;
@@ -85,7 +109,6 @@ const statsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(infoByCollaborator.fulfilled, (state, action) => {
       const result = action.payload.data;
-      console.log(result);
 
       state.loading = false;
       state.dataCollabs = result;
@@ -97,7 +120,26 @@ const statsReducer = createReducer(initialState, (builder) => {
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-    });
+    })
+    // Info With Interval
+    .addCase(infoWithInterval.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    })
+    .addCase(infoWithInterval.fulfilled, (state, action) => {
+      const result = action.payload.data;
+
+      state.loading = false;
+      state.dataInterval = result;
+    })
+    .addCase(infoWithInterval.rejected, (state, action) => {
+      state.loading = false;
+      state.error = true;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
 });
 
 export default statsReducer;
