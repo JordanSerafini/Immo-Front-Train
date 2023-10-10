@@ -1,92 +1,78 @@
-// React
+// === REACT === //
 import { useState } from 'react';
 
-// React Dom
+// === REACT ROUTER DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import {
   showAddInfoModal,
   hideDeleteConfirmationModal,
 } from '../../store/reducers/modal';
 
-// Components
-import InformationCard from '../../components/layout/Cards/InformationCard';
-import ActionSection from '../../components/layout/Sections/ActionSection';
+// === COMPONENTS === //
+// Common
 import SearchInput from '../../components/common/Inputs/SearchInput';
-import AddInfoModal from '../../components/Modals/AddInfoModal/AddInfoModal';
-import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 import LayoutButton from '../../components/common/Buttons/LayoutButton';
-
+import AddInfoButton from '../../components/common/Buttons/AddInfoButton';
+// Layout
+import ActionSection from '../../components/layout/Sections/ActionSection';
+import InformationCard from '../../components/layout/Cards/InformationCard';
 import ActionToDoCard from '../../components/layout/Cards/ActionToDoCard';
 import UpcomingActionCard from '../../components/layout/Cards/UpcomingActionCard';
+// Modal
+import AddInfoModal from '../../components/Modals/AddInfoModal/AddInfoModal';
+import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 
-// Assets
-import plus from '../../assets/icons/plus.svg';
-import actionToDoIcon from '../../assets/icons/action-to-do.svg';
-import upcomingActionIcon from '../../assets/icons/upcoming-action.svg';
-import loader from '../../assets/loader/tail-spin.svg';
+import Loader from '../../components/common/Loader/Loader';
 
-// Typescript interface
+// === ASSETS === //
+import { actionToDoIcon, upcomingActionIcon } from '../../assets';
+
+// === TYPESCRIPT === //
 import { Information } from '../../@types/information';
 
-// utils
+// === UTILS === //
 import filteredActionToDo from '../../utils/filteredActionToDo';
 import filteredUpcomingAction from '../../utils/filteredUpcomingAction';
 
 export default function Prospection() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Local State
+  // === REDUX STATES === //
+  const informationState = useAppSelector((state) => state.information);
+  const {filteredInformations, loading, data: informations} = informationState
+
+  const modalState = useAppSelector((state) => state.modal);
+  const {isAddInfoModalOpen, isDeleteConfirmationOpen} = modalState
+
+  // === LOCAL STATES === //
   const [layout, setLayout] = useState<boolean>(false);
 
-  // Redux States
-  const informations = useAppSelector((state) => state.information.data);
-  const filteredInformations = useAppSelector(
-    (state) => state.information.filteredInformations
-  );
-  const isLoading = useAppSelector((state) => state.information.loading);
-  const addInfoModal = useAppSelector(
-    (state) => state.modal.isAddInfoModalOpen
-  );
-  const deleteModal = useAppSelector(
-    (state) => state.modal.isDeleteConfirmationOpen
-  );
-
-  // Methods
-  const handleAddInfoClick = () => {
-    dispatch(showAddInfoModal());
-  };
-
   // Temporary, I think we could make it cleaner
-  if (isLoading) {
-    return (
-      <img
-        className="absolute w-[50px] left-1/2 top-1/4 z-30"
-        src={loader}
-        alt="Loader"
-      />
-    );
+  if (loading) {
+    return <Loader className="absolute w-[50px] left-1/2 top-1/4 z-30" />;
   }
 
+  // === VARIABLES === //
   const actionToDo = filteredActionToDo(informations);
-
   const upcomingAction = filteredUpcomingAction(informations);
 
   return (
     <>
       {/* SECTIONS for ActionToDo & UpcomingAction */}
       <div className="hidden grid-cols-2 lg:grid gap-x-10">
+        {/* ACTION TO DO SECTION */}
         <ActionSection
           nbrOfActionsToDo={actionToDo.length}
           icon={actionToDoIcon}
           title="Actions à faire"
         >
-          {actionToDo.length  ? (
+          {actionToDo.length ? (
             actionToDo.map((information) => (
               <ActionToDoCard key={information.id} {...information} />
             ))
@@ -97,6 +83,7 @@ export default function Prospection() {
           )}
         </ActionSection>
 
+        {/* UPCOMING ACTIONS SECTION */}
         <ActionSection icon={upcomingActionIcon} title="Actions à venir">
           {upcomingAction.length ? (
             upcomingAction.map((information) => (
@@ -115,28 +102,18 @@ export default function Prospection() {
 
       <SearchInput />
 
-      {/* ADD INFO BUTTON (component possible) */}
+      {/* BUTTON GROUP */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={handleAddInfoClick}
-          type="button"
-          className="fixed z-20 flex items-center justify-center w-12 p-1 duration-300 rounded-full aspect-square bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110 bottom-[10vh] right-5 sm:static sm:rounded-lg sm:aspect-auto sm:mb-4 sm:pr-4 sm:w-fit sm:p-2"
-        >
-          <img
-            src={plus}
-            alt="Add Info Button Icon"
-            className="w-full sm:w-[30px]"
-          />
-          <span className="hidden text-secondary-50 font-poppins sm:inline">
-            Ajouter une information
-          </span>
-        </button>
-
+        <AddInfoButton onClickMethod={() => dispatch(showAddInfoModal())} />
         <LayoutButton state={layout} handleMethod={setLayout} />
       </div>
 
       {/* PROSPECTION INFORMATIONS */}
-      <section className={`grid gap-x-10 ${layout ? "lg:grid-cols-1" : "lg:grid-cols-2"}`}>
+      <section
+        className={`grid gap-x-10 ${
+          layout ? 'lg:grid-cols-1' : 'lg:grid-cols-2'
+        }`}
+      >
         {filteredInformations.map((information: Information) => (
           <InformationCard key={information.id} {...information} />
         ))}
@@ -147,10 +124,11 @@ export default function Prospection() {
           </p>
         )}
       </section>
+      
       {/* DISPLAY ADD INFO MODAL */}
-      {addInfoModal && createPortal(<AddInfoModal />, document.body)}
+      {isAddInfoModalOpen && createPortal(<AddInfoModal />, document.body)}
       {/* DISPLAY DELETE MODAL */}
-      {deleteModal &&
+      {isDeleteConfirmationOpen &&
         createPortal(
           <DeleteModal
             deleteUser={false}
