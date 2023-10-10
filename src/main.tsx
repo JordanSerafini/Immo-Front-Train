@@ -1,17 +1,17 @@
 // For Strict Mode
 // import React from 'react';
 
-// React
+// === REACT DOM === //
 import ReactDOM from 'react-dom/client';
 
-// Redux
+// === REDUX === //
 import { Provider } from 'react-redux';
 import store from './store';
 
-// Components
+// === COMPONENTS === //
 import App from './components/App/App';
 
-// Styles
+// === STYLES === //
 import './styles/index.scss';
 import './styles/index.tailwind.css';
 

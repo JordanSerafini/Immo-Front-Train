@@ -1,36 +1,42 @@
-// Library
+// === REACT === //
+import { FormEvent, useState } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Hooks & types
-import { FormEvent, useState } from 'react';
+// === AXIOS === //
 
-// Axios
 import axiosInstance from '../../utils/axios';
 
-// Components
+// === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
 import Footer from '../../components/layout/Footer/Footer';
 import Input from '../../components/Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 
-// Typescript
+// === TYPESCRIPT === //
 import { ErrorType } from '../../@types/error';
 import { useAppSelector } from '../../hooks/redux';
 
 export default function ResetPassword() {
-  // Local States
-  const [email, setEmail] = useState<string>('');
+  // === REDUX STATES === //
   const emailRegexp = useAppSelector((state) => state.regexps.user.email);
+  
+  // === LOCAL STATES === //
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
+  
+  // === CONTROLLED INPUT STATES === //
+  const [email, setEmail] = useState<string>('');
 
-  // Handlers
+  // === HANDLERS === //
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    // === FETCH === //
     try {
       const objData = Object.fromEntries(formData);
       await axiosInstance.post('/reset', objData);

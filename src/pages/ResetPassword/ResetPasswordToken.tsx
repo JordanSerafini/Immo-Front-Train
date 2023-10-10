@@ -1,54 +1,56 @@
-// Library
+// === REACT === //
+import { useState, FormEvent } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React
-import { useState, FormEvent } from 'react';
-
-// React Dom
+// === REACT ROUTER DOM === //
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// Redux
-import { useAppSelector } from '../../hooks/redux';
-
-// Axios
+// === AXIOS === //
 import axiosInstance from '../../utils/axios';
 
-// Components
+// === REDUX HOOKS === //
+import { useAppSelector } from '../../hooks/redux';
+
+// === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
 import MemoizedInput from '../../components/Modals/AddInfoModal/Field/MemoizedInput';
 import Footer from '../../components/layout/Footer/Footer';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';
 
-// Assets
-import eyeIcon from '../../assets/icons/eye-empty.svg';
-import eyeOffIcon from '../../assets/icons/eye-off.svg';
+// === ASSETS === //
+import { eyeOffIcon, eyeEmptyIcon } from '../../assets';
 
-// Typescript
+// === TYPESCRIPT === //
 import { ErrorType } from '../../@types/error';
 
 export default function ResetPasswordToken() {
-  // Hook execution order
+  // === HOOK EXEC ORDER === //
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redux states
+  // === REDUX STATES === //
   const passwordRegExps = useAppSelector(
     (state) => state.regexps.passwordStrength
   );
   const regExps = useAppSelector((state) => state.regexps.user);
 
-  // Local state
+  // === VARIABLES === //
+  const token = location.search.slice(1);
+
+  // === LOCAL STATES === //
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // === CONTROLLED INPUT STATES === //
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
-  const token = location.search.slice(1);
-
-  // handlers
+  // === HANDLERS === //
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -62,6 +64,7 @@ export default function ResetPasswordToken() {
       });
     }
 
+    // === FETCH === //
     try {
       const objData = Object.fromEntries(formData);
       const response = await axiosInstance.post('/reset/token', objData);
@@ -115,7 +118,7 @@ export default function ResetPasswordToken() {
               onClick={() => setShowPassword(!showPassword)}
             >
               <img
-                src={showPassword ? eyeIcon : eyeOffIcon}
+                src={showPassword ? eyeEmptyIcon : eyeOffIcon}
                 alt="Password Icon"
               />
             </button>
@@ -142,7 +145,7 @@ export default function ResetPasswordToken() {
               }
             >
               <img
-                src={showPasswordConfirmation ? eyeIcon : eyeOffIcon}
+                src={showPasswordConfirmation ? eyeEmptyIcon : eyeOffIcon}
                 alt="Password Icon"
               />
             </button>
