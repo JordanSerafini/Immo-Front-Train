@@ -21,8 +21,8 @@ import { fetchSectors } from '../../store/reducers/sector';
 import axiosInstance from '../../utils/axios';
 
 // Components
-import NavBar from '../NavBar/NavBar';
-import MainSection from '../SharedComponents/MainSection/MainSection';
+import NavBar from '../features/NavBar/NavBar';
+import Main from '../layout/Main/Main';
 import {
   infoByCollaborator,
   infoBySector,
@@ -107,9 +107,9 @@ export default function InitAdmin() {
   return (
     <>
       <NavBar />
-      <MainSection specificPath="/admin/dashboard">
+      <Main specificPath="/admin/dashboard">
         <Outlet />
-      </MainSection>
+      </Main>
     </>
   );
 }

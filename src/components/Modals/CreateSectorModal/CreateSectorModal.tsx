@@ -19,8 +19,8 @@ import { createSector } from '../../../store/reducers/sector';
 import Modal from '../Modal';
 import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
 import CancelModal from '../CancelModal/CancelModal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
 // Assets
 import plus from '../../../assets/icons/plus.svg';

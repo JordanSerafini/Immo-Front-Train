@@ -26,7 +26,7 @@ import { createProspectionAction } from '../../../store/reducers/action';
 
 // Components
 import Modal from '../Modal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../common/Buttons/ValidButton';
 import Input from '../AddInfoModal/Field/Input';
 
 // Utils

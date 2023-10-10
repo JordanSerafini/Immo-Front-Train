@@ -1,5 +1,5 @@
 // For Strict Mode
-import React from 'react';
+// import React from 'react';
 
 // React
 import ReactDOM from 'react-dom/client';
