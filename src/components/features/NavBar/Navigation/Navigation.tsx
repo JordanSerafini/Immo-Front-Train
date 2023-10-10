@@ -5,12 +5,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { useAppSelector } from '../../../../hooks/redux';
 
 // Assets
-import home from '../../../../assets/icons/home.svg';
-import actionToDo from '../../../../assets/icons/action-to-do.svg';
-import upcomingAction from '../../../../assets/icons/upcoming-action.svg';
-import settingsIcon from "../../../../assets/icons/settings.svg";
-import statsIcon from "../../../../assets/icons/stats.svg";
-import messageIcon from "../../../../assets/icons/send-diagonal.svg";
+import {homeIcon, actionToDoIcon, upcomingActionIcon, settingsIcon, statsIcon, sendIcon} from "../../../../assets"
 
 // Component
 import NavItem from './NavItem';
@@ -27,22 +22,22 @@ export default function Navigation({
   const collaboratorLinks = [
     {
       content: 'Accueil',
-      icon: home,
+      icon: homeIcon,
       path: '/app/prospection',
     },
     {
       content: 'Actions à faire',
-      icon: actionToDo,
+      icon: actionToDoIcon,
       path: '/app/actionToDo',
     },
     {
       content: 'Actions à venir',
-      icon: upcomingAction,
+      icon: upcomingActionIcon,
       path: '/app/upcomingAction',
     },
     {
       content: 'Messagerie',
-      icon: messageIcon,
+      icon: sendIcon,
       path: '/app/message'
     }
   ];
