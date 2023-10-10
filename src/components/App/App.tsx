@@ -25,9 +25,9 @@ import ActionManager from '../../pages/ActionManager/ActionManager';
 import UpcomingAction from '../../pages/UpcomingAction/UpcomingAction';
 
 // Admin
-import SectorManager from '../SectorManager/SectorManager';
-import CollaboratorManager from '../CollaboratorManager/CollaboratorManager';
-import DashBoard from '../DashBoard/DashBoard';
+import SectorManager from '../../pages/SectorManager/SectorManager';
+import CollaboratorManager from '../../pages/CollaboratorManager/CollaboratorManager';
+import DashBoard from '../../pages/Dashboard/DashBoard';
 
 // 404 - Error
 import NotFound from '../../pages/NotFound/NotFound';

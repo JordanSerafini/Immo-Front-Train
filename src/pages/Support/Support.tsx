@@ -12,9 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 
 // Components
-import Logo from '../../components/SharedComponents/Logo/Logo';
+import Logo from '../../components/layout/Logo/Logo';
 import Textarea from '../../components/Modals/AddInfoModal/Field/Textarea';
-import ValidButton from '../../components/SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../components/common/Buttons/ValidButton';
 import Input from '../../components/Modals/AddInfoModal/Field/Input';
 import SupportFooter from '../../components/layout/Footers/SupportFooter';
 

@@ -11,9 +11,9 @@ import {
 } from '../../store/reducers/modal';
 
 // Components
-import CollabCard from './CollabCard/CollabCard';
-import CreateAccountModal from '../Modals/CreateAccountModal/CreateAccountModal';
-import DeleteModal from '../Modals/DeleteModal/DeleteModal';
+import CollaboratorCard from '../../components/layout/Cards/CollaboratorCard';
+import CreateAccountModal from '../../components/Modals/CreateAccountModal/CreateAccountModal';
+import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';
@@ -64,7 +64,7 @@ export default function CollaboratorManager() {
           <img src={loaderSVG} alt="Loader" className="block m-auto" />
         ) : (
           collaborators.map((collaborator) => (
-            <CollabCard key={collaborator.id} {...collaborator} />
+            <CollaboratorCard key={collaborator.id} {...collaborator} />
           ))
         )}
 

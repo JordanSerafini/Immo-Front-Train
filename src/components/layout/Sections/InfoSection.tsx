@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 
 // Shared components
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../common/Buttons/ValidButton';
 
 // Assets
 import houseIcon from '../../../assets/icons/house.svg';

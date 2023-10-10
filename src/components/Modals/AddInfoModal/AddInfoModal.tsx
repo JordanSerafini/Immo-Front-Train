@@ -13,8 +13,8 @@ import {
 } from '../../../store/reducers/modal';
 
 // Shared Components
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
 // Modal Components
 import Modal from '../Modal';
@@ -34,7 +34,7 @@ import ActionFieldset from './ActionFieldset/ActionFieldset';
 import plus from '../../../assets/icons/plus.svg';
 
 // Style
-import '../../SharedComponents/ErrorMsg/animation.scss';
+import "../../common/ErrorMsg/styles/animation.scss"
 
 // Typescript interface
 import { Information } from '../../../@types/information';

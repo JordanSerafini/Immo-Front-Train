@@ -9,10 +9,10 @@ import { FormEvent, useState } from 'react';
 import axiosInstance from '../../utils/axios';
 
 // Components
-import Logo from '../../components/SharedComponents/Logo/Logo';
+import Logo from '../../components/layout/Logo/Logo';
 import SupportFooter from '../../components/layout/Footers/SupportFooter';
 import Input from '../../components/Modals/AddInfoModal/Field/Input';
-import ValidButton from '../../components/SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../components/common/Buttons/ValidButton';
 
 // Typescript
 import { ErrorType } from '../../@types/error';

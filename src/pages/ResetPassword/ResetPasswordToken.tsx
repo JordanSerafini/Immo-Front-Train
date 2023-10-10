@@ -15,10 +15,10 @@ import { useAppSelector } from '../../hooks/redux';
 import axiosInstance from '../../utils/axios';
 
 // Components
-import Logo from '../../components/SharedComponents/Logo/Logo';
+import Logo from '../../components/layout/Logo/Logo';
 import MemoizedInput from '../../components/Modals/AddInfoModal/Field/MemoizedInput';
 import SupportFooter from '../../components/layout/Footers/SupportFooter';
-import ValidButton from '../../components/SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../components/common/Buttons/ValidButton';
 import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';
 
 // Assets

@@ -10,8 +10,8 @@ import { logout } from '../../../store/reducers/collaborator';
 import { resetInformations } from '../../../store/reducers/information';
 
 // Components
-import Logo from '../../SharedComponents/Logo/Logo';
-import Divider from '../../SharedComponents/Divider/Divider';
+import Logo from '../../layout/Logo/Logo';
+import Divider from '../../common/Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
 import ProfileSection from './ProfileSection/ProfileSection';
 import Navigation from './Navigation/Navigation';

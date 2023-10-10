@@ -19,7 +19,7 @@ import axiosInstance from '../../utils/axios';
 
 // Components
 import NavBar from '../features/NavBar/NavBar';
-import MainSection from '../SharedComponents/MainSection/MainSection';
+import Main from '../layout/Main/Main';
 
 export default function InitApp() {
   // Hook Execution Order
@@ -76,9 +76,9 @@ export default function InitApp() {
   return (
     <>
       <NavBar />
-      <MainSection>
+      <Main>
         <Outlet />
-      </MainSection>
+      </Main>
     </>
   );
 }

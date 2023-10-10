@@ -2,16 +2,16 @@
 import { FormEvent, SetStateAction, useState } from 'react';
 
 // Redux
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../../hooks/redux';
 
 // Reducers
-import { editSector } from '../../../store/reducers/sector';
+import { editSector } from '../../../../store/reducers/sector';
 
 // Components
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../Buttons/ValidButton';
 
 // Typescript interface
-import { Sector } from '../../../@types/sector';
+import { Sector } from '../../../../@types/sector';
 
 export default function ColorForm({
   id,

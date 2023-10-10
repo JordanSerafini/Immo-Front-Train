@@ -8,8 +8,8 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { showCreateSectorModal } from '../../store/reducers/modal';
 
 // Components
-import SectorCard from './SectorCard/SectorCard';
-import CreateSectorModal from '../Modals/CreateSectorModal/CreateSectorModal';
+import SectorCard from '../../components/layout/Cards/SectorCard';
+import CreateSectorModal from '../../components/Modals/CreateSectorModal/CreateSectorModal';
 
 // Assets
 import plusIcon from '../../assets/icons/plus.svg';

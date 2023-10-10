@@ -12,7 +12,7 @@ import { login } from '../../../../store/reducers/collaborator';
 
 // Shared Components
 import Input from '../../../Modals/AddInfoModal/Field/Input';
-import ValidButton from '../../../SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../Buttons/ValidButton';
 
 // Assets
 import eyeIcon from '../../../../assets/icons/eye-empty.svg';

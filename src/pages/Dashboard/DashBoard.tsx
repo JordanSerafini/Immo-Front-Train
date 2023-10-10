@@ -11,10 +11,10 @@ import { useAppDispatch } from '../../hooks/redux';
 import { infoBySector, infoByCollaborator, infoWithInterval } from '../../store/reducers/stats';
 
 // Component
-import DonutInfoCollaborator from './DonutInfoCollaborator/DonutInfoCollaborator';
-import DonutInfoSector from './DonutInfoSector/DonutInfoSector';
-import StatsForm from './StatsForm/StatsForm';
-import BarInfoInterval from './BarInfoInterval/BarInfoInterval';
+import DonutInfoCollaborator from '../../components/features/ChartJS/Donuts/DonutInfoCollaborator';
+import DonutInfoSector from '../../components/features/ChartJS/Donuts/DonutInfoSector';
+import StatsForm from '../../components/features/ChartJS/Bars/Forms/StatsForm';
+import BarInfoInterval from '../../components/features/ChartJS/Bars/BarInfoInterval';
 
 // Utils
 import getFormatedFullDate from '../../utils/getFormatedFullDate';

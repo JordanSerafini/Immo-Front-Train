@@ -20,7 +20,7 @@ import formatPhone from '../../../utils/formatPhone';
 // Typescript interface
 import { User } from '../../../@types/user';
 
-export default function CollabCard({
+export default function CollaboratorCard({
   id,
   firstname,
   lastname,

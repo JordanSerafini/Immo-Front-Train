@@ -25,9 +25,9 @@ import {
 import { findInformation } from '../../store/selectors/information';
 
 // Shared Components
-import MainSection from '../../components/SharedComponents/MainSection/MainSection';
-import ValidButton from '../../components/SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../components/SharedComponents/Buttons/CancelButton';
+import MainSection from '../../components/layout/Main/Main';
+import ValidButton from '../../components/common/Buttons/ValidButton';
+import CancelButton from '../../components/common/Buttons/CancelButton';
 import CancelModal from '../../components/Modals/CancelModal/CancelModal';
 import Textarea from '../../components/Modals/AddInfoModal/Field/Textarea';
 

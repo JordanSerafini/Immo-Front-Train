@@ -5,15 +5,15 @@ import { FormEvent, useState } from 'react';
 import dayjs from 'dayjs';
 
 // Redux
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../../../hooks/redux';
 
 // Shared Component
-import Input from '../../Modals/AddInfoModal/Field/Input';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import Input from '../../../../Modals/AddInfoModal/Field/Input';
+import ValidButton from '../../../../common/Buttons/ValidButton';
 
 // Utils
-import getFormatedFullDate from '../../../utils/getFormatedFullDate';
-import { infoWithInterval } from '../../../store/reducers/stats';
+import getFormatedFullDate from '../../../../../utils/getFormatedFullDate';
+import { infoWithInterval } from '../../../../../store/reducers/stats';
 
 export default function StatsForm() {
   // Hook Execution Order

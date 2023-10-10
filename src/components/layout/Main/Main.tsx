@@ -2,17 +2,17 @@
 import Logo from '../Logo/Logo';
 
 // Typescript
-interface MainSectionProps {
+interface MainProps {
   children: React.ReactNode;
   className?: string;
   specificPath?: string;
 }
 
-function MainSection({
+function Main({
   children,
   className,
   specificPath = '/app/prospection',
-}: MainSectionProps) {
+}: MainProps) {
   return (
     <main
       className={`my-5 mx-1 sm:mx-5 h-fit md:mb-auto relative grow z-0 ${className}`}
@@ -23,9 +23,9 @@ function MainSection({
   );
 }
 
-MainSection.defaultProps = {
+Main.defaultProps = {
   className: '',
   specificPath: '/app/prospection',
 };
 
-export default MainSection;
+export default Main;

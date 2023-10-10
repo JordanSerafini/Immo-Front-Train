@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Components
 import Fieldset from '../../Form/Fieldset';
 import Textarea from '../Field/Textarea';
-import AddButton from '../../../SharedComponents/Buttons/AddButton';
+import AddButton from '../../../common/Buttons/AddButton';
 
 export default function ActionFieldset(regExps: { [key: string]: RegExp }) {
   // RegExp Destructuring

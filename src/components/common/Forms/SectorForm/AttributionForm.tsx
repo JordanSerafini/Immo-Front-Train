@@ -2,19 +2,19 @@
 import { FormEvent, SetStateAction, useState } from 'react';
 
 // Redux
-import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../../../hooks/redux';
 
 // Reducers
-import { editSector } from '../../../store/reducers/sector';
+import { editSector } from '../../../../store/reducers/sector';
 
 // Components
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
+import ValidButton from '../../Buttons/ValidButton';
 
 // Typescript interface
-import { Sector } from '../../../@types/sector';
+import { Sector } from '../../../../@types/sector';
 
 // Style
-import "./animation.scss";
+import "./styles/animation.scss";
 
 export default function AttributionForm({
   id,

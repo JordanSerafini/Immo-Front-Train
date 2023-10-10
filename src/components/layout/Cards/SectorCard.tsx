@@ -8,8 +8,8 @@ import { useAppSelector } from '../../../hooks/redux';
 import { findCollaborator } from '../../../store/selectors/collaborator';
 
 // Components
-import AttributionForm from './AttributionForm';
-import ColorForm from './ColorForm';
+import AttributionForm from '../../common/Forms/SectorForm/AttributionForm';
+import ColorForm from '../../common/Forms/SectorForm/ColorForm';
 
 // Assets
 import pencilIcon from '../../../assets/icons/edit-pencil.svg';

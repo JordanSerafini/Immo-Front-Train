@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Components
-import Logo from '../../components/SharedComponents/Logo/Logo';
+import Logo from '../../components/layout/Logo/Logo';
 import SupportFooter from '../../components/layout/Footers/SupportFooter';
 
 // Assets

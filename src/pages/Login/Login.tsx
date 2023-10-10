@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks/redux';
 
 // Components
 import LoginForm from '../../components/common/Forms/LoginForm/LoginForm';
-import Logo from '../../components/SharedComponents/Logo/Logo';
+import Logo from '../../components/layout/Logo/Logo';
 import LoginFooter from '../../components/layout/Footers/LoginFooter';
 
 // Assets

@@ -18,8 +18,8 @@ import PasswordStrength from './PasswordStrength';
 
 // Shared Components
 import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
 // Modal Components
 import Modal from '../Modal';
@@ -29,7 +29,7 @@ import CancelModal from '../CancelModal/CancelModal';
 import plus from '../../../assets/icons/plus.svg';
 
 // Style
-import '../../SharedComponents/ErrorMsg/animation.scss';
+import '../../common/ErrorMsg/styles/animation.scss'
 
 // Typescript interface
 import { User } from '../../../@types/user';

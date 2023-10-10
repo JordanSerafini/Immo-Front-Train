@@ -12,10 +12,10 @@ import {
 import { Bar } from 'react-chartjs-2';
 
 // Redux
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppSelector } from '../../../../hooks/redux';
 
 // Utils
-import generateRandomColor from '../../../utils/generateRandomColors';
+import generateRandomColor from '../../../../utils/generateRandomColors';
 
 ChartJS.register(
   BarController,

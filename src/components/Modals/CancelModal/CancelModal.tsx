@@ -15,8 +15,8 @@ import {
 
 // Components
 import Modal from '../Modal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
 // Typescript interface
 interface CancelModalProps {

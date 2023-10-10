@@ -3,23 +3,21 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, LegendOptions } from 'ch
 import { Doughnut } from 'react-chartjs-2';
 
 // Redux
-import { useAppSelector } from '../../../hooks/redux';
-
-// Utils
-import generateRandomColor from '../../../utils/generateRandomColors';
+import { useAppSelector } from '../../../../hooks/redux';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-
-export default function DonutInfoCollaborator() {
-  const stats = useAppSelector((state) => state.stats.dataCollabs);
+export default function DonutInfoSector() {
+  // Redux state
+  const stats = useAppSelector((state) => state.stats.dataSector);
 
   const data = {
-    labels: stats.map((stat) => `${stat.firstname} ${stat.lastname.toUpperCase()}`),
+    labels: stats.map((stat) => stat.label),
     datasets: [
       {
         data: stats.map((stat) => stat.nb_infos),
-        backgroundColor: stats.map(() => generateRandomColor()),
+        backgroundColor: stats.map((stat) => `${stat.color_code}30`),
+        borderColor: stats.map((stat) => stat.color_code),
         borderWidth: 1,
       },
     ],
@@ -28,7 +26,7 @@ export default function DonutInfoCollaborator() {
   const options = {
     plugins: {
       legend: {
-        position: 'right' as LegendOptions<'doughnut'>['position'],
+        position: 'left' as LegendOptions<'doughnut'>['position'],
       },
     },
   };
@@ -41,5 +39,5 @@ export default function DonutInfoCollaborator() {
       height="200px"
       options={options}
     />
-  )
+  );
 }
