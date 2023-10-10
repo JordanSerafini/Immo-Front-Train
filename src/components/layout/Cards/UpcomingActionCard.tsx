@@ -5,7 +5,6 @@ import { Information } from '../../../@types/information';
 import formatDate from '../../../utils/formatDate';
 import switchIcon from '../../../utils/switchIcon';
 
-// !! REFACTO WITH THE CardActionToDo COMPONENT !!
 export default function UpcomingActionCard({
   type,
   address_number,
@@ -28,9 +27,7 @@ export default function UpcomingActionCard({
         <p>{owner_name}</p>
       </div>
       <p className="font-semibold text-center max-w-1/4">
-        <em>
-          A traiter le {formatDate(notification_date)}
-        </em>
+        <em>A traiter le {formatDate(notification_date)}</em>
       </p>
     </li>
   );

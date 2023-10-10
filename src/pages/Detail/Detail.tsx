@@ -23,6 +23,7 @@ import landIcon from '../../assets/icons/land.svg';
 // Utils
 import capFirstLetter from '../../utils/capFirstLetter';
 import formatPhone from '../../utils/formatPhone';
+import formatDate from '../../utils/formatDate';
 
 export default function Detail() {
   // Hook Execution Order
@@ -133,7 +134,7 @@ export default function Detail() {
 
         <p className="block mt-5 ml-auto">
           <em className="italic">
-            Information créée le : {information?.date.slice(0, 10)}
+            Information créée le : {formatDate(information.date)}
           </em>
         </p>
       </section>

@@ -1,7 +1,7 @@
-// Typescript interface
+// === TYPESCRIPT === //
 import { Action } from '../../../@types/action';
 
-// utils
+// === UTILS === //
 import formatDate from '../../../utils/formatDate';
 
 export default function ActionCard({

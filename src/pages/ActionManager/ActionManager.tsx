@@ -1,89 +1,93 @@
-// Library
+// === REACT === //
+import { FormEvent, useState } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React
-import { FormEvent, useState } from 'react';
-
-// React Router
-import { useParams, Navigate } from 'react-router-dom';
-
-// React dom
+// === REACT DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REACT ROUTER DOM === //
+import { useParams, Navigate } from 'react-router-dom';
+
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
   showNextActionModal,
 } from '../../store/reducers/modal';
 
-// Selectors
+// === SELECTORS === //
 import { findInformation } from '../../store/selectors/information';
 
-// Shared Components
+// === COMPONENTS === //
+// Layout
 import MainSection from '../../components/layout/Main/Main';
-import ValidButton from '../../components/common/Buttons/ValidButton';
-import CancelButton from '../../components/common/Buttons/CancelButton';
-import CancelModal from '../../components/Modals/CancelModal/CancelModal';
-import Textarea from '../../components/common/Textarea/Textarea';
-
-// Components
 import InfoSection from '../../components/layout/Sections/InfoSection';
 import ActionManagerSection from '../../components/layout/Sections/ActionManagerSection';
+// Common
+import ValidButton from '../../components/common/Buttons/ValidButton';
+import CancelButton from '../../components/common/Buttons/CancelButton';
+import Textarea from '../../components/common/Textarea/Textarea';
+// Modal
+import CancelModal from '../../components/Modals/CancelModal/CancelModal';
 import NextActionModal from '../../components/Modals/NextActionModal/NextActionModal';
 
-// Typescript interface
+// === TYPESCRIPT === //
 import { Information } from '../../@types/information';
 import { Action } from '../../@types/action';
 
-// Utils
-import getFullDate from '../../utils/getFormatedFullDate';
+// === UTILS === //
+import getFormatedFullDate from '../../utils/getFormatedFullDate';
+import getFormatedDayjsDate from '../../utils/getFormatedDayjsDate';
 
 export default function ActionManager() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
   // Params
   const { infoId } = useParams();
 
-  // Redux States
-  const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationModalOpen
-  );
-  const nextActionModal = useAppSelector(
-    (state) => state.modal.isNextActionModalOpen
-  );
+  // === REDUX STATES === //
+  const modalState = useAppSelector((state) => state.modal);
+  const {
+    isCancelConfirmationModalOpen: cancelModal,
+    isNextActionModalOpen: nextActionModal,
+  } = modalState;
+
   const information = useAppSelector(findInformation(infoId as string));
   const regExps = useAppSelector((state) => state.regexps);
 
-  // Local States
-  const [action, setAction] = useState<string>('');
+  // === LOCAL STATES === //
   const [formData, setFormData] = useState<Information & Action>();
+
+  // === CONTROLLED INPUT STATES === //
+  const [action, setAction] = useState<string>('');
 
   if (!information) {
     return <Navigate to="/app/prospection" replace />;
   }
 
-  // HANDLERS
-  const handleCancelClick = () => {
-    dispatch(showCancelConfirmationModal());
-  };
-
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formatedDate = getFormatedDayjsDate(getFormatedFullDate());
 
     const formValues = {
       information_id: infoId,
       description: action,
-      date: getFullDate(),
+      date: formatedDate,
     };
 
     if (formValues.description.length <= 5) {
-      toast.error('Votre action doit comprendre au moins 6 caractères...', {position: toast.POSITION.BOTTOM_CENTER});
+      toast.error('Votre action doit comprendre au moins 6 caractères...', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     } else {
       setFormData(formValues as unknown as Information & Action);
 
@@ -116,7 +120,7 @@ export default function ActionManager() {
               <ValidButton content="Enregistrer" isSubmit />
               <CancelButton
                 content="Annuler"
-                onClickMethod={handleCancelClick}
+                onClickMethod={() => dispatch(showCancelConfirmationModal())}
               />
             </div>
           </form>

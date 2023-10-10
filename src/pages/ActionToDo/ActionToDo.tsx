@@ -1,19 +1,17 @@
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../hooks/redux';
 
-// Components
+// === COMPONENTS === //
 import CardActionToDo from '../../components/layout/Cards/ActionToDoCard';
 
-// Assets
-import actionToDoIcon from '../../assets/icons/action-to-do.svg';
+// === ASSETS === //
+import { actionToDoIcon } from '../../assets';
 
-// utils
+// === UTILS === //
 import filteredActionToDo from '../../utils/filteredActionToDo';
 
 export default function ActionToDo() {
-  const informations = useAppSelector(
-    (state) => state.information.data
-  );
+  const informations = useAppSelector((state) => state.information.data);
 
   const actionToDo = filteredActionToDo(informations);
 

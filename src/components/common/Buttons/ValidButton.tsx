@@ -1,4 +1,4 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface ValidButtonProps {
   content: string;
   onClickMethod?: () => void;
