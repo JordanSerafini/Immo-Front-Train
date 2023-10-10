@@ -18,7 +18,7 @@ import { setUserWithStorage } from '../../store/reducers/collaborator';
 import axiosInstance from '../../utils/axios';
 
 // Components
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../features/NavBar/NavBar';
 import MainSection from '../SharedComponents/MainSection/MainSection';
 
 export default function InitApp() {

@@ -10,19 +10,19 @@ import InitApp from './InitApp';
 import InitAdmin from './InitAdmin';
 
 // Login & Support
-import Login from '../Login/Login';
-import Support from '../Support/Support';
-import SupportConfirmation from '../SupportConfirmation/SupportConfirmation';
-import ResetPassword from '../ResetPassword/ResetPassword';
-import ResetPasswordToken from '../ResetPasswordToken/ResetPasswordToken';
+import Login from '../../pages/Login/Login';
+import Support from '../../pages/Support/Support';
+import SupportConfirmation from '../../pages/Support/SupportConfirmation';
+import ResetPassword from '../../pages/ResetPassword/ResetPassword';
+import ResetPasswordToken from '../../pages/ResetPassword/ResetPasswordToken';
 
 // Collaborator
-import Profile from '../Profile/Profile';
-import Prospection from '../Prospection/Prospection';
-import Detail from '../Detail/Detail';
-import ActionToDo from '../ActionToDo/ActionToDo';
-import ActionManager from '../ActionManager/ActionManager';
-import UpcomingAction from '../UpcomingAction/UpcomingAction';
+import Profile from '../../pages/Profile/Profile';
+import Prospection from '../../pages/Prospection/Prospection';
+import Detail from '../../pages/Detail/Detail';
+import ActionToDo from '../../pages/ActionToDo/ActionToDo';
+import ActionManager from '../../pages/ActionManager/ActionManager';
+import UpcomingAction from '../../pages/UpcomingAction/UpcomingAction';
 
 // Admin
 import SectorManager from '../SectorManager/SectorManager';
@@ -30,7 +30,7 @@ import CollaboratorManager from '../CollaboratorManager/CollaboratorManager';
 import DashBoard from '../DashBoard/DashBoard';
 
 // 404 - Error
-import NotFound from '../NotFound/NotFound';
+import NotFound from '../../pages/NotFound/NotFound';
 
 function App() {
   return (
