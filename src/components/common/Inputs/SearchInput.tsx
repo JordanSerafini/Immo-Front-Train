@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { filterInformations } from '../../../store/reducers/information';
 
 // === COMPONENTS === //
-import Input from '../../Modals/AddInfoModal/Field/Input';
+import Input from './Input';
 
 // === ASSETS === //
 import { searchIcon } from '../../../assets';

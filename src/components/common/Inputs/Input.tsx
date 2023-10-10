@@ -1,8 +1,8 @@
 // React
 import { ChangeEvent, Ref, useId } from 'react';
 
-import { useAppDispatch } from '../../../../hooks/redux';
-import { filterInformations } from '../../../../store/reducers/information';
+import { useAppDispatch } from '../../../hooks/redux';
+import { filterInformations } from '../../../store/reducers/information';
 
 // Typescript interface
 interface InputProps {

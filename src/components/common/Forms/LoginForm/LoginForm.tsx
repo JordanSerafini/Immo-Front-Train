@@ -11,7 +11,7 @@ import { useAppDispatch } from '../../../../hooks/redux';
 import { login } from '../../../../store/reducers/collaborator';
 
 // === COMPONENTS === //
-import Input from '../../../Modals/AddInfoModal/Field/Input';
+import Input from '../../Inputs/Input';
 import ValidButton from '../../Buttons/ValidButton';
 
 // === ASSETS === //

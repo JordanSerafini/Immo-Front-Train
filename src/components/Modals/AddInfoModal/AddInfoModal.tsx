@@ -1,62 +1,64 @@
-// React
+// === REACT === //
 import { FormEvent, useState, useRef } from 'react';
+
+// === REACT DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import {
   showNextActionModal,
   showCancelConfirmationAddInfoModalOpen,
   hideCancelConfirmationAddInfoModalOpen,
 } from '../../../store/reducers/modal';
 
-// Shared Components
+// === COMPONENTS === //
+// Common
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
-
-// Modal Components
+// Modal
 import Modal from '../Modal';
 import CancelModal from '../CancelModal/CancelModal';
 import NextActionModal from '../NextActionModal/NextActionModal';
+import {
+  TypeFieldset,
+  LocationFieldset,
+  OwnerFieldset,
+  SourceFieldset,
+  CategoryFieldset,
+  CommentsFieldset,
+  ActionFieldset,
+} from './FieldSets';
 
-// Components
-import TypeFieldset from './TypeFieldset/TypeFieldset';
-import LocationFieldset from './LocationFieldset/LocationFieldset';
-import OwnerFieldset from './OwnerFieldset/OwnerFieldset';
-import SourceFieldset from './SourceFieldset/SourceFieldset';
-import CategoryFieldset from './CategoryFieldset/CategoryFieldset';
-import CommentsFieldset from './CommentsFieldset/CommentsFieldset';
-import ActionFieldset from './ActionFieldset/ActionFieldset';
+// === ASSETS === //
+import { plusIcon } from '../../../assets';
 
-// Assets
-import plus from '../../../assets/icons/plus.svg';
+// === STYLES === //
+import '../../common/ErrorMsg/styles/animation.scss';
 
-// Style
-import "../../common/ErrorMsg/styles/animation.scss"
-
-// Typescript interface
+// === TYPESCRIPT === //
 import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
 
 export default function AddInfoModal() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // React References
+  // === REACT REFS === //
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Redux States
-  const cancelModal = useAppSelector(
-    (state) => state.modal.isCancelConfirmationAddInfoModalOpen
-  );
-  const nextActionModal = useAppSelector(
-    (state) => state.modal.isNextActionModalOpen
-  );
+  // === REDUX STATES === //
+  const modalState = useAppSelector((state) => state.modal);
+  const {
+    isCancelConfirmationAddInfoModalOpen: cancelModal,
+    isNextActionModalOpen: nextActionModal,
+  } = modalState;
+
   const regExps = useAppSelector((state) => state.regexps.information);
 
-  // Local States
+  // === LOCAL STATES === //
   const [formData, setFormData] = useState<Information & Action>();
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
@@ -64,7 +66,7 @@ export default function AddInfoModal() {
   const [selectedTypeOption, setSelectedTypeOption] =
     useState<string>('Maison');
 
-  // HANDLERS
+  // === HANDLERS === //
   const handleCancelClick = () => {
     dispatch(showCancelConfirmationAddInfoModalOpen());
   };
@@ -87,15 +89,16 @@ export default function AddInfoModal() {
       const value = formDatas.get(fieldName);
 
       if (fieldName in regExps && regExps[fieldName] && value?.length) {
+        // If the regexp don't pass the test, it'll add the fieldName into the wrongValues array so we'll be able to display all wrong values
         if (!regExps[fieldName].test(value as string)) {
           wrongValues.push(fieldName);
         }
       }
     });
 
-    // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
+    // If our wrongValues array has at least one element :
     if (wrongValues.length) {
-      // So we set our errorMessage local state to those values
+      // We set our errorMessage local state to those values
       setErrorMessage(wrongValues);
 
       if (modalRef.current) {
@@ -112,7 +115,7 @@ export default function AddInfoModal() {
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* Temporary style */}
+      {/* CLOSE MODAL BUTTON */}
       <button
         onClick={handleCancelClick}
         type="button"
@@ -120,8 +123,8 @@ export default function AddInfoModal() {
       >
         <img
           className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plus}
-          alt="Plus Icon"
+          src={plusIcon}
+          alt="Plus"
         />
       </button>
 
@@ -136,7 +139,7 @@ export default function AddInfoModal() {
         </p>
       )}
 
-      <em className="italic">*Champs obligatoires</em>
+      <em>*Champs obligatoires</em>
 
       <form
         onSubmit={handleSubmit}

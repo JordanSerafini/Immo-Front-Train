@@ -2,8 +2,8 @@
 import { useState, useMemo } from 'react';
 
 // Components
-import Fieldset from '../../Form/Fieldset';
-import MemoizedInput from '../Field/MemoizedInput';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import MemoizedInput from '../../../common/Inputs/MemoizedInput';
 
 export default function OwnerFieldset(regExps : { [key: string]: RegExp }) {
   // Regexp Destructuring

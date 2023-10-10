@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { useAppDispatch } from '../../../../../hooks/redux';
 
 // Shared Component
-import Input from '../../../../Modals/AddInfoModal/Field/Input';
+import Input from '../../../../common/Inputs/Input';
 import ValidButton from '../../../../common/Buttons/ValidButton';
 
 // Utils

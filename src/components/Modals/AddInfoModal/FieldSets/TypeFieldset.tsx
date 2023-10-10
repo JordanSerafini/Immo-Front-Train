@@ -1,6 +1,6 @@
 // Components
-import Fieldset from '../../Form/Fieldset';
-import RadioButton from '../Field/RadioButton';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import RadioButton from '../../../common/Buttons/RadioButton';
 
 // Assets
 import house from '../../../../assets/icons/house.svg';

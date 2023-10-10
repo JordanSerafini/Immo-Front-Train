@@ -16,7 +16,7 @@ import { useAppSelector } from '../../hooks/redux';
 
 // === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
-import MemoizedInput from '../../components/Modals/AddInfoModal/Field/MemoizedInput';
+import MemoizedInput from '../../components/common/Inputs/MemoizedInput';
 import Footer from '../../components/layout/Footer/Footer';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';

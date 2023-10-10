@@ -17,7 +17,7 @@ import { createCollaborator } from '../../../store/reducers/collaborator';
 import PasswordStrength from './PasswordStrength';
 
 // Shared Components
-import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
+import MemoizedInput from '../../common/Inputs/MemoizedInput';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
 

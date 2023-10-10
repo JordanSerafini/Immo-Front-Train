@@ -2,8 +2,8 @@
 import { useState } from 'react';
 
 // Components
-import Fieldset from '../../Form/Fieldset';
-import Textarea from '../Field/Textarea';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import Textarea from '../../../common/Textarea/Textarea';
 import AddButton from '../../../common/Buttons/AddButton';
 
 export default function ActionFieldset(regExps: { [key: string]: RegExp }) {

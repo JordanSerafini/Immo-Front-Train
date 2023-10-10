@@ -27,7 +27,7 @@ import { createProspectionAction } from '../../../store/reducers/action';
 // Components
 import Modal from '../Modal';
 import ValidButton from '../../common/Buttons/ValidButton';
-import Input from '../AddInfoModal/Field/Input';
+import Input from '../../common/Inputs/Input';
 
 // Utils
 import getFormatedFullDate from '../../../utils/getFormatedFullDate';

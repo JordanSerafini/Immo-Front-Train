@@ -12,7 +12,7 @@ import axiosInstance from '../../utils/axios';
 // === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
 import Footer from '../../components/layout/Footer/Footer';
-import Input from '../../components/Modals/AddInfoModal/Field/Input';
+import Input from '../../components/common/Inputs/Input';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 
 // === TYPESCRIPT === //

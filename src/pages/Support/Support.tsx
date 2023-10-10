@@ -13,9 +13,9 @@ import axiosInstance from '../../utils/axios';
 
 // === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
-import Textarea from '../../components/Modals/AddInfoModal/Field/Textarea';
+import Textarea from '../../components/common/Textarea/Textarea';
 import ValidButton from '../../components/common/Buttons/ValidButton';
-import Input from '../../components/Modals/AddInfoModal/Field/Input';
+import Input from '../../components/common/Inputs/Input';
 import Footer from "../../components/layout/Footer/Footer";
 
 // === TYPESCRIPT === //

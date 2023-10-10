@@ -2,8 +2,8 @@
 import { useState } from 'react';
 
 // Components
-import Fieldset from '../../Form/Fieldset';
-import Textarea from '../Field/Textarea';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import Textarea from '../../../common/Textarea/Textarea';
 
 export default function CommentsFieldset(regExps: { [key: string]: RegExp }) {
   // RegEcp Destructuring

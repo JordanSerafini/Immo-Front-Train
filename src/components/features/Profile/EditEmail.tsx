@@ -11,7 +11,7 @@ import { editCollaborator } from '../../../store/reducers/collaborator';
 
 // Shared Components
 import PersonnalInfo from './PersonnalInfo';
-import Input from '../../Modals/AddInfoModal/Field/Input';
+import Input from '../../common/Inputs/Input';
 import EditForm from './EditForm/EditForm';
 
 // Assets

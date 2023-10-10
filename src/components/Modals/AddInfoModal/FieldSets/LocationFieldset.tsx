@@ -2,9 +2,9 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 
 // Components
-import Fieldset from '../../Form/Fieldset';
-import MemoizedInput from '../Field/MemoizedInput';
-import Textarea from '../Field/Textarea';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import MemoizedInput from '../../../common/Inputs/MemoizedInput';
+import Textarea from '../../../common/Textarea/Textarea';
 
 interface LocationFieldsetProps {
   typeState: string; 

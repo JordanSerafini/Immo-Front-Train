@@ -2,8 +2,8 @@
 import { useState } from 'react';
 
 // Components
-import Fieldset from '../../Form/Fieldset';
-import RadioButton from '../Field/RadioButton';
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import RadioButton from '../../../common/Buttons/RadioButton';
 
 export default function CategoryFieldset() {
   // Category Local State

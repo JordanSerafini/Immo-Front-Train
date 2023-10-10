@@ -29,7 +29,7 @@ import MainSection from '../../components/layout/Main/Main';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 import CancelButton from '../../components/common/Buttons/CancelButton';
 import CancelModal from '../../components/Modals/CancelModal/CancelModal';
-import Textarea from '../../components/Modals/AddInfoModal/Field/Textarea';
+import Textarea from '../../components/common/Textarea/Textarea';
 
 // Components
 import InfoSection from '../../components/layout/Sections/InfoSection';

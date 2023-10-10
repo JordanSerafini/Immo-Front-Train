@@ -1,7 +1,7 @@
 import { ChangeEvent, useId } from 'react';
 
 // Utils
-import capFirstLetter from '../../../../utils/capFirstLetter';
+import capFirstLetter from '../../../utils/capFirstLetter';
 
 interface RadioButtonProps {
   className?: string;
