@@ -10,6 +10,7 @@ import Detail from "./Detail/Detail";
 import ActionToDo from "./ActionToDo/ActionToDo";
 import ActionManager from "./ActionManager/ActionManager";
 import UpcomingAction from "./UpcomingAction/UpcomingAction";
+import Message from "./Message/Message";
 
 import CollaboratorManager from "./CollaboratorManager/CollaboratorManager";
 import DashBoard from "./Dashboard/DashBoard";
@@ -32,6 +33,7 @@ export  {
     ActionToDo,
     ActionManager,
     UpcomingAction,
+    Message,
 
     // Admin
     SectorManager,

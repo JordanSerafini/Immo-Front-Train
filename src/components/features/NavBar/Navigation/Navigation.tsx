@@ -10,6 +10,7 @@ import actionToDo from '../../../../assets/icons/action-to-do.svg';
 import upcomingAction from '../../../../assets/icons/upcoming-action.svg';
 import settingsIcon from "../../../../assets/icons/settings.svg";
 import statsIcon from "../../../../assets/icons/stats.svg";
+import messageIcon from "../../../../assets/icons/send-diagonal.svg";
 
 // Component
 import NavItem from './NavItem';
@@ -39,6 +40,11 @@ export default function Navigation({
       icon: upcomingAction,
       path: '/app/upcomingAction',
     },
+    {
+      content: 'Messagerie',
+      icon: messageIcon,
+      path: '/app/message'
+    }
   ];
 
   const adminLinks = [

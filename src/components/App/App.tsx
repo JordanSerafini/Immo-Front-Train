@@ -25,6 +25,7 @@ import {
   ActionToDo,
   ActionManager,
   UpcomingAction,
+  Message,
 
   // Admin
   SectorManager,
@@ -64,6 +65,7 @@ function App() {
               element={<ActionManager />}
             />
             <Route path="/app/profile/:collaboratorId" element={<Profile />} />
+            <Route path="/app/message" element={<Message />} />
           </Route>
 
           {/* ADMIN */}
