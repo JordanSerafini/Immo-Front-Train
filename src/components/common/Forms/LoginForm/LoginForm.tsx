@@ -1,48 +1,47 @@
-// React Hooks
+// === REACT === //
 import { FormEvent, useState } from 'react';
 
-// React router dom
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { login } from '../../../../store/reducers/collaborator';
 
-// Shared Components
+// === COMPONENTS === //
 import Input from '../../../Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../Buttons/ValidButton';
 
-// Assets
-import eyeIcon from '../../../../assets/icons/eye-empty.svg';
-import eyeOffIcon from '../../../../assets/icons/eye-off.svg';
-import emailIcon from '../../../../assets/icons/email.svg';
+// === ASSETS === //
+import { eyeOffIcon, eyeEmptyIcon, emailIcon } from '../../../../assets';
 
 export default function LoginForm() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // The useState React Hook is used to set a state variable and its setter
-  // Here, we have two useState variables, "showPassword" to display or not the password and "password" to control the input password
+  // === LOCAL STATES === //
+  // State to allow a toggle to show or not the password
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  // const [email, setEmail] = useState<string>('immoprosoclock@gmail.com');
+  // === CONTROLLED INPUT STATES === //
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+
+    // Reset Email Input State
     setEmail("");
+    // Reset Password Input State
     setPassword("");
 
+    // Dispatch Login thunk middleware
     dispatch(login(formData));
   };
   return (
@@ -73,10 +72,10 @@ export default function LoginForm() {
         type={showPassword ? undefined : 'password'}
         inputName="password"
       >
-        <button type="button" onClick={togglePasswordVisibility}>
+        <button type="button" onClick={() => setShowPassword(!showPassword)}>
           <img
             className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
-            src={showPassword ? eyeIcon : eyeOffIcon}
+            src={showPassword ? eyeEmptyIcon : eyeOffIcon}
             alt="Password Icon"
           />
         </button>

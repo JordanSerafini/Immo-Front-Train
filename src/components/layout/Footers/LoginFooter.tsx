@@ -1,10 +1,11 @@
-// React Router
+// === REACT === //
 import { Link } from 'react-router-dom';
 
-// Assets
-import copyrightIcon from '../../../assets/icons/copyright.svg';
+// === ASSETS === //
+import { copyrightIcon } from '../../../assets';
 
 export default function LoginFooter() {
+  // We want to get the actual date so we can have the current full year
   const date = new Date();
 
   return (
