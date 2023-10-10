@@ -1,38 +1,46 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { useLocation, Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../hooks/redux';
 
-// Components
+// === COMPONENTS === //
 import Modal from '../Modal';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
+
+// === REDUCERS === //
 import { deleteInformation } from '../../../store/reducers/information';
 import { deleteCollaborator } from '../../../store/reducers/collaborator';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface DeleteModalProps {
   closeModal: () => void;
   content: string;
-  deleteUser: boolean;
+  deleteUser?: boolean;
+  deleteInfo?: boolean;
 }
 
-export default function DeleteModal({ closeModal, content, deleteUser }: DeleteModalProps) {
+function DeleteModal({
+  closeModal,
+  content,
+  deleteUser,
+  deleteInfo,
+}: DeleteModalProps) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
-  // Get the url
   const location = useLocation();
-  // Get the if of the information we want to delete
+
+  // Get the id of the information we want to delete
   const id = location.search.slice(1);
 
   const handleConfirmClick = () => {
     closeModal();
 
     if (deleteUser) {
-      dispatch(deleteCollaborator({ id }))
-    } else {
+      dispatch(deleteCollaborator({ id }));
+    } else if (deleteInfo) {
       dispatch(deleteInformation({ id }));
-
     }
   };
 
@@ -56,3 +64,10 @@ export default function DeleteModal({ closeModal, content, deleteUser }: DeleteM
     </Modal>
   );
 }
+
+DeleteModal.defaultProps = {
+  deleteUser: false,
+  deleteInfo: false,
+};
+
+export default DeleteModal;

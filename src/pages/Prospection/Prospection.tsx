@@ -131,7 +131,7 @@ export default function Prospection() {
       {isDeleteConfirmationOpen &&
         createPortal(
           <DeleteModal
-            deleteUser={false}
+            deleteInfo
             closeModal={() => dispatch(hideDeleteConfirmationModal())}
             content="Vous êtes sur le point de supprimer définitivement une information de prospection, confirmez-vous la supression ?"
           />,
