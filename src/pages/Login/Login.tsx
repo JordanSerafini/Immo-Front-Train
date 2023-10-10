@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // === REACT ROUTER DOM === //
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // === REDUX HOOKS === //
 import { useAppSelector } from '../../hooks/redux';
@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks/redux';
 // === COMPONENTS === //
 import LoginForm from '../../components/common/Forms/LoginForm/LoginForm';
 import Logo from '../../components/layout/Logo/Logo';
-import LoginFooter from '../../components/layout/Footers/LoginFooter';
+import Footer from '../../components/layout/Footer/Footer';
 
 // === ASSETS === //
 import illustration from '../../assets/images/illustration.png';
@@ -55,7 +55,11 @@ export default function Login() {
         <LoginForm />
 
         {/* FOOTER */}
-        <LoginFooter />
+        <Footer>
+          <Link to="/support" className="mb-5 text-center underline">
+            Contactez le support
+          </Link>
+        </Footer>
       </section>
     </main>
   );

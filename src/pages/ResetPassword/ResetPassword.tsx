@@ -10,7 +10,7 @@ import axiosInstance from '../../utils/axios';
 
 // Components
 import Logo from '../../components/layout/Logo/Logo';
-import SupportFooter from '../../components/layout/Footers/SupportFooter';
+import Footer from '../../components/layout/Footer/Footer';
 import Input from '../../components/Modals/AddInfoModal/Field/Input';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 
@@ -49,7 +49,7 @@ export default function ResetPassword() {
     <>
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
-      <main className="flex flex-col items-center w-full h-full mx-5 text-center sm:mx-0">
+      <main className="flex flex-col items-center w-full h-full pb-5 mx-5 text-center sm:mx-0">
         {/* TITLE */}
         <h1 className="w-3/4 mt-40 mb-20">
           Envoyer une demande pour réinitialiser votre mot de passe
@@ -87,7 +87,7 @@ export default function ResetPassword() {
           </>
         )}
 
-        <SupportFooter />
+        <Footer />
       </main>
     </>
   );

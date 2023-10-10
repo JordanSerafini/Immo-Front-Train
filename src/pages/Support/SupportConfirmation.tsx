@@ -1,22 +1,26 @@
-// React
+// === REACT === //
 import { useEffect } from 'react';
 
-// React router dom
+// === REACT ROUTER DOM === //
 import { useNavigate } from 'react-router-dom';
 
-// Components
+// === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
-import SupportFooter from '../../components/layout/Footers/SupportFooter';
+import Footer from '../../components/layout/Footer/Footer';
 
-// Assets
-import valid from '../../assets/icons/valid.svg';
+// === ASSETS === //
+import { validIcon } from '../../assets';
 
 export default function SupportConfirmation() {
-  // Hook Execution order
+  // === HOOK EXEC ORDER === //
   const navigate = useNavigate();
 
+  // === VARIABLES === //
+  const delay = 10000;
+
+  // === EFFECTS === //
   useEffect(() => {
-    const delay = 15000;
+    // 10 000 ms = 10s
     const redirectTimeout = setTimeout(() => {
       navigate('/login');
     }, delay);
@@ -32,17 +36,17 @@ export default function SupportConfirmation() {
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
 
-      <main className="flex flex-col items-center w-full h-full">
+      <main className="flex flex-col items-center w-full h-full pb-5">
         {/* TITLE */}
         <div className="flex flex-col items-center justify-center grow">
-          <img src={valid} alt="Valid Icon" className="w-[50px] mb-5" />
+          <img src={validIcon} alt="Valid Icon" className="w-[50px] mb-5" />
           <h2>Votre demande de contact a été envoyée avec succès.</h2>
           <h2>
-            Vous allez être redirigé vers la page de connexion dans 15
-            secondes...
+            Vous allez être redirigé vers la page de connexion dans{' '}
+            {delay / 1000} secondes...
           </h2>
         </div>
-        <SupportFooter />
+        <Footer />
       </main>
     </>
   );

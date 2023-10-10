@@ -17,7 +17,7 @@ import axiosInstance from '../../utils/axios';
 // Components
 import Logo from '../../components/layout/Logo/Logo';
 import MemoizedInput from '../../components/Modals/AddInfoModal/Field/MemoizedInput';
-import SupportFooter from '../../components/layout/Footers/SupportFooter';
+import Footer from '../../components/layout/Footer/Footer';
 import ValidButton from '../../components/common/Buttons/ValidButton';
 import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';
 
@@ -88,7 +88,7 @@ export default function ResetPasswordToken() {
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
 
-      <main className="flex flex-col w-full h-full mx-5 sm:mx-0">
+      <main className="flex flex-col w-full h-full pb-5 mx-5 sm:mx-0">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">
@@ -175,7 +175,7 @@ export default function ResetPasswordToken() {
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
-        <SupportFooter />
+        <Footer />
       </main>
     </>
   );
