@@ -72,7 +72,7 @@ export default function NavBar() {
             {/* LOGO */}
             <Logo
               path={
-                user.role_id === 2 ? '/app/prospection' : '/admin/collaborator'
+                user.role_id === 2 ? '/app/prospection' : '/admin/dashboard'
               }
               className="hidden sm:block sm:my-5 navbar__logo"
             />

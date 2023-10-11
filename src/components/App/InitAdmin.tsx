@@ -1,26 +1,26 @@
-// React
-import { useEffect, useState } from 'react';
+// === REACT === //
+import { useEffect, useCallback, useMemo } from 'react';
 
-// Library
+// === LIBRARY === //
 import dayjs from 'dayjs';
 
-// React Router
+// === REACT ROUTER DOM === //
 import { Outlet, useNavigate } from 'react-router-dom';
 
-// Redux
+// === AXIOS === //
+import axiosInstance from '../../utils/axios';
+
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import {
   setUserWithStorage,
   fetchCollaborators,
 } from '../../store/reducers/collaborator';
 import { fetchSectors } from '../../store/reducers/sector';
 
-// Axios
-import axiosInstance from '../../utils/axios';
-
-// Components
+// === COMPONENTS === //
 import NavBar from '../features/NavBar/NavBar';
 import Main from '../layout/Main/Main';
 import {
@@ -29,80 +29,86 @@ import {
   infoWithInterval,
 } from '../../store/reducers/stats';
 
-// Utils
+// === UTILS === //
 import getFormatedFullDate from '../../utils/getFormatedFullDate';
 
 export default function InitAdmin() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // Redux States
-  const user = useAppSelector((state) => state.collaborator.user);
-  const collaborators = useAppSelector((state) => state.collaborator.data);
-  const isCollaboratorsLoading = useAppSelector(
-    (state) => state.collaborator.loading
-  );
-  const sectors = useAppSelector((state) => state.sector.data);
-  const isSectorsLoading = useAppSelector((state) => state.sector.loading);
+  // === REDUX STATES === //
+  const collaboratorState = useAppSelector((state) => state.collaborator);
+  const { user, data: collaborators, loading: isCollaboratorsLoading } = collaboratorState
+
+  const sectorState = useAppSelector((state) => state.sector);
+  const { data: sectors, loading: isSectorLoading } = sectorState;
+
   const stats = useAppSelector((state) => state.stats.dataSector);
   const isStatsLoading = useAppSelector((state) => state.stats.loading);
 
-  // Local State
-  // The flag is really important to avoid multiple fetches
-  const [flag, setFlag] = useState<boolean>(false);
-
-  // Local Storage
+  // === LOCAL STORAGE === //
   const accessToken = localStorage.getItem('accessToken');
 
-  useEffect(() => {
+  // === CallBack Hook === //
+  // Those callbacks are really important when we need to talk about performance
+  // It allows us to avoid multiple fetches AND we keep informations in memory so we don't need to rerender it if it doesn't change
+  const fetchCollaboratorsCallback =  useCallback(() => {
+    if (!collaborators.length && !isCollaboratorsLoading) {
+      dispatch(fetchCollaborators());
+    }
+  }, [collaborators.length, dispatch, isCollaboratorsLoading])
+
+  const fetchSectorsCallback =  useCallback(() => {
+    if ( !sectors.length && !isSectorLoading) {
+      dispatch(fetchSectors());
+    }
+  }, [dispatch, isSectorLoading, sectors.length])
+
+  const fetchStatsCallback = useCallback(() => {
+    if (!stats.length && !isStatsLoading) {
+      dispatch(infoBySector());
+      dispatch(infoByCollaborator());
+      dispatch(
+        infoWithInterval({
+          formValues: {
+            firstDate: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
+            secondDate: getFormatedFullDate(),
+          },
+        })
+      );
+    }
+  }, [dispatch, isStatsLoading, stats.length])
+
+  const setUserCallback = useCallback(() => {
     if (!user.id) {
       dispatch(setUserWithStorage());
       // We Redirect the user to the panel page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
       navigate('/admin/dashboard');
     }
-    if (accessToken && user.role_id === 1) {
-      axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  }, [dispatch, navigate, user.id]);
 
-      if (!flag && !collaborators.length && !isCollaboratorsLoading) {
-        setFlag(true);
-        dispatch(fetchCollaborators());
-      }
-      if (!flag && !sectors.length && !isSectorsLoading) {
-        setFlag(true);
-        dispatch(fetchSectors());
-      }
-      if (!flag && !stats.length && !isStatsLoading) {
-        setFlag(true);
-        dispatch(infoBySector());
-        dispatch(infoByCollaborator());
-        dispatch(
-          infoWithInterval({
-            formValues: {
-              firstDate: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
-              secondDate: getFormatedFullDate(),
-            },
-          })
-        );
-      }
+  // === useMemo === //
+  // What's interesting here is that we can memoise the access Token and add it to our dependancies array. So unless accessToken changed, the authorizationHeader remains the same
+  const authorizationHeader = useMemo(
+    () => `Bearer ${accessToken}`,
+    [accessToken]
+  );
+
+  // === EFFECTS === //
+  useEffect(() => {
+    if (accessToken && user.role_id === 1) {
+      axiosInstance.defaults.headers.common.Authorization = authorizationHeader;
+
+      setUserCallback();
+      fetchCollaboratorsCallback();
+      fetchSectorsCallback();
+      fetchStatsCallback()
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
     }
-  }, [
-    accessToken,
-    collaborators.length,
-    dispatch,
-    flag,
-    isCollaboratorsLoading,
-    isSectorsLoading,
-    isStatsLoading,
-    navigate,
-    sectors.length,
-    stats.length,
-    user.id,
-    user.role_id,
-  ]);
+  }, [accessToken, authorizationHeader, collaborators.length, dispatch, fetchCollaboratorsCallback, fetchSectorsCallback, fetchStatsCallback, isCollaboratorsLoading, isSectorLoading, isStatsLoading, navigate, sectors.length, setUserCallback, stats.length, user.id, user.role_id]);
 
   return (
     <>

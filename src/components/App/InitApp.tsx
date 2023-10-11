@@ -62,9 +62,8 @@ export default function InitApp() {
   );
 
   // === EFFECTS === //
-
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && user.role_id !== 1) {
       axiosInstance.defaults.headers.common.Authorization = authorizationHeader;
 
       fetchInformationsCallback();
@@ -76,7 +75,7 @@ export default function InitApp() {
       // Just in case, we want to force a logout and reset informations state
       dispatch(resetInformations());
     }
-  }, [accessToken, authorizationHeader, dispatch, fetchInformationsCallback, navigate, setUserCallback]);
+  }, [accessToken, authorizationHeader, dispatch, fetchInformationsCallback, navigate, setUserCallback, user.role_id]);
 
   return (
     <>
