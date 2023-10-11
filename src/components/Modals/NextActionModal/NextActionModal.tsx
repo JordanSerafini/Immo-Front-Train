@@ -99,7 +99,7 @@ function NextActionModal({
   };
 
   return (
-    <Modal>
+    <Modal notClosable>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col max-w-[450px] gap-6 p-2 mt-8"

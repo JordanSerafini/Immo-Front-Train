@@ -32,9 +32,6 @@ import {
   ActionFieldset,
 } from './FieldSets';
 
-// === ASSETS === //
-import { plusIcon } from '../../../assets';
-
 // === STYLES === //
 import '../../common/ErrorMsg/styles/animation.scss';
 
@@ -115,19 +112,6 @@ export default function AddInfoModal() {
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* CLOSE MODAL BUTTON */}
-      <button
-        onClick={handleCancelClick}
-        type="button"
-        className="absolute top-2 right-2"
-      >
-        <img
-          className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plusIcon}
-          alt="Plus"
-        />
-      </button>
-
       <h1 className="my-5 text-2xl font-semibold text-center font-poppins">
         Ajout d&apos;une information
       </h1>

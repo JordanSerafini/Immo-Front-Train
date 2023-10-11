@@ -25,9 +25,6 @@ import CancelButton from '../../common/Buttons/CancelButton';
 import Modal from '../Modal';
 import CancelModal from '../CancelModal/CancelModal';
 
-// === ASSETS === //
-import { plusIcon } from '../../../assets';
-
 // === STYLES === //
 import '../../common/ErrorMsg/styles/animation.scss';
 
@@ -111,19 +108,6 @@ export default function CreateAccountModal() {
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* Temporary style - COMPONENT REFACTO POSSIBLE ! */}
-      <button
-        onClick={handleCancelClick}
-        type="button"
-        className="absolute top-2 right-2"
-      >
-        <img
-          className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plusIcon}
-          alt="Plus Icon"
-        />
-      </button>
-
       <h1 className="block w-3/4 m-auto text-2xl font-semibold my-7 lg:text-3xl font-poppins">
         Création d&apos;un nouveau compte négociateur
       </h1>

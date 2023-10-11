@@ -22,9 +22,6 @@ import CancelModal from '../CancelModal/CancelModal';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
 
-// === ASSETS === //
-import { plusIcon } from '../../../assets';
-
 // === TYPESCRIPT === //
 import { Sector } from '../../../@types/sector';
 
@@ -68,7 +65,6 @@ export default function CreateSectorModal() {
 
     const formEntries = Object.fromEntries(formDatas) as unknown as Sector;
 
-    // !!! MISSING INPUTS VALIDATION !!! //
     // FORM VALIDATION
     const wrongValues: string[] = [];
 
@@ -100,19 +96,6 @@ export default function CreateSectorModal() {
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* Temporary style - COMPONENT REFACTO POSSIBLE ! */}
-      <button
-        onClick={handleCancelClick}
-        type="button"
-        className="absolute top-2 right-2"
-      >
-        <img
-          className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plusIcon}
-          alt="Plus Icon"
-        />
-      </button>
-
       <h1 className="block w-3/4 m-auto text-2xl font-semibold my-7 lg:text-3xl font-poppins">
         Création d&apos;un nouveau secteur
       </h1>
@@ -124,7 +107,7 @@ export default function CreateSectorModal() {
         </p>
       )}
 
-      <em className="italic">*Tous les champs sont obligatoires</em>
+      <em>*Tous les champs sont obligatoires</em>
 
       <form
         onSubmit={handleSubmit}
