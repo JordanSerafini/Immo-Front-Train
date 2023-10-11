@@ -1,22 +1,25 @@
-// React
+// === REACT === //
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Reducer
+// === REDUCERS === //
 import { fetchAvatars } from '../../../store/reducers/avatar';
+import {
+  editCollaborator,
+  updateCollaboratorUrl,
+} from '../../../store/reducers/collaborator';
 
-// Components
+// === COMPONENTS === //
 import Modal from '../Modal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
-// Assets
+// === ASSETS === //
 import loader from '../../../assets/loader/tail-spin.svg';
-import { editCollaborator, updateCollaboratorUrl } from '../../../store/reducers/collaborator';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface UpdateAvatarModalProps {
   closeModal: () => void;
   content: string;
@@ -26,31 +29,31 @@ export default function UpdateAvatarModal({
   closeModal,
   content,
 }: UpdateAvatarModalProps) {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Local States
-  const [avatarId, setAvatarId] = useState<string>('');
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
-
-  // Redux states
+  // === REDUX STATES === //
   const avatars = useAppSelector((state) => state.avatar.data);
   const isLoading = useAppSelector((state) => state.avatar.loading);
   const user = useAppSelector((state) => state.collaborator.user);
 
-  // Handlers
+  // === CONTROLLED INPUT STATES === //
+  const [avatarId, setAvatarId] = useState<string>('');
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
+
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formValues = {...user, avatar_id: parseInt(avatarId, 10)};
+    const formValues = { ...user, avatar_id: parseInt(avatarId, 10) };
 
-    dispatch(updateCollaboratorUrl({url: avatarUrl as string}))
-    dispatch(editCollaborator(formValues))
+    dispatch(updateCollaboratorUrl({ url: avatarUrl as string }));
+    dispatch(editCollaborator(formValues));
     closeModal();
   };
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     setAvatarId(event.target.value);
-    setAvatarUrl(event.target.dataset.url as string)
+    setAvatarUrl(event.target.dataset.url as string);
   }
 
   useEffect(() => {
@@ -81,7 +84,11 @@ export default function UpdateAvatarModal({
                     data-url={avatar.url}
                   />
                   <img
-                    className={`${avatarId === avatar.id.toString() ? "ring-4 ring-accent-300 border-secondary-500" : ""} duration-300 w-[150px] aspect-square rounded-full block m-auto cursor-pointer`}
+                    className={`${
+                      avatarId === avatar.id.toString()
+                        ? 'ring-4 ring-accent-300 border-secondary-500'
+                        : ''
+                    } duration-300 w-[150px] aspect-square rounded-full block m-auto cursor-pointer`}
                     src={avatar.url}
                     alt="avatar"
                   />
@@ -90,10 +97,7 @@ export default function UpdateAvatarModal({
           </fieldset>
 
           <div className="flex flex-wrap justify-around gap-2 m-5">
-            <ValidButton
-              content="Confirmer"
-              isSubmit
-            />
+            <ValidButton content="Confirmer" isSubmit />
 
             <CancelButton content="Annuler" onClickMethod={closeModal} />
           </div>

@@ -1,11 +1,13 @@
-// React
+// === REACT === //
 import { FormEvent, useState, useRef } from 'react';
+
+// === REACT DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Reducers
+// === REDUCERS === //
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
@@ -13,47 +15,39 @@ import {
 } from '../../../store/reducers/modal';
 import { createCollaborator } from '../../../store/reducers/collaborator';
 
-// Components
-import PasswordStrength from './PasswordStrength';
-
-// Shared Components
-import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
-
-// Modal Components
+// === COMPONENTS === //
+import PasswordStrength from '../../features/PasswordStrength/PasswordStrength';
+// Common
+import MemoizedInput from '../../common/Inputs/MemoizedInput';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
+// Modal
 import Modal from '../Modal';
 import CancelModal from '../CancelModal/CancelModal';
 
-// Assets
-import plus from '../../../assets/icons/plus.svg';
+// === STYLES === //
+import '../../common/ErrorMsg/styles/animation.scss';
 
-// Style
-import '../../SharedComponents/ErrorMsg/animation.scss';
-
-// Typescript interface
+// === TYPESCRIPT === //
 import { User } from '../../../@types/user';
 
 export default function CreateAccountModal() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // React References
+  // === REACT REFS === //
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Redux States
+  // === REDUX STATES === //
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
   );
   const regExps = useAppSelector((state) => state.regexps.user);
-  const passwordRegExps = useAppSelector(
-    (state) => state.regexps.passwordStrength
-  );
 
-  // Local States
+  // === LOCAL STATES === //
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
-  // Controlled Inputs states
+  // === CONTROLLED INPUT STATES === //
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -71,6 +65,7 @@ export default function CreateAccountModal() {
 
     const formElement: HTMLFormElement = event.currentTarget;
     const formDatas = new FormData(formElement);
+    // We append default values to the form
     formDatas.append('acces', 'true');
     formDatas.append('role_id', '2');
     formDatas.append('avatar_id', '1');
@@ -113,19 +108,6 @@ export default function CreateAccountModal() {
 
   return (
     <Modal closeModal={handleCancelClick} reference={modalRef}>
-      {/* Temporary style - COMPONENT REFACTO POSSIBLE ! */}
-      <button
-        onClick={handleCancelClick}
-        type="button"
-        className="absolute top-2 right-2"
-      >
-        <img
-          className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plus}
-          alt="Plus Icon"
-        />
-      </button>
-
       <h1 className="block w-3/4 m-auto text-2xl font-semibold my-7 lg:text-3xl font-poppins">
         Création d&apos;un nouveau compte négociateur
       </h1>
@@ -137,7 +119,7 @@ export default function CreateAccountModal() {
         </p>
       )}
 
-      <em className="italic">*Tous les champs sont obligatoires</em>
+      <em>*Tous les champs sont obligatoires</em>
 
       <form
         onSubmit={handleSubmit}
@@ -194,26 +176,7 @@ export default function CreateAccountModal() {
           onChange={setPassword}
         />
 
-        <div className="-mt-5 text-secondary-700">
-          <p className="italic font-semibold text-secondary-600">
-            Le mot de passe doit contenir au mieux 8 caractères, un symbole et
-            un chiffre
-          </p>
-          <p className="font-medium text-center text-md font-poppins">
-            Force du mot de passe
-          </p>
-          <section className="grid grid-cols-3 gap-4">
-            {passwordRegExps.weak.test(password) && (
-              <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
-            )}
-            {passwordRegExps.medium.test(password) && (
-              <PasswordStrength content="Moyen" tailwindColor="bg-orange-500" />
-            )}
-            {passwordRegExps.strong.test(password) && (
-              <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
-            )}
-          </section>
-        </div>
+        <PasswordStrength inputState={password} />
 
         <MemoizedInput
           placeholder="Confirmez le mot de passe"

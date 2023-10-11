@@ -1,42 +1,47 @@
-// Library
+// === LIBRARY === //
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Router
+// === REACT ROUTER DOM === //
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// Components
+// === COMPONENTS === //
 import InitApp from './InitApp';
 import InitAdmin from './InitAdmin';
 
-// Login & Support
-import Login from '../Login/Login';
-import Support from '../Support/Support';
-import SupportConfirmation from '../SupportConfirmation/SupportConfirmation';
-import ResetPassword from '../ResetPassword/ResetPassword';
-import ResetPasswordToken from '../ResetPasswordToken/ResetPasswordToken';
+// Pages
+import {
+  // Login & Support
+  Login,
+  Support,
+  SupportConfirmation,
+  ResetPassword,
+  ResetPasswordToken,
 
-// Collaborator
-import Profile from '../Profile/Profile';
-import Prospection from '../Prospection/Prospection';
-import Detail from '../Detail/Detail';
-import ActionToDo from '../ActionToDo/ActionToDo';
-import ActionManager from '../ActionManager/ActionManager';
-import UpcomingAction from '../UpcomingAction/UpcomingAction';
+  // Collaborator
+  Profile,
+  Prospection,
+  Detail,
+  ActionToDo,
+  ActionManager,
+  UpcomingAction,
+  Message,
 
-// Admin
-import SectorManager from '../SectorManager/SectorManager';
-import CollaboratorManager from '../CollaboratorManager/CollaboratorManager';
-import DashBoard from '../DashBoard/DashBoard';
+  // Admin
+  SectorManager,
+  CollaboratorManager,
+  DashBoard,
 
-// 404 - Error
-import NotFound from '../NotFound/NotFound';
+  // 404 - Error
+  NotFound,
+} from '../../pages';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main">
         <Routes>
+          {/* LOGIN */}
           <Route path="/" element={<Login />} />
           {/* Maybe we could keep the '/' route for the future landing page et use '/login' instead to display Login Component */}
           <Route path="/login" element={<Login />} />
@@ -45,9 +50,10 @@ function App() {
             path="/support/confirmation"
             element={<SupportConfirmation />}
           />
-          <Route path='/reset' element={<ResetPassword />} />
-          <Route path='/reset/token' element={<ResetPasswordToken />} />
+          <Route path="/reset" element={<ResetPassword />} />
+          <Route path="/reset/token" element={<ResetPasswordToken />} />
 
+          {/* COLLABORATOR */}
           {/* This Route allows us to not write /app for every following routes  */}
           <Route path="/app" element={<InitApp />}>
             <Route path="/app/prospection" element={<Prospection />} />
@@ -59,8 +65,10 @@ function App() {
               element={<ActionManager />}
             />
             <Route path="/app/profile/:collaboratorId" element={<Profile />} />
+            <Route path="/app/message" element={<Message />} />
           </Route>
 
+          {/* ADMIN */}
           <Route path="/admin" element={<InitAdmin />}>
             <Route
               path="/admin/collaborator"
@@ -70,6 +78,7 @@ function App() {
             <Route path="/admin/dashboard" element={<DashBoard />} />
           </Route>
 
+          {/* NOT FOUND */}
           <Route path="/*" element={<NotFound />} />
         </Routes>
         <ToastContainer autoClose={2000} className="z-0" />

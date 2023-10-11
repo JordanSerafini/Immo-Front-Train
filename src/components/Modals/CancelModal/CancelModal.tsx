@@ -1,22 +1,16 @@
-// React router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../hooks/redux';
 
-// Store
-import {
-  hideAddInfoModal,
-  hideCancelConfirmationAddInfoModalOpen,
-  hideCancelConfirmationModal,
-  hideCreateAccountModal,
-  hideCreateSectorModal,
-} from '../../../store/reducers/modal';
+// === REDUCERS === //
+import { hideAllModals } from '../../../store/reducers/modal';
 
-// Components
+// === COMPONENTS === //
 import Modal from '../Modal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
 // Typescript interface
 interface CancelModalProps {
@@ -30,13 +24,12 @@ function CancelModal({
   content,
   redirectPath = '/app/prospection',
 }: CancelModalProps) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
+
+  // === HANDLERS === //
   const closeAllModal = () => {
-    dispatch(hideAddInfoModal());
-    dispatch(hideCancelConfirmationModal());
-    dispatch(hideCancelConfirmationAddInfoModalOpen());
-    dispatch(hideCreateAccountModal());
-    dispatch(hideCreateSectorModal());
+    dispatch(hideAllModals());
   };
 
   return (

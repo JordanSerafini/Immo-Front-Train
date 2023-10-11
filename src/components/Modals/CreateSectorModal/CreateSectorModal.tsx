@@ -1,13 +1,13 @@
-// React
-import { FormEvent, useState } from 'react';
+// === REACT === //
+import { FormEvent, useState, useRef } from 'react';
 
-// React dom
+// === REACT DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Reducers
+// === REDUCERS === //
 import {
   showCancelConfirmationModal,
   hideCancelConfirmationModal,
@@ -15,42 +15,42 @@ import {
 } from '../../../store/reducers/modal';
 import { createSector } from '../../../store/reducers/sector';
 
-// Components
+// === COMPONENTS === //
 import Modal from '../Modal';
-import MemoizedInput from '../AddInfoModal/Field/MemoizedInput';
+import MemoizedInput from '../../common/Inputs/MemoizedInput';
 import CancelModal from '../CancelModal/CancelModal';
-import ValidButton from '../../SharedComponents/Buttons/ValidButton';
-import CancelButton from '../../SharedComponents/Buttons/CancelButton';
+import ValidButton from '../../common/Buttons/ValidButton';
+import CancelButton from '../../common/Buttons/CancelButton';
 
-// Assets
-import plus from '../../../assets/icons/plus.svg';
-
-// Typescript interfaces
+// === TYPESCRIPT === //
 import { Sector } from '../../../@types/sector';
 
 export default function CreateSectorModal() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Redux States
+  // === REACT REFS === //
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // === SELECTOR === //
+  const collaborators = useAppSelector((state) => state.collaborator.data);
+
+  // === REDUX STATES === //
   const cancelModal = useAppSelector(
     (state) => state.modal.isCancelConfirmationModalOpen
   );
-  const regExps = useAppSelector((state) => state.regexps);
+  const regExps = useAppSelector((state) => state.regexps.information);
 
-  // Selector
-  const collaborators = useAppSelector((state) => state.collaborator.data);
-
-  // Local States
+  // === LOCAL STATES === //
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
-  // Controlled Inputs States
+  // === CONTROLLED INPUT STATES === //
   const [city, setCity] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [color, setColor] = useState<string>('#FF00FF');
-  const [collaboratorOption, setCollaboratorOption] = useState<string>('3');
+  const [collaboratorOption, setCollaboratorOption] = useState<string>('');
 
-  // Handlers
+  // === HANDLERS === //
   const handleCancelClick = () => {
     dispatch(showCancelConfirmationModal());
   };
@@ -65,27 +65,37 @@ export default function CreateSectorModal() {
 
     const formEntries = Object.fromEntries(formDatas) as unknown as Sector;
 
-    // !!! MISSING INPUTS VALIDATION !!! //
+    // FORM VALIDATION
+    const wrongValues: string[] = [];
 
-    dispatch(createSector({ formData: formEntries }));
-    dispatch(hideCreateSectorModal());
+    Object.keys(formEntries).forEach((fieldName) => {
+      const value = formDatas.get(fieldName);
+
+      if (fieldName in regExps && regExps[fieldName] && value?.length) {
+        if (!regExps[fieldName].test(value as string)) {
+          wrongValues.push(fieldName);
+        }
+      }
+    });
+
+    // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
+    if (wrongValues.length) {
+      // So we set our errorMessage local state to those values
+      setErrorMessage(wrongValues);
+
+      if (modalRef.current) {
+        // We also want to force the scroll to the top of our modal
+        // UX Choice : We want the user to see what's going on
+        modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      dispatch(createSector({ formData: formEntries }));
+      dispatch(hideCreateSectorModal());
+    }
   };
 
   return (
-    <Modal closeModal={handleCancelClick}>
-      {/* Temporary style - COMPONENT REFACTO POSSIBLE ! */}
-      <button
-        onClick={handleCancelClick}
-        type="button"
-        className="absolute top-2 right-2"
-      >
-        <img
-          className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
-          src={plus}
-          alt="Plus Icon"
-        />
-      </button>
-
+    <Modal closeModal={handleCancelClick} reference={modalRef}>
       <h1 className="block w-3/4 m-auto text-2xl font-semibold my-7 lg:text-3xl font-poppins">
         Création d&apos;un nouveau secteur
       </h1>
@@ -97,7 +107,7 @@ export default function CreateSectorModal() {
         </p>
       )}
 
-      <em className="italic">*Tous les champs sont obligatoires</em>
+      <em>*Tous les champs sont obligatoires</em>
 
       <form
         onSubmit={handleSubmit}
@@ -107,7 +117,7 @@ export default function CreateSectorModal() {
           placeholder="Ville"
           inputName="city"
           label="Ville"
-          regExp={regExps.information.address_city}
+          regExp={regExps.address_city}
           value={city}
           onChange={setCity}
           isRequired
@@ -120,7 +130,7 @@ export default function CreateSectorModal() {
           type="number"
           inputName="code_zip"
           label="Code Postal"
-          regExp={regExps.information.code_zip}
+          regExp={regExps.code_zip}
           isRequired
         />
 

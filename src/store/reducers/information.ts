@@ -311,6 +311,7 @@ const informationsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
+    // Reset
     .addCase(resetInformations, () => {
       return initialState;
     });
