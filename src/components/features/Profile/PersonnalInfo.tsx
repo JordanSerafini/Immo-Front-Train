@@ -1,5 +1,5 @@
 // Assets
-import pencilIcon from '../../../assets/icons/edit-pencil.svg';
+import { editPencilIcon } from "../../../assets";
 
 // Typescript interface
 interface PersonnalInfoProps {
@@ -19,7 +19,7 @@ export default function PersonnalInfo({ clickHandler, children, label }: Personn
           onClick={clickHandler}
           className="absolute top-0 right-0 translate-x-[110%] hover:scale-105 duration-300"
         >
-          <img src={pencilIcon} alt="Pencil" />
+          <img src={editPencilIcon} alt="Pencil" />
         </button>
       </p>
       {children}
