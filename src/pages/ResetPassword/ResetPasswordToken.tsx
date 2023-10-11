@@ -15,11 +15,11 @@ import axiosInstance from '../../utils/axios';
 import { useAppSelector } from '../../hooks/redux';
 
 // === COMPONENTS === //
+import PasswordStrength from '../../components/features/PasswordStrength/PasswordStrength';
 import Logo from '../../components/layout/Logo/Logo';
 import MemoizedInput from '../../components/common/Inputs/MemoizedInput';
 import Footer from '../../components/layout/Footer/Footer';
 import ValidButton from '../../components/common/Buttons/ValidButton';
-import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';
 
 // === ASSETS === //
 import { eyeOffIcon, eyeEmptyIcon } from '../../assets';
@@ -33,9 +33,6 @@ export default function ResetPasswordToken() {
   const navigate = useNavigate();
 
   // === REDUX STATES === //
-  const passwordRegExps = useAppSelector(
-    (state) => state.regexps.passwordStrength
-  );
   const regExps = useAppSelector((state) => state.regexps.user);
 
   // === VARIABLES === //
@@ -151,29 +148,7 @@ export default function ResetPasswordToken() {
             </button>
           </MemoizedInput>
 
-          <div className="mt-5 text-secondary-700">
-            <p className="italic font-semibold text-secondary-600">
-              Le mot de passe doit contenir au mieux 8 caractères, un symbole et
-              un chiffre
-            </p>
-            <p className="font-medium text-center text-md font-poppins">
-              Force du mot de passe
-            </p>
-            <section className="grid grid-cols-3 gap-4">
-              {passwordRegExps.weak.test(password) && (
-                <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
-              )}
-              {passwordRegExps.medium.test(password) && (
-                <PasswordStrength
-                  content="Moyen"
-                  tailwindColor="bg-orange-500"
-                />
-              )}
-              {passwordRegExps.strong.test(password) && (
-                <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
-              )}
-            </section>
-          </div>
+          <PasswordStrength inputState={password} />
 
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />

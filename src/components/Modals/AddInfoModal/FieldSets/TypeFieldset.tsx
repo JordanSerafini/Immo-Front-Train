@@ -1,16 +1,11 @@
-// Components
+// === COMPONENTS === //
 import Fieldset from '../../../layout/Fieldset/Fieldset';
 import RadioButton from '../../../common/Buttons/RadioButton';
 
-// Assets
-import house from '../../../../assets/icons/house.svg';
-import whiteHouse from '../../../../assets/icons/white_house.svg';
-import apartment from '../../../../assets/icons/apartment.svg';
-import whiteApartment from '../../../../assets/icons/white_apartment.svg';
-import land from '../../../../assets/icons/land.svg';
-import whiteLand from '../../../../assets/icons/white_land.svg';
+// === ASSETS === //
+import { houseIcon, apartmentIcon, landIcon, whiteHouseIcon, whiteApartmentIcon, whiteLandIcon } from '../../../../assets';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface TypeFieldsetProps {
   state: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
@@ -23,8 +18,8 @@ export default function TypeFieldset({ state, setState }: TypeFieldsetProps) {
         <RadioButton
           value="Maison"
           state={state}
-          whiteIcon={whiteHouse}
-          blackIcon={house}
+          whiteIcon={whiteHouseIcon}
+          blackIcon={houseIcon}
           onChange={setState}
           buttonName="type"
         />
@@ -32,8 +27,8 @@ export default function TypeFieldset({ state, setState }: TypeFieldsetProps) {
         <RadioButton
           value="Appartement"
           state={state}
-          whiteIcon={whiteApartment}
-          blackIcon={apartment}
+          whiteIcon={whiteApartmentIcon}
+          blackIcon={apartmentIcon}
           onChange={setState}
           buttonName="type"
         />
@@ -41,8 +36,8 @@ export default function TypeFieldset({ state, setState }: TypeFieldsetProps) {
         <RadioButton
           value="Terrain"
           state={state}
-          whiteIcon={whiteLand}
-          blackIcon={land}
+          whiteIcon={whiteLandIcon}
+          blackIcon={landIcon}
           onChange={setState}
           buttonName="type"
         />

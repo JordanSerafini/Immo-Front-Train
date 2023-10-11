@@ -1,6 +1,7 @@
+// === REACT === //
 import { ChangeEvent, useId } from 'react';
 
-// Utils
+// === UTILS === //
 import capFirstLetter from '../../../utils/capFirstLetter';
 
 interface RadioButtonProps {

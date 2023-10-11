@@ -1,7 +1,10 @@
-// React
+// === REACT === //
 import { ChangeEvent, Ref, useId } from 'react';
 
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../hooks/redux';
+
+// === REDUCERS === //
 import { filterInformations } from '../../../store/reducers/information';
 
 // Typescript interface
@@ -34,15 +37,17 @@ function Input({
   value,
   onChange,
 }: InputProps) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
   const inputId = useId();
   const condition = regExp?.test(value as string);
 
+  // === HANDLERS === //
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     onChange(event.target.value);
 
-    if (type === "search") {
-      dispatch(filterInformations(event.target.value))
+    if (type === 'search') {
+      dispatch(filterInformations(event.target.value));
     }
   }
 
@@ -51,7 +56,9 @@ function Input({
       <label
         htmlFor={inputId}
         className={`absolute font-poppins font-medium z-0 duration-300 ${
-          value?.length ? 'opacity-100 -translate-y-full' : 'opacity-0 translate-y-[10%]'
+          value?.length
+            ? 'opacity-100 -translate-y-full'
+            : 'opacity-0 translate-y-[10%]'
         }`}
       >
         {label || placeholder}
