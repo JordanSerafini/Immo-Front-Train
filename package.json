@@ -9,12 +9,12 @@
   "description": "Packages for Immo'Pros app",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --mode production",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit && eslint src/**/*.{js,jsx,ts,tsx} --cache --max-warnings=0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "test": "vitest",
-    "start": "vite preview --host 0.0.0.0 --port $PORT"
+    "start": "vite --host 0.0.0.0 --port $PORT preview"
   },
   "dependencies": {
     "@react-leaflet/core": "^2.1.0",
