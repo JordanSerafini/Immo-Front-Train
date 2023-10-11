@@ -13,7 +13,7 @@ import Logo from '../../components/layout/Logo/Logo';
 import Footer from '../../components/layout/Footer/Footer';
 
 // === ASSETS === //
-import illustration from '../../assets/images/illustration.png';
+import illustration from '../../assets/images/illustration.webp';
 
 export default function Login() {
   // === HOOK EXEC ORDER === //
