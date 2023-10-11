@@ -1,25 +1,42 @@
-// React
+/* eslint-disable react/prop-types */
+// === REACT === //
 import { useEffect } from 'react';
 
-// Leaflet
+// === LIBRARY === //
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// UpdateMapCenter can only be used in a descendant of <MapContainer>
+// So we need to make a function component
 function UpdateMapCenter({ center }) {
   const map = useMap();
+
+  // === EFFECTS === //
   useEffect(() => {
     map.setView(center);
   }, [center, map]);
+
   return null;
 }
 
-// eslint-disable-next-line react/prop-types
-export default function LeafletMap({ owner_name, address_number, address_street, code_zip, address_city, longitude, latitude }) {
-
-  const adresse = `${address_number} ${address_street} ${code_zip} ${address_city}`;
-
+// There's an issue with typescript when we want to add the Leaflet component.
+// So this is a jsx file and we need to disalbe the eslint type rule
+export default function LeafletMap({
+  owner_name,
+  address_number,
+  address_street,
+  code_zip,
+  address_city,
+  longitude,
+  latitude,
+}) {
+  const adress = `${address_number} ${address_street} ${code_zip} ${address_city}`;
   return (
-    <MapContainer center={[latitude, longitude]} zoom={15} className='w-full h-[250px] sm:h-[400px]'>
+    <MapContainer
+      center={[latitude, longitude]}
+      zoom={15}
+      className="w-full h-[250px] sm:h-[400px]"
+    >
       <UpdateMapCenter center={[latitude, longitude]} />
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -27,7 +44,7 @@ export default function LeafletMap({ owner_name, address_number, address_street,
       />
       <Marker position={[latitude, longitude]}>
         <Popup>
-          {adresse} - {owner_name}
+          {adress} - {owner_name}
         </Popup>
       </Marker>
     </MapContainer>
