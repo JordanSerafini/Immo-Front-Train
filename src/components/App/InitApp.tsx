@@ -1,32 +1,32 @@
-// React
-import { useEffect, useState } from 'react';
+// === REACT === //
+import { useEffect, useCallback, useMemo } from 'react';
 
-// React Router
+// === REACT ROUTER DOM === //
 import { Outlet, useNavigate } from 'react-router-dom';
 
-// Redux
+// === AXIOS === //
+import axiosInstance from '../../utils/axios';
+
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import {
   fetchInformations,
   resetInformations,
 } from '../../store/reducers/information';
 import { setUserWithStorage } from '../../store/reducers/collaborator';
 
-// Axios
-import axiosInstance from '../../utils/axios';
-
-// Components
+// === COMPONENTS === //
 import NavBar from '../features/NavBar/NavBar';
 import Main from '../layout/Main/Main';
 
 export default function InitApp() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // Redux States
+  // === REDUX STATES === //
   const user = useAppSelector((state) => state.collaborator.user);
 
   const informations = useAppSelector((state) => state.information.data);
@@ -34,28 +34,41 @@ export default function InitApp() {
     (state) => state.information.loading
   );
 
-  // Local State
-  // The flag is really important to avoid multiple fetches
-  const [flag, setFlag] = useState<boolean>(false);
-
-  // Local Storage
+  // === LOCAL STORAGE === //
   const accessToken = localStorage.getItem('accessToken');
 
-  // Dispatch
+  // === CallBack Hook === //
+  // Those callbacks are really important when we need to talk about performance
+  // It allows us to avoid multiple fetches AND we keep informations in memory so we don't need to rerender it if it doesn't change
+  const fetchInformationsCallback = useCallback(() => {
+    if (!informations.length && !isInformationLoading) {
+      dispatch(fetchInformations());
+    }
+  }, [informations, isInformationLoading, dispatch]);
+
+  const setUserCallback = useCallback(() => {
+    if (!user.id) {
+      dispatch(setUserWithStorage());
+      // We Redirect the user to the prospection page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+      navigate('/app/prospection');
+    }
+  }, [dispatch, navigate, user.id]);
+
+  // === useMemo === //
+  // What's interesting here is that we can memoise the access Token and add it to our dependancies array. So unless accessToken changed, the authorizationHeader remains the same
+  const authorizationHeader = useMemo(
+    () => `Bearer ${accessToken}`,
+    [accessToken]
+  );
+
+  // === EFFECTS === //
+
   useEffect(() => {
     if (accessToken) {
-      axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      axiosInstance.defaults.headers.common.Authorization = authorizationHeader;
 
-      // S'il n'y a pas d'information et que ce n'est pas en train de charger alors ça fetch
-      if (!flag && !informations.length && !isInformationLoading) {
-        setFlag(true);
-        dispatch(fetchInformations());
-      }
-      if (!user.id) {
-        dispatch(setUserWithStorage());
-        // We Redirect the user to the prospection page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
-        navigate('/app/prospection');
-      }
+      fetchInformationsCallback();
+      setUserCallback();
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
@@ -63,15 +76,7 @@ export default function InitApp() {
       // Just in case, we want to force a logout and reset informations state
       dispatch(resetInformations());
     }
-  }, [
-    isInformationLoading,
-    user,
-    informations,
-    accessToken,
-    dispatch,
-    navigate,
-    flag,
-  ]);
+  }, [accessToken, authorizationHeader, dispatch, fetchInformationsCallback, navigate, setUserCallback]);
 
   return (
     <>
