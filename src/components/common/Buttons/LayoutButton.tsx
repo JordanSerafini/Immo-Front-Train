@@ -1,7 +1,7 @@
-// Assets
+// === ASSETS === //
 import { gridLayoutIcon, listIcon } from '../../../assets';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface LayoutButtonProps {
   handleMethod: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;

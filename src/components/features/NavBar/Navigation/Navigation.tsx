@@ -1,13 +1,20 @@
-// Redux toolkit
+// === REDUX TOOLKIT === //
 import { nanoid } from '@reduxjs/toolkit';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../../../hooks/redux';
 
-// Assets
-import {homeIcon, actionToDoIcon, upcomingActionIcon, settingsIcon, statsIcon, sendIcon} from "../../../../assets"
+// === ASSETS === //
+import {
+  homeIcon,
+  actionToDoIcon,
+  upcomingActionIcon,
+  settingsIcon,
+  statsIcon,
+  sendIcon,
+} from '../../../../assets';
 
-// Component
+// === COMPONENTS === //
 import NavItem from './NavItem';
 
 export default function Navigation({
@@ -15,7 +22,7 @@ export default function Navigation({
 }: {
   closeNavBarMethod: () => void;
 }) {
-  // Redux state
+  // === REDUX STATES === //
   const roleId = useAppSelector((state) => state.collaborator.user.role_id);
 
   // If you want to add a link to the navbar, you just need to add it into the linkItems array
@@ -38,8 +45,8 @@ export default function Navigation({
     {
       content: 'Messagerie',
       icon: sendIcon,
-      path: '/app/message'
-    }
+      path: '/app/message',
+    },
   ];
 
   const adminLinks = [
@@ -58,7 +65,6 @@ export default function Navigation({
       icon: settingsIcon,
       path: '/admin/sector',
     },
-    
   ];
 
   return (

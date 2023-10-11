@@ -1,6 +1,7 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
-// Typescript interface
+
+// === TYPESCRIPT === //
 import { User } from '../../../../@types/user';
 
 export default function ProfileSection({

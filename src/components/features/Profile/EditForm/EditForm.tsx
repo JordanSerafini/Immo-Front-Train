@@ -1,7 +1,7 @@
-// React
+// === REACT === //
 import { FormEvent } from "react";
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface EditFormProps {
   submitMethod: (event: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;

@@ -1,17 +1,20 @@
-// Assets
-import { editPencilIcon } from "../../../assets";
+// === ASSETS === //
+import { editPencilIcon } from '../../../assets';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface PersonnalInfoProps {
   clickHandler: () => void;
   children: React.ReactNode;
   label: string;
 }
 
-export default function PersonnalInfo({ clickHandler, children, label }: PersonnalInfoProps) {
-
+export default function PersonnalInfo({
+  clickHandler,
+  children,
+  label,
+}: PersonnalInfoProps) {
   return (
-    <div className='m-2'>
+    <div className="m-2">
       <p className="relative font-semibold w-fit text-secondary-600">
         {label}
         <button

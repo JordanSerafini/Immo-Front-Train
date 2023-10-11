@@ -1,4 +1,4 @@
-// Library
+// === LIBRARY === //
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,10 +11,10 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../../../hooks/redux';
 
-// Utils
+// === UTILS === //
 import generateRandomColor from '../../../../utils/generateRandomColors';
 
 ChartJS.register(
@@ -28,6 +28,7 @@ ChartJS.register(
 );
 
 export default function BarInfoInterval() {
+  // === REDUX STATES === //
   const stats = useAppSelector((state) => state.stats.dataInterval);
 
   const data = {
@@ -48,5 +49,5 @@ export default function BarInfoInterval() {
     indexAxis: 'y' as const,
   };
 
-  return <Bar className='w-full' options={options} data={data}/>;
+  return <Bar className="w-full" options={options} data={data} />;
 }

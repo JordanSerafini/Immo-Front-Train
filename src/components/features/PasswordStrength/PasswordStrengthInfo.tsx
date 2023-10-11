@@ -1,4 +1,4 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface PasswordStrengthProps {
     content: string;
     tailwindColor: string;

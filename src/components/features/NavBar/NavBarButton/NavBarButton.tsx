@@ -1,33 +1,29 @@
-// Redux Hooks
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { toggleNavBar } from '../../../../store/reducers/navbar';
 
-// Assets
-import hamburger from '../../../../assets/icons/hamburger.svg';
-import cross from '../../../../assets/icons/cross.svg';
+// === ASSETS === //
+import { hamburgerIcon, crossIcon } from '../../../../assets';
 
 export default function NavBarButton({
   navBarStatus,
 }: {
   navBarStatus: boolean;
 }) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
-
-  const handleClick = () => {
-    dispatch(toggleNavBar());
-  };
 
   return (
     <button
       type="button"
       className="fixed z-40 w-8 h-10 border-none top-8 right-5 navbar-btn sm:hidden"
-      onClick={handleClick}
+      onClick={() => dispatch(toggleNavBar())}
     >
       <img
         className="w-full h-full"
-        src={navBarStatus ? cross : hamburger}
+        src={navBarStatus ? crossIcon : hamburgerIcon}
         alt="burger button icon"
       />
     </button>

@@ -7,12 +7,11 @@ import { LegacyRef } from 'react';
 // === ASSETS === //
 import { plusIcon } from '../../assets';
 
-// Style
+// === STYLES === //
 import './animation.scss';
 
-// Typescript Interface
+// === TYPESCRIPT === //
 interface ModalProps {
-  // Not sure if the type is good here. It seems too simple...
   closeModal?: () => void | null;
   children: React.ReactNode;
   notClosable?: boolean;
