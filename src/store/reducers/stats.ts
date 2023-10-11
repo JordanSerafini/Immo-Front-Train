@@ -3,7 +3,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 /* eslint-disable no-console */
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 
 // Axios
 import { AxiosError } from 'axios';
@@ -69,7 +73,8 @@ export const infoWithInterval = createAsyncThunk(
   }) => {
     try {
       const response = await axiosInstance.post(
-        `/stats/informations/dates`, formValues
+        `/stats/informations/dates`,
+        formValues
       );
 
       return response;
@@ -81,6 +86,8 @@ export const infoWithInterval = createAsyncThunk(
     }
   }
 );
+
+export const resetStats = createAction('stats/reset');
 
 const statsReducer = createReducer(initialState, (builder) => {
   builder
@@ -140,6 +147,9 @@ const statsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
+    .addCase(resetStats, () => {
+      return initialState;
+    });
 });
 
 export default statsReducer;

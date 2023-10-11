@@ -15,7 +15,12 @@ import {
   fetchInformations,
   resetInformations,
 } from '../../store/reducers/information';
-import { setUserWithStorage } from '../../store/reducers/collaborator';
+import {
+  resetCollaborators,
+  setUserWithStorage,
+} from '../../store/reducers/collaborator';
+import { resetSectors } from '../../store/reducers/sector';
+import { resetStats } from '../../store/reducers/stats';
 
 // === COMPONENTS === //
 import NavBar from '../features/NavBar/NavBar';
@@ -63,19 +68,30 @@ export default function InitApp() {
 
   // === EFFECTS === //
   useEffect(() => {
+    setUserCallback();
     if (accessToken && user.role_id !== 1) {
       axiosInstance.defaults.headers.common.Authorization = authorizationHeader;
 
       fetchInformationsCallback();
-      setUserCallback();
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
 
       // Just in case, we want to force a logout and reset informations state
       dispatch(resetInformations());
+      dispatch(resetCollaborators());
+      dispatch(resetSectors());
+      dispatch(resetStats());
     }
-  }, [accessToken, authorizationHeader, dispatch, fetchInformationsCallback, navigate, setUserCallback, user.role_id]);
+  }, [
+    accessToken,
+    authorizationHeader,
+    dispatch,
+    fetchInformationsCallback,
+    navigate,
+    setUserCallback,
+    user.role_id,
+  ]);
 
   return (
     <>

@@ -39,7 +39,11 @@ export default function InitAdmin() {
 
   // === REDUX STATES === //
   const collaboratorState = useAppSelector((state) => state.collaborator);
-  const { user, data: collaborators, loading: isCollaboratorsLoading } = collaboratorState
+  const {
+    user,
+    data: collaborators,
+    loading: isCollaboratorsLoading,
+  } = collaboratorState;
 
   const sectorState = useAppSelector((state) => state.sector);
   const { data: sectors, loading: isSectorLoading } = sectorState;
@@ -53,17 +57,17 @@ export default function InitAdmin() {
   // === CallBack Hook === //
   // Those callbacks are really important when we need to talk about performance
   // It allows us to avoid multiple fetches AND we keep informations in memory so we don't need to rerender it if it doesn't change
-  const fetchCollaboratorsCallback =  useCallback(() => {
+  const fetchCollaboratorsCallback = useCallback(() => {
     if (!collaborators.length && !isCollaboratorsLoading) {
       dispatch(fetchCollaborators());
     }
-  }, [collaborators.length, dispatch, isCollaboratorsLoading])
+  }, [collaborators.length, dispatch, isCollaboratorsLoading]);
 
-  const fetchSectorsCallback =  useCallback(() => {
-    if ( !sectors.length && !isSectorLoading) {
+  const fetchSectorsCallback = useCallback(() => {
+    if (!sectors.length && !isSectorLoading) {
       dispatch(fetchSectors());
     }
-  }, [dispatch, isSectorLoading, sectors.length])
+  }, [dispatch, isSectorLoading, sectors.length]);
 
   const fetchStatsCallback = useCallback(() => {
     if (!stats.length && !isStatsLoading) {
@@ -78,7 +82,7 @@ export default function InitAdmin() {
         })
       );
     }
-  }, [dispatch, isStatsLoading, stats.length])
+  }, [dispatch, isStatsLoading, stats.length]);
 
   const setUserCallback = useCallback(() => {
     if (!user.id) {
@@ -97,18 +101,35 @@ export default function InitAdmin() {
 
   // === EFFECTS === //
   useEffect(() => {
+    setUserCallback();
     if (accessToken && user.role_id === 1) {
       axiosInstance.defaults.headers.common.Authorization = authorizationHeader;
 
-      setUserCallback();
       fetchCollaboratorsCallback();
       fetchSectorsCallback();
-      fetchStatsCallback()
+      fetchStatsCallback();
     } else {
       // If there isn't a token in the local storage, we redirect the user to the login page
       navigate('/login');
     }
-  }, [accessToken, authorizationHeader, collaborators.length, dispatch, fetchCollaboratorsCallback, fetchSectorsCallback, fetchStatsCallback, isCollaboratorsLoading, isSectorLoading, isStatsLoading, navigate, sectors.length, setUserCallback, stats.length, user.id, user.role_id]);
+  }, [
+    accessToken,
+    authorizationHeader,
+    collaborators.length,
+    dispatch,
+    fetchCollaboratorsCallback,
+    fetchSectorsCallback,
+    fetchStatsCallback,
+    isCollaboratorsLoading,
+    isSectorLoading,
+    isStatsLoading,
+    navigate,
+    sectors.length,
+    setUserCallback,
+    stats.length,
+    user.id,
+    user.role_id,
+  ]);
 
   return (
     <>
