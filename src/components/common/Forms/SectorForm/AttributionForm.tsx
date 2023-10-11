@@ -1,20 +1,20 @@
-// React
+// === REACT === //
 import { FormEvent, SetStateAction, useState } from 'react';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector, useAppDispatch } from '../../../../hooks/redux';
 
-// Reducers
+// === REDUCERS === //
 import { editSector } from '../../../../store/reducers/sector';
 
-// Components
+// === COMPONENTS === //
 import ValidButton from '../../Buttons/ValidButton';
 
-// Typescript interface
-import { Sector } from '../../../../@types/sector';
+// === STYLES === //
+import './styles/animation.scss';
 
-// Style
-import "./styles/animation.scss";
+// === TYPESCRIPT === //
+import { Sector } from '../../../../@types/sector';
 
 export default function AttributionForm({
   id,
@@ -22,18 +22,18 @@ export default function AttributionForm({
   code_zip,
   color_code,
   label,
-  setState
-}: Sector & { setState: React.Dispatch<SetStateAction<boolean>>}) {
-  // Hook Execution Order
+  setState,
+}: Sector & { setState: React.Dispatch<SetStateAction<boolean>> }) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Selector
+  // === REDUX STATES === //
   const collaborators = useAppSelector((state) => state.collaborator.data);
 
-  // Local State
+  // === LOCAL STATES === //
   const [selectedOption, setSelectedOption] = useState<string>('3');
 
-  // Handlers
+  // === HANDLERS === //
   const handleChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {

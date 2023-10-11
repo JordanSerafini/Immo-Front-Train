@@ -1,16 +1,21 @@
-// React Hooks
+// === REACT === //
 import { useState } from 'react';
 
-// Components
-import Fieldset from '../../Form/Fieldset';
-import Textarea from '../Field/Textarea';
+// === COMPONENTS === //
+// Common
+import Textarea from '../../../common/Textarea/Textarea';
 import AddButton from '../../../common/Buttons/AddButton';
+// Layout
+import Fieldset from '../../../layout/Fieldset/Fieldset';
 
 export default function ActionFieldset(regExps: { [key: string]: RegExp }) {
   // RegExp Destructuring
   const { description } = regExps;
-  // Action Local State
+
+  // === LOCAL STATES === //
   const [actionTextarea, setActionTextarea] = useState<boolean>(false);
+
+  // === CONTROLLED INPUT STATES === //
   const [action, setAction] = useState<string>('');
 
   // Handle method

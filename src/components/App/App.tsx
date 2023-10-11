@@ -1,11 +1,11 @@
-// Library
+// === LIBRARY === //
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Router
+// === REACT ROUTER DOM === //
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// Components
+// === COMPONENTS === //
 import InitApp from './InitApp';
 import InitAdmin from './InitAdmin';
 

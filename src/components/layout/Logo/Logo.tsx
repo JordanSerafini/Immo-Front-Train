@@ -1,16 +1,16 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Assets
+// === ASSETS === //
 import logo from '../../../assets/logo.svg';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface LogoProps {
   className?: string;
   path?: string;
 }
 
-function Logo({ path = "/app/prospection", className }: LogoProps) {
+function Logo({ path = '/app/prospection', className }: LogoProps) {
   return (
     <Link to={path} className={`${className} block w-fit`}>
       <img src={logo} alt="Logo Immo Pros" />
@@ -20,7 +20,7 @@ function Logo({ path = "/app/prospection", className }: LogoProps) {
 
 Logo.defaultProps = {
   className: '',
-  path: "/login"
+  path: '/login',
 };
 
 export default Logo;

@@ -1,7 +1,7 @@
-// Components
+// === COMPONENTS === //
 import Logo from '../Logo/Logo';
 
-// Typescript
+// === TYPESCRIPT === //
 interface MainProps {
   children: React.ReactNode;
   className?: string;

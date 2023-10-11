@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Redux toolkit
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 // Axios types
 import { AxiosError } from 'axios';
@@ -74,6 +74,8 @@ export const editSector = createAsyncThunk(
     }
   }
 );
+
+export const resetSectors = createAction('sectors/reset');
 
 const sectorReducer = createReducer(initialState, (builder) => {
   builder
@@ -149,6 +151,10 @@ const sectorReducer = createReducer(initialState, (builder) => {
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    })    
+    // Reset
+    .addCase(resetSectors, () => {
+      return initialState;
     });
 });
 

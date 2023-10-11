@@ -2,20 +2,23 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 
-import { LegacyRef } from "react";
+import { LegacyRef } from 'react';
 
-// Style
-import "./animation.scss";
+// === ASSETS === //
+import { plusIcon } from '../../assets';
 
-// Typescript Interface
+// === STYLES === //
+import './animation.scss';
+
+// === TYPESCRIPT === //
 interface ModalProps {
-  // Not sure if the type is good here. It seems too simple...
-  closeModal?: () => void;
+  closeModal?: () => void | null;
   children: React.ReactNode;
-  reference?: LegacyRef<HTMLDivElement>,
+  notClosable?: boolean;
+  reference?: LegacyRef<HTMLDivElement>;
 }
 
-function Modal({ closeModal, children, reference }: ModalProps) {
+function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
   // If the escape key is pressed, close the modal
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
     if (event.code === 'Escape' && closeModal) {
@@ -35,6 +38,20 @@ function Modal({ closeModal, children, reference }: ModalProps) {
         onClick={(event) => event.stopPropagation()}
         className="block max-h-full min-w-[300px] max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden slide rounded-xl bg-secondary-50"
       >
+        {/* If we can close the modal, we want to display the close modal button */}
+        {!notClosable && (
+          <button
+            onClick={closeModal}
+            type="button"
+            className="absolute top-2 right-2"
+          >
+            <img
+              className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
+              src={plusIcon}
+              alt="Plus Icon"
+            />
+          </button>
+        )}
         {children}
       </div>
     </dialog>
@@ -42,8 +59,9 @@ function Modal({ closeModal, children, reference }: ModalProps) {
 }
 
 Modal.defaultProps = {
-  closeModal: () => {},
-  reference: null
-}
+  closeModal: null,
+  reference: null,
+  notClosable: false,
+};
 
 export default Modal;

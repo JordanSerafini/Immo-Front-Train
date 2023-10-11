@@ -1,14 +1,20 @@
-// Library
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, LegendOptions } from 'chart.js';
+// === LIBRARY === //
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  LegendOptions,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../../../hooks/redux';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function DonutInfoSector() {
-  // Redux state
+  // === REDUX STATES === //
   const stats = useAppSelector((state) => state.stats.dataSector);
 
   const data = {

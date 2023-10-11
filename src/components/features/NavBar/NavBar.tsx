@@ -1,15 +1,20 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Redux Hooks
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { hideNavBar } from '../../../store/reducers/navbar';
-import { logout } from '../../../store/reducers/collaborator';
+import {
+  logout,
+  resetCollaborators,
+} from '../../../store/reducers/collaborator';
 import { resetInformations } from '../../../store/reducers/information';
+import { resetSectors } from '../../../store/reducers/sector';
+import { resetStats } from '../../../store/reducers/stats';
 
-// Components
+// === COMPONENTS === //
 import Logo from '../../layout/Logo/Logo';
 import Divider from '../../common/Divider/Divider';
 import NavBarButton from './NavBarButton/NavBarButton';
@@ -17,24 +22,24 @@ import ProfileSection from './ProfileSection/ProfileSection';
 import Navigation from './Navigation/Navigation';
 import axiosInstance from '../../../utils/axios';
 
-// Assets
-import logoutIcon from '../../../assets/icons/log-out.svg';
+// === ASSETS === //
+import { logOutIcon } from '../../../assets';
 import loader from '../../../assets/loader/tail-spin.svg';
 
-// Style
-import "./styles/navbar.scss";
+// === STYLES === //
+import './styles/navbar.scss';
 
 export default function NavBar() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Redux states
+  // === REDUX STATES === //
   const user = useAppSelector((state) => state.collaborator.user);
   const { loading } = useAppSelector((state) => state.collaborator);
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
-  // Functions
+  // === HANDLERS === //
   const closeNavBar = () => {
     dispatch(hideNavBar());
   };
@@ -45,6 +50,9 @@ export default function NavBar() {
     // We want to reset the redux state of Informations to make a new fetch
     // We do that to prevent a bad state display => Imagine the user uses the app on his phone, it will change the informations values in DB but NOT in the state
     dispatch(resetInformations());
+    dispatch(resetCollaborators());
+    dispatch(resetSectors());
+    dispatch(resetStats());
 
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
@@ -72,7 +80,7 @@ export default function NavBar() {
             {/* LOGO */}
             <Logo
               path={
-                user.role_id === 2 ? '/app/prospection' : '/admin/collaborator'
+                user.role_id === 2 ? '/app/prospection' : '/admin/dashboard'
               }
               className="hidden sm:block sm:my-5 navbar__logo"
             />
@@ -104,7 +112,7 @@ export default function NavBar() {
               className="flex gap-2 p-3 my-2 duration-300 rounded-xl hover:bg-secondary-200"
               onClick={handleLogout}
             >
-              <img src={logoutIcon} alt="logout icon" />
+              <img src={logOutIcon} alt="Logout icon" />
               Se déconnecter
             </button>
           </>

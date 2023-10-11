@@ -1,17 +1,21 @@
-// Library
+// === REACT === //
+import { FormEvent, useState } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Hooks
-import { FormEvent, useState } from 'react';
-
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+// === REDUCERS === //
 import { editCollaborator } from '../../../store/reducers/collaborator';
 
-// Shared Components
+// === COMPONENTS === //
+// Common
+import Input from '../../common/Inputs/Input';
+// Local
 import PersonnalInfo from './PersonnalInfo';
-import Input from '../../Modals/AddInfoModal/Field/Input';
 import EditForm from './EditForm/EditForm';
 import EditSubmitBtn from './EditForm/EditSubmitBtn';
 
@@ -20,24 +24,20 @@ export default function EditPhone({
 }: {
   phoneNumber: string | undefined;
 }) {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Redux state
+  // === REDUX STATES === //
   const user = useAppSelector((state) => state.collaborator.user);
+  const regExps = useAppSelector((state) => state.regexps.user.phone);
 
-  // Local states
+  // === LOCAL STATES === //
   const [editPhoneNumber, setEditPhoneNumber] = useState<boolean>(false);
   const [phoneNumberValue, setPhoneNumberValue] = useState<string | undefined>(
     phoneNumber
   );
-  const regExps = useAppSelector((state) => state.regexps.user.phone);
 
-  // Handlers Methods
-  const handleEditLastname = () => {
-    setEditPhoneNumber(!editPhoneNumber);
-  };
-
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -50,16 +50,17 @@ export default function EditPhone({
       dispatch(editCollaborator(formValues));
       setEditPhoneNumber(false);
     } else {
-      toast.error("Votre numéro de téléphone doit contenir 10 chiffres.", {
+      toast.error('Votre numéro de téléphone doit contenir 10 chiffres.', {
         position: toast.POSITION.BOTTOM_CENTER,
       });
     }
-
-
   };
 
   return (
-    <PersonnalInfo clickHandler={handleEditLastname} label="Téléphone">
+    <PersonnalInfo
+      clickHandler={() => setEditPhoneNumber(!editPhoneNumber)}
+      label="Téléphone"
+    >
       {editPhoneNumber ? (
         <EditForm submitMethod={handleSubmit}>
           <Input

@@ -1,15 +1,17 @@
-// Library
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-/* eslint-disable no-console */
+// === REDUX TOOLKIT === //
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
-// Axios
+// === AXIOS === //
+import { AxiosError } from 'axios';
 import axiosInstance from '../../utils/axios';
 
-// Typescript interface
+// === TYPESCRIPT === //
 import { Action } from '../../@types/action';
+import { ErrorType } from '../../@types/error';
 
 interface ActionState {
   loading: boolean;
@@ -17,30 +19,48 @@ interface ActionState {
   data: Action[];
 }
 
+// === INITIAL STATE === //
 export const initialState: ActionState = {
   loading: false,
   error: false,
   data: [],
 };
 
+// === THUNK MIDDLEWARE === //
 export const fetchActions = createAsyncThunk(
   'action/getAll',
   async ({ infoId }: { infoId: number }) => {
-    const response = await axiosInstance.get(`/informations/${infoId}/actions`);
+    try {
+      const response = await axiosInstance.get(
+        `/informations/${infoId}/actions`
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
 export const createProspectionAction = createAsyncThunk(
   'action/create',
   async ({ formData }: { formData: Action }) => {
-    const response = await axiosInstance.post(
-      `/informations/${formData.information_id}/actions`,
-      formData
-    );
+    try {
+      const response = await axiosInstance.post(
+        `/informations/${formData.information_id}/actions`,
+        formData
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
   }
 );
 
@@ -55,16 +75,13 @@ const actionsReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.data = action.payload;
     })
-    .addCase(fetchActions.rejected, (state) => {
+    .addCase(fetchActions.rejected, (state, action) => {
       state.loading = false;
       state.error = true;
 
-      toast.error(
-        'Une erreur est survenue lors de la récupération des actions...',
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     // CreateAction
     .addCase(createProspectionAction.fulfilled, (state, action) => {
@@ -74,15 +91,12 @@ const actionsReducer = createReducer(initialState, (builder) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     })
-    .addCase(createProspectionAction.rejected, (state) => {
+    .addCase(createProspectionAction.rejected, (state, action) => {
       state.error = true;
 
-      toast.error(
-        'Une erreur est survenue lors de la récupération des informations de prospection...',
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     });
 });
 

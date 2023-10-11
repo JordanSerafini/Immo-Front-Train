@@ -1,7 +1,7 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { NavLink } from 'react-router-dom';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface NavItemProps {
   closeNavBarMethod: () => void;
   icon: string;

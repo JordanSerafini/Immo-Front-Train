@@ -1,14 +1,15 @@
-// React Hooks
+// === REACT === //
 import { useState } from 'react';
 
-// Components
-import Fieldset from '../../Form/Fieldset';
-import Textarea from '../Field/Textarea';
+// === COMPONENTS === //
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import Textarea from '../../../common/Textarea/Textarea';
 
 export default function SourceFieldset(regExps: { [key: string]: RegExp }) {
-  const {source} = regExps
-  // Info Source Local State
-  const [sourceInfo, setSourceInfo] = useState<string>("");
+  const { source } = regExps;
+
+  // === CONTROLLED INPUT STATES === //
+  const [sourceInfo, setSourceInfo] = useState<string>('');
   return (
     <Fieldset title="*Source de l'information">
       <div className="mb-5">

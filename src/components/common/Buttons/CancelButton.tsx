@@ -1,4 +1,4 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface CancelButtonProps {
   content: string;
   onClickMethod?: () => void;

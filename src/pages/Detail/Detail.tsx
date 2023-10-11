@@ -1,49 +1,51 @@
-// React
+// === REACT === //
 import { useEffect } from 'react';
 
-// React router
+// === REACT ROUTER DOM === //
 import { useParams, Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { fetchInformation } from '../../store/reducers/information';
 
-// Components
+// === COMPONENTS === //
 import LeafletMap from '../../components/features/Leaflet/LeafletMap';
+import Loader from '../../components/common/Loader/Loader';
+import DetailSection from '../../components/layout/Sections/DetailSection';
 
-// Assets
-import arrowLeftIcon from '../../assets/icons/arrow-left.svg';
-import loader from '../../assets/loader/tail-spin.svg';
-import houseIcon from '../../assets/icons/house.svg';
-import apartmentIcon from '../../assets/icons/apartment.svg';
-import landIcon from '../../assets/icons/land.svg';
+// === ASSETS === //
+import { arrowLeftIcon } from '../../assets';
 
-// Utils
+// === UTILS === //
 import capFirstLetter from '../../utils/capFirstLetter';
 import formatPhone from '../../utils/formatPhone';
+import formatDate from '../../utils/formatDate';
+import switchIcon from '../../utils/switchIcon';
 
 export default function Detail() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Local State
+  // === REDUX STATES === //
+  const informationState = useAppSelector((state) => state.information);
+  const { information, loading, error } = informationState;
+
+  // === LOCAL STATES === //
+  // This is the default long and lat set in the back if the api don't find the adress in its DB
   const defaultLong = 2.29449;
   const defaultLat = 48.8584;
 
-  // Redux state
-  const information = useAppSelector((state) => state.information.information);
-  const isLoading = useAppSelector((state) => state.information.loading);
-  const isError = useAppSelector((state) => state.information.error);
-
+  // Params
   const { infoId } = useParams();
 
+  // === EFFECTS === //
   useEffect(() => {
     dispatch(fetchInformation({ id: infoId }));
   }, [dispatch, infoId]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <>
         <div className="flex items-center gap-6 mt-5">
@@ -56,16 +58,12 @@ export default function Detail() {
           </Link>
           <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
         </div>
-        <img
-          className="absolute w-[50px] left-1/2 top-1/4 z-30"
-          src={loader}
-          alt="Loader"
-        />
+        <Loader className="absolute w-[50px] left-1/2 top-1/4 z-30" />
       </>
     );
   }
 
-  if (!information || isError) {
+  if (!information || error) {
     return (
       <>
         <div className="flex items-center gap-6 mt-5">
@@ -84,20 +82,7 @@ export default function Detail() {
   }
 
   // TYPE ICON SWITCH
-  let icon: string;
-  switch (information.type.toLowerCase()) {
-    case 'maison':
-      icon = houseIcon;
-      break;
-    case 'appartement':
-      icon = apartmentIcon;
-      break;
-    case 'terrain':
-      icon = landIcon;
-      break;
-    default:
-      icon = '';
-  }
+  const icon = switchIcon(information.type)
 
   return (
     <>
@@ -111,13 +96,10 @@ export default function Detail() {
         </Link>
         <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
       </div>
-      {/* p style in "./detail.css" */}
 
       {/* PROPERTY - SECTION */}
-      <section className="max-w-[800px] p-4 m-auto my-5 rounded-lg shadow-custom bg-secondary-50">
-        <h2 className="mb-4">Concernant le bien</h2>
-
-        <img src={icon} alt={`${icon} Icon`} className="w-[25px] inline mr-2" />
+      <DetailSection title='Concernant le bien'>
+        <img src={icon} alt="Icon" className="w-[25px] inline mr-2" />
         <p className="inline md:text-lg">
           {information.address_number} {information.address_street}{' '}
           {information.code_zip} {information.address_city.toLocaleUpperCase()}
@@ -132,14 +114,14 @@ export default function Detail() {
         )}
 
         <p className="block mt-5 ml-auto">
-          <em className="italic">
-            Information créée le : {information?.date.slice(0, 10)}
+          <em>
+            Information créée le : {formatDate(information.date)}
           </em>
         </p>
-      </section>
+      </DetailSection>
 
       {/* LEAFLET MAP */}
-      <section className="max-w-[800px] p-4 my-5 m-auto rounded-lg shadow-custom bg-secondary-50">
+      <DetailSection>
         {information.longitude === defaultLong &&
         information.latitude === defaultLat ? (
           <p className="italic text-center">L&apos;adresse fournie n&apos;a pas permis la localisation pour afficher la carte...</p>
@@ -149,11 +131,10 @@ export default function Detail() {
             <LeafletMap {...information} />
           </>
         )}
-      </section>
+      </DetailSection>
 
       {/* OWNER */}
-      <section className="max-w-[800px] p-4 mb-20 sm:mb-5 m-auto rounded-lg shadow-custom bg-secondary-50">
-        <h2>Concernant le propriétaire</h2>
+      <DetailSection title='Concernant le propriétaire'>
         <p className="md:text-lg">{information.owner_name}</p>
 
         {(information.owner_email ||
@@ -181,7 +162,7 @@ export default function Detail() {
             ? `${information.comment}`
             : 'Pas de commentaire...'}
         </p>
-      </section>
+      </DetailSection>
     </>
   );
 }

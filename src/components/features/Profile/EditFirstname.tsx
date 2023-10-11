@@ -1,64 +1,70 @@
-// Library
+// === REACT === //
+import { FormEvent, useState } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Hooks
-import { FormEvent, useState } from 'react';
-
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+// === REDUCERS === //
 import { editCollaborator } from '../../../store/reducers/collaborator';
 
-// Shared Components
+// === COMPONENTS === //
+// Common
+import Input from '../../common/Inputs/Input';
+// Local
 import PersonnalInfo from './PersonnalInfo';
-import Input from '../../Modals/AddInfoModal/Field/Input';
 import EditForm from './EditForm/EditForm';
 import EditSubmitBtn from './EditForm/EditSubmitBtn';
 
-// Typescript interface
-interface EditFirstnameProps {
+export default function EditFirstname({
+  firstname,
+}: {
   firstname: string | undefined;
-}
-
-export default function EditFirstname({ firstname }: EditFirstnameProps) {
-  // Hook Execution Order
+}) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Redux state
+  // === REDUX STATES === //
   const user = useAppSelector((state) => state.collaborator.user);
   const regExps = useAppSelector((state) => state.regexps.user.firstname);
 
-  // Local states
+  // === LOCAL STATES === //
   const [editFirstname, setEditFirstname] = useState<boolean>(false);
   const [firstnameValue, setFirstnameValue] = useState<string | undefined>(
     firstname
   );
 
-  // Handlers Methods
-  const handleEditLastname = () => {
-    setEditFirstname(!editFirstname);
-  };
-
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form: HTMLFormElement = event.currentTarget;
     const formData = Object.fromEntries(new FormData(form));
 
+    // We want to send the actual user and the formData with the update
     const formValues = { ...user, ...formData };
 
     if (regExps.test(firstnameValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditFirstname(false);
     } else {
-      toast.error('Votre prénom doit avoir au moins un caractère', {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
+      toast.error(
+        'Votre prénom doit avoir au moins un caractère normal et ne pas être un chiffre',
+        {
+          position: toast.POSITION.BOTTOM_CENTER,
+        }
+      );
     }
   };
 
   return (
-    <PersonnalInfo clickHandler={handleEditLastname} label="Prénom">
+    <PersonnalInfo
+      clickHandler={() => setEditFirstname(!editFirstname)}
+      label="Prénom"
+    >
       {editFirstname ? (
         <EditForm submitMethod={handleSubmit}>
           <Input

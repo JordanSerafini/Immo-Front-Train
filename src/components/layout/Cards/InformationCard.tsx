@@ -1,26 +1,22 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
-// Components
+// === COMPONENTS === //
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
 
-// Asset
-import houseIcon from '../../../assets/icons/house.svg';
-import apartmentIcon from '../../../assets/icons/apartment.svg';
-import landIcon from '../../../assets/icons/land.svg';
-
-// Utils
-import capFirstLetter from '../../../utils/capFirstLetter';
-
-// Typescript interface
+// === TYPESCRIPT === //
 import { Information } from '../../../@types/information';
+
+// === UTILS === //
+import capFirstLetter from '../../../utils/capFirstLetter';
+import switchIcon from '../../../utils/switchIcon';
 
 export default function InformationCard({
   id,
@@ -32,25 +28,15 @@ export default function InformationCard({
   type,
   category,
 }: Information) {
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  let icon: string;
-  switch (type.toLowerCase()) {
-    case 'maison':
-      icon = houseIcon;
-      break;
-    case 'appartement':
-      icon = apartmentIcon;
-      break;
-    case 'terrain':
-      icon = landIcon;
-      break;
-    default:
-      icon = '';
-  }
-
+  // === VARIABLES === //
+  const icon = switchIcon(type);
+  // We convert our id to a string so we are sure that it'll be interpreted as a string in the search query url
   const idString: string = id.toString();
 
+  // === HANDLERS === //
   const handleDeleteClick = () => {
     dispatch(showDeleteConfirmationModal());
   };
@@ -58,9 +44,12 @@ export default function InformationCard({
   return (
     <article className="flex flex-col justify-between p-4 mb-5 rounded-lg lg:my-2 shadow-custom bg-secondary-50">
       <div className="flex flex-col gap-2">
-        <img src={icon} alt={`${icon} Icon`} className="w-[25px] md:w-[30px]" />
+        <img src={icon} alt="Icon" className="w-[25px] md:w-[30px]" />
+
         <p className="font-bold md:text-md xl:text-lg">{`${address_number} ${address_street} ${code_zip} ${address_city}`}</p>
+
         <p className="font-bold md:text-md xl:text-lg">{owner_name}</p>
+
         <strong className="text-lg font-bold md:text-xl text-accent-400">
           {capFirstLetter(category)}
         </strong>

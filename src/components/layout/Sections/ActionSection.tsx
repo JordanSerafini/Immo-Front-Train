@@ -1,4 +1,4 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface ActionSectionProps {
   icon: string;
   title: string;
@@ -10,9 +10,8 @@ function ActionSection({
   icon,
   title,
   children,
-  nbrOfActionsToDo
+  nbrOfActionsToDo,
 }: ActionSectionProps) {
-
   return (
     <section className="p-4 rounded-lg shadow-custom bg-secondary-50 h-[250px] overflow-y-auto overflow-x-hidden relative">
       {nbrOfActionsToDo && nbrOfActionsToDo >= 1 && (
@@ -22,7 +21,7 @@ function ActionSection({
       )}
 
       <div className="flex gap-2 mb-4">
-        <img src={icon} alt={icon} />
+        <img src={icon} alt="Icon d'action" />
         <h1 className="text-lg font-semibold font-poppins">{title}</h1>
       </div>
 
@@ -32,7 +31,7 @@ function ActionSection({
 }
 
 ActionSection.defaultProps = {
-  nbrOfActionsToDo: null
-}
+  nbrOfActionsToDo: null,
+};
 
 export default ActionSection;

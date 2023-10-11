@@ -1,40 +1,40 @@
-// React Hooks
+// === REACT === //
 import { useEffect } from 'react';
 
-// React Router
-import { useNavigate } from 'react-router-dom';
+// === REACT ROUTER DOM === //
+import { useNavigate, Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../hooks/redux';
 
-// Components
+// === COMPONENTS === //
 import LoginForm from '../../components/common/Forms/LoginForm/LoginForm';
 import Logo from '../../components/layout/Logo/Logo';
-import LoginFooter from '../../components/layout/Footers/LoginFooter';
+import Footer from '../../components/layout/Footer/Footer';
 
-// Assets
+// === ASSETS === //
 import illustration from '../../assets/images/illustration.png';
 
 export default function Login() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const navigate = useNavigate();
 
-  // Redux State
-  const isLogged = useAppSelector((state) => state.collaborator.user.logged);
-  const access = useAppSelector((state) => state.collaborator.user.acces);
-  // 1 ===  ADMIN // 2 === COLLABORATOR
-  const roleId = useAppSelector((state) => state.collaborator.user.role_id);
+  // === REDUX STATES === //
+  const user = useAppSelector((state) => state.collaborator.user);
+  const { logged, acces, role_id: roleId } = user;
 
+  // === EFFECTS === //
   useEffect(() => {
-    // Once the user is connected, we can redirect him to the "/app/prospection" if COLLABORATOR or "/admin/panel" if ADMIN
-    if (isLogged && access) {
+    // Once the user is connected, we can redirect him to the "/admin/panel" if ADMIN or "/app/prospection" if COLLABORATOR
+    if (logged && acces) {
+      // 1 ===  ADMIN // 2 === COLLABORATOR
       if (roleId === 1) {
         navigate('/admin/dashboard');
       } else {
         navigate('/app/prospection');
       }
     }
-  }, [roleId, isLogged, navigate, access]);
+  }, [roleId, logged, navigate, acces]);
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
@@ -55,8 +55,11 @@ export default function Login() {
         <LoginForm />
 
         {/* FOOTER */}
-        {/* HTML SEMANTIC TO IMPROVE... */}
-        <LoginFooter />
+        <Footer>
+          <Link to="/support" className="mb-5 text-center underline">
+            Contactez le support
+          </Link>
+        </Footer>
       </section>
     </main>
   );

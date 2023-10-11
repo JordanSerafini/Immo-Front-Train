@@ -9,6 +9,7 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 
+
 // Axios types
 import { AxiosError } from 'axios';
 
@@ -149,7 +150,7 @@ export const deleteCollaborator = createAsyncThunk(
     try {
       const response = await axiosInstance.delete(`/collaborator/${id}`);
 
-      return {response, id};
+      return { response, id };
     } catch (error) {
       throw new Error(
         (error as ErrorType).response.data.error ||
@@ -178,6 +179,8 @@ export const updateAccess = createAsyncThunk(
     }
   }
 );
+
+export const resetCollaborators = createAction('collaborators/reset');
 
 const collaboratorReducer = createReducer(initialState, (builder) => {
   builder
@@ -385,6 +388,10 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
     .addCase(setUserWithStorage, (state) => {
       const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
       state.user = storedUser;
+    })
+    // Reset
+    .addCase(resetCollaborators, () => {
+      return initialState;
     });
 });
 

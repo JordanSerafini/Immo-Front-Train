@@ -1,14 +1,15 @@
-// React Hooks
+// === REACT === //
 import { useState } from 'react';
 
-// Components
-import Fieldset from '../../Form/Fieldset';
-import RadioButton from '../Field/RadioButton';
+// === COMPONENTS === //
+import Fieldset from '../../../layout/Fieldset/Fieldset';
+import RadioButton from '../../../common/Buttons/RadioButton';
 
 export default function CategoryFieldset() {
-  // Category Local State
+  // === CONTROLLED INPUT STATES === //
   const [selectedCategoryOption, setSelectedCategoryOption] =
     useState<string>('à vendre');
+    // We want to force the initial state to be on "à vendre"
 
   return (
     <Fieldset title="*Catégorie">

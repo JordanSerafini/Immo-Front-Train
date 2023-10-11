@@ -1,16 +1,14 @@
-// React Router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Components
+// === COMPONENTS === //
 import ValidButton from '../../common/Buttons/ValidButton';
 
-// Assets
-import houseIcon from '../../../assets/icons/house.svg';
-import apartmentIcon from '../../../assets/icons/apartment.svg';
-import landIcon from '../../../assets/icons/land.svg';
-
-// TypescriptInterface
+// === TYPESCRIPT === //
 import { Information } from '../../../@types/information';
+
+// === UTILS === //
+import switchIcon from '../../../utils/switchIcon';
 
 export default function ActionToDoCard({
   id,
@@ -21,25 +19,12 @@ export default function ActionToDoCard({
   address_city,
   owner_name,
 }: Information) {
-  let icon: string;
-  switch (type.toLowerCase()) {
-    case 'maison':
-      icon = houseIcon;
-      break;
-    case 'appartement':
-      icon = apartmentIcon;
-      break;
-    case 'terrain':
-      icon = landIcon;
-      break;
-    default:
-      icon = '';
-  }
+  const icon = switchIcon(type);
 
   return (
     <li className="flex items-start justify-between gap-5 p-3 rounded-lg bg-secondary-50 shadow-custom">
       <div className="flex flex-col gap-1">
-        <img src={icon} alt={`${icon} Icon`} className="w-[25px]" />
+        <img src={icon} alt="Icon" className="w-[25px]" />
         <p>
           {address_number} {address_street} {code_zip}{' '}
           {address_city.toLocaleUpperCase()}

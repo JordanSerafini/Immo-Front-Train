@@ -1,43 +1,33 @@
-// React
-import { useState } from 'react';
+// === REACT === //
+import { FormEvent, useState } from 'react';
 
+// === REACT ROUTER DOM === //
 import { useNavigate } from 'react-router-dom';
 
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
+// === REDUCERS === //
 import {
   createInformation,
   createInformationAndAction,
   updateInformation,
 } from '../../../store/reducers/information';
-
-// Store
-import {
-  hideAddInfoModal,
-  hideCancelConfirmationModal,
-  hideNextActionModal,
-} from '../../../store/reducers/modal';
+import { hideAllModals } from '../../../store/reducers/modal';
 import { createProspectionAction } from '../../../store/reducers/action';
 
-// Components
+// === COMPONENTS === //
 import Modal from '../Modal';
 import ValidButton from '../../common/Buttons/ValidButton';
-import Input from '../AddInfoModal/Field/Input';
+import Input from '../../common/Inputs/Input';
 
-// Utils
-import getFormatedFullDate from '../../../utils/getFormatedFullDate';
-
-// Typescript interface
+// === TYPESCRIPT === //
 import { Information } from '../../../@types/information';
 import { Action } from '../../../@types/action';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+// === UTILS === //
+import getFormatedFullDate from '../../../utils/getFormatedFullDate';
+import getFormatedDayjsDate from '../../../utils/getFormatedDayjsDate';
 
 function NextActionModal({
   formData,
@@ -48,49 +38,37 @@ function NextActionModal({
   withInfo: boolean;
   information?: Information;
 }) {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // Local States
+  // === REDUX STATES === //
+  const collaborator = useAppSelector((state) => state.collaborator.user);
+
+  // === CONTROLLED INPUT STATES === //
   const [nextActionDate, setNextActionDate] = useState<string>(
     getFormatedFullDate()
   );
 
-  // Redux state
-  const collaborator = useAppSelector((state) => state.collaborator.user);
+  // === METHODS === //
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  // Methods
-  const closeAllModal = () => {
-    const formatedNotifDate = dayjs
-      .utc(nextActionDate)
-      .tz('Europe/Paris')
-      .toISOString();
-
-    const formatedDate = dayjs
-    .utc(getFormatedFullDate())
-    .tz("Europe/Paris")
-    .toISOString()
+    const formatedNotifDate = getFormatedDayjsDate(nextActionDate);
+    const formatedDate = getFormatedDayjsDate(getFormatedFullDate());
 
     const infoData = {
       ...(formData as Information),
-      // We could remove type and category to lowercase
-      type: formData?.type?.toLowerCase() as string,
-      category: formData?.category?.toLowerCase() as string,
       date: formatedDate,
       notification_date: formatedNotifDate,
       collaborator_id: collaborator.id as number,
-      // CHANGE SECTOR
-      sector_id: collaborator.sector_id || 3,
+      // If the collaborator doesn't have a sector, we'll set it to 1.
+      // We should think about setting a "Free sector" or "Other sectors" with its id to make it cleaner and logic
+      sector_id: collaborator.sector_id || 1,
     };
 
-    // If there's an Information to create AND an action to create
-    if (
-      withInfo &&
-      formData &&
-      formData.description &&
-      formData.description.length
-    ) {
+    // If there's an Information to create AND an action to create (formData.description)
+    if (withInfo && formData && formData.description) {
       dispatch(
         createInformationAndAction({
           formData: infoData as Information & Action,
@@ -105,7 +83,7 @@ function NextActionModal({
         id: formData?.information_id as number,
         description: formData?.description as string,
         information_id: formData?.information_id as number,
-        date: getFormatedFullDate(),
+        date: formatedDate,
       };
       dispatch(createProspectionAction({ formData: formValues }));
       dispatch(
@@ -117,15 +95,15 @@ function NextActionModal({
     }
 
     navigate('/app/prospection');
-
-    dispatch(hideAddInfoModal());
-    dispatch(hideCancelConfirmationModal());
-    dispatch(hideNextActionModal());
+    dispatch(hideAllModals());
   };
 
   return (
-    <Modal>
-      <div className="flex flex-col max-w-[450px] gap-6 p-2 mt-8">
+    <Modal notClosable>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col max-w-[450px] gap-6 p-2 mt-8"
+      >
         <Input
           type="date"
           value={nextActionDate}
@@ -137,12 +115,8 @@ function NextActionModal({
           className="w-full"
           isRequired
         />
-        <ValidButton
-          className="block m-auto"
-          content="Finaliser"
-          onClickMethod={closeAllModal}
-        />
-      </div>
+        <ValidButton className="block m-auto" content="Finaliser" isSubmit />
+      </form>
     </Modal>
   );
 }

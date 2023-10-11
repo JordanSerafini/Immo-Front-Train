@@ -1,37 +1,38 @@
-// React
+// === REACT === //
 import { FormEvent, useState } from 'react';
 
-// Library
+// === LIBRARY === //
 import dayjs from 'dayjs';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch } from '../../../../../hooks/redux';
 
-// Shared Component
-import Input from '../../../../Modals/AddInfoModal/Field/Input';
+// === COMPONENTS === //
+import Input from '../../../../common/Inputs/Input';
 import ValidButton from '../../../../common/Buttons/ValidButton';
 
-// Utils
+// === UTILS === //
 import getFormatedFullDate from '../../../../../utils/getFormatedFullDate';
+import getFormatedDayjsDate from '../../../../../utils/getFormatedDayjsDate';
 import { infoWithInterval } from '../../../../../store/reducers/stats';
 
 export default function StatsForm() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Local states
+  // === CONTROLLED INPUT STATES === //
   const [firstDate, setFirstDate] = useState<string>(
     dayjs().subtract(6, 'month').format('YYYY-MM-DD')
   );
   const [secondDate, setSecondDate] = useState<string>(getFormatedFullDate());
 
-  // Handler
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formValues = {
-      firstDate: dayjs.utc(firstDate).tz('Europe/Paris').toISOString(),
-      secondDate: dayjs.utc(secondDate).tz('Europe/Paris').toISOString(),
+      firstDate: getFormatedDayjsDate(firstDate),
+      secondDate: getFormatedDayjsDate(secondDate),
     };
 
     dispatch(infoWithInterval({ formValues }));

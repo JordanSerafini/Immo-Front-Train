@@ -63,6 +63,9 @@ export const hideUpdateAvatarModal = createAction('updateAvatarModal/hide');
 export const showCreateSectorModal = createAction('createSectorModal/show');
 export const hideCreateSectorModal = createAction('createSectorModal/hide');
 
+// HIDE ALL MODALS
+export const hideAllModals = createAction('allModals/hide');
+
 const modalReducer = createReducer(initialState, (builder) => {
   builder
     // Add Info Modal
@@ -120,7 +123,10 @@ const modalReducer = createReducer(initialState, (builder) => {
     })
     .addCase(hideCreateSectorModal, (state) => {
       state.isCreateSectorModalOpen = false;
-    });
+    })
+    .addCase(hideAllModals, () => {
+      return initialState;
+    })
 });
 
 export default modalReducer;

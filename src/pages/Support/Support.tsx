@@ -1,45 +1,48 @@
+// === REACT === //
+import { FormEvent, useState } from 'react';
+
 // Library
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React Hooks & types
-import { FormEvent, useState } from 'react';
-
-// React dom
+// === REACT ROUTER DOM === //
 import { useNavigate } from 'react-router-dom';
 
-// Axios
+// === AXIOS === //
 import axiosInstance from '../../utils/axios';
 
-// Components
+// === COMPONENTS === //
 import Logo from '../../components/layout/Logo/Logo';
-import Textarea from '../../components/Modals/AddInfoModal/Field/Textarea';
+import Textarea from '../../components/common/Textarea/Textarea';
 import ValidButton from '../../components/common/Buttons/ValidButton';
-import Input from '../../components/Modals/AddInfoModal/Field/Input';
-import SupportFooter from '../../components/layout/Footers/SupportFooter';
+import Input from '../../components/common/Inputs/Input';
+import Footer from "../../components/layout/Footer/Footer";
 
-// Typescript
+// === TYPESCRIPT === //
 import { ErrorType } from '../../@types/error';
 
 export default function Support() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const navigate = useNavigate();
 
-  // Local States
+  // === CONTROLLED INPUT STATES === //
   const [email, setEmail] = useState<string>('');
   const [objectValue, setObjectValue] = useState<string>('');
   const [message, setMessage] = useState<string>('');
 
+  // === HANDLERS === //  
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    // === FETCH === //
     try {
       const objData = Object.fromEntries(formData);
       const response = await axiosInstance.post('/support', objData);
 
+      // If the response is 200, we can redirect the user to /support/confirmation
       if (response.status === 200) {
         navigate('/support/confirmation');
       }
@@ -59,7 +62,7 @@ export default function Support() {
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
 
-      <main className="flex flex-col w-full h-full mx-5 sm:mx-0">
+      <main className="flex flex-col w-full h-full pb-5 mx-5 sm:mx-0">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">
@@ -99,7 +102,7 @@ export default function Support() {
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
-        <SupportFooter />
+        <Footer />
       </main>
     </>
   );

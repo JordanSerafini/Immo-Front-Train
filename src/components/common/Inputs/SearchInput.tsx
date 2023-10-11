@@ -1,31 +1,31 @@
-// React Hooks
+// === REACT === //
 import { FormEvent, useEffect, useState } from 'react';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Store
+// === REDUCERS === //
 import { filterInformations } from '../../../store/reducers/information';
 
-// Assets
-import search from '../../../assets/icons/search.svg';
+// === COMPONENTS === //
+import Input from './Input';
 
-// Shared Component
-import Input from '../../Modals/AddInfoModal/Field/Input';
+// === ASSETS === //
+import { searchIcon } from '../../../assets';
 
 export default function SearchInput() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Local States
-  const [searchValue, setSearchValue] = useState<string>('');
-
-  // Redux states
+  // === REDUX STATES === //
   const filteredInformations = useAppSelector(
     (state) => state.information.filteredInformations
   );
+  
+  // === LOCAL STATES === //
+  const [searchValue, setSearchValue] = useState<string>('');
 
-  // Handlers
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -34,6 +34,7 @@ export default function SearchInput() {
     }
   };
 
+  // === EFFECTS === //
   // This useEffect is important to reset filteredInformations and display all infos on the prospection page
   useEffect(() => {
     dispatch(filterInformations(''));
@@ -57,14 +58,14 @@ export default function SearchInput() {
           type="submit"
           className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2 z-20"
         >
-          <img src={search} alt="Search icon" />
+          <img src={searchIcon} alt="Search icon" />
         </button>
       </Input>
 
       {searchValue.length > 0 && (
         <p className="text-lg italic">
           Nombre de résultat{filteredInformations.length > 1 ? 's' : ''} :{' '}
-          <span className="font-semibold">{filteredInformations.length}</span>
+          <strong className="font-semibold">{filteredInformations.length}</strong>
         </p>
       )}
     </form>

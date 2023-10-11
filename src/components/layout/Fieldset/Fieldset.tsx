@@ -1,4 +1,4 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface FieldsetProps {
   children: React.ReactNode;
   title: string;

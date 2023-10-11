@@ -1,20 +1,24 @@
-// Redux
+// === REACT === //
 import { useEffect } from 'react';
+
+// === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-// Action Reducer
+// === REDUCERS === //
 import { fetchActions } from '../../../store/reducers/action';
 
-// Components
+// === COMPONENTS === //
 import ActionCard from '../Cards/ActionCard';
 
 export default function ActionManagerSection({ infoId }: { infoId: number }) {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  const actions = useAppSelector((state) => state.action.data);
-  const isActionLoading = useAppSelector((state) => state.action.loading);
+  // === REDUX STATES === //
+  const actionState = useAppSelector((state) => state.action);
+  const { data: actions, loading } = actionState;
 
+  // === EFFECTS === //
   useEffect(() => {
     dispatch(fetchActions({ infoId }));
   }, [dispatch, infoId]);
@@ -24,9 +28,8 @@ export default function ActionManagerSection({ infoId }: { infoId: number }) {
       <h2>Historique des actions</h2>
 
       <ul className="flex flex-col gap-4 mx-2 my-4">
-        {!isActionLoading && actions.map((action) => (
-          <ActionCard key={action.id} {...action} />
-        ))}
+        {!loading &&
+          actions.map((action) => <ActionCard key={action.id} {...action} />)}
       </ul>
     </section>
   );

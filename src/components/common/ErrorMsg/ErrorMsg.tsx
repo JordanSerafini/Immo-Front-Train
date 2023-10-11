@@ -1,7 +1,7 @@
-// Animation Style
+// === STYLES === //
 import './styles/animation.scss';
 
-// Typescript interface
+// === TYPESCRIPT === //
 interface ErrorMsgProps {
   errorMessage: string;
   className?: string | null;

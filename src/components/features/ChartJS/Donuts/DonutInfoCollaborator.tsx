@@ -1,21 +1,29 @@
-// Library
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, LegendOptions } from 'chart.js';
+// === LIBRARY === //
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  LegendOptions,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector } from '../../../../hooks/redux';
 
-// Utils
+// === UTILS === //
 import generateRandomColor from '../../../../utils/generateRandomColors';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-
 export default function DonutInfoCollaborator() {
+  // === REDUX STATES === //
   const stats = useAppSelector((state) => state.stats.dataCollabs);
 
   const data = {
-    labels: stats.map((stat) => `${stat.firstname} ${stat.lastname.toUpperCase()}`),
+    labels: stats.map(
+      (stat) => `${stat.firstname} ${stat.lastname.toUpperCase()}`
+    ),
     datasets: [
       {
         data: stats.map((stat) => stat.nb_infos),
@@ -41,5 +49,5 @@ export default function DonutInfoCollaborator() {
       height="200px"
       options={options}
     />
-  )
+  );
 }

@@ -1,10 +1,10 @@
-// Typescript interface
+// === TYPESCRIPT === //
 interface PasswordStrengthProps {
     content: string;
     tailwindColor: string;
 }
 
-export default function PasswordStrength({content, tailwindColor}: PasswordStrengthProps) {
+export default function PasswordStrengthInfo({content, tailwindColor}: PasswordStrengthProps) {
   return (
     <div>
       <p className="text-center">{content}</p>

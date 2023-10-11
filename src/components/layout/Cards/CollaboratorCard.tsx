@@ -1,24 +1,21 @@
-// React router
+// === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 
-// Reducers
+// === REDUCERS === //
 import { updateAccess } from '../../../store/reducers/collaborator';
 import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
-// Selector
+// === SELECTORS === //
 import { findCollaborator } from '../../../store/selectors/collaborator';
 
-// Assets
-import portrait from '../../../assets/images/portrait_01.png';
-
-// Utils
-import formatPhone from '../../../utils/formatPhone';
-
-// Typescript interface
+// === TYPESCRIPT === //
 import { User } from '../../../@types/user';
+
+// === UTILS === //
+import formatPhone from '../../../utils/formatPhone';
 
 export default function CollaboratorCard({
   id,
@@ -29,13 +26,12 @@ export default function CollaboratorCard({
   acces,
   url,
 }: User) {
-  // Hook Execution order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Selector
+  // === REDUX STATES === //
   const user = useAppSelector(findCollaborator(id as number));
 
-  // Improvments to make here
   if (!user) {
     return (
       <p className="text-xl font-semibold text-center">
@@ -44,7 +40,7 @@ export default function CollaboratorCard({
     );
   }
 
-  // Handler
+  // === HANDLERS === //
   const handleAcces = () => {
     const formData = {
       ...user,
@@ -69,7 +65,7 @@ export default function CollaboratorCard({
       </Link>
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
-          src={url || portrait}
+          src={url}
           alt="Portrait"
           className="rounded-full w-28 aspect-square shadow-custom"
         />

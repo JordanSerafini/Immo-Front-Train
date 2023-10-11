@@ -1,54 +1,53 @@
-// Library
+// === REACT === //
+import { useState, FormEvent } from 'react';
+
+// === LIBRARY === //
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// React
-import { useState, FormEvent } from 'react';
-
-// React Dom
+// === REACT ROUTER DOM === //
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// Redux
-import { useAppSelector } from '../../hooks/redux';
-
-// Axios
+// === AXIOS === //
 import axiosInstance from '../../utils/axios';
 
-// Components
+// === REDUX HOOKS === //
+import { useAppSelector } from '../../hooks/redux';
+
+// === COMPONENTS === //
+import PasswordStrength from '../../components/features/PasswordStrength/PasswordStrength';
 import Logo from '../../components/layout/Logo/Logo';
-import MemoizedInput from '../../components/Modals/AddInfoModal/Field/MemoizedInput';
-import SupportFooter from '../../components/layout/Footers/SupportFooter';
+import MemoizedInput from '../../components/common/Inputs/MemoizedInput';
+import Footer from '../../components/layout/Footer/Footer';
 import ValidButton from '../../components/common/Buttons/ValidButton';
-import PasswordStrength from '../../components/Modals/CreateAccountModal/PasswordStrength';
 
-// Assets
-import eyeIcon from '../../assets/icons/eye-empty.svg';
-import eyeOffIcon from '../../assets/icons/eye-off.svg';
+// === ASSETS === //
+import { eyeOffIcon, eyeEmptyIcon } from '../../assets';
 
-// Typescript
+// === TYPESCRIPT === //
 import { ErrorType } from '../../@types/error';
 
 export default function ResetPasswordToken() {
-  // Hook execution order
+  // === HOOK EXEC ORDER === //
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redux states
-  const passwordRegExps = useAppSelector(
-    (state) => state.regexps.passwordStrength
-  );
+  // === REDUX STATES === //
   const regExps = useAppSelector((state) => state.regexps.user);
 
-  // Local state
+  // === VARIABLES === //
+  const token = location.search.slice(1);
+
+  // === LOCAL STATES === //
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // === CONTROLLED INPUT STATES === //
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
-  const token = location.search.slice(1);
-
-  // handlers
+  // === HANDLERS === //
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -62,6 +61,7 @@ export default function ResetPasswordToken() {
       });
     }
 
+    // === FETCH === //
     try {
       const objData = Object.fromEntries(formData);
       const response = await axiosInstance.post('/reset/token', objData);
@@ -88,7 +88,7 @@ export default function ResetPasswordToken() {
       {/* LOGO */}
       <Logo path="/" className="absolute top-5 left-5" />
 
-      <main className="flex flex-col w-full h-full mx-5 sm:mx-0">
+      <main className="flex flex-col w-full h-full pb-5 mx-5 sm:mx-0">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">
@@ -115,7 +115,7 @@ export default function ResetPasswordToken() {
               onClick={() => setShowPassword(!showPassword)}
             >
               <img
-                src={showPassword ? eyeIcon : eyeOffIcon}
+                src={showPassword ? eyeEmptyIcon : eyeOffIcon}
                 alt="Password Icon"
               />
             </button>
@@ -142,40 +142,18 @@ export default function ResetPasswordToken() {
               }
             >
               <img
-                src={showPasswordConfirmation ? eyeIcon : eyeOffIcon}
+                src={showPasswordConfirmation ? eyeEmptyIcon : eyeOffIcon}
                 alt="Password Icon"
               />
             </button>
           </MemoizedInput>
 
-          <div className="mt-5 text-secondary-700">
-            <p className="italic font-semibold text-secondary-600">
-              Le mot de passe doit contenir au mieux 8 caractères, un symbole et
-              un chiffre
-            </p>
-            <p className="font-medium text-center text-md font-poppins">
-              Force du mot de passe
-            </p>
-            <section className="grid grid-cols-3 gap-4">
-              {passwordRegExps.weak.test(password) && (
-                <PasswordStrength content="Faible" tailwindColor="bg-red-600" />
-              )}
-              {passwordRegExps.medium.test(password) && (
-                <PasswordStrength
-                  content="Moyen"
-                  tailwindColor="bg-orange-500"
-                />
-              )}
-              {passwordRegExps.strong.test(password) && (
-                <PasswordStrength content="Fort" tailwindColor="bg-green-600" />
-              )}
-            </section>
-          </div>
+          <PasswordStrength inputState={password} />
 
           {/* SEND BUTTON */}
           <ValidButton content="Envoyer" isSubmit className="w-full mt-10" />
         </form>
-        <SupportFooter />
+        <Footer />
       </main>
     </>
   );
