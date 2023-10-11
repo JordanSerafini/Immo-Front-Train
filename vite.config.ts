@@ -8,30 +8,13 @@ const PORT = Number(process.env.PORT) || 3000;
 export default defineConfig({
   plugins: [
     react(),
-    ViteCompression()
+    ViteCompression(),
   ],
   server: {
     port: PORT,
   },
-
   build: {
     chunkSizeWarningLimit: 1100,
-    minify: 'terser',
-    target: 'es2015',
-    outDir: 'dist', // Le répertoire de sortie pour les fichiers de production
-    rollupOptions: {
-      // L'option "output" spécifie le format de sortie pour la production
-      output: {
-        format: 'es', // Format ES Module
-      },
-    },
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        keep_infinity: true,
-      },
-    },
+    outDir: 'dist',
   },
 });
-
-
