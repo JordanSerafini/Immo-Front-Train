@@ -5,7 +5,7 @@ import filteredUpcomingAction from '../utils/filteredUpcomingAction';
 import { Information } from '../@types/information';
 
 // === DATA === //
-import data from '../data/data';
+import informationsData from '../data/informationsData';
 import sortedActionToDo from '../data/sortedActionToDo';
 import sortedUpcomingAction from '../data/sortedUpcomingAction';
 
@@ -17,13 +17,13 @@ describe('filteredActionToDo function', () => {
     });
 
     it('Should return an array of Information objects', () => {
-      expectTypeOf(filteredActionToDo(data)).toMatchTypeOf<Information[]>;
+      expectTypeOf(filteredActionToDo(informationsData)).toMatchTypeOf<Information[]>;
     });
   });
 
   describe('Execution', () => {
     it('Should return an array of Information to do objects sorted by date (most recent)', () => {
-      expect(filteredActionToDo(data)).toEqual(sortedActionToDo);
+      expect(filteredActionToDo(informationsData)).toEqual(sortedActionToDo);
     });
   });
 });
@@ -36,13 +36,13 @@ describe('filteredUpcomingAction function', () => {
     });
 
     it('Should return an array of Information objects', () => {
-      expectTypeOf(filteredUpcomingAction(data)).toMatchTypeOf<Information[]>;
+      expectTypeOf(filteredUpcomingAction(informationsData)).toMatchTypeOf<Information[]>;
     });
   });
 
   describe('Execution', () => {
     it('Should return an array of upcoming Information objects sorted by date (most recent)', () => {
-      expect(filteredUpcomingAction(data)).toEqual(sortedUpcomingAction);
+      expect(filteredUpcomingAction(informationsData)).toEqual(sortedUpcomingAction);
     });
   });
 });
