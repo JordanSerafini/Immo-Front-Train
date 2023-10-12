@@ -8,12 +8,12 @@ describe('getFormatedDayjsDate function', () => {
     it('Should be a function', () => {
       expectTypeOf(getFormatedDayjsDate).toBeFunction();
     });
-  });
 
-  it('Should return a string', () => {
-    expectTypeOf(getFormatedDayjsDate('2023-12-02')).toMatchTypeOf<string>;
+    it('Should return a string', () => {
+      expectTypeOf(getFormatedDayjsDate('2023-12-02')).toMatchTypeOf<string>;
 
-    expectTypeOf(getFormatedDayjsDate('')).toMatchTypeOf<string>;
+      expectTypeOf(getFormatedDayjsDate('')).toMatchTypeOf<string>;
+    });
   });
 
   describe('Execution', () => {
@@ -39,10 +39,10 @@ describe('getFormatedFullDate function', () => {
     it('Should be a function', () => {
       expectTypeOf(getFormatedFullDate).toBeFunction();
     });
-  });
-
-  it('Should return a string', () => {
-    expectTypeOf(getFormatedFullDate()).toMatchTypeOf<string>;
+    
+    it('Should return a string', () => {
+      expectTypeOf(getFormatedFullDate()).toMatchTypeOf<string>;
+    });
   });
 
   describe('Execution', () => {

@@ -9,12 +9,12 @@ describe('formatPhone function', () => {
     it('Should be a function', () => {
       expectTypeOf(formatPhone).toBeFunction();
     });
-  });
 
-  it('Should return a string', () => {
-    expectTypeOf(formatPhone('0605060506')).toMatchTypeOf<string>;
+    it('Should return a string', () => {
+      expectTypeOf(formatPhone('0605060506')).toMatchTypeOf<string>;
 
-    expectTypeOf(formatPhone('')).toMatchTypeOf<string>;
+      expectTypeOf(formatPhone('')).toMatchTypeOf<string>;
+    });
   });
 
   describe('Execution', () => {
@@ -42,12 +42,12 @@ describe('formatDate function', () => {
     it('Should be a function', () => {
       expectTypeOf(formatDate).toBeFunction();
     });
-  });
 
-  it('Should return a string', () => {
-    expectTypeOf(formatDate('2023-12-06')).toMatchTypeOf<string>;
+    it('Should return a string', () => {
+      expectTypeOf(formatDate('2023-12-06')).toMatchTypeOf<string>;
 
-    expectTypeOf(formatDate('')).toMatchTypeOf<string>;
+      expectTypeOf(formatDate('')).toMatchTypeOf<string>;
+    });
   });
 
   describe('Execution', () => {
@@ -73,12 +73,12 @@ describe('capFirstLetter function', () => {
     it('Should be a function', () => {
       expectTypeOf(capFirstLetter).toBeFunction();
     });
-  });
 
-  it('Should return a string', () => {
-    expectTypeOf(capFirstLetter('hello')).toMatchTypeOf<string>;
+    it('Should return a string', () => {
+      expectTypeOf(capFirstLetter('hello')).toMatchTypeOf<string>;
 
-    expectTypeOf(capFirstLetter('')).toMatchTypeOf<string>;
+      expectTypeOf(capFirstLetter('')).toMatchTypeOf<string>;
+    });
   });
 
   describe('Execution', () => {
