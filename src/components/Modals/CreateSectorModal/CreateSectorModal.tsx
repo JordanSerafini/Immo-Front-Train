@@ -48,7 +48,7 @@ export default function CreateSectorModal() {
   const [city, setCity] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [color, setColor] = useState<string>('#FF00FF');
-  const [collaboratorOption, setCollaboratorOption] = useState<string>('');
+  const [collaboratorOption, setCollaboratorOption] = useState<string>("");
 
   // === HANDLERS === //
   const handleCancelClick = () => {
@@ -77,6 +77,10 @@ export default function CreateSectorModal() {
         }
       }
     });
+    
+    if (!collaboratorOption.length) {
+      wrongValues.push("Sélectionnez un collaborateur")
+    }
 
     // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
     if (wrongValues.length) {
@@ -156,7 +160,7 @@ export default function CreateSectorModal() {
             onChange={(event) => setCollaboratorOption(event.target.value)}
             className="w-full p-2 my-2 font-normal border-2 border-solid rounded-md border-accent-300"
           >
-            <option disabled> Sélectionnez...</option>
+            <option> Sélectionnez...</option>
             {collaborators.map((collab) => (
               <option key={collab.id} value={collab.id}>
                 {collab.firstname} {collab.lastname?.toUpperCase()}
