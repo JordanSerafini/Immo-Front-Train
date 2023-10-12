@@ -145,7 +145,7 @@ export default function CreateSectorModal() {
             value={color}
             onChange={(event) => setColor(event.target.value)}
             name="color_code"
-            className="block mx-auto mt-2 opacity-0"
+            className="block w-10 mx-auto mt-2 duration-150 opacity-0 opacity-1 focus:ring-2 ring-accent-300"
           />
           <div
             className="absolute top-7 left-1/2 -translate-x-1/2 bg-slate-500 w-[50px] aspect-square rounded-full shadow-custom"
@@ -158,7 +158,7 @@ export default function CreateSectorModal() {
           <select
             value={collaboratorOption}
             onChange={(event) => setCollaboratorOption(event.target.value)}
-            className="w-full p-2 my-2 font-normal border-2 border-solid rounded-md border-accent-300"
+            className="w-full p-2 my-2 font-normal duration-150 border-2 border-black border-solid rounded-md focus:ring-2 ring-offset-2 ring-accent-300"
           >
             <option> Sélectionnez...</option>
             {collaborators.map((collab) => (

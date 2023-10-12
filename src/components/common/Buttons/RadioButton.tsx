@@ -59,7 +59,7 @@ function RadioButton({
 
       <label
         htmlFor={inputId}
-        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} focus:ring-4 ring-primary-300 border-solid border-2 font-poppins text-md sm:text-lg border-accent-400 duration-150 focus:outline-transparent ${
+        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} border-solid border-2 font-poppins text-md sm:text-lg border-accent-400 duration-150 outline-primary-200 ${
           state === value ? 'bg-accent-400 text-secondary-50' : ''
         }`}
         tabIndex={0}

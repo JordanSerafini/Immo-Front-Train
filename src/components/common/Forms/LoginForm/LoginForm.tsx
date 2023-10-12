@@ -84,7 +84,7 @@ export default function LoginForm() {
       >
         <button
           type="button"
-          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20 focus:ring-2 ring-accent-300 border-radius-md"
+          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
           onClick={() => setShowPassword(!showPassword)}
         >
           <img

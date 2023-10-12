@@ -20,7 +20,7 @@ export default function PersonnalInfo({
         <button
           type="button"
           onClick={clickHandler}
-          className="absolute top-0 right-0 translate-x-[110%] hover:scale-105 duration-300 focus:ring-2 rounded-md ring-black"
+          className="absolute top-0 right-0 translate-x-[110%] hover:scale-105 duration-300"
         >
           <img src={editPencilIcon} alt="Pencil" />
         </button>

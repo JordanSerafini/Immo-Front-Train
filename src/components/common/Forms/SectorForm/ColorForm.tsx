@@ -58,7 +58,7 @@ export default function ColorForm({
       <DeleteButton className='absolute top-2 right-2' onClickMethod={() => setState(false)} />
 
       <input
-        className="block w-1/2 m-auto"
+        className="block w-1/2 m-auto focus:ring-2 ring-accent-300"
         type="color"
         value={color}
         onChange={handleChange}

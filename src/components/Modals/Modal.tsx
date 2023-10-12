@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 
-import { LegacyRef } from 'react';
+import { LegacyRef, useEffect, useRef } from 'react';
 
 // === ASSETS === //
 import { plusIcon } from '../../assets';
@@ -19,6 +19,12 @@ interface ModalProps {
 }
 
 function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
+  const focusRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    focusRef.current?.focus();
+  }, [])
+
   // If the escape key is pressed, close the modal
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
     if (event.code === 'Escape' && closeModal) {
@@ -43,10 +49,11 @@ function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
           <button
             onClick={closeModal}
             type="button"
-            className="absolute rounded-full top-2 right-2 focus:ring-2 ring-accent-300"
+            className="absolute w-[24px] aspect-square rounded-full top-2 right-2"
+            ref={focusRef}
           >
             <img
-              className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
+              className=" absolute top-0 duration-300 w-[24px] aspect-square rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
               src={plusIcon}
               alt="Plus Icon"
             />

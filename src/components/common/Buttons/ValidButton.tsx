@@ -17,7 +17,7 @@ function ValidButton({
   return (
     <button
       type={isSubmit ? 'submit' : 'button'}
-      className={`px-6 py-2 duration-300 rounded-lg text-secondary-50 bg-primary-300 font-poppins lg:text-lg hover:shadow-primary focus:ring-4 ring-accent-300 ring-offset-2 ${className}`}
+      className={`px-6 py-2 duration-300 rounded-lg text-secondary-50 bg-primary-300 font-poppins lg:text-lg hover:shadow-primary ${className}`}
       onClick={onClickMethod}
       tabIndex={isNotFocusable ? -1 : 0}
     >

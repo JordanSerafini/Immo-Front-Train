@@ -37,6 +37,7 @@ function DeleteModal({
   // Get the id of the information we want to delete
   const id = location.search.slice(1);
 
+  // === HANDLERS === //
   const handleConfirmClick = () => {
     closeModal();
 
@@ -54,15 +55,15 @@ function DeleteModal({
       <div className="flex flex-col min-w-[300px] max-w-[450px] gap-6 p-2">
         <h1 className="text-lg">{content}</h1>
         <div className="flex flex-wrap justify-center gap-10">
-          <Link to={{ search: '' }}>
+          <Link to={{ search: '' }} onClick={handleConfirmClick}>
             <ValidButton
               content="Confirmer"
-              onClickMethod={handleConfirmClick}
+              isNotFocusable
             />
           </Link>
 
-          <Link to={{ search: '' }}>
-            <CancelButton content="Annuler" onClickMethod={closeModal} />
+          <Link to={{ search: '' }} onClick={closeModal}>
+            <CancelButton isNotFocusable content="Annuler" />
           </Link>
         </div>
       </div>

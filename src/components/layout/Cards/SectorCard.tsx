@@ -60,11 +60,11 @@ export default function SectorCard({
   return (
     <article className="relative grid items-center justify-center grid-cols-2 gap-8 p-5 my-5 rounded-lg lg:grid-cols-4 bg-secondary-50 shadow-custom">
       <Link
-        className="rounded-full w-[30px] h-[30px] text-secondary-50 absolute top-2 right-2 flex justify-center items-center z-10"
+        className="rounded-full w-[24px] aspect-square text-secondary-50 absolute top-2 right-2 flex justify-center items-center"
         onClick={handleDelete}
         to={{ search: id?.toString() }}
       >
-        <DeleteButton />
+        <DeleteButton isNotFocusable />
       </Link>
       <div className="flex flex-col items-center gap-4">
         <h3>Ville</h3>
@@ -80,6 +80,7 @@ export default function SectorCard({
         <h3 className="flex gap-2 text-center">
           Attribué à
           <button
+            className="duration-150 rounded-md focus:ring-2 ring-accent-300"
             type="button"
             onClick={() => setEditingAffection(!editingAffectation)}
           >
@@ -104,7 +105,11 @@ export default function SectorCard({
       <div className="relative flex flex-col items-center gap-4">
         <h3 className="flex gap-2">
           Couleur
-          <button type="button" onClick={() => setEditingColor(!editingColor)}>
+          <button
+            className="duration-150 rounded-md focus:ring-2 ring-accent-300"
+            type="button"
+            onClick={() => setEditingColor(!editingColor)}
+          >
             <img src={editPencilIcon} alt="Pencil Icon" />
           </button>
         </h3>

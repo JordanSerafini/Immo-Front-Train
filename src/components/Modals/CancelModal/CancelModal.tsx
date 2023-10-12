@@ -1,6 +1,3 @@
-// === REACT === //
-import { useEffect, useRef } from 'react';
-
 // === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
@@ -30,12 +27,6 @@ function CancelModal({
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  const focusRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    focusRef.current?.focus();
-  }, [])
-
   // === HANDLERS === //
   const closeAllModal = () => {
     dispatch(hideAllModals());
@@ -46,8 +37,8 @@ function CancelModal({
       <div className="flex flex-col max-w-[450px] gap-6 p-2">
         <h1 className="text-lg font-semibold text-center ">{content}</h1>
         <div className="flex flex-wrap justify-around gap-2">
-          <Link to={redirectPath} ref={focusRef} onClick={closeAllModal}>
-            <ValidButton isNotFocusable content="Confirmer" onClickMethod={closeAllModal} />
+          <Link to={redirectPath} onClick={closeAllModal}>
+            <ValidButton isNotFocusable content="Confirmer" />
           </Link>
           <CancelButton content="Annuler" onClickMethod={closeModal} />
         </div>

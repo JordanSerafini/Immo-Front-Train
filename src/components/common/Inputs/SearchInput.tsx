@@ -56,7 +56,7 @@ export default function SearchInput() {
       >
         <button
           type="submit"
-          className="absolute right-2 top-1/2 translate-y-[-50%] focus:ring-2 ring-accent-300 z-20"
+          className="absolute right-2 top-1/2 translate-y-[-50%] z-20"
         >
           <img src={searchIcon} alt="Search icon" />
         </button>

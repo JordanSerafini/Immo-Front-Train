@@ -69,7 +69,7 @@ export default function AttributionForm({
         <select
           value={selectedOption}
           onChange={handleChange}
-          className="w-full p-2 my-2 rounded-md focus:ring-2"
+          className="w-full p-2 my-2 rounded-md focus:ring-2 ring-accent-300"
         >
           <option disabled> Sélectionnez...</option>
           {collaborators.map((collab) => (

@@ -60,11 +60,11 @@ export default function CollaboratorCard({
   return (
     <article className="relative flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
       <Link
-        className="rounded-full w-[30px] h-[30px] text-secondary-50 absolute top-2 right-2 flex justify-center items-center"
+        className="rounded-full w-[24px] aspect-square text-secondary-50 absolute top-2 right-2 flex justify-center items-center"
         onClick={handleDelete}
         to={{ search: id?.toString() }}
       >
-        <DeleteButton />
+        <DeleteButton isNotFocusable />
       </Link>
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
