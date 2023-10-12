@@ -1,6 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import formatPhone from '../utils/formatPhone';
 import formatDate from '../utils/formatDate';
+import capFirstLetter from '../utils/capFirstLetter';
 
 // === formatPhone === //
 describe('formatPhone function', () => {
@@ -62,6 +63,32 @@ describe('formatDate function', () => {
 
     it('Should return Invalid Date', () => {
       expect(formatDate('24-12-2023')).toEqual('Invalid Date');
+    });
+  });
+});
+
+// === capFirstLetter === //
+describe('capFirstLetter function', () => {
+  describe('Structure', () => {
+    it('Should be a function', () => {
+      expectTypeOf(capFirstLetter).toBeFunction();
+    });
+  });
+
+  it('Should return a string', () => {
+    expectTypeOf(capFirstLetter('hello')).toMatchTypeOf<string>;
+
+    expectTypeOf(capFirstLetter('')).toMatchTypeOf<string>;
+  });
+
+  describe('Execution', () => {
+    it('Should return a string with the first letter capitalized and the rest lower cased', () => {
+      expect(capFirstLetter('heLlO')).toEqual('Hello');
+      expect(capFirstLetter('heLlO WoRld')).toEqual('Hello world');
+    });
+
+    it('Should return an empty string', () => {
+      expect(capFirstLetter('')).toEqual('');
     });
   });
 });
