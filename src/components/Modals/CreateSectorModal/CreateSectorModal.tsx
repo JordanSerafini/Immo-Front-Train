@@ -160,6 +160,7 @@ export default function CreateSectorModal() {
           Affecter à :
           <select
             value={collaboratorOption}
+            name='collaborator_selected'
             onChange={(event) => setCollaboratorOption(event.target.value)}
             className="w-full p-2 my-2 font-normal duration-150 border-2 border-black border-solid rounded-md focus:ring-2 ring-offset-2 ring-accent-300"
           >
