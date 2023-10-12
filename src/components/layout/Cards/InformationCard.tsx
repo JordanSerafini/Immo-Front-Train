@@ -59,7 +59,7 @@ export default function InformationCard({
         <Link to={`/app/detail/${id}`}>
           <ValidButton isNotFocusable content="Voir plus" />
         </Link>
-        <Link to={{ search: idString }}>
+        <Link to={{ search: idString }} onClick={handleDeleteClick}>
           <CancelButton isNotFocusable content="Supprimer" onClickMethod={handleDeleteClick} />
         </Link>
       </div>

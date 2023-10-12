@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 // === REACT ROUTER DOM === //
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -11,12 +11,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchInformation } from '../../store/reducers/information';
 
 // === COMPONENTS === //
+import ReturnButton from '../../components/common/Buttons/ReturnButton';
 import LeafletMap from '../../components/features/Leaflet/LeafletMap';
 import Loader from '../../components/common/Loader/Loader';
 import DetailSection from '../../components/layout/Sections/DetailSection';
-
-// === ASSETS === //
-import { arrowLeftIcon } from '../../assets';
 
 // === UTILS === //
 import capFirstLetter from '../../utils/capFirstLetter';
@@ -49,13 +47,7 @@ export default function Detail() {
     return (
       <>
         <div className="flex items-center gap-6 mt-5">
-          <Link to="/app/prospection">
-            <img
-              className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
-              src={arrowLeftIcon}
-              alt="Go back to Home Page"
-            />
-          </Link>
+          <ReturnButton />
           <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
         </div>
         <Loader className="absolute w-[50px] left-1/2 top-1/4 z-30" />
@@ -67,13 +59,7 @@ export default function Detail() {
     return (
       <>
         <div className="flex items-center gap-6 mt-5">
-          <Link to="/app/prospection">
-            <img
-              className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
-              src={arrowLeftIcon}
-              alt="Go back to Home Page"
-            />
-          </Link>
+          <ReturnButton />
           <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
         </div>
         <p>Pas d&apos;information</p>
@@ -82,23 +68,17 @@ export default function Detail() {
   }
 
   // TYPE ICON SWITCH
-  const icon = switchIcon(information.type)
+  const icon = switchIcon(information.type);
 
   return (
     <>
       <div className="flex items-center gap-6 mt-5">
-        <Link to="/app/prospection">
-          <img
-            className="p-2 duration-150 rounded-lg shadow-custom hover:scale-105 hover:shadow-primary bg-primary-300"
-            src={arrowLeftIcon}
-            alt="Go back to Home Page"
-          />
-        </Link>
+        <ReturnButton />
         <h1 className="text-3xl font-semibold font-poppins">Détail</h1>
       </div>
 
       {/* PROPERTY - SECTION */}
-      <DetailSection title='Concernant le bien'>
+      <DetailSection title="Concernant le bien">
         <img src={icon} alt="Icon" className="w-[25px] inline mr-2" />
         <p className="inline md:text-lg">
           {information.address_number} {information.address_street}{' '}
@@ -114,9 +94,7 @@ export default function Detail() {
         )}
 
         <p className="block mt-5 ml-auto">
-          <em>
-            Information créée le : {formatDate(information.date)}
-          </em>
+          <em>Information créée le : {formatDate(information.date)}</em>
         </p>
       </DetailSection>
 
@@ -124,17 +102,22 @@ export default function Detail() {
       <DetailSection>
         {information.longitude === defaultLong &&
         information.latitude === defaultLat ? (
-          <p className="italic text-center">L&apos;adresse fournie n&apos;a pas permis la localisation pour afficher la carte...</p>
+          <p className="italic text-center">
+            L&apos;adresse fournie n&apos;a pas permis la localisation pour
+            afficher la carte...
+          </p>
         ) : (
           <>
-            <p className='italic'>Note: Le pointeur peut manquer un peu de précision...</p>
+            <p className="italic">
+              Note: Le pointeur peut manquer un peu de précision...
+            </p>
             <LeafletMap {...information} />
           </>
         )}
       </DetailSection>
 
       {/* OWNER */}
-      <DetailSection title='Concernant le propriétaire'>
+      <DetailSection title="Concernant le propriétaire">
         <p className="md:text-lg">{information.owner_name}</p>
 
         {(information.owner_email ||

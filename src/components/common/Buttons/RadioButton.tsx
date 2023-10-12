@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // === REACT === //
 import { ChangeEvent, useId } from 'react';
 
@@ -29,6 +31,12 @@ function RadioButton({
     onChange(event.target.value);
   }
 
+  const handleEnter = (event: React.KeyboardEvent<HTMLLabelElement>) => {
+    if (event.code === 'Enter' || event.code === "NumpadEnter") {
+      onChange(value)
+    }
+  }
+
   return (
     <div className="relative">
       {(blackIcon || whiteIcon) && (
@@ -51,9 +59,11 @@ function RadioButton({
 
       <label
         htmlFor={inputId}
-        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} border-solid border-2 font-poppins text-md sm:text-lg border-accent-400 duration-150 ${
+        className={`rounded-md p-2 ${(blackIcon || whiteIcon) && 'pl-8'} focus:ring-4 ring-primary-300 border-solid border-2 font-poppins text-md sm:text-lg border-accent-400 duration-150 focus:outline-transparent ${
           state === value ? 'bg-accent-400 text-secondary-50' : ''
         }`}
+        tabIndex={0}
+        onKeyDown={handleEnter}
       >
         {capFirstLetter(value)}
       </label>

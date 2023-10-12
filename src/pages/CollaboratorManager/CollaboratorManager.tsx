@@ -11,12 +11,12 @@ import {
 } from '../../store/reducers/modal';
 
 // === COMPONENTS === //
+import AddButton from '../../components/common/Buttons/AddButton';
 import CollaboratorCard from '../../components/layout/Cards/CollaboratorCard';
 import CreateAccountModal from '../../components/Modals/CreateAccountModal/CreateAccountModal';
 import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 
 // === ASSETS === //
-import { plusIcon } from '../../assets';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function CollaboratorManager() {
@@ -42,16 +42,7 @@ export default function CollaboratorManager() {
         <h2>Comptes négociateurs</h2>
 
         {/* CREATE COLLABORATOR BUTTON (component possible) */}
-        <button
-          onClick={() => dispatch(showCreateAccountModal())}
-          type="button"
-          className="flex items-center justify-center gap-2 px-3 py-2 my-3 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
-        >
-          <img src={plusIcon} alt="Add Info Button Icon" className="w-[30px]" />
-          <span className="text-secondary-50 font-poppins">
-            Créer un compte négociateur
-          </span>
-        </button>
+        <AddButton onClickMethod={() => dispatch(showCreateAccountModal())} content='Créer un compte négociateur' />
 
         {loading && collaborators.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />

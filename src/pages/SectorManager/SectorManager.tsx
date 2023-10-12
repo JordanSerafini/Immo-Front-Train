@@ -8,12 +8,12 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { showCreateSectorModal, hideDeleteConfirmationModal } from '../../store/reducers/modal';
 
 // === COMPONENTS === //
+import AddButton from '../../components/common/Buttons/AddButton';
 import SectorCard from '../../components/layout/Cards/SectorCard';
 import CreateSectorModal from '../../components/Modals/CreateSectorModal/CreateSectorModal';
 import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 
 // === ASSETS === //
-import { plusIcon } from '../../assets';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function SectorManager() {
@@ -39,16 +39,7 @@ export default function SectorManager() {
         <h2>Secteurs</h2>
 
         {/* CREATE SECTOR BUTTON (component possible) */}
-        <button
-          onClick={() => dispatch(showCreateSectorModal())}
-          type="button"
-          className="flex items-center justify-center gap-2 px-3 py-2 my-3 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
-        >
-          <img src={plusIcon} alt="Add Info Button Icon" className="w-[30px]" />
-          <span className="text-secondary-50 font-poppins">
-            Ajouter un secteur
-          </span>
-        </button>
+        <AddButton onClickMethod={() => dispatch(showCreateSectorModal())} content='Ajouter un secteur' />
 
         {loading && sectors.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />

@@ -43,7 +43,7 @@ function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
           <button
             onClick={closeModal}
             type="button"
-            className="absolute top-2 right-2"
+            className="absolute rounded-full top-2 right-2 focus:ring-2 ring-accent-300"
           >
             <img
               className="duration-300 rotate-45 rounded-full bg-primary-300 hover:bg-primary-500"
