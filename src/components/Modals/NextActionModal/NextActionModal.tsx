@@ -1,5 +1,5 @@
 // === REACT === //
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 // === REACT ROUTER DOM === //
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +50,16 @@ function NextActionModal({
     getFormatedFullDate()
   );
 
-  // === METHODS === //
+    // === REACT REFS === //
+    const focusRef = useRef<HTMLInputElement>(null);
+
+  // === EFFECTS === //
+  useEffect(() => {
+    // We want to force the focus on the addressNumber input once the user opens the modal
+    focusRef.current?.focus();
+  }, []);
+
+  // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -114,6 +123,7 @@ function NextActionModal({
           regExp={/^\d{4}-\d{2}-\d{2}$/}
           className="w-full"
           isRequired
+          inputRef={focusRef}
         />
         <ValidButton className="block m-auto" content="Finaliser" isSubmit />
       </form>

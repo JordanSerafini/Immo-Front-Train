@@ -1,7 +1,4 @@
-// ACCESSIBILITY IMPROVMENTS TO MAKE HERE !!!
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-
 import { LegacyRef, useEffect, useRef } from 'react';
 
 // === ASSETS === //
@@ -19,14 +16,17 @@ interface ModalProps {
 }
 
 function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
+  // === REFERENCE === //
   const focusRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     focusRef.current?.focus();
-  }, [])
+  }, []);
 
   // If the escape key is pressed, close the modal
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLDialogElement | HTMLDivElement>
+  ) => {
     if (event.code === 'Escape' && closeModal) {
       closeModal();
     }
@@ -42,6 +42,7 @@ function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
         ref={reference}
         role="dialog"
         onClick={(event) => event.stopPropagation()}
+        onKeyDown={handleKeyDown}
         className="block max-h-full min-w-[300px] max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden slide rounded-xl bg-secondary-50"
       >
         {/* If we can close the modal, we want to display the close modal button */}

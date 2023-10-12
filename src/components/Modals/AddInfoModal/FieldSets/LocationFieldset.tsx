@@ -1,5 +1,5 @@
 // === REACT === //
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
 // === COMPONENTS === //
 import Fieldset from '../../../layout/Fieldset/Fieldset';
@@ -16,9 +16,6 @@ export default function LocationFieldset({
   typeState,
   regExps,
 }: LocationFieldsetProps) {
-  // === REACT REFS === //
-  const focusRef = useRef<HTMLInputElement>(null);
-
   // RegExp Destructuring
   const {
     address_number: adressNumberReg,
@@ -34,12 +31,6 @@ export default function LocationFieldset({
   const [city, setCity] = useState<string>('');
   const [appartmentInfo, setAppartmentInfo] = useState<string>('');
 
-  // === EFFECTS === //
-  useEffect(() => {
-    // We want to force the focus on the addressNumber input once the user opens the modal
-    focusRef.current?.focus();
-  }, []);
-
   return useMemo(
     () => (
       <Fieldset title="*Localisation">
@@ -54,7 +45,6 @@ export default function LocationFieldset({
               inputName="address_number"
               label="N°"
               regExp={adressNumberReg}
-              inputRef={focusRef}
               isRequired
             />
             <MemoizedInput

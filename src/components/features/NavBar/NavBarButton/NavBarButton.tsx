@@ -20,6 +20,8 @@ export default function NavBarButton({
       type="button"
       className="fixed z-40 w-8 h-10 border-none top-8 right-5 navbar-btn sm:hidden"
       onClick={() => dispatch(toggleNavBar())}
+      aria-label='Menu'
+      aria-expanded={navBarStatus ? 'true' : 'false'}
     >
       <img
         className="w-full h-full"
