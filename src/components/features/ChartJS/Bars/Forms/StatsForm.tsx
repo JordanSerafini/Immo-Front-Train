@@ -39,7 +39,7 @@ export default function StatsForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-6 gap-4 mt-8">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-8 mt-8 mb-4 md:gap-4 md:grid-cols-6">
       <Input
         type="date"
         value={firstDate}
@@ -47,7 +47,7 @@ export default function StatsForm() {
         placeholder="jj / mm / dddd"
         label="Du :"
         inputName="date1"
-        containerClassName="col-span-2"
+        containerClassName="md:col-span-2"
         isRequired
       />
 
@@ -58,11 +58,11 @@ export default function StatsForm() {
         placeholder="jj / mm / dddd"
         label="Au :"
         inputName="date2"
-        containerClassName="col-span-2"
+        containerClassName="md:col-span-2"
         isRequired
       />
       <ValidButton
-        className="col-start-5 col-end-7 xl:col-start-6"
+        className="md:col-start-5 md:col-end-7 xl:col-start-6"
         content="Calculer"
         isSubmit
       />

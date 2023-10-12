@@ -1,5 +1,5 @@
 // === REACT === //
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 // === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
@@ -21,6 +21,9 @@ export default function LoginForm() {
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
+  // === REFERENCES === //
+  const focusRef = useRef<HTMLInputElement>(null);
+
   // === LOCAL STATES === //
   // State to allow a toggle to show or not the password
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -28,6 +31,12 @@ export default function LoginForm() {
   // === CONTROLLED INPUT STATES === //
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  // === EFFECTS === //
+  useEffect(() => {
+    // We want to force the focus on the addressNumber input once the user opens the modal
+    focusRef.current?.focus();
+  }, []);
 
   // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -37,9 +46,9 @@ export default function LoginForm() {
     const formData = new FormData(form);
 
     // Reset Email Input State
-    setEmail("");
+    setEmail('');
     // Reset Password Input State
-    setPassword("");
+    setPassword('');
 
     // Dispatch Login thunk middleware
     dispatch(login(formData));
@@ -56,6 +65,7 @@ export default function LoginForm() {
         className="w-full pl-8 shadow-custom"
         inputName="email"
         type="email"
+        inputRef={focusRef}
       >
         <img
           className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
@@ -68,20 +78,24 @@ export default function LoginForm() {
         placeholder="Mot de passe"
         value={password}
         onChange={setPassword}
-        className="w-full shadow-custom"
+        className="relative w-full shadow-custom"
         type={showPassword ? undefined : 'password'}
         inputName="password"
       >
-        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+        <button
+          type="button"
+          className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
+          onClick={() => setShowPassword(!showPassword)}
+        >
           <img
-            className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
+            className="w-[24px]"
             src={showPassword ? eyeEmptyIcon : eyeOffIcon}
             alt="Password Icon"
           />
         </button>
       </Input>
 
-      <Link to="/reset" className="ml-1 underline -mt-7 text-start">
+      <Link to="/reset" className="ml-1 underline -mt-7 text-start w-fit">
         Mot de passe oublié ?
       </Link>
 

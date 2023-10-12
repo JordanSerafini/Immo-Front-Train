@@ -16,6 +16,7 @@ import {
 import { createSector } from '../../../store/reducers/sector';
 
 // === COMPONENTS === //
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import Modal from '../Modal';
 import MemoizedInput from '../../common/Inputs/MemoizedInput';
 import CancelModal from '../CancelModal/CancelModal';
@@ -78,6 +79,10 @@ export default function CreateSectorModal() {
       }
     });
 
+    if (!collaboratorOption.length) {
+      wrongValues.push('Sélectionnez un collaborateur');
+    }
+
     // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
     if (wrongValues.length) {
       // So we set our errorMessage local state to those values
@@ -102,9 +107,11 @@ export default function CreateSectorModal() {
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
       {errorMessage.length > 0 && (
-        <p className="font-semibold text-red-500">
-          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
-        </p>
+        <ErrorMsg
+          content={`Les champs suivants sont incorrects: ${errorMessage.join(
+            ' / '
+          )}`}
+        />
       )}
 
       <em>*Tous les champs sont obligatoires</em>
@@ -141,7 +148,7 @@ export default function CreateSectorModal() {
             value={color}
             onChange={(event) => setColor(event.target.value)}
             name="color_code"
-            className="block mx-auto mt-2 opacity-0"
+            className="block w-10 mx-auto mt-2 duration-150 opacity-0 opacity-1 focus:ring-2 ring-accent-300"
           />
           <div
             className="absolute top-7 left-1/2 -translate-x-1/2 bg-slate-500 w-[50px] aspect-square rounded-full shadow-custom"
@@ -153,10 +160,11 @@ export default function CreateSectorModal() {
           Affecter à :
           <select
             value={collaboratorOption}
+            name='collaborator_selected'
             onChange={(event) => setCollaboratorOption(event.target.value)}
-            className="w-full p-2 my-2 font-normal border-2 border-solid rounded-md border-accent-300"
+            className="w-full p-2 my-2 font-normal duration-150 border-2 border-black border-solid rounded-md focus:ring-2 ring-offset-2 ring-accent-300"
           >
-            <option disabled> Sélectionnez...</option>
+            <option> Sélectionnez...</option>
             {collaborators.map((collab) => (
               <option key={collab.id} value={collab.id}>
                 {collab.firstname} {collab.lastname?.toUpperCase()}

@@ -32,7 +32,7 @@ export default function ActionToDoCard({
         <p>{owner_name}</p>
       </div>
       <Link to={`/app/actionManager/${id}`}>
-        <ValidButton content="Traiter" />
+        <ValidButton isNotFocusable content="Traiter" />
       </Link>
     </li>
   );

@@ -25,6 +25,9 @@
   textarea:focus {
     @apply outline-none;
   }
+  button, a{
+    @apply outline-accent-300
+  }
   h1 {
     @apply text-2xl font-semibold text-center font-poppins md:text-3xl;
   }

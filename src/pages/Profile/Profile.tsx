@@ -47,7 +47,7 @@ export default function Profile() {
         <button
           type="button"
           onClick={() => dispatch(showUpdateAvatarModal())}
-          className="absolute translate-x-[240%] top-[25%] md:translate-x-[300%] md:top-[35%] left-1/2 hover:scale-105 duration-300"
+          className="absolute translate-x-[240%] top-[25%] md:translate-x-[300%] md:top-[35%] left-1/2 hover:scale-105 duration-300 focus:ring-2 ring-black rounded-md"
         >
           <img src={editPencilIcon} alt="Pencil" />
         </button>
