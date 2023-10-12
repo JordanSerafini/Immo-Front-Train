@@ -18,15 +18,13 @@ import { createCollaborator } from '../../../store/reducers/collaborator';
 // === COMPONENTS === //
 import PasswordStrength from '../../features/PasswordStrength/PasswordStrength';
 // Common
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import MemoizedInput from '../../common/Inputs/MemoizedInput';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
 // Modal
 import Modal from '../Modal';
 import CancelModal from '../CancelModal/CancelModal';
-
-// === STYLES === //
-import '../../common/ErrorMsg/styles/animation.scss';
 
 // === TYPESCRIPT === //
 import { User } from '../../../@types/user';
@@ -114,9 +112,11 @@ export default function CreateAccountModal() {
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
       {errorMessage.length > 0 && (
-        <p className="font-semibold text-red-500">
-          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
-        </p>
+        <ErrorMsg
+          content={`Les champs suivants sont incorrects: ${errorMessage.join(
+            ' / '
+          )}`}
+        />
       )}
 
       <em>*Tous les champs sont obligatoires</em>

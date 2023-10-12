@@ -3,7 +3,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Redux toolkit
-import { createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 
 // Axios types
 import { AxiosError } from 'axios';
@@ -75,6 +79,22 @@ export const editSector = createAsyncThunk(
   }
 );
 
+export const deleteSector = createAsyncThunk(
+  'sector/delete',
+  async ({ id }: { id: string }) => {
+    try {
+      const response = await axiosInstance.delete(`/sectors/${id}`);
+
+      return { response, id };
+    } catch (error) {
+      throw new Error(
+        (error as ErrorType).response.data.error ||
+          (error as AxiosError).response?.statusText
+      );
+    }
+  }
+);
+
 export const resetSectors = createAction('sectors/reset');
 
 const sectorReducer = createReducer(initialState, (builder) => {
@@ -102,15 +122,12 @@ const sectorReducer = createReducer(initialState, (builder) => {
       state.error = false;
     })
     .addCase(createSector.fulfilled, (state, action) => {
-      const {result} = action.payload;
-      state.data.push(result)
+      const { result } = action.payload;
+      state.data.push(result);
 
-      toast.success(
-        `Ajout du secteur ${result.city} réalisé avec succès !`,
-        {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        }
-      );
+      toast.success(`Ajout du secteur ${result.city} réalisé avec succès !`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     })
     .addCase(createSector.rejected, (state, action) => {
       state.error = false;
@@ -151,7 +168,24 @@ const sectorReducer = createReducer(initialState, (builder) => {
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-    })    
+    })
+    // Delete Sector
+    .addCase(deleteSector.fulfilled, (state, action) => {
+      const deletedId = parseInt(action.payload.id, 10);
+
+      state.data = state.data.filter((sector) => sector.id !== deletedId);
+
+      toast.success('Le secteur a été supprimé avec succès !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
+    .addCase(deleteSector.rejected, (state, action) => {
+      state.error = true;
+
+      toast.error(action.error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    })
     // Reset
     .addCase(resetSectors, () => {
       return initialState;

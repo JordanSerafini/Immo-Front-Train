@@ -64,7 +64,7 @@ export default function InfoSection({
         to={`/app/detail/${id}`}
         className="absolute -right-4 -top-5 sm:top-2 sm:right-2"
       >
-        <ValidButton content="Voir plus" />
+        <ValidButton isNotFocusable content="Voir plus" />
       </Link>
       <div className="flex justify-between">
         <p>

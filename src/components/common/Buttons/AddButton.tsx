@@ -11,7 +11,7 @@ function AddButton({ content, onClickMethod }: AddButtonProps) {
   return (
     <button
       type="button"
-      className="flex items-center justify-center p-2 mt-2 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
+      className="flex items-center justify-center p-2 mt-2 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary hover:scale-110"
       onClick={onClickMethod}
     >
       <img src={plusIcon} alt="Add Button Icon" className="w-[30px]" />

@@ -16,6 +16,7 @@ import {
 
 // === COMPONENTS === //
 // Common
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
 // Modal
@@ -118,9 +119,11 @@ export default function AddInfoModal() {
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
       {errorMessage.length > 0 && (
-        <p className="font-semibold text-red-500">
-          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
-        </p>
+        <ErrorMsg
+          content={`Les champs suivants sont incorrects: ${errorMessage.join(
+            ' / '
+          )}`}
+        />
       )}
 
       <em>*Champs obligatoires</em>

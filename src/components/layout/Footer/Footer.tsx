@@ -10,7 +10,7 @@ function Footer({ children }: { children?: React.ReactNode }) {
       {children}
 
       {/* DIVIDER */}
-      <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" />
+      <div className="mb-4 w-[100px] h-[1px] bg-gradient-to-r from-secondary-50 via-secondary-600 to-secondary-50" role='separator' />
 
       <p className="flex gap-1 text-xs">
         <img src={copyrightIcon} alt="Copyright" className="w-[18px] aspect-square" />

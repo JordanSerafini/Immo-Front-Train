@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks/redux';
 import { editSector } from '../../../../store/reducers/sector';
 
 // === COMPONENTS === //
+import DeleteButton from '../../Buttons/DeleteButton';
 import ValidButton from '../../Buttons/ValidButton';
 
 // === STYLES === //
@@ -56,29 +57,23 @@ export default function AttributionForm({
     setState(false);
   };
 
-  const closeEditForm = () => {
-    setState(false);
-  };
-
   return (
     <form
       onSubmit={handleSubmit}
       className="absolute z-10 flex flex-col w-full gap-2 p-6 pt-8 rounded-lg -top-3/4 shadow-custom bg-secondary-50 animate__fadeIn"
     >
-      <button
-        onClick={closeEditForm}
-        type="button"
-        className="bg-red-500 rounded-full w-[20px] h-[20px]  text-secondary-50 absolute top-2 right-2 flex justify-center items-center hover:bg-red-600 duration-150"
-      >
-        X
-      </button>
+      <DeleteButton
+        className="absolute top-2 right-2"
+        onClickMethod={() => setState(false)}
+      />
 
       <label>
         Sélectionnez un négociateur :
         <select
+          name="collaborator_selected"
           value={selectedOption}
           onChange={handleChange}
-          className="w-full p-2 my-2 rounded-md focus:ring-2"
+          className="w-full p-2 my-2 rounded-md focus:ring-2 ring-accent-300"
         >
           <option disabled> Sélectionnez...</option>
           {collaborators.map((collab) => (

@@ -57,10 +57,10 @@ export default function InformationCard({
 
       <div className="flex justify-between mt-5">
         <Link to={`/app/detail/${id}`}>
-          <ValidButton content="Voir plus" />
+          <ValidButton isNotFocusable content="Voir plus" />
         </Link>
-        <Link to={{ search: idString }}>
-          <CancelButton content="Supprimer" onClickMethod={handleDeleteClick} />
+        <Link to={{ search: idString }} onClick={handleDeleteClick}>
+          <CancelButton isNotFocusable content="Supprimer" onClickMethod={handleDeleteClick} />
         </Link>
       </div>
     </article>
