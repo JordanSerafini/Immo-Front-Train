@@ -109,7 +109,7 @@ export default function NavBar() {
             {/* DISCONNECT BUTTON */}
             <button
               type="button"
-              className="flex gap-2 p-3 my-2 duration-300 rounded-xl hover:bg-secondary-200"
+              className="flex gap-2 p-3 my-2 duration-300 rounded-xl hover:bg-secondary-200 focus:ring-2 ring-black"
               onClick={handleLogout}
             >
               <img src={logOutIcon} alt="Logout icon" />

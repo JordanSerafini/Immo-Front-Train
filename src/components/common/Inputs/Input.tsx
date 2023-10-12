@@ -64,8 +64,6 @@ function Input({
         {label || placeholder}
       </label>
 
-      {children}
-
       <input
         className={`${className} ${
           (condition ||
@@ -85,6 +83,8 @@ function Input({
         autoComplete="off"
         ref={inputRef}
       />
+
+      {children}
     </div>
   );
 }

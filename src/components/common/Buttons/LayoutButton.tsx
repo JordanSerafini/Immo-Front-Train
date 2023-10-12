@@ -15,7 +15,7 @@ export default function LayoutButton({
     <button
       onClick={() => handleMethod(!state)}
       type="button"
-      className="hidden px-4 py-2 font-semibold duration-150 rounded-lg shadow-md lg:block bg-secondary-50 hover:scale-105"
+      className="hidden px-4 py-2 font-semibold duration-150 rounded-lg shadow-md lg:block bg-secondary-50 hover:scale-105 focus:ring-2 ring-black"
     >
       <img src={state ? listIcon : gridLayoutIcon} alt="Layout Icon" />
     </button>
