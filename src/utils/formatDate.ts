@@ -1,9 +1,9 @@
+import dayjs from "dayjs";
+
 export default function formatDate(inputDate: string) {
+  if (!inputDate.length) return "";
 
-  const slicedDate = inputDate.slice(0, 10).split('-');
-
-  // Format Date : DD-MM-YYYY
-  const formattedDate = [slicedDate[2], slicedDate[1], slicedDate[0]].join("/")
+  const formattedDate = dayjs(inputDate).format('DD/MM/YYYY');
 
   return formattedDate;
 }

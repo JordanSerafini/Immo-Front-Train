@@ -7,5 +7,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function getFormatedDayjsDate(date: string) {
+  if (!date.length) return '';
+
   return dayjs.utc(date).tz('Europe/Paris').toISOString();
 }
