@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../../../hooks/redux';
 import { editSector } from '../../../../store/reducers/sector';
 
 // === COMPONENTS === //
+import DeleteButton from '../../Buttons/DeleteButton';
 import ValidButton from '../../Buttons/ValidButton';
 
 // === TYPESCRIPT === //
@@ -52,15 +53,9 @@ export default function ColorForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="absolute z-10 flex flex-col w-full gap-2 p-6 pt-8 rounded-lg -top-3/4 shadow-custom bg-secondary-50 animate__fadeIn"
+      className="absolute z-10 flex flex-col w-full gap-2 p-6 pt-8 rounded-lg -top-2/4 shadow-custom bg-secondary-50 animate__fadeIn"
     >
-      <button
-        onClick={() => setState(false)}
-        type="button"
-        className="bg-red-500 rounded-full w-[20px] h-[20px]  text-secondary-50 absolute top-2 right-2 flex justify-center items-center hover:bg-red-600 duration-150"
-      >
-        X
-      </button>
+      <DeleteButton className='absolute top-2 right-2' onClickMethod={() => setState(false)} />
 
       <input
         className="block w-1/2 m-auto"

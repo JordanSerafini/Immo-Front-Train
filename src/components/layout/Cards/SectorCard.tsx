@@ -1,13 +1,20 @@
 // === REACT === //
 import { useState } from 'react';
 
+// === REACT ROUTER DOM === //
+import { Link } from 'react-router-dom';
+
 // === REDUX HOOKS === //
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
+
+// === REDUCERS === //
+import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 
 // === SELECTORS === //
 import { findCollaborator } from '../../../store/selectors/collaborator';
 
 // === COMPONENTS === //
+import DeleteButton from '../../common/Buttons/DeleteButton';
 import AttributionForm from '../../common/Forms/SectorForm/AttributionForm';
 import ColorForm from '../../common/Forms/SectorForm/ColorForm';
 
@@ -25,6 +32,9 @@ export default function SectorCard({
   collaborator_id,
   label,
 }: Sector) {
+  // === HOOK EXEC ORDER === //
+  const dispatch = useAppDispatch();
+
   // === SELECTOR === //
   const collaborator = useAppSelector(findCollaborator(collaborator_id));
 
@@ -42,8 +52,20 @@ export default function SectorCard({
     } ${collaborator.lastname?.toUpperCase()}`;
   }
 
+  // === HANDLERS === //
+  const handleDelete = () => {
+    dispatch(showDeleteConfirmationModal());
+  };
+
   return (
-    <article className="grid items-center justify-center grid-cols-2 gap-8 p-5 my-5 rounded-lg lg:grid-cols-4 bg-secondary-50 shadow-custom">
+    <article className="relative grid items-center justify-center grid-cols-2 gap-8 p-5 my-5 rounded-lg lg:grid-cols-4 bg-secondary-50 shadow-custom">
+      <Link
+        className="rounded-full w-[30px] h-[30px] text-secondary-50 absolute top-2 right-2 flex justify-center items-center z-10"
+        onClick={handleDelete}
+        to={{ search: id?.toString() }}
+      >
+        <DeleteButton />
+      </Link>
       <div className="flex flex-col items-center gap-4">
         <h3>Ville</h3>
         <p className="text-center">{city.toUpperCase()}</p>
@@ -57,7 +79,10 @@ export default function SectorCard({
       <div className="relative flex flex-col items-center gap-4">
         <h3 className="flex gap-2 text-center">
           Attribué à
-          <button type="button" onClick={() => setEditingAffection(!editingAffectation)}>
+          <button
+            type="button"
+            onClick={() => setEditingAffection(!editingAffectation)}
+          >
             <img src={editPencilIcon} alt="Pencil Icon" />
           </button>
         </h3>

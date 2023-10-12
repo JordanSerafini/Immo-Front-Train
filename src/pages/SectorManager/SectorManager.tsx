@@ -1,33 +1,34 @@
-// React dom
+// === REACT DOM === //
 import { createPortal } from 'react-dom';
 
-// Redux
+// === REDUX HOOKS === //
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 
-// Reducer
-import { showCreateSectorModal } from '../../store/reducers/modal';
+// === REDUCERS === //
+import { showCreateSectorModal, hideDeleteConfirmationModal } from '../../store/reducers/modal';
 
-// Components
+// === COMPONENTS === //
 import SectorCard from '../../components/layout/Cards/SectorCard';
 import CreateSectorModal from '../../components/Modals/CreateSectorModal/CreateSectorModal';
+import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
 
-// Assets
-import plusIcon from '../../assets/icons/plus.svg';
+// === ASSETS === //
+import { plusIcon } from '../../assets';
 import loaderSVG from '../../assets/loader/tail-spin.svg';
 
 export default function SectorManager() {
-  // Hook Execution Order
+  // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
 
-  // Redux states
-  const sectors = useAppSelector((state) => state.sector.data);
-  const isSectorsLoading = useAppSelector((state) => state.sector.loading);
-  const createSectorModal = useAppSelector((state) => state.modal.isCreateSectorModalOpen);
+  // === REDUX STATES === //
+  const sectorState = useAppSelector((state) => state.sector);
+  const { data: sectors, loading } = sectorState;
 
-  // Handle Methods
-  const handleCreateSectorrClick = () => {
-    dispatch(showCreateSectorModal());
-  };
+  const modalState = useAppSelector((state) => state.modal);
+  const {
+    isCreateSectorModalOpen: createSectorModal,
+    isDeleteConfirmationOpen: deleteModal,
+  } = modalState;
 
   return (
     <>
@@ -39,7 +40,7 @@ export default function SectorManager() {
 
         {/* CREATE SECTOR BUTTON (component possible) */}
         <button
-          onClick={handleCreateSectorrClick}
+          onClick={() => dispatch(showCreateSectorModal())}
           type="button"
           className="flex items-center justify-center gap-2 px-3 py-2 my-3 duration-300 rounded-lg w-fit bg-primary-300 hover:shadow-primary focus:shadow-primary hover:scale-110"
         >
@@ -49,17 +50,30 @@ export default function SectorManager() {
           </span>
         </button>
 
-        {isSectorsLoading && sectors.length ? (
+        {loading && sectors.length ? (
           <img src={loaderSVG} alt="Loader" className="block m-auto" />
         ) : (
           sectors.map((sector) => <SectorCard key={sector.id} {...sector} />)
         )}
 
-        {!sectors.length && <p className='text-lg font-semibold text-center'>Pas encore de secteur...</p>}
+        {!sectors.length && (
+          <p className="text-lg font-semibold text-center">
+            Pas encore de secteur...
+          </p>
+        )}
       </section>
       {/* DISPLAY CREATE SECTOR MODAL */}
-      {createSectorModal &&
-        createPortal(<CreateSectorModal />, document.body)}
+      {createSectorModal && createPortal(<CreateSectorModal />, document.body)}
+            {/* DISPLAY DELETE MODAL */}
+            {deleteModal &&
+        createPortal(
+          <DeleteModal
+            deleteSect
+            closeModal={() => dispatch(hideDeleteConfirmationModal())}
+            content="Vous êtes sur le point de supprimer définitivement un secteur, confirmez-vous la supression ?"
+          />,
+          document.body
+        )}
     </>
   );
 }

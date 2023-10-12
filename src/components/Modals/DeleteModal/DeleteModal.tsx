@@ -12,6 +12,7 @@ import CancelButton from '../../common/Buttons/CancelButton';
 // === REDUCERS === //
 import { deleteInformation } from '../../../store/reducers/information';
 import { deleteCollaborator } from '../../../store/reducers/collaborator';
+import { deleteSector } from '../../../store/reducers/sector';
 
 // === TYPESCRIPT === //
 interface DeleteModalProps {
@@ -19,6 +20,7 @@ interface DeleteModalProps {
   content: string;
   deleteUser?: boolean;
   deleteInfo?: boolean;
+  deleteSect?: boolean;
 }
 
 function DeleteModal({
@@ -26,6 +28,7 @@ function DeleteModal({
   content,
   deleteUser,
   deleteInfo,
+  deleteSect,
 }: DeleteModalProps) {
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
@@ -41,6 +44,8 @@ function DeleteModal({
       dispatch(deleteCollaborator({ id }));
     } else if (deleteInfo) {
       dispatch(deleteInformation({ id }));
+    } else if (deleteSect) {
+      dispatch(deleteSector({ id }))
     }
   };
 
@@ -68,6 +73,7 @@ function DeleteModal({
 DeleteModal.defaultProps = {
   deleteUser: false,
   deleteInfo: false,
+  deleteSect: false,
 };
 
 export default DeleteModal;

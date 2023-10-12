@@ -11,6 +11,9 @@ import { showDeleteConfirmationModal } from '../../../store/reducers/modal';
 // === SELECTORS === //
 import { findCollaborator } from '../../../store/selectors/collaborator';
 
+// === COMPONENTS === //
+import DeleteButton from '../../common/Buttons/DeleteButton';
+
 // === TYPESCRIPT === //
 import { User } from '../../../@types/user';
 
@@ -57,11 +60,11 @@ export default function CollaboratorCard({
   return (
     <article className="relative flex flex-col items-center justify-center grid-cols-1 gap-4 p-5 my-5 rounded-lg xl:grid xl:grid-cols-12 shadow-custom bg-secondary-50">
       <Link
-        className="bg-red-500 rounded-full w-[30px] h-[30px]  text-secondary-50 absolute top-2 right-2 flex justify-center items-center hover:bg-red-600 duration-150"
+        className="rounded-full w-[30px] h-[30px] text-secondary-50 absolute top-2 right-2 flex justify-center items-center"
         onClick={handleDelete}
         to={{ search: id?.toString() }}
       >
-        <button type="button">X</button>
+        <DeleteButton />
       </Link>
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
