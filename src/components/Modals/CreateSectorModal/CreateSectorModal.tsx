@@ -16,6 +16,7 @@ import {
 import { createSector } from '../../../store/reducers/sector';
 
 // === COMPONENTS === //
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import Modal from '../Modal';
 import MemoizedInput from '../../common/Inputs/MemoizedInput';
 import CancelModal from '../CancelModal/CancelModal';
@@ -48,7 +49,7 @@ export default function CreateSectorModal() {
   const [city, setCity] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [color, setColor] = useState<string>('#FF00FF');
-  const [collaboratorOption, setCollaboratorOption] = useState<string>("");
+  const [collaboratorOption, setCollaboratorOption] = useState<string>('');
 
   // === HANDLERS === //
   const handleCancelClick = () => {
@@ -77,9 +78,9 @@ export default function CreateSectorModal() {
         }
       }
     });
-    
+
     if (!collaboratorOption.length) {
-      wrongValues.push("Sélectionnez un collaborateur")
+      wrongValues.push('Sélectionnez un collaborateur');
     }
 
     // If our wrongValues array has at least one element, it means our previous forEach has detected invalid inputs
@@ -106,9 +107,11 @@ export default function CreateSectorModal() {
 
       {/* Error Message if there's at least an invalid inputs according to regexps tests */}
       {errorMessage.length > 0 && (
-        <p className="font-semibold text-red-500">
-          Les champs suivants sont incorrects: {errorMessage.join(' / ')}
-        </p>
+        <ErrorMsg
+          content={`Les champs suivants sont incorrects: ${errorMessage.join(
+            ' / '
+          )}`}
+        />
       )}
 
       <em>*Tous les champs sont obligatoires</em>

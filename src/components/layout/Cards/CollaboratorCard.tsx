@@ -96,7 +96,8 @@ export default function CollaboratorCard({
         <button
           onClick={handleAcces}
           type="button"
-          aria-label="access-toggler"
+          aria-label="Bouton toggle pour activer l'accès à l'application"
+          aria-pressed={acces ? "true" : "false"}
           className={`shadow-inner w-[60px] h-[30px] rounded-full  p-1 duration-150 focus:ring-2 ${
             acces ? 'bg-green-400' : 'bg-secondary-500'
           }`}

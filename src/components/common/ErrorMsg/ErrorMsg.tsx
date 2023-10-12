@@ -3,14 +3,14 @@ import './styles/animation.scss';
 
 // === TYPESCRIPT === //
 interface ErrorMsgProps {
-  errorMessage: string;
+  content: string;
   className?: string | null;
 }
 
-function ErrorMsg({ errorMessage, className }: ErrorMsgProps) {
+function ErrorMsg({ content, className }: ErrorMsgProps) {
   return (
-    <p className={`text-red-500 font-semibold animate-shake ${className}`}>
-      {errorMessage}
+    <p role='alert' className={`text-red-500 font-semibold ${className}`}>
+      {content}
     </p>
   );
 }

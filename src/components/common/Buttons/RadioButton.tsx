@@ -55,6 +55,7 @@ function RadioButton({
         checked={state === value}
         type="radio"
         name={buttonName}
+        aria-hidden="true"
       />
 
       <label
@@ -64,6 +65,7 @@ function RadioButton({
         }`}
         tabIndex={0}
         onKeyDown={handleEnter}
+        aria-checked={state === value ? "true" : "false"}
       >
         {capFirstLetter(value)}
       </label>

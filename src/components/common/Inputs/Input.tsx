@@ -60,6 +60,7 @@ function Input({
             ? 'opacity-100 -translate-y-full'
             : 'opacity-0 translate-y-[10%]'
         }`}
+        aria-hidden={value?.length ? 'false' : 'true'}
       >
         {label || placeholder}
       </label>
@@ -82,8 +83,12 @@ function Input({
         required={isRequired}
         autoComplete="off"
         ref={inputRef}
+        // ACCESSIBILITY //
+        aria-required={isRequired ? 'true' : 'false'}
+        aria-label={label || placeholder}
+        role={type === "search" ? "search" : undefined}
       />
-
+      
       {children}
     </div>
   );
