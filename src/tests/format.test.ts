@@ -50,7 +50,7 @@ describe('formatDate function', () => {
   });
 
   describe('Execution', () => {
-    it('Should return a date with a format of (JJ / MM / DDDD)', () => {
+    it('Should return a date with a format of (DD / MM / YYYY)', () => {
       expect(formatDate('2023-12-06')).toEqual('06/12/2023');
       expect(formatDate('12-24-2023')).toEqual('24/12/2023');
       expect(formatDate('01/02-2023')).toEqual('02/01/2023');
