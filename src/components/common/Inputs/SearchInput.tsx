@@ -9,6 +9,7 @@ import { filterInformations } from '../../../store/reducers/information';
 
 // === COMPONENTS === //
 import Input from './Input';
+import InfoBubble from '../Buttons/InfoBubble';
 
 // === ASSETS === //
 import { searchIcon } from '../../../assets';
@@ -21,7 +22,7 @@ export default function SearchInput() {
   const filteredInformations = useAppSelector(
     (state) => state.information.filteredInformations
   );
-  
+
   // === LOCAL STATES === //
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -43,7 +44,7 @@ export default function SearchInput() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative z-0 flex flex-col items-center gap-3 mx-auto my-8 lg:gap-5 lg:flex-row w-fit md:mx-0 md:mb-3 md:mt-10"
+      className="relative z-0 flex flex-col items-center gap-3 mx-auto my-8 lg:gap-3 lg:flex-row w-fit md:mx-0 md:mb-3 md:mt-10"
     >
       <Input
         type="search"
@@ -62,10 +63,14 @@ export default function SearchInput() {
         </button>
       </Input>
 
+      <InfoBubble content="La recherche fonctionne selon l'adresse ou le nom des propriétaires." containerClassname='hidden lg:block' />
+
       {searchValue.length > 0 && (
         <p className="text-lg italic">
           Nombre de résultat{filteredInformations.length > 1 ? 's' : ''} :{' '}
-          <strong className="font-semibold">{filteredInformations.length}</strong>
+          <strong className="font-semibold">
+            {filteredInformations.length}
+          </strong>
         </p>
       )}
     </form>

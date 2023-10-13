@@ -12,6 +12,7 @@ import { editCollaborator } from '../../../store/reducers/collaborator';
 // === COMPONENTS === //
 // Common
 import Input from '../../common/Inputs/Input';
+import InfoBubble from '../../common/Buttons/InfoBubble';
 // Local
 import PersonnalInfo from './PersonnalInfo';
 import EditForm from './EditForm/EditForm';
@@ -46,7 +47,7 @@ export default function EditEmail({ email }: { email: string | undefined }) {
     if (regExps.test(emailValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditEmail(false);
-      setEmailValue(emailValue?.trim())
+      setEmailValue(emailValue?.trim());
     } else {
       toast.error("Votre email n'est pas valide.", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -76,7 +77,10 @@ export default function EditEmail({ email }: { email: string | undefined }) {
           </Input>
         </EditForm>
       ) : (
-        <p className="md:text-lg">{email}</p>
+        <div className='relative flex gap-2'>
+          <p className="md:text-lg w-fit">{email}</p>
+          <InfoBubble content='La modification de votre email entrainera la modification de votre identifiant de connexion.' containerClassname='absolute -top-4' />
+        </div>
       )}
     </PersonnalInfo>
   );
