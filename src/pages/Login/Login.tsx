@@ -18,12 +18,12 @@ export default function Login() {
   useAuth();
 
   return (
-    <main className="grid w-full h-full sm:grid-cols-2">
+    <main className="grid w-full h-full lg:grid-cols-2">
       <Logo path="/login" className="absolute top-2 left-2 sm:hidden" />
 
       {/* ILLUSTRATION */}
       <img
-        className="hidden object-cover w-full h-full sm:block"
+        className="hidden object-cover w-full h-screen lg:block"
         src={illustration}
         alt="Illustration d'un quartier de maison individuelle"
       />
