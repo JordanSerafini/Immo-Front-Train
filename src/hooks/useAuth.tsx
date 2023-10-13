@@ -1,5 +1,5 @@
 // === REACT === //
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // === LIBRARY === //
 import dayjs from 'dayjs';
@@ -78,29 +78,36 @@ export default function useAuth() {
   // === LOCAL STORAGE === //
   const accessToken = user.token || localStorage.getItem('accessToken');
 
+  // This flag is reaaaaally important, it prevents multiple fetches
+  // If we create a user and this is his first connexion, without the flag, it'll fetch endlessly informations
+  const [flag, setFlag] = useState(false);
+
   // === CALLBACKS === //
   // Those callbacks are really important when we need to talk about performance
   // It allows us to avoid multiple fetches AND we keep informations in memory so we don't need to rerender it if it doesn't change
   const fetchInformationsCallback = useCallback(() => {
-    if (!informations.length && !isInformationLoading) {
+    if (!flag && !informations.length && !isInformationLoading) {
       dispatch(fetchInformations());
+      setFlag(true)
     }
-  }, [informations, isInformationLoading, dispatch]);
+  }, [flag, informations.length, isInformationLoading, dispatch]);
 
   const fetchCollaboratorsCallback = useCallback(() => {
-    if (!collaborators.length && !isCollaboratorsLoading) {
+    if (!flag && !collaborators.length && !isCollaboratorsLoading) {
       dispatch(fetchCollaborators());
+      setFlag(true)
     }
-  }, [collaborators.length, dispatch, isCollaboratorsLoading]);
+  }, [collaborators.length, dispatch, flag, isCollaboratorsLoading]);
 
   const fetchSectorsCallback = useCallback(() => {
-    if (!sectors.length && !isSectorLoading) {
+    if (!flag && !sectors.length && !isSectorLoading) {
       dispatch(fetchSectors());
+      setFlag(true)
     }
-  }, [dispatch, isSectorLoading, sectors.length]);
+  }, [dispatch, flag, isSectorLoading, sectors.length]);
 
   const fetchStatsCallback = useCallback(() => {
-    if (!stats.length && !isStatsLoading) {
+    if (!flag && !stats.length && !isStatsLoading) {
       dispatch(infoBySector());
       dispatch(infoByCollaborator());
       dispatch(
@@ -111,8 +118,9 @@ export default function useAuth() {
           },
         })
       );
+      setFlag(true)
     }
-  }, [dispatch, isStatsLoading, stats.length]);
+  }, [dispatch, flag, isStatsLoading, stats.length]);
 
   const setUserCallback = useCallback(() => {
     const userStorage = JSON.parse(localStorage.getItem('user') as string);
