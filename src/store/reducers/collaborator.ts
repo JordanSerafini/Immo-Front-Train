@@ -9,7 +9,6 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 
-
 // Axios types
 import { AxiosError } from 'axios';
 
@@ -62,10 +61,7 @@ export const login = createAsyncThunk(
 
       return response;
     } catch (error) {
-      throw new Error(
-        (error as ErrorType).response.data.error ||
-          (error as AxiosError).response?.statusText
-      );
+      throw new Error((error as { response: { data: string } }).response.data);
     }
   }
 );
@@ -232,7 +228,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state, action) => {
       state.error = true;
       state.loading = false;
-
+      
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

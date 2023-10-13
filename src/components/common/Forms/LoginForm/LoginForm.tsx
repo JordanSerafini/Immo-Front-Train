@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // === REACT ROUTER DOM === //
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // === REDUX HOOKS === //
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
@@ -24,6 +24,7 @@ import { eyeOffIcon, eyeEmptyIcon, emailIcon } from '../../../../assets';
 export default function LoginForm() {
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // === REFERENCES === //
   const focusRef = useRef<HTMLInputElement>(null);
@@ -32,6 +33,7 @@ export default function LoginForm() {
   const mailRegexp = useAppSelector(
     (state) => state.regexps.information.owner_email
   );
+  const user = useAppSelector((state) => state.collaborator.user);
 
   // === LOCAL STATES === //
   // State to allow a toggle to show or not the password
@@ -66,8 +68,22 @@ export default function LoginForm() {
 
       // Dispatch Login thunk middleware
       dispatch(login(formData));
+
     }
   };
+
+  // === EFFECTS === //
+  // After the form is sent, we verify is the user has acces in the redux state
+  useEffect(() => {
+    if (user.acces) {
+      if (user.role_id !== 1) {
+        navigate("/app/prospection")
+      } else {
+        navigate("/admin/dashboard")
+      }
+    }
+  }, [navigate, user.acces, user.role_id])
+
   return (
     <form
       className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10 relative"

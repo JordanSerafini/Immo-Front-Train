@@ -1,11 +1,5 @@
-// === REACT === //
-import { useEffect } from 'react';
-
 // === REACT ROUTER DOM === //
-import { useNavigate, Link } from 'react-router-dom';
-
-// === REDUX HOOKS === //
-import { useAppSelector } from '../../hooks/redux';
+import { Link } from 'react-router-dom';
 
 // === COMPONENTS === //
 import LoginForm from '../../components/common/Forms/LoginForm/LoginForm';
@@ -15,26 +9,13 @@ import Footer from '../../components/layout/Footer/Footer';
 // === ASSETS === //
 import illustration from '../../assets/images/illustration.webp';
 
+// === HOOK PERSO === //
+import useAuth from '../../hooks/useAuth';
+
 export default function Login() {
-  // === HOOK EXEC ORDER === //
-  const navigate = useNavigate();
-
-  // === REDUX STATES === //
-  const user = useAppSelector((state) => state.collaborator.user);
-  const { logged, acces, role_id: roleId } = user;
-
-  // === EFFECTS === //
-  useEffect(() => {
-    // Once the user is connected, we can redirect him to the "/admin/panel" if ADMIN or "/app/prospection" if COLLABORATOR
-    if (logged && acces) {
-      // 1 ===  ADMIN // 2 === COLLABORATOR
-      if (roleId === 1) {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/app/prospection');
-      }
-    }
-  }, [roleId, logged, navigate, acces]);
+  
+  // We want to useAuth() because if the user closes his web browser, it's user friendly to redirect him directly though the app
+  useAuth();
 
   return (
     <main className="grid w-full h-full sm:grid-cols-2">
