@@ -44,6 +44,7 @@ export const initialState: CollaboratorState = {
     logged: false,
     avatar_id: undefined,
     sector_id: undefined,
+    token: undefined,
   },
 };
 
@@ -205,7 +206,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
           // We want to delete the password to not send it into our redux state
           delete action.payload.data.result.password;
 
-          const user = { ...action.payload.data.result, logged: true };
+          const user = { ...action.payload.data.result, logged: true, token };
           state.user = user;
 
           // Set User into the local storage
@@ -226,9 +227,8 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(login.rejected, (state, action) => {
-      state.error = true;
       state.loading = false;
-      
+
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -242,8 +242,8 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       return initialState;
     })
     .addCase(logout.rejected, (state, action) => {
-      state.error = true;
       state.loading = false;
+      state.error = true;
 
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -260,7 +260,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(fetchCollaborators.rejected, (state, action) => {
-      state.error = false;
+      state.error = true;
       state.loading = false;
 
       toast.error(action.error.message, {
@@ -283,7 +283,7 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       );
     })
     .addCase(createCollaborator.rejected, (state, action) => {
-      state.error = false;
+      state.error = true;
       state.loading = false;
 
       toast.error(action.error.message, {
@@ -315,8 +315,8 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       });
     })
     .addCase(editCollaborator.rejected, (state, action) => {
-      state.error = true;
       state.loading = false;
+      state.error = true;
 
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -373,8 +373,8 @@ const collaboratorReducer = createReducer(initialState, (builder) => {
       );
     })
     .addCase(updateAccess.rejected, (state, action) => {
-      state.error = true;
       state.loading = false;
+      state.error = true;
 
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

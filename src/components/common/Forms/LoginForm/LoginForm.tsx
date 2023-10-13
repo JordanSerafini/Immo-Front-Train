@@ -82,7 +82,7 @@ export default function LoginForm() {
         navigate("/admin/dashboard")
       }
     }
-  }, [navigate, user.acces, user.role_id])
+  }, [dispatch, navigate, user.acces, user.role_id])
 
   return (
     <form

@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 // === LIBRARY === //
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // === REACT ROUTER DOM === //
 import { useNavigate } from 'react-router-dom';
@@ -40,24 +42,41 @@ export default function useAuth() {
   const navigate = useNavigate();
 
   // === REDUX STATES === //
-  const user = useAppSelector((state) => state.collaborator.user);
-
-  const informations = useAppSelector((state) => state.information.data);
-  const isInformationLoading = useAppSelector(
-    (state) => state.information.loading
-  );
+  // COLLABORATOR //
   const collaboratorState = useAppSelector((state) => state.collaborator);
-  const { data: collaborators, loading: isCollaboratorsLoading } =
-    collaboratorState;
+  const {
+    user,
+    data: collaborators,
+    loading: isCollaboratorsLoading,
+    error: collaboratorError,
+  } = collaboratorState;
 
+  // INFORMATIONS //
+  const informationState = useAppSelector((state) => state.information);
+  const {
+    data: informations,
+    loading: isInformationLoading,
+    error: informationError,
+  } = informationState;
+
+  // SECTORS //
   const sectorState = useAppSelector((state) => state.sector);
-  const { data: sectors, loading: isSectorLoading } = sectorState;
+  const {
+    data: sectors,
+    loading: isSectorLoading,
+    error: sectorError,
+  } = sectorState;
 
-  const stats = useAppSelector((state) => state.stats.dataSector);
-  const isStatsLoading = useAppSelector((state) => state.stats.loading);
+  // STATS //
+  const statsState = useAppSelector((state) => state.stats);
+  const {
+    dataSector: stats,
+    loading: isStatsLoading,
+    error: statsError,
+  } = statsState;
 
   // === LOCAL STORAGE === //
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = user.token || localStorage.getItem('accessToken');
 
   // === CALLBACKS === //
   // Those callbacks are really important when we need to talk about performance
@@ -96,17 +115,17 @@ export default function useAuth() {
   }, [dispatch, isStatsLoading, stats.length]);
 
   const setUserCallback = useCallback(() => {
-    if (!user.id) {
+    const userStorage = JSON.parse(localStorage.getItem('user') as string);
+    if (userStorage && !user.id) {
       dispatch(setUserWithStorage());
 
-      if (user.role_id !== 1) {
-        // We Redirect the user to the prospection page if he reloads the app to avoid subcomponents issues (as EditFirstname component for example)
+      if (userStorage.role_id !== 1) {
         navigate('/app/prospection');
       } else {
         navigate('/admin/dashboard');
       }
     }
-  }, [dispatch, navigate, user.id, user.role_id]);
+  }, [dispatch, navigate, user.id]);
 
   // === MEMO === //
   // What's interesting here is that we can memoise the access Token and add it to our dependancies array. So unless accessToken changed, the authorizationHeader remains the same
@@ -115,7 +134,37 @@ export default function useAuth() {
     [accessToken]
   );
 
+  // === METHODS === //
+  const resetAndRedirectCallback = useCallback(() => {
+    dispatch(resetInformations());
+    dispatch(resetCollaborators());
+    dispatch(resetSectors());
+    dispatch(resetStats());
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+
+    // If there isn't a token in the local storage, we redirect the user to the login page
+    navigate('/login');
+  }, [dispatch, navigate]);
+
   // === EFFECTS === //
+  useEffect(() => {
+    if (collaboratorError || sectorError || informationError || statsError) {
+      resetAndRedirectCallback();
+
+      toast.info('Votre session a expirée, veuillez vous reconnecter', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: false,
+      });
+    }
+  }, [
+    resetAndRedirectCallback,
+    collaboratorError,
+    informationError,
+    sectorError,
+    statsError,
+  ]);
+
   useEffect(() => {
     setUserCallback();
 
@@ -130,26 +179,18 @@ export default function useAuth() {
       fetchSectorsCallback();
       fetchStatsCallback();
     } else {
-      // If there isn't a token in the local storage, we redirect the user to the login page
-      navigate('/login');
-
-      // Just in case, we want to force a logout and reset informations state
-      dispatch(resetInformations());
-      dispatch(resetCollaborators());
-      dispatch(resetSectors());
-      dispatch(resetStats());
+      resetAndRedirectCallback();
     }
   }, [
+    setUserCallback,
     accessToken,
+    user.role_id,
     authorizationHeader,
-    dispatch,
     fetchCollaboratorsCallback,
     fetchInformationsCallback,
     fetchSectorsCallback,
     fetchStatsCallback,
+    resetAndRedirectCallback,
     navigate,
-    setUserCallback,
-    user,
-    user.role_id,
   ]);
 }
