@@ -19,6 +19,9 @@ import PersonnalInfo from './PersonnalInfo';
 import EditForm from './EditForm/EditForm';
 import EditSubmitBtn from './EditForm/EditSubmitBtn';
 
+// === UTILS === //
+import trimFormValues from '../../../utils/trimFormValues';
+
 export default function EditLastname({
   lastname,
 }: {
@@ -42,13 +45,14 @@ export default function EditLastname({
     event.preventDefault();
 
     const form: HTMLFormElement = event.currentTarget;
-    const formData = Object.fromEntries(new FormData(form));
+    const trimmedFormData = trimFormValues(form);
 
-    const formValues = { ...user, ...formData };
+    const formValues = { ...user, ...trimmedFormData};
 
     if (regExps.test(lastnameValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditLastname(false);
+      setLastnameValue(lastnameValue?.trim())
     } else {
       toast.error('Votre nom doit avoir au moins un caractère', {
         position: toast.POSITION.BOTTOM_CENTER,

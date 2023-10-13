@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import getFormatedDayjsDate from '../utils/getFormatedDayjsDate';
 import getFormatedFullDate from '../utils/getFormatedFullDate';
@@ -48,7 +49,7 @@ describe('getFormatedFullDate function', () => {
   describe('Execution', () => {
     it('Should return the current date with a format of : YYYY-MM-DD', () => {
       // !!! THIS TEST WILL PASS ONLY WITH THE CURRENT DATE !!!
-      expect(getFormatedFullDate()).toEqual('2023-10-12');
+      expect(getFormatedFullDate()).toEqual(dayjs().format("YYYY-MM-DD"));
     });
   });
 });

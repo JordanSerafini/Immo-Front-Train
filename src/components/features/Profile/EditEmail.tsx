@@ -12,12 +12,16 @@ import { editCollaborator } from '../../../store/reducers/collaborator';
 // === COMPONENTS === //
 // Common
 import Input from '../../common/Inputs/Input';
+import InfoBubble from '../../common/Buttons/InfoBubble';
 // Local
 import PersonnalInfo from './PersonnalInfo';
 import EditForm from './EditForm/EditForm';
 
 // === ASSETS === //
 import { checkCircleIcon } from '../../../assets';
+
+// === UTILS === //
+import trimFormValues from '../../../utils/trimFormValues';
 
 export default function EditEmail({ email }: { email: string | undefined }) {
   // === HOOK EXEC ORDER === //
@@ -36,13 +40,14 @@ export default function EditEmail({ email }: { email: string | undefined }) {
     event.preventDefault();
 
     const form: HTMLFormElement = event.currentTarget;
-    const formData = Object.fromEntries(new FormData(form));
+    const trimmedFormData = trimFormValues(form);
 
-    const formValues = { ...user, ...formData };
+    const formValues = { ...user, ...trimmedFormData };
 
     if (regExps.test(emailValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditEmail(false);
+      setEmailValue(emailValue?.trim());
     } else {
       toast.error("Votre email n'est pas valide.", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -72,7 +77,10 @@ export default function EditEmail({ email }: { email: string | undefined }) {
           </Input>
         </EditForm>
       ) : (
-        <p className="md:text-lg">{email}</p>
+        <div className='flex gap-2'>
+          <p className="md:text-lg w-fit">{email}</p>
+          <InfoBubble position='top-right' content='La modification de votre email entrainera la modification de votre identifiant de connexion.' containerClassname='relative -top-4' />
+        </div>
       )}
     </PersonnalInfo>
   );

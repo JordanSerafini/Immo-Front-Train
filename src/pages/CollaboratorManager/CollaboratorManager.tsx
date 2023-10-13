@@ -15,6 +15,7 @@ import AddButton from '../../components/common/Buttons/AddButton';
 import CollaboratorCard from '../../components/layout/Cards/CollaboratorCard';
 import CreateAccountModal from '../../components/Modals/CreateAccountModal/CreateAccountModal';
 import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
+import InfoBubble from '../../components/common/Buttons/InfoBubble';
 
 // === ASSETS === //
 import loaderSVG from '../../assets/loader/tail-spin.svg';
@@ -38,7 +39,8 @@ export default function CollaboratorManager() {
       {/* TITLE */}
       <h1 className="mt-20 mb-5 lg:mt-10">Collaborator Manager</h1>
 
-      <section className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[50vh] shadow-custom bg-secondary-50">
+      <section className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[50vh] shadow-custom bg-secondary-50 relative">
+      <InfoBubble position='bottom-left' content="La suppression d'un collaborateur n'est possible que s'il ne dispose d'aucunes informations." containerClassname='absolute top-2 right-2' />
         <h2>Comptes négociateurs</h2>
 
         {/* CREATE COLLABORATOR BUTTON (component possible) */}

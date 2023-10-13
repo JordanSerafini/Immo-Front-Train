@@ -12,6 +12,7 @@ import AddButton from '../../components/common/Buttons/AddButton';
 import SectorCard from '../../components/layout/Cards/SectorCard';
 import CreateSectorModal from '../../components/Modals/CreateSectorModal/CreateSectorModal';
 import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal';
+import InfoBubble from '../../components/common/Buttons/InfoBubble';
 
 // === ASSETS === //
 import loaderSVG from '../../assets/loader/tail-spin.svg';
@@ -35,7 +36,8 @@ export default function SectorManager() {
       {/* TITLE */}
       <h1 className="mt-20 mb-5 lg:mt-10">Sector Manager</h1>
 
-      <section className="min-h-[50vh] p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50">
+      <section className="min-h-[50vh] p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50 relative">
+        <InfoBubble position='bottom-left' content='Si possible, veillez à ce que chaque négociateur gère un secteur.' containerClassname='absolute top-2 right-2' />
         <h2>Secteurs</h2>
 
         {/* CREATE SECTOR BUTTON (component possible) */}
