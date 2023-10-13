@@ -62,11 +62,11 @@ export default function UpdateAvatarModal({
 
   return (
     <Modal closeModal={closeModal}>
-      <div className="flex flex-col max-w-[500px] gap-6 p-2">
+      <div className="flex flex-col max-w-[800px] gap-6 p-2">
         <h1 className="text-2xl">{content}</h1>
 
         <form onSubmit={handleSubmit}>
-          <fieldset className="grid grid-cols-1 gap-4 justify-items-center sm:grid-cols-2 md:grid-cols-3 md:gap-8">
+          <fieldset className="grid grid-cols-1 gap-4 justify-items-center sm:grid-cols-2 md:grid-cols-4 md:gap-8">
             {isLoading && <img src={loader} alt="Loader" />}
 
             {avatars.length &&

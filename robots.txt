@@ -1,0 +1,7 @@
+# robots.txt for My Real Estate Prospecting App
+
+# User-agents
+User-agent: *
+Disallow: /admin/
+Disallow: /images/
+Disallow: /api/
