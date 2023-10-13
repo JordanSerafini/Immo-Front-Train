@@ -1,19 +1,10 @@
-import { useAppSelector } from '../../hooks/redux';
-
 // Component
 import DonutInfoCollaborator from '../../components/features/ChartJS/Donuts/DonutInfoCollaborator';
 import DonutInfoSector from '../../components/features/ChartJS/Donuts/DonutInfoSector';
 import StatsForm from '../../components/features/ChartJS/Bars/Forms/StatsForm';
 import BarInfoInterval from '../../components/features/ChartJS/Bars/BarInfoInterval';
-import Loader from '../../components/common/Loader/Loader';
 
 export default function DashBoard() {
-  const loading = useAppSelector((state) => state.stats.loading);
-
-  if (loading) {
-    return <Loader className="absolute w-[50px] left-1/2 top-1/4 z-30" />;
-  }
-
   return (
     <>
       <div className="flex flex-col items-center justify-around sm:items-start lg:gap-6 lg:flex-row">
