@@ -17,7 +17,7 @@ export default function ProfileSection({
   return (
     <section className="flex flex-col items-center justify-center gap-5 py-2 sm:py-[2vh]">
       <img
-        className="w-20 rounded-full sm:w-28 aspect-square shadow-custom navbar__profile-img"
+        className="object-cover w-20 rounded-full sm:w-28 aspect-square shadow-custom navbar__profile-img"
         src={url}
         alt="Collaborator Portrait"
       />

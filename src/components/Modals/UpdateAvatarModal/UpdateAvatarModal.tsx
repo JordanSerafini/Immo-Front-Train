@@ -88,7 +88,7 @@ export default function UpdateAvatarModal({
                       avatarId === avatar.id.toString()
                         ? 'ring-4 ring-accent-300 border-secondary-500'
                         : ''
-                    } duration-300 w-[150px] aspect-square rounded-full block m-auto cursor-pointer`}
+                    } duration-300 w-[150px] aspect-square rounded-full block m-auto cursor-pointer object-cover`}
                     src={avatar.url}
                     alt="avatar"
                   />

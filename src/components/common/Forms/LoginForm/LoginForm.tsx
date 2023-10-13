@@ -98,6 +98,7 @@ export default function LoginForm() {
         type="email"
         inputRef={focusRef}
         regExp={mailRegexp}
+        isRequired
       >
         <img
           className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
@@ -113,6 +114,7 @@ export default function LoginForm() {
         className="relative w-full shadow-custom"
         type={showPassword ? undefined : 'password'}
         inputName="password"
+        isRequired
       >
         <button
           type="button"
