@@ -19,6 +19,9 @@ import PersonnalInfo from './PersonnalInfo';
 import EditForm from './EditForm/EditForm';
 import EditSubmitBtn from './EditForm/EditSubmitBtn';
 
+// === UTILS === //
+import trimFormValues from '../../../utils/trimFormValues';
+
 export default function EditFirstname({
   firstname,
 }: {
@@ -40,16 +43,17 @@ export default function EditFirstname({
   // === HANDLERS === //
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    
     const form: HTMLFormElement = event.currentTarget;
-    const formData = Object.fromEntries(new FormData(form));
+    const trimmedFormData = trimFormValues(form);
 
     // We want to send the actual user and the formData with the update
-    const formValues = { ...user, ...formData };
+    const formValues = { ...user, ...trimmedFormData };
 
     if (regExps.test(firstnameValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditFirstname(false);
+      setFirstnameValue(firstnameValue?.trim());
     } else {
       toast.error(
         'Votre prénom doit avoir au moins un caractère normal et ne pas être un chiffre',

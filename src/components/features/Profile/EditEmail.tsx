@@ -19,6 +19,9 @@ import EditForm from './EditForm/EditForm';
 // === ASSETS === //
 import { checkCircleIcon } from '../../../assets';
 
+// === UTILS === //
+import trimFormValues from '../../../utils/trimFormValues';
+
 export default function EditEmail({ email }: { email: string | undefined }) {
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
@@ -36,13 +39,14 @@ export default function EditEmail({ email }: { email: string | undefined }) {
     event.preventDefault();
 
     const form: HTMLFormElement = event.currentTarget;
-    const formData = Object.fromEntries(new FormData(form));
+    const trimmedFormData = trimFormValues(form);
 
-    const formValues = { ...user, ...formData };
+    const formValues = { ...user, ...trimmedFormData };
 
     if (regExps.test(emailValue as string)) {
       dispatch(editCollaborator(formValues));
       setEditEmail(false);
+      setEmailValue(emailValue?.trim())
     } else {
       toast.error("Votre email n'est pas valide.", {
         position: toast.POSITION.BOTTOM_CENTER,

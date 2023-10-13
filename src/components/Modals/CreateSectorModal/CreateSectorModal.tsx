@@ -26,6 +26,9 @@ import CancelButton from '../../common/Buttons/CancelButton';
 // === TYPESCRIPT === //
 import { Sector } from '../../../@types/sector';
 
+// === UTILS === //
+import trimFormValues from '../../../utils/trimFormValues';
+
 export default function CreateSectorModal() {
   // === HOOK EXEC ORDER === //
   const dispatch = useAppDispatch();
@@ -60,26 +63,18 @@ export default function CreateSectorModal() {
     event.preventDefault();
 
     const formElement: HTMLFormElement = event.currentTarget;
-    const formDatas = new FormData(formElement);
-    formDatas.append('label', city);
-    formDatas.append('collaborator_id', collaboratorOption);
-
-    const formEntries = Object.fromEntries(formDatas) as unknown as Sector;
+    const trimmedFormData = trimFormValues(formElement)
+    trimmedFormData.label = city.trim();
+    trimmedFormData.collaborator_id = collaboratorOption;
 
     // FORM VALIDATION
     const wrongValues: string[] = [];
 
-    Object.keys(formEntries).forEach((fieldName) => {
-      const value = formDatas.get(fieldName);
+    if(!regExps.code_zip.test(zipCode)){
+      wrongValues.push("Code postal non valide")
+    }
 
-      if (fieldName in regExps && regExps[fieldName] && value?.length) {
-        if (!regExps[fieldName].test(value as string)) {
-          wrongValues.push(fieldName);
-        }
-      }
-    });
-
-    if (!collaboratorOption.length) {
+    if (!collaboratorOption.length || collaboratorOption === "Sélectionnez...") {
       wrongValues.push('Sélectionnez un collaborateur');
     }
 
@@ -94,7 +89,7 @@ export default function CreateSectorModal() {
         modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else {
-      dispatch(createSector({ formData: formEntries }));
+      dispatch(createSector({ formData: trimmedFormData as unknown as Sector }));
       dispatch(hideCreateSectorModal());
     }
   };
