@@ -18,7 +18,7 @@ export default function DonutInfoSector() {
   const stats = useAppSelector((state) => state.stats.dataSector);
 
   const data = {
-    labels: stats.map((stat) => stat.label),
+    labels: stats.map((stat) => stat.label.toUpperCase()),
     datasets: [
       {
         data: stats.map((stat) => stat.nb_infos),

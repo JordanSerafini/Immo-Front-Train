@@ -14,6 +14,8 @@ import { findCollaborator } from '../../../store/selectors/collaborator';
 // === COMPONENTS === //
 import DeleteButton from '../../common/Buttons/DeleteButton';
 
+import logo from "../../../assets/logo.svg";
+
 // === TYPESCRIPT === //
 import { User } from '../../../@types/user';
 
@@ -68,9 +70,9 @@ export default function CollaboratorCard({
       </Link>
       <div className="flex col-span-4 justify-around w-full md:w-[350px] xl:w-fit xl:gap-5">
         <img
-          src={url}
+          src={url || logo}
           alt="Portrait"
-          className="rounded-full w-28 aspect-square shadow-custom"
+          className="block rounded-full w-28 aspect-square shadow-custom"
         />
 
         <div className="flex flex-col items-center justify-around xl:justify-center xl:gap-4">
@@ -97,7 +99,7 @@ export default function CollaboratorCard({
           onClick={handleAcces}
           type="button"
           aria-label="Bouton toggle pour activer l'accès à l'application"
-          aria-pressed={acces ? "true" : "false"}
+          aria-pressed={acces ? 'true' : 'false'}
           className={`shadow-inner w-[60px] h-[30px] rounded-full  p-1 duration-150 focus:ring-2 ${
             acces ? 'bg-green-400' : 'bg-secondary-500'
           }`}

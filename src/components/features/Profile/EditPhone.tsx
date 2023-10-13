@@ -19,6 +19,9 @@ import PersonnalInfo from './PersonnalInfo';
 import EditForm from './EditForm/EditForm';
 import EditSubmitBtn from './EditForm/EditSubmitBtn';
 
+// === UTILS === //
+import formatPhone from '../../../utils/formatPhone';
+
 export default function EditPhone({
   phoneNumber,
 }: {
@@ -76,7 +79,7 @@ export default function EditPhone({
           </Input>
         </EditForm>
       ) : (
-        <p className="md:text-lg">{phoneNumber}</p>
+        <p className="md:text-lg">{phoneNumber && formatPhone(phoneNumber)}</p>
       )}
     </PersonnalInfo>
   );

@@ -40,7 +40,7 @@ export default function Profile() {
         {/* BOX SHADOW */}
         <div className="absolute top-[-6rem] left-1/2 w-40 md:w-48 rounded-full aspect-square shadow-accent translate-x-[-50%] -z-10 " />
         <img
-          className="absolute top-[-6rem] w-40 aspect-square bg-white md:w-48 rounded-full left-1/2 translate-x-[-50%]"
+          className="absolute top-[-6rem] w-40 aspect-square bg-white md:w-48 rounded-full left-1/2 translate-x-[-50%] object-cover"
           src={user.url}
           alt="Profile portrait"
         />

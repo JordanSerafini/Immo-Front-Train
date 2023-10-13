@@ -53,7 +53,6 @@ export default function Prospection() {
   // === LOCAL STATES === //
   const [layout, setLayout] = useState<boolean>(false);
 
-  // Temporary, I think we could make it cleaner
   if (loading) {
     return <Loader className="absolute w-[50px] left-1/2 top-1/4 z-30" />;
   }

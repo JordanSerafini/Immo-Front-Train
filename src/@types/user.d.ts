@@ -12,4 +12,5 @@ export interface User {
   url: string | undefined;
   logged: boolean;
   sector_id: number | undefined;
+  token:string | undefined
 }

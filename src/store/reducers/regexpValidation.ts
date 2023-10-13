@@ -34,7 +34,7 @@ export const initialState: InitialState = {
     owner_name: /^[A-Za-z .'-]+$/,
     phone_1: /^\d{10}$/,
     phone_2: /^\d{10}$/,
-    owner_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    owner_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
     comment: /^.+$/m,
     source: /^.+$/m,
     action: /^.+.{5,}$/m,
