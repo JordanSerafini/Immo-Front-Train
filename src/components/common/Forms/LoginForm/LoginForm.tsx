@@ -1,11 +1,15 @@
 // === REACT === //
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
+// Library
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // === REACT ROUTER DOM === //
 import { Link } from 'react-router-dom';
 
 // === REDUX HOOKS === //
-import { useAppDispatch } from '../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 
 // === REDUCERS === //
 import { login } from '../../../../store/reducers/collaborator';
@@ -23,6 +27,11 @@ export default function LoginForm() {
 
   // === REFERENCES === //
   const focusRef = useRef<HTMLInputElement>(null);
+
+  // === REDUX STATES === //
+  const mailRegexp = useAppSelector(
+    (state) => state.regexps.information.owner_email
+  );
 
   // === LOCAL STATES === //
   // State to allow a toggle to show or not the password
@@ -45,13 +54,19 @@ export default function LoginForm() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    // Reset Email Input State
-    setEmail('');
-    // Reset Password Input State
-    setPassword('');
+    if (!mailRegexp.test(email)) {
+      toast.error("Votre mail n'est pas valide", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    } else {
+      // Reset Email Input State
+      setEmail('');
+      // Reset Password Input State
+      setPassword('');
 
-    // Dispatch Login thunk middleware
-    dispatch(login(formData));
+      // Dispatch Login thunk middleware
+      dispatch(login(formData));
+    }
   };
   return (
     <form
@@ -66,6 +81,7 @@ export default function LoginForm() {
         inputName="email"
         type="email"
         inputRef={focusRef}
+        regExp={mailRegexp}
       >
         <img
           className="w-[24px] absolute top-1/2 -translate-y-1/2 right-5 z-20"
