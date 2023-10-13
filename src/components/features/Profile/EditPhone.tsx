@@ -79,7 +79,7 @@ export default function EditPhone({
           </Input>
         </EditForm>
       ) : (
-        <p className="md:text-lg">{formatPhone(phoneNumber as string)}</p>
+        <p className="md:text-lg">{phoneNumber && formatPhone(phoneNumber)}</p>
       )}
     </PersonnalInfo>
   );

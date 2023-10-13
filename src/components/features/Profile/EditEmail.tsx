@@ -77,9 +77,9 @@ export default function EditEmail({ email }: { email: string | undefined }) {
           </Input>
         </EditForm>
       ) : (
-        <div className='relative flex gap-2'>
+        <div className='flex gap-2'>
           <p className="md:text-lg w-fit">{email}</p>
-          <InfoBubble content='La modification de votre email entrainera la modification de votre identifiant de connexion.' containerClassname='absolute -top-4' />
+          <InfoBubble position='top-right' content='La modification de votre email entrainera la modification de votre identifiant de connexion.' containerClassname='relative -top-4' />
         </div>
       )}
     </PersonnalInfo>

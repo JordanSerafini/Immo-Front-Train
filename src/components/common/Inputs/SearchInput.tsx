@@ -63,7 +63,7 @@ export default function SearchInput() {
         </button>
       </Input>
 
-      <InfoBubble content="La recherche fonctionne selon l'adresse ou le nom des propriétaires." containerClassname='hidden lg:block' />
+      <InfoBubble position='top-right' content="La recherche fonctionne selon l'adresse ou le nom des propriétaires." containerClassname='relative' />
 
       {searchValue.length > 0 && (
         <p className="text-lg italic">
