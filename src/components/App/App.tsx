@@ -39,7 +39,7 @@ import {
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main" role='application'>
+      <div className="relative flex w-screen h-full overflow-x-hidden overflow-y-auto grow bg-main" role='application'>
         <Routes>
           {/* LOGIN */}
           <Route path="/" element={<Login />} />

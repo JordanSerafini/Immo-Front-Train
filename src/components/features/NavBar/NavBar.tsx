@@ -67,7 +67,7 @@ export default function NavBar() {
 
       {/* NAVBAR */}
       <header
-        className={`z-30 fixed flex shadow-custom flex-col items-center p-4 pt-[5vh] pb-[10vh] sm:py-2 top-0 right-0 w-3/4 h-full bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
+        className={`z-30 fixed flex shadow-custom flex-col items-center p-4 pt-[5vh]  sm:py-2 top-0 right-0 w-3/4 h-full bg-secondary-50 sm:sticky sm:opacity-100 sm:translate-x-[0%] sm:pt-0 sm:max-w-[250px] duration-300 ease-in-out ${
           isNavBarOpen
             ? 'opacity-100 translate-x-[0%]'
             : 'translate-x-[100%] opacity-0'
