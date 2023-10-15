@@ -54,8 +54,8 @@ export default function ResetPassword() {
   return (
     <>
       {/* LOGO */}
-      <Logo path="/" className="absolute top-5 left-5" />
-      <main className="flex flex-col items-center w-full h-full pb-5 mx-5 text-center sm:mx-0">
+      <Logo path="/" className="absolute top-5 left-3" />
+      <main className="flex flex-col items-center w-full h-full p-4 text-center">
         {/* TITLE */}
         <h1 className="w-full mt-40 mb-20 sm:w-3/4">
           Envoyer une demande pour réinitialiser votre mot de passe

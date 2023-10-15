@@ -18,9 +18,6 @@ import ValidButton from '../../components/common/Buttons/ValidButton';
 import Input from '../../components/common/Inputs/Input';
 import Footer from "../../components/layout/Footer/Footer";
 
-// === TYPESCRIPT === //
-import { ErrorType } from '../../@types/error';
-
 export default function Support() {
   // === HOOK EXEC ORDER === //
   const navigate = useNavigate();
@@ -45,11 +42,15 @@ export default function Support() {
       // If the response is 200, we can redirect the user to /support/confirmation
       if (response.status === 200) {
         navigate('/support/confirmation');
+      } else {
+        toast.info('Votre mail ne fait pas partie de notre base de données.', {
+          position: toast.POSITION.BOTTOM_CENTER
+        })
       }
 
       return response;
     } catch (error) {
-      const errMessage = (error as ErrorType).response.data.error;
+      const errMessage = (error as {response: {data: string}}).response.data;
       toast.error(errMessage, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -60,9 +61,9 @@ export default function Support() {
   return (
     <>
       {/* LOGO */}
-      <Logo path="/" className="absolute top-5 left-5" />
+      <Logo path="/" className="absolute top-5 left-3" />
 
-      <main className="flex flex-col w-full h-full pb-5 m-5 sm:mx-0">
+      <main className="flex flex-col w-full h-full p-4">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">

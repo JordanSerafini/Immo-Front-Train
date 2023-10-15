@@ -19,7 +19,7 @@ export default function Login() {
 
   return (
     <main className="grid w-full h-full lg:grid-cols-2">
-      <Logo path="/login" className="absolute top-2 left-2 sm:hidden" />
+      <Logo path="/login" className="absolute top-5 left-3 lg:hidden" />
 
       {/* ILLUSTRATION */}
       <img
@@ -29,7 +29,7 @@ export default function Login() {
       />
 
       {/* FORM SECTION */}
-      <section className="flex flex-col justify-center p-4">
+      <section className="flex flex-col justify-center p-4 mt-14 sm:mt-0">
         <h2 className="mt-auto text-4xl font-bold text-center text-transparent uppercase bg-gradient-to-r from-accent-400 to-primary-300 bg-clip-text">
           Connexion
         </h2>

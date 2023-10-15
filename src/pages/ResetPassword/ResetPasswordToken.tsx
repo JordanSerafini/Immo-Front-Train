@@ -86,9 +86,9 @@ export default function ResetPasswordToken() {
   return (
     <>
       {/* LOGO */}
-      <Logo path="/" className="absolute top-5 left-5" />
+      <Logo path="/" className="absolute top-5 left-3" />
 
-      <main className="flex flex-col w-full h-full pb-5 mx-5 sm:mx-0">
+      <main className="flex flex-col w-full h-full p-4">
         {/* TITLE */}
         <h1 className="mt-40">Un soucis ?</h1>
         <h1 className="mb-20">
@@ -125,7 +125,7 @@ export default function ResetPasswordToken() {
             placeholder="Confirmez votre mot de passe"
             value={passwordConfirmation}
             onChange={setPasswordConfirmation}
-            className={`w-full shadow-custom ${
+            className={`w-full mb-5 shadow-custom ${
               passwordConfirmation.length > 8 &&
               password === passwordConfirmation
                 ? 'border-primary-300 focus:ring-transparent'

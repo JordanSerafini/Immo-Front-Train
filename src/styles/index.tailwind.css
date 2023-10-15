@@ -76,3 +76,12 @@ input:-webkit-autofill {
   @apply font-lato;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+/* Remove the blue backeground on click - Mobile */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}

@@ -26,7 +26,6 @@ import { findInformation } from '../../store/selectors/information';
 
 // === COMPONENTS === //
 // Layout
-import MainSection from '../../components/layout/Main/Main';
 import InfoSection from '../../components/layout/Sections/InfoSection';
 import ActionManagerSection from '../../components/layout/Sections/ActionManagerSection';
 // Common
@@ -97,7 +96,6 @@ export default function ActionManager() {
 
   return (
     <>
-      <MainSection>
         <h1>Gestionnaire d&apos;action</h1>
 
         <div className="2xl:grid-cols-2 2xl:grid">
@@ -125,7 +123,6 @@ export default function ActionManager() {
             </div>
           </form>
         </section>
-      </MainSection>
       {/* CANCEL CONFIRMATION MODAL */}
       {cancelModal &&
         createPortal(
