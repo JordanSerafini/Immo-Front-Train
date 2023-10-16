@@ -31,6 +31,7 @@ import {
   SectorManager,
   CollaboratorManager,
   DashBoard,
+  AvatarManager,
 
   // 404 - Error
   NotFound,
@@ -76,6 +77,7 @@ function App() {
             />
             <Route path="/admin/sector" element={<SectorManager />} />
             <Route path="/admin/dashboard" element={<DashBoard />} />
+            <Route path="/admin/avatar" element={<AvatarManager />} />
           </Route>
 
           {/* NOT FOUND */}

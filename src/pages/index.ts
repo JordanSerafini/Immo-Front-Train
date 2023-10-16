@@ -15,6 +15,7 @@ import Message from "./Message/Message";
 import CollaboratorManager from "./CollaboratorManager/CollaboratorManager";
 import DashBoard from "./Dashboard/DashBoard";
 import SectorManager from "./SectorManager/SectorManager";
+import AvatarManager from "./AvatarManager/AvatarManager";
 
 import NotFound from "./NotFound/NotFound";
 
@@ -39,6 +40,7 @@ export  {
     SectorManager,
     CollaboratorManager,
     DashBoard,
+    AvatarManager,
 
     // NotFound
     NotFound,
