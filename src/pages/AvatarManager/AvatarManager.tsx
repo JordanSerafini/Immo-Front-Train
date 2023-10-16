@@ -29,7 +29,7 @@ export default function AvatarManager() {
         <h2>Avatars</h2>
 
         <div className="grid grid-cols-1 gap-4 mt-8 justify-items-center sm:grid-cols-2 md:grid-cols-4 md:gap-8">
-          {avatars.map((avatar) => (
+          {avatars.length ? avatars.map((avatar) => (
             <div key={avatar.id} className="relative">
               <DeleteButton
                 className="absolute -top-1 -right-1"
@@ -41,7 +41,7 @@ export default function AvatarManager() {
                 className="w-[150px] aspect-square rounded-full relative"
               />
             </div>
-          ))}
+          )) : <em>Pas encore d&apos;avatar</em>}
         </div>
       </section>
     </>
