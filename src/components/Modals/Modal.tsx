@@ -34,7 +34,7 @@ function Modal({ closeModal, children, reference, notClosable }: ModalProps) {
 
   return (
     <dialog
-      className="fixed inset-0 z-50 flex flex-wrap items-center justify-center w-screen h-screen px-2 py-10 m-0 border-none sm:p-6 bg-black/60"
+      className="fixed inset-0 z-50 flex flex-wrap items-center justify-center w-screen h-full px-2 py-10 m-0 border-none sm:p-6 bg-black/60"
       onClick={closeModal}
       onKeyDown={handleKeyDown}
     >

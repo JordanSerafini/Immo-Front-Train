@@ -5,6 +5,13 @@
 @layer base {
   html {
     font-family: 'Lato', sans-serif;
+    height: -webkit-fill-available;
+  }
+  body {
+    height: 100vh;
+    display: flex;
+    height: -webkit-fill-available;
+    overscroll-behavior: none;
   }
   /* Hide Arrows for input type number */
   input[type='number']::-webkit-inner-spin-button,
@@ -25,8 +32,9 @@
   textarea:focus {
     @apply outline-none;
   }
-  button, a{
-    @apply outline-accent-300
+  button,
+  a {
+    @apply outline-accent-300;
   }
   h1 {
     @apply text-2xl font-semibold text-center font-poppins md:text-3xl;
@@ -35,7 +43,7 @@
     @apply text-xl font-semibold font-poppins md:text-2xl;
   }
   h3 {
-    @apply text-lg font-semibold font-poppins md:text-xl
+    @apply text-lg font-semibold font-poppins md:text-xl;
   }
   em {
     @apply italic;
@@ -67,4 +75,13 @@ input[type='search']::-webkit-search-results-decoration {
 input:-webkit-autofill {
   @apply font-lato;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Remove the blue backeground on click - Mobile */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
 }

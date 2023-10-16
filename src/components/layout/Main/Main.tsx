@@ -15,7 +15,7 @@ function Main({
 }: MainProps) {
   return (
     <main
-      className={`my-5 mx-1 sm:mx-5 h-fit md:mb-auto relative grow z-0 ${className}`}
+      className={`my-5 mx-3 sm:mx-5 h-fit md:mb-auto relative grow z-0 ${className}`}
     >
       <Logo path={specificPath} className="sm:hidden" />
       {children}

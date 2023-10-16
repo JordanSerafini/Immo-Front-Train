@@ -15,6 +15,7 @@ import {
 import Modal from '../Modal';
 import ValidButton from '../../common/Buttons/ValidButton';
 import CancelButton from '../../common/Buttons/CancelButton';
+import UploadAvatar from './UploadAvatar';
 
 // === ASSETS === //
 import loader from '../../../assets/loader/tail-spin.svg';
@@ -96,6 +97,8 @@ export default function UpdateAvatarModal({
               ))}
           </fieldset>
 
+          <UploadAvatar />   
+          
           <div className="flex flex-wrap justify-around gap-2 m-5">
             <ValidButton content="Confirmer" isSubmit />
 

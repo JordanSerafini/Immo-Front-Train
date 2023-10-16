@@ -86,7 +86,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="max-w-[400px] w-full mx-auto mt-20 text-center flex flex-col gap-10 relative"
+      className="max-w-[400px] w-full mx-auto mt-8 text-center flex flex-col gap-10 relative"
       onSubmit={handleSubmit}
     >
       <Input

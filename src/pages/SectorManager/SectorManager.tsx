@@ -34,7 +34,7 @@ export default function SectorManager() {
   return (
     <>
       {/* TITLE */}
-      <h1 className="mt-20 mb-5 lg:mt-10">Sector Manager</h1>
+      <h1 className="mt-10 mb-5">Sector Manager</h1>
 
       <section className="min-h-[50vh] p-4 my-5 overflow-x-hidden rounded-lg shadow-custom bg-secondary-50 relative">
         <InfoBubble position='bottom-left' content='Si possible, veillez à ce que chaque négociateur gère un secteur.' containerClassname='absolute top-2 right-2' />
