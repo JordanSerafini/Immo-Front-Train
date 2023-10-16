@@ -60,7 +60,7 @@ export default function SectorCard({
   return (
     <article className="relative grid items-center justify-center grid-cols-2 gap-8 p-5 my-5 rounded-lg lg:grid-cols-4 bg-secondary-50 shadow-custom">
       <Link
-        className="rounded-full w-[24px] aspect-square text-secondary-50 absolute top-2 right-2 flex justify-center items-center"
+        className="rounded-full w-[24px] aspect-square text-secondary-50 absolute top-1 right-1 sm:top-2 sm:right-2 flex justify-center items-center"
         onClick={handleDelete}
         to={{ search: id?.toString() }}
       >
@@ -84,7 +84,7 @@ export default function SectorCard({
             type="button"
             onClick={() => setEditingAffection(!editingAffectation)}
           >
-            <img src={editPencilIcon} alt="Pencil Icon" />
+            <img src={editPencilIcon} alt="Pencil Icon" className='min-w-[24px] aspect-square'/>
           </button>
         </h3>
         <p className="text-center">{content}</p>
@@ -110,7 +110,7 @@ export default function SectorCard({
             type="button"
             onClick={() => setEditingColor(!editingColor)}
           >
-            <img src={editPencilIcon} alt="Pencil Icon" />
+            <img src={editPencilIcon} alt="Pencil Icon" className='min-w-[24px] aspect-square' />
           </button>
         </h3>
         <div

@@ -32,6 +32,7 @@ import {
   infoWithInterval,
   resetStats,
 } from '../store/reducers/stats';
+import { fetchAvatars, resetAvatars } from '../store/reducers/avatar';
 
 // === UTILS === //
 import getFormatedFullDate from '../utils/getFormatedFullDate';
@@ -75,6 +76,14 @@ export default function useAuth() {
     error: statsError,
   } = statsState;
 
+  // AVATARS //
+  const avatarState = useAppSelector((state) => state.avatar);
+  const {
+    data: avatars,
+    loading: isAvatarLoading,
+    error: avatarError,
+  } = avatarState;
+
   // === LOCAL STORAGE === //
   const accessToken = user.token || localStorage.getItem('accessToken');
 
@@ -88,21 +97,21 @@ export default function useAuth() {
   const fetchInformationsCallback = useCallback(() => {
     if (!flag && !informations.length && !isInformationLoading) {
       dispatch(fetchInformations());
-      setFlag(true)
+      setFlag(true);
     }
   }, [flag, informations.length, isInformationLoading, dispatch]);
 
   const fetchCollaboratorsCallback = useCallback(() => {
     if (!flag && !collaborators.length && !isCollaboratorsLoading) {
       dispatch(fetchCollaborators());
-      setFlag(true)
+      setFlag(true);
     }
   }, [collaborators.length, dispatch, flag, isCollaboratorsLoading]);
 
   const fetchSectorsCallback = useCallback(() => {
     if (!flag && !sectors.length && !isSectorLoading) {
       dispatch(fetchSectors());
-      setFlag(true)
+      setFlag(true);
     }
   }, [dispatch, flag, isSectorLoading, sectors.length]);
 
@@ -118,9 +127,16 @@ export default function useAuth() {
           },
         })
       );
-      setFlag(true)
+      setFlag(true);
     }
   }, [dispatch, flag, isStatsLoading, stats.length]);
+
+  const fetchAvatarsCallback = useCallback(() => {
+    if (!flag && !avatars.length && !isAvatarLoading) {
+      dispatch(fetchAvatars());
+      setFlag(true);
+    }
+  }, [avatars.length, dispatch, flag, isAvatarLoading]);
 
   const setUserCallback = useCallback(() => {
     const userStorage = JSON.parse(localStorage.getItem('user') as string);
@@ -148,6 +164,7 @@ export default function useAuth() {
     dispatch(resetCollaborators());
     dispatch(resetSectors());
     dispatch(resetStats());
+    dispatch(resetAvatars());
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
 
@@ -157,7 +174,13 @@ export default function useAuth() {
 
   // === EFFECTS === //
   useEffect(() => {
-    if (collaboratorError || sectorError || informationError || statsError) {
+    if (
+      collaboratorError ||
+      sectorError ||
+      informationError ||
+      statsError ||
+      avatarError
+    ) {
       resetAndRedirectCallback();
 
       toast.info('Votre session a expirée, veuillez vous reconnecter', {
@@ -171,6 +194,7 @@ export default function useAuth() {
     informationError,
     sectorError,
     statsError,
+    avatarError,
   ]);
 
   useEffect(() => {
@@ -186,6 +210,7 @@ export default function useAuth() {
       fetchCollaboratorsCallback();
       fetchSectorsCallback();
       fetchStatsCallback();
+      fetchAvatarsCallback();
     } else {
       resetAndRedirectCallback();
     }
@@ -200,5 +225,6 @@ export default function useAuth() {
     fetchStatsCallback,
     resetAndRedirectCallback,
     navigate,
+    fetchAvatarsCallback,
   ]);
 }

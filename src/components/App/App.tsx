@@ -31,6 +31,7 @@ import {
   SectorManager,
   CollaboratorManager,
   DashBoard,
+  AvatarManager,
 
   // 404 - Error
   NotFound,
@@ -39,7 +40,7 @@ import {
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative flex h-screen overflow-x-hidden overflow-y-auto min-w-screen bg-main" role='application'>
+      <div className="relative flex w-screen h-full overflow-x-hidden overflow-y-auto grow bg-main" role='application'>
         <Routes>
           {/* LOGIN */}
           <Route path="/" element={<Login />} />
@@ -76,6 +77,7 @@ function App() {
             />
             <Route path="/admin/sector" element={<SectorManager />} />
             <Route path="/admin/dashboard" element={<DashBoard />} />
+            <Route path="/admin/avatar" element={<AvatarManager />} />
           </Route>
 
           {/* NOT FOUND */}

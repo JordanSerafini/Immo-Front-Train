@@ -32,7 +32,7 @@ export default function Profile() {
 
   return (
     <>
-      <h1 className="mt-20 text-3xl font-semibold text-center font-poppins md:mt-10">
+      <h1 className="mt-10 text-3xl font-semibold text-center font-poppins md:mt-10">
         Mon profil
       </h1>
 

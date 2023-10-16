@@ -65,6 +65,11 @@ export default function Navigation({
       icon: settingsIcon,
       path: '/admin/sector',
     },
+    {
+      content: 'Avatars',
+      icon: settingsIcon,
+      path: '/admin/avatar',
+    },
   ];
 
   return (

@@ -37,7 +37,7 @@ export default function CollaboratorManager() {
   return (
     <>
       {/* TITLE */}
-      <h1 className="mt-20 mb-5 lg:mt-10">Collaborator Manager</h1>
+      <h1 className="mt-10 mb-5">Collaborator Manager</h1>
 
       <section className="p-4 my-5 overflow-x-hidden rounded-lg min-h-[50vh] shadow-custom bg-secondary-50 relative">
       <InfoBubble position='bottom-left' content="La suppression d'un collaborateur n'est possible que s'il ne dispose d'aucunes informations." containerClassname='absolute top-2 right-2' />
@@ -70,7 +70,7 @@ export default function CollaboratorManager() {
           <DeleteModal
             deleteUser
             closeModal={() => dispatch(hideDeleteConfirmationModal())}
-            content="Vous êtes sur le point de supprimer définitivement un collaborateur, confirmez-vous la supression ?"
+            content="Vous êtes sur le point de supprimer définitivement un collaborateur, confirmez-vous la suppression ?"
           />,
           document.body
         )}

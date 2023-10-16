@@ -76,9 +76,9 @@ export default function Prospection() {
               <ActionToDoCard key={information.id} {...information} />
             ))
           ) : (
-            <p className="italic">
+            <em>
               Il n&apos;y a aucune action à faire pour le moment...
-            </p>
+            </em>
           )}
         </ActionSection>
 
@@ -89,9 +89,9 @@ export default function Prospection() {
               <UpcomingActionCard key={information.id} {...information} />
             ))
           ) : (
-            <p className="italic">
+            <em>
               Il n&apos;y a aucune action à venir pour le moment...
-            </p>
+            </em>
           )}
         </ActionSection>
       </div>
