@@ -39,11 +39,6 @@ export default function NavBar() {
 
   const isNavBarOpen = useAppSelector((state) => state.navbar.isNavBarOpen);
 
-  // === HANDLERS === //
-  const closeNavBar = () => {
-    dispatch(hideNavBar());
-  };
-
   const handleLogout = () => {
     // We want to hide the navbar for the logout so when the user RE connect, the navbar is closed
     dispatch(hideNavBar());
@@ -86,7 +81,7 @@ export default function NavBar() {
             />
 
             {/* PROFILE SECTION */}
-            <ProfileSection {...user} closeNavBarMethod={closeNavBar} />
+            <ProfileSection {...user} />
 
             <Divider />
 
@@ -95,7 +90,7 @@ export default function NavBar() {
             </h2>
 
             {/* NAVIGATION LINKS */}
-            <Navigation closeNavBarMethod={closeNavBar} />
+            <Navigation />
 
             <Link
               to="/support"

@@ -1,24 +1,31 @@
 // === REACT ROUTER DOM === //
 import { NavLink } from 'react-router-dom';
 
+// === REDUX HOOKS === //
+import { useAppDispatch } from '../../../../hooks/redux';
+
+// === REDUCERS === //
+import { hideNavBar } from '../../../../store/reducers/navbar';
+
 // === TYPESCRIPT === //
 interface NavItemProps {
-  closeNavBarMethod: () => void;
   icon: string;
   content: string;
   path: string;
 }
 
 export default function NavItem({
-  closeNavBarMethod,
   icon,
   content,
   path,
 }: NavItemProps) {
+  // === HOOK EXEC ORDER === //
+  const dispatch = useAppDispatch();
+
   return (
     <li>
       <NavLink
-        onClick={closeNavBarMethod}
+        onClick={() => dispatch(hideNavBar())}
         to={path}
         className={({ isActive }) =>
           `flex w-full gap-2 px-2 sm:px-4 py-2 sm:py-3 duration-300 rounded-lg hover:bg-secondary-200 ${

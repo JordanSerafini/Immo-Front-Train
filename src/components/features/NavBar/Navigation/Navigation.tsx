@@ -17,11 +17,7 @@ import {
 // === COMPONENTS === //
 import NavItem from './NavItem';
 
-export default function Navigation({
-  closeNavBarMethod,
-}: {
-  closeNavBarMethod: () => void;
-}) {
+export default function Navigation() {
   // === REDUX STATES === //
   const roleId = useAppSelector((state) => state.collaborator.user.role_id);
 
@@ -79,7 +75,6 @@ export default function Navigation({
           ? adminLinks.map((item) => (
               <NavItem
                 key={nanoid()}
-                closeNavBarMethod={closeNavBarMethod}
                 icon={item.icon}
                 content={item.content}
                 path={item.path}
@@ -88,7 +83,6 @@ export default function Navigation({
           : collaboratorLinks.map((item) => (
               <NavItem
                 key={nanoid()}
-                closeNavBarMethod={closeNavBarMethod}
                 icon={item.icon}
                 content={item.content}
                 path={item.path}

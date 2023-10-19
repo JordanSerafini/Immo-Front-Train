@@ -4,16 +4,22 @@ import { Link } from 'react-router-dom';
 // === TYPESCRIPT === //
 import { User } from '../../../../@types/user';
 
+// === REDUX HOOKS === //
+import { useAppDispatch } from '../../../../hooks/redux';
+
+// === REDUCERS === //
+import { hideNavBar } from '../../../../store/reducers/navbar';
+
 export default function ProfileSection({
   url,
   firstname,
   lastname,
   id,
   role_id,
-  closeNavBarMethod,
-}: User & {
-  closeNavBarMethod: () => void;
-}) {
+}: User) {
+  // === HOOK EXEC ORDER === //
+  const dispatch = useAppDispatch();
+
   return (
     <section className="flex flex-col items-center justify-center gap-5 py-2 sm:py-[2vh]">
       <img
@@ -30,7 +36,7 @@ export default function ProfileSection({
           <Link
             to={`/app/profile/${id}`}
             className="underline underline-offset-4"
-            onClick={closeNavBarMethod}
+            onClick={() => dispatch(hideNavBar())}
           >
             Mon profil
           </Link>
