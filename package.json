@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "main": "index.js",
-  "repository": "git@github.com:O-clock-Yellowstone/projet-06-immo-pros-front.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/O-clock-Yellowstone/projet-06-immo-pros-front.git"
+  },
   "author": "Loris QUESADO <loris.quesado@oclock.school>",
   "version": "1.0.0",
   "description": "Packages for Immo'Pros app",
@@ -57,5 +60,10 @@
     "prettier": "^3.0.2",
     "terser": "^5.21.0",
     "vitest": "^0.34.4"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/O-clock-Yellowstone/projet-06-immo-pros-front/issues"
+  },
+  "homepage": "https://github.com/O-clock-Yellowstone/projet-06-immo-pros-front#readme",
+  "license": "ISC"
 }
